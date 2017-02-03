@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Organize.TextAppearance.GothamRounded.Light" parent="@android:style/TextAppearance">
+        <item name="fontPath">fonts/GothamRounded-Light.otf</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+    <style name="Theme.Organize.TextAppearance.GothamRounded.Book" parent="@android:style/TextAppearance">
+        <item name="fontPath">fonts/GothamRounded-Book.otf</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+    <style name="Theme.Organize.TextAppearance.GothamRounded.Medium" parent="@android:style/TextAppearance">
+        <item name="fontPath">fonts/GothamRounded-Medium.otf</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+    <style name="Theme.Organize.TextAppearance.GothamRounded.Bold" parent="@android:style/TextAppearance">
+        <item name="fontPath">fonts/GothamRounded-Bold.otf</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+</resources>

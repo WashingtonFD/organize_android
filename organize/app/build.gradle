@@ -1,0 +1,72 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+    }
+}
+
+repositories {
+    maven { url "https://jitpack.io" }
+    mavenCentral()
+    jcenter()
+}
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "com.organize4event.organize"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:25.1.1'
+    compile 'com.android.support:appcompat-v7:25.1.1'
+    compile 'com.android.support:cardview-v7:25.1.1'
+    compile 'com.android.support:support-annotations:25.1.1'
+    compile 'com.android.support:design:25.1.1'
+    compile 'com.afollestad.material-dialogs:core:0.9.2.3'
+    compile 'com.afollestad.material-dialogs:commons:0.9.2.3'
+    compile 'org.apache.commons:commons-collections4:4.1'
+    compile 'org.apache.directory.studio:org.apache.commons.io:2.4'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'jp.wasabeef:glide-transformations:2.0.1'
+    compile 'uk.co.chrisjenx:calligraphy:2.2.0'
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'org.parceler:parceler-api:1.1.6'
+    annotationProcessor 'org.parceler:parceler:1.1.6'
+    compile 'com.mobsandgeeks:android-saripaar:2.0.2'
+    compile 'com.facebook.android:facebook-android-sdk:4.15.0'
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.github.jkwiecien:EasyImage:1.3.1'
+    compile 'com.github.tajchert:nammu:1.1.1'
+    compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    compile 'com.google.android.gms:play-services:10.0.1'
+}
