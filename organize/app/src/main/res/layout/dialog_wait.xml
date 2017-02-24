@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackgroundFilter"
+    >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+
+        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+            android:id="@+id/dwProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+        <TextView
+            android:id="@+id/dwMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/info_carregando"
+            android:textSize="@dimen/text_size_large"
+            android:textColor="@color/colorWhite"
+            android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
+            />
+    </LinearLayout>
+
+</RelativeLayout>
