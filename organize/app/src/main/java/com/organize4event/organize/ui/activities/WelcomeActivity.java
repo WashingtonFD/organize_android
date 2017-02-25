@@ -1,5 +1,6 @@
 package com.organize4event.organize.ui.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -8,23 +9,21 @@ import com.organize4event.organize.R;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class _TestActivity extends BaseActivity {
+public class WelcomeActivity extends BaseActivity {
 
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity___test);
+        setContentView(R.layout.activity_welcome);
         ButterKnife.bind(this);
+
+        context = WelcomeActivity.this;
     }
 
-    @OnClick(R.id.primeiroacesso)
-    public void action_pri(){
-
-    }
-
-    @OnClick(R.id.home)
-    public void action_hom(){
-        startActivity(new Intent(this, WelcomeActivity.class));
+    @OnClick(R.id.goHome)
+    public void actionGoHome(){
+        startActivity(new Intent(context, HomeActivity.class));
     }
 }

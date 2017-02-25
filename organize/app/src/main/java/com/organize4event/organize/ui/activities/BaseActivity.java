@@ -3,6 +3,8 @@ package com.organize4event.organize.ui.activities;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -20,8 +22,8 @@ import com.organize4event.organize.common.WaitDialog;
 import com.organize4event.organize.listener.ToolbarListener;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Calendar;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -71,17 +73,20 @@ public class BaseActivity  extends AppCompatActivity{
         }
     }
 
-    public void configureToolbar(Toolbar toolbar, String title, boolean isHomeAsUpEnabled, final ToolbarListener listener){
+    public void configureToolbar(Context context, Toolbar toolbar, String title, Drawable icon, boolean isHomeAsUpEnabled, final ToolbarListener listener){
+        toolbar.setTitle(title);
+        toolbar.setTitleTextColor(context.getResources().getColor(R.color.colorDestakText));
+        icon.setColorFilter(context.getResources().getColor(R.color.colorDestakText), PorterDuff.Mode.SRC_IN);
+
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
 
         if (actionBar != null){
-            if (isHomeAsUpEnabled){
-                actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_48dp);
+            if (isHomeAsUpEnabled) {
+                actionBar.setHomeAsUpIndicator(icon);
                 actionBar.setDisplayHomeAsUpEnabled(true);
                 actionBar.setHomeButtonEnabled(true);
             }
-            actionBar.setTitle(title);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

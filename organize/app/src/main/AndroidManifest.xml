@@ -26,7 +26,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activities._TestActivity" />
-        <activity android:name=".ui.activities.HomeActivity"></activity>
+        <activity android:name=".ui.activities.HomeActivity" />
+        <activity android:name=".ui.activities.WelcomeActivity"></activity>
     </application>
 
 </manifest>

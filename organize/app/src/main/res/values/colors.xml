@@ -4,13 +4,14 @@
     <color name="colorPrimaryDark">#c6be04</color>
     <color name="colorAccent">#f8ee05</color>
 
-    <color name="colorBackgroundFilter">#95000000</color>
+    <color name="colorBackgroundFilter">#50ffffff</color>
 
-    <color name="colorPrimaryText">#95ffffff</color>
-    <color name="colorHintDefault">#70ffffff</color>
-    <color name="colorSecondaryText">#60ffffff</color>
-    <color name="colorDisableText">#40ffffff</color>
-    <color name="colorDestakText">#222222</color>
+    <color name="colorPrimaryText">#dedede</color>
+    <color name="colorHintDefault">#e7e7e7</color>
+    <color name="colorSecondaryText">#cacaca</color>
+    <color name="colorDisableText">#b6b6b6</color>
+    <color name="colorDestakText">#686868</color>
+    <color name="colorDestakTextSecundary">#8f8f8f</color>
 
     <color name="colorDivider">#80ffffff</color>
 
@@ -32,7 +33,7 @@
     <color name="colorRed">#DD2C00</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorBlack">#222222</color>
-    <color name="colorTransparent">#22222200</color>
+    <color name="colorTransparent">#00000000</color>
 
     <color name="facebook">#3b5998</color>
     <color name="linkedin">#007bb5</color>

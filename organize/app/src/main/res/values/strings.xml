@@ -6,4 +6,14 @@
     <string name="label_data_inicio">Início</string>
     <string name="label_data_final">Fim</string>
 
+    <string name="label_nav_user">Nome do Usuário</string>
+    <string name="label_nav_home">Home</string>
+    <string name="label_nav_events">Eventos</string>
+    <string name="label_nav_shedule">Agenda</string>
+    <string name="label_nav_partners">Parceiros</string>
+    <string name="label_nav_payment">Pagamento</string>
+    <string name="label_nav_purchase">Compras</string>
+    <string name="label_nav_settings">Configurações</string>
+    <string name="label_nav_institutional">Institucional</string>
+
 </resources>

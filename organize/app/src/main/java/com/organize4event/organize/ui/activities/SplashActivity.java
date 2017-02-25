@@ -10,7 +10,7 @@ import com.organize4event.organize.R;
 public class SplashActivity extends BaseActivity {
 
     Handler handler;
-    Context context;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
