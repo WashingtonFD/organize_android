@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.organize4event.organize.R;
@@ -22,8 +23,8 @@ import com.organize4event.organize.common.WaitDialog;
 import com.organize4event.organize.listener.ToolbarListener;
 
 import java.text.SimpleDateFormat;
-import java.util.GregorianCalendar;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -96,12 +97,12 @@ public class BaseActivity  extends AppCompatActivity{
         }
     }
 
-    public static void hideKeyboard(Context context, View view){
+    public void hideKeyboard(Context context, View view){
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    public static boolean isOline(Context context){
+    public boolean isOline(Context context){
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
         if(networkInfo != null && networkInfo.isConnectedOrConnecting()){
@@ -112,6 +113,10 @@ public class BaseActivity  extends AppCompatActivity{
 
     public void showDialogMessage(String title, String message){
         new MaterialDialog.Builder(this).title(title).content(message).positiveText("Ok").show();
+    }
+
+    public void showToastMessage(Context context, String message){
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 
     public void selectDate(Context context, final EditText editText, int mode){

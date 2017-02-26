@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">Organize</string>
-    <string name="info_carregando">Carregando</string>
+    <string name="info_carregando">Carregando...</string>
     <string name="date_format">dd-mm-yyyy</string>
     <string name="label_data_nascimento">Data de nascimento</string>
     <string name="label_data_inicio">Início</string>
     <string name="label_data_final">Fim</string>
+    <string name="label_notificacoes">Notificações</string>
 
     <string name="label_nav_user">Nome do Usuário</string>
     <string name="label_nav_home">Home</string>

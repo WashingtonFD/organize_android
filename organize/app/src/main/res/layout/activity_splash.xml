@@ -20,6 +20,17 @@
             android:src="@drawable/_logo"
             />
 
+        <TextView
+            android:id="@+id/txt_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="40dp"
+            android:layout_centerHorizontal="true"
+            android:text="@string/info_carregando"
+            android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
+            />
+
     </RelativeLayout>
 
 </RelativeLayout>

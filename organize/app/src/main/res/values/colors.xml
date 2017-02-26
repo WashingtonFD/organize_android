@@ -4,16 +4,17 @@
     <color name="colorPrimaryDark">#c6be04</color>
     <color name="colorAccent">#f8ee05</color>
 
-    <color name="colorBackgroundFilter">#50ffffff</color>
+    <color name="colorBackgroundFilter">#70000000</color>
+    <color name="colorDivider">#a8a8a8</color>
 
-    <color name="colorPrimaryText">#dedede</color>
-    <color name="colorHintDefault">#e7e7e7</color>
+    <color name="colorTextDefault">#dedede</color>
     <color name="colorSecondaryText">#cacaca</color>
-    <color name="colorDisableText">#b6b6b6</color>
-    <color name="colorDestakText">#686868</color>
-    <color name="colorDestakTextSecundary">#8f8f8f</color>
+    <color name="colorDisableText">#30cacaca</color>
 
-    <color name="colorDivider">#80ffffff</color>
+    <color name="colorDestakText">#424242</color>
+    <color name="colorDestakTextSecundary">#5b5b5b</color>
+
+    <color name="colorHintDefault">#e7e7e7</color>
 
     <color name="colorRedDark">#d50000</color>
     <color name="colorPink">#C51162</color>
