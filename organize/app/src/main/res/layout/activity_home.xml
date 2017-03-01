@@ -175,7 +175,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="22dp"
                     android:src="@drawable/ic_menu_black_24dp"
-                    android:tint="#8f8f8f"
+                    android:tint="@color/colorDestakText"
                     />
 
                 <TextView
@@ -185,7 +185,7 @@
                     android:lines="1"
                     android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
                     android:text="@string/label_nav_shedule"
-                    android:textColor="#8f8f8f"
+                    android:textColor="@color/colorDestakText"
                     />
             </LinearLayout>
             <LinearLayout
@@ -201,7 +201,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="22dp"
                     android:src="@drawable/ic_menu_black_24dp"
-                    android:tint="#8f8f8f"
+                    android:tint="@color/colorDestakText"
 
                     />
 
@@ -212,7 +212,7 @@
                     android:lines="1"
                     android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
                     android:text="@string/label_nav_partners"
-                    android:textColor="#8f8f8f"
+                    android:textColor="@color/colorDestakText"
                     />
             </LinearLayout>
             <LinearLayout
@@ -228,7 +228,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="22dp"
                     android:src="@drawable/ic_menu_black_24dp"
-                    android:tint="#a3a3a3"
+                    android:tint="@color/colorDestakText"
                     />
 
                 <TextView
@@ -238,7 +238,7 @@
                     android:lines="1"
                     android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
                     android:text="@string/label_nav_payment"
-                    android:textColor="#a3a3a3"
+                    android:textColor="@color/colorDestakText"
                     />
             </LinearLayout>
             <LinearLayout
@@ -254,7 +254,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="22dp"
                     android:src="@drawable/ic_menu_black_24dp"
-                    android:tint="@color/colorDestakTextSecundary"
+                    android:tint="@color/colorDestakText"
                     />
 
                 <TextView
@@ -264,7 +264,7 @@
                     android:lines="1"
                     android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
                     android:text="@string/label_nav_purchase"
-                    android:textColor="@color/colorDestakTextSecundary"
+                    android:textColor="@color/colorDestakText"
                     />
             </LinearLayout>
             <LinearLayout
@@ -280,7 +280,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="22dp"
                     android:src="@drawable/ic_menu_black_24dp"
-                    android:tint="@color/colorDestakTextSecundary"
+                    android:tint="@color/colorDestakText"
                     />
 
                 <TextView
@@ -290,7 +290,7 @@
                     android:lines="1"
                     android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
                     android:text="@string/label_nav_settings"
-                    android:textColor="@color/colorDestakTextSecundary"
+                    android:textColor="@color/colorDestakText"
                     />
             </LinearLayout>
             <LinearLayout
@@ -306,7 +306,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="22dp"
                     android:src="@drawable/ic_menu_black_24dp"
-                    android:tint="@color/colorDestakTextSecundary"
+                    android:tint="@color/colorDestakText"
                     />
 
                 <TextView
@@ -316,7 +316,7 @@
                     android:lines="1"
                     android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
                     android:text="@string/label_nav_institutional"
-                    android:textColor="@color/colorDestakTextSecundary"
+                    android:textColor="@color/colorDestakText"
                     />
             </LinearLayout>
 

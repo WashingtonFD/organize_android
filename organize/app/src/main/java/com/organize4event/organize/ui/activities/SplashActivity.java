@@ -13,9 +13,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class SplashActivity extends BaseActivity {
-
-    Handler handler;
     private Context context;
+    Handler handler;
 
     @Bind(R.id.txt_loading)
     TextView txt_loading;

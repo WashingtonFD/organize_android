@@ -23,11 +23,18 @@ public class NotificationsActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         context = NotificationsActivity.this;
+
         configureToolbar(context, toolbar, context.getResources().getString(R.string.label_notificacoes), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
             @Override
             public void onClick() {
                 finish();
             }
         });
+
+        getData();
+    }
+
+    public void getData(){
+        //TODO: Wireframe - tela 06 - Elcio
     }
 }

@@ -20,10 +20,16 @@ public class WelcomeActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         context = WelcomeActivity.this;
+
+        getData();
     }
 
     @OnClick(R.id.goHome)
     public void actionGoHome(){
         startActivity(new Intent(context, HomeActivity.class));
+    }
+
+    public void getData(){
+        //TODO: Wireframe - tela 01 - Washington
     }
 }

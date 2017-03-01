@@ -1,7 +1,8 @@
 package com.organize4event.organize.ui.fragments;
 
-import android.app.Fragment;
+
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.EditText;
 
@@ -11,7 +12,7 @@ import com.organize4event.organize.ui.activities.BaseActivity;
  * Created by marcelamelo on 25/02/17.
  */
 
-public class BaseFragment extends Fragment{
+public class BaseFragment extends Fragment {
 
     public void showLoading(){
         BaseActivity activity = (BaseActivity) getActivity();
