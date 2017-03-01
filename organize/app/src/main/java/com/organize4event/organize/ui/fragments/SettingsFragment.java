@@ -11,16 +11,15 @@ import com.organize4event.organize.R;
 import butterknife.ButterKnife;
 
 /**
- * Created by marcelamelo on 25/02/17.
+ * Created by marcelamelo on 28/02/17.
  */
 
-public class HomeFragment extends BaseFragment{
+public class SettingsFragment extends BaseFragment{
     private Context context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_settings, container, false);
         ButterKnife.bind(this, view);
 
         context = getActivity();
@@ -30,6 +29,6 @@ public class HomeFragment extends BaseFragment{
     }
 
     public void getData(){
-        //TODO: Wireframe - HOME - Elcio
+        //TODO: Wireframe - tela 04 - Washington
     }
 }

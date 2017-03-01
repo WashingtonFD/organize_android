@@ -6,6 +6,8 @@
     <string name="label_data_inicio">Início</string>
     <string name="label_data_final">Fim</string>
     <string name="label_notificacoes">Notificações</string>
+    <string name="label_termo_uso">Termo de Uso</string>
+    <string name="error_message_generic">Erro ao conectar ao servidor</string>
 
     <string name="label_nav_user">Nome do Usuário</string>
     <string name="label_nav_home">Home</string>
@@ -16,5 +18,8 @@
     <string name="label_nav_purchase">Compras</string>
     <string name="label_nav_settings">Configurações</string>
     <string name="label_nav_institutional">Institucional</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

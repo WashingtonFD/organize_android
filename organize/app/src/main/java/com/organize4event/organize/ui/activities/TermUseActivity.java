@@ -10,7 +10,7 @@ import com.organize4event.organize.listener.ToolbarListener;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class NotificationsActivity extends BaseActivity {
+public class TermUseActivity extends BaseActivity {
     private Context context;
 
     @Bind(R.id.toolbar)
@@ -19,22 +19,16 @@ public class NotificationsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notifications);
+        setContentView(R.layout.activity_term_use);
         ButterKnife.bind(this);
 
-        context = NotificationsActivity.this;
+        context = TermUseActivity.this;
 
-        configureToolbar(context, toolbar, context.getResources().getString(R.string.label_notificacoes), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
+        configureToolbar(context, toolbar, context.getResources().getString(R.string.label_termo_uso), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
             @Override
             public void onClick() {
                 finish();
             }
         });
-
-        getData();
-    }
-
-    public void getData(){
-        //TODO: Wireframe - tela 06 - Elcio
     }
 }

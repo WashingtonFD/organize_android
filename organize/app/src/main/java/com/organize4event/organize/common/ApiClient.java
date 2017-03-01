@@ -2,14 +2,19 @@ package com.organize4event.organize.common;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.squareup.okhttp.Authenticator;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
-import okhttp3.OkHttpClient;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import java.io.IOException;
+import java.net.Proxy;
+import java.util.concurrent.TimeUnit;
 
-/**
- * Created by marcelamelo on 20/02/17.
- */
+import okhttp3.Credentials;
+import retrofit.GsonConverterFactory;
+import retrofit.Retrofit;
+
 
 public class ApiClient {
     private static ApiClient apiClient;
@@ -18,7 +23,19 @@ public class ApiClient {
     public ApiClient() {
         Gson gson = new GsonBuilder().setDateFormat(Constants.FULL_DATE_FORMAT).create();
         OkHttpClient client = new OkHttpClient();
-        client.connectTimeoutMillis();
+        client.setConnectTimeout(Constants.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+        client.setAuthenticator(new Authenticator() {
+            @Override
+            public Request authenticate(Proxy proxy, Response response) throws IOException {
+                String credential = Credentials.basic(Constants.HTTPAUTH_USER, Constants.HTTPAUTH_PASSWORD);
+                return response.request().newBuilder().header("Authorization", credential).build();
+            }
+
+            @Override
+            public Request authenticateProxy(Proxy proxy, Response response) throws IOException {
+                return null;
+            }
+        });
         retrofit = new Retrofit.Builder().baseUrl(Constants.BASE_URL).addConverterFactory(GsonConverterFactory.create(gson)).client(client).build();
     }
 

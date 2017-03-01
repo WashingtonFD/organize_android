@@ -28,7 +28,7 @@
             android:layout_marginBottom="40dp"
             android:layout_centerHorizontal="true"
             android:text="@string/info_carregando"
-            android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
+            android:textColor="@color/colorTextDefault"
             />
 
     </RelativeLayout>

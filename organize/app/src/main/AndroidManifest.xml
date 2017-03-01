@@ -28,7 +28,9 @@
         <activity android:name=".ui.activities._TestActivity" />
         <activity android:name=".ui.activities.HomeActivity" />
         <activity android:name=".ui.activities.WelcomeActivity" />
-        <activity android:name=".ui.activities.NotificationsActivity"></activity>
+        <activity android:name=".ui.activities.NotificationsActivity" />
+        <activity android:name=".ui.activities.PlanDetailActivity" />
+        <activity android:name=".ui.activities.TermUseActivity"></activity>
     </application>
 
 </manifest>
