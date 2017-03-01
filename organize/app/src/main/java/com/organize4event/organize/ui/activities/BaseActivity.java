@@ -28,10 +28,6 @@ import java.util.GregorianCalendar;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-/**
- * Created by marcela on 02/02/17.
- */
-
 public class BaseActivity  extends AppCompatActivity{
     private WaitDialog waitDialog;
 

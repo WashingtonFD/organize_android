@@ -6,10 +6,6 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
 
-/**
- * Created by marcelamelo on 20/02/17.
- */
-
 public class BaseFragmentDialog extends DialogFragment{
     @Override
     public void onCreate(Bundle savedInstanceState){

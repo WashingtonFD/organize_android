@@ -4,9 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
 
-/**
- * Created by marcelamelo on 28/02/17.
- */
 @Parcel
 public class ResponseData {
     @SerializedName("error")

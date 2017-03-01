@@ -10,10 +10,6 @@ import com.organize4event.organize.R;
 
 import butterknife.ButterKnife;
 
-/**
- * Created by marcelamelo on 28/02/17.
- */
-
 public class SettingsFragment extends BaseFragment{
     private Context context;
 

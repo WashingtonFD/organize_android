@@ -1,9 +1,5 @@
 package com.organize4event.organize.common;
 
-/**
- * Created by marcelamelo on 20/02/17.
- */
-
 public class Constants {
     public static final String APP_NAME = "Organize";
     public static final String PACKAGE = "com.organize4event.organize";

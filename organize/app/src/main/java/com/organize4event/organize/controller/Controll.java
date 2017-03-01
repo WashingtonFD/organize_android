@@ -5,10 +5,6 @@ import android.content.Context;
 import com.organize4event.organize.R;
 import com.organize4event.organize.model.ResponseData;
 
-/**
- * Created by marcelamelo on 28/02/17.
- */
-
 public class Controll {
 
     Context context;

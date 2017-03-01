@@ -13,10 +13,6 @@ import com.organize4event.organize.ui.activities.PlanDetailActivity;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * Created by marcelamelo on 28/02/17.
- */
-
 public class InstitutionalFragment extends BaseFragment {
     private Context context;
 

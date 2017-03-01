@@ -13,10 +13,6 @@ import com.organize4event.organize.ui.fragments.BaseFragmentDialog;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-/**
- * Created by marcelamelo on 20/02/17.
- */
-
 public class WaitDialog extends BaseFragmentDialog{
     private static final String MESSAGE = "message";
 

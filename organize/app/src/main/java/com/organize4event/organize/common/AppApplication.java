@@ -8,10 +8,6 @@ import com.organize4event.organize.R;
 import pl.tajchert.nammu.Nammu;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
-/**
- * Created by marcelamelo on 20/02/17.
- */
-
 public class AppApplication extends Application{
     private static AppApplication sInstance;
 
