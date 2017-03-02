@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/default_margin_botton"
         android:text="IR PARA DETALHE DO PLANO"
         />
 
