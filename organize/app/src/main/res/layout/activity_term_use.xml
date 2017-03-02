@@ -35,4 +35,39 @@
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
+    <RelativeLayout
+        android:id="@+id/containerContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/appBarLayout"
+        >
+
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin_top"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:padding="@dimen/default_padding"
+            android:textSize="@dimen/text_size_large"
+            android:textColor="@color/colorTextDefault"
+            android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Bold"
+            />
+
+        <TextView
+            android:id="@+id/txtContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtTitle"
+            android:layout_marginTop="@dimen/default_margin_top"
+            android:padding="@dimen/default_padding"
+            android:scrollbars="vertical"
+            android:textSize="@dimen/default_text_size"
+            android:textColor="@color/colorTextDefault"
+            android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+            />
+
+    </RelativeLayout>
+
 </RelativeLayout>

@@ -21,7 +21,6 @@ public class Controll {
         else if (responseData.hasError()){
             error = new Error(responseData.getError());
         }
-
         return error;
     }
 

@@ -16,8 +16,8 @@ public class SplashActivity extends BaseActivity {
     private Context context;
     Handler handler;
 
-    @Bind(R.id.txt_loading)
-    TextView txt_loading;
+    @Bind(R.id.txtLoading)
+    TextView txtLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     public void getData(){
-        txt_loading.setVisibility(View.GONE);
+        txtLoading.setVisibility(View.GONE);
 
         //TODO: implementar first access
 

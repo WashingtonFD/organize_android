@@ -1,13 +1,13 @@
 package com.organize4event.organize.model;
 
-import com.google.gson.annotations.SerializedName;
+import android.os.Parcel;
 
-import org.parceler.Parcel;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-@Parcel
-public class TermUse {
+
+public class TermUse extends ResponseData{
     @SerializedName("id")
     private int id;
     @SerializedName("locale")
@@ -22,10 +22,6 @@ public class TermUse {
     private Date publication_date;
     @SerializedName("is_active")
     private boolean is_active;
-
-    public TermUse() {
-        super();
-    }
 
     public int getId() {
         return id;
@@ -82,4 +78,45 @@ public class TermUse {
     public void setIs_active(boolean is_active) {
         this.is_active = is_active;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(this.id);
+        dest.writeString(this.locale);
+        dest.writeString(this.version_name);
+        dest.writeString(this.title);
+        dest.writeString(this.content);
+        dest.writeLong(this.publication_date != null ? this.publication_date.getTime() : -1);
+        dest.writeByte(this.is_active ? (byte) 1 : (byte) 0);
+    }
+
+    protected TermUse(Parcel in) {
+        super(in);
+        this.id = in.readInt();
+        this.locale = in.readString();
+        this.version_name = in.readString();
+        this.title = in.readString();
+        this.content = in.readString();
+        long tmpPublication_date = in.readLong();
+        this.publication_date = tmpPublication_date == -1 ? null : new Date(tmpPublication_date);
+        this.is_active = in.readByte() != 0;
+    }
+
+    public static final Creator<TermUse> CREATOR = new Creator<TermUse>() {
+        @Override
+        public TermUse createFromParcel(Parcel source) {
+            return new TermUse(source);
+        }
+
+        @Override
+        public TermUse[] newArray(int size) {
+            return new TermUse[size];
+        }
+    };
 }
