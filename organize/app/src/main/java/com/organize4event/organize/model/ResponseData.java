@@ -24,18 +24,6 @@ public class ResponseData implements Parcelable{
         return success;
     }
 
-    public static final Creator<ResponseData> CREATOR = new Creator<ResponseData>() {
-        @Override
-        public ResponseData createFromParcel(Parcel in) {
-            return new ResponseData(in);
-        }
-
-        @Override
-        public ResponseData[] newArray(int size) {
-            return new ResponseData[size];
-        }
-    };
-
     protected ResponseData(Parcel in) {
         error = in.readString();
         success = in.readString();
@@ -51,4 +39,5 @@ public class ResponseData implements Parcelable{
         dest.writeString(error);
         dest.writeString(success);
     }
+
 }

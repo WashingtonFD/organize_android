@@ -8,6 +8,7 @@
     <string name="label_notificacoes">Notificações</string>
     <string name="label_termo_uso">Termo de Uso</string>
     <string name="error_message_generic">Erro ao conectar ao servidor</string>
+    <string name="error_message_conect">Erro de conexão. Verifique a internet</string>
 
     <string name="label_nav_user">Nome do Usuário</string>
     <string name="label_nav_home">Home</string>

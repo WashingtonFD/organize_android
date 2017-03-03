@@ -64,7 +64,7 @@ public class TermUseActivity extends BaseActivity {
                }
                 else{
                    hideLoading();
-                   showToastMessage(context, context.getResources().getString(R.string.error_message_generic));
+                   showToastMessage(context, context.getResources().getString(R.string.error_message_conect));
                }
             }
         });
