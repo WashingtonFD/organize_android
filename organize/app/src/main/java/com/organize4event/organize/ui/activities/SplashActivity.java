@@ -4,16 +4,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.TextView;
 
 import com.organize4event.organize.R;
+
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class SplashActivity extends BaseActivity {
     private Context context;
+    private String locale;
+    private String device_id;
+
     Handler handler;
 
     @Bind(R.id.txtLoading)
@@ -38,6 +44,8 @@ public class SplashActivity extends BaseActivity {
 
     public void getData(){
         txtLoading.setVisibility(View.GONE);
+        locale = Locale.getDefault().toString();
+        device_id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
         //TODO: implementar first access
 

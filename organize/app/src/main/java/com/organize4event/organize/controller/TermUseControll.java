@@ -28,6 +28,7 @@ public class TermUseControll extends Controll{
                 }
                 else {
                     listener.fail(error);
+                    //TODO: IMPLEMENTAR ERROR
                 }
             }
 
