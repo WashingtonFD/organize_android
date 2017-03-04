@@ -20,16 +20,32 @@ public class ErrorReturn implements Parcelable {
         return sucess;
     }
 
+    public void setSucess(boolean sucess) {
+        this.sucess = sucess;
+    }
+
     public int getCode() {
         return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
     }
 
     public String getError_return() {
         return error_return;
     }
 
+    public void setError_return(String error_return) {
+        this.error_return = error_return;
+    }
+
     public String getMessage() {
         return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     @Override

@@ -19,7 +19,7 @@ public class FirstAccessControll extends Controll{
         super(context);
     }
 
-    public void saveFirstAccess(FirstAccess firstAccess, ControllResponseListener listener){
+    public void saveFirstAccess(FirstAccess firstAccess, final ControllResponseListener listener){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.FULL_DATE_FORMAT);
         FirstAccessService service = ApiClient.getRetrofit().create(FirstAccessService.class);
         service.saveFirstAccess(
@@ -30,15 +30,19 @@ public class FirstAccessControll extends Controll{
             @Override
             public void onResponse(Response<FirstAccess> response, Retrofit retrofit) {
                 FirstAccess firstAccess = (FirstAccess) response.body();
-                //TODO: IMPLEMENTAR ERROR
+                Error error = parserError(firstAccess);
+                if (error == null){
+                    listener.sucess(firstAccess);
+                }
+                else{
+                    listener.fail(error);
+                }
             }
 
             @Override
             public void onFailure(Throwable t) {
-
+                listener.fail(new Error(t.getMessage()));
             }
         });
     }
-
-
 }
