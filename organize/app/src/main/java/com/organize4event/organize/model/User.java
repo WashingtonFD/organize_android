@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class User extends ResponseData{
+public class User extends ErrorReturn{
     @SerializedName("id")
     private int id;
     @SerializedName("full_name")

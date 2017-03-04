@@ -4,7 +4,7 @@ import android.os.Parcel;
 
 import com.google.gson.annotations.SerializedName;
 
-public class PlanPrice extends ResponseData{
+public class PlanPrice extends ErrorReturn{
     @SerializedName("id")
     private int id;
     @SerializedName("plan")

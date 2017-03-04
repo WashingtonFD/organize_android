@@ -4,7 +4,7 @@ import android.os.Parcel;
 
 import com.google.gson.annotations.SerializedName;
 
-public class SecurityQuestions extends ResponseData{
+public class SecurityQuestions extends ErrorReturn{
     @SerializedName("id")
     private int id;
     @SerializedName("user")

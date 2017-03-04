@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class FirstAccess extends ResponseData{
+public class FirstAccess extends ErrorReturn{
     @SerializedName("id")
     private int id;
     @SerializedName("device_id")

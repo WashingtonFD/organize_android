@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class Token extends ResponseData{
+public class Token extends ErrorReturn{
     @SerializedName("id")
     private int id;
     @SerializedName("user")

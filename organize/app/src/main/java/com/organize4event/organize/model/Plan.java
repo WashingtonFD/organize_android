@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class Plan extends ResponseData{
+public class Plan extends ErrorReturn{
     @SerializedName("id")
     private int id;
     @SerializedName("name")
