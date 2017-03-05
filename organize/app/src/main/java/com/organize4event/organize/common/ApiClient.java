@@ -21,7 +21,13 @@ public class ApiClient {
     private static Retrofit retrofit;
 
     public ApiClient() {
-        Gson gson = new GsonBuilder().setDateFormat(Constants.FULL_DATE_FORMAT).create();
+        GsonBuilder gsonBuilder =  new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Boolean.class, new BooleanTypeAdapter());
+        gsonBuilder.registerTypeAdapter(boolean.class, new BooleanTypeAdapter());
+        gsonBuilder.setDateFormat(Constants.FULL_DATE_FORMAT);
+
+        Gson gson = gsonBuilder.create();
+
         OkHttpClient client = new OkHttpClient();
         client.setConnectTimeout(Constants.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
         client.setAuthenticator(new Authenticator() {
