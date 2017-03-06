@@ -16,6 +16,10 @@ public class FirstAccess extends ErrorReturn{
     @SerializedName("locale")
     private String locale;
 
+    public FirstAccess() {
+
+    }
+
     public int getId() {
         return id;
     }
@@ -62,7 +66,7 @@ public class FirstAccess extends ErrorReturn{
         dest.writeString(this.locale);
     }
 
-    protected FirstAccess(Parcel in) {
+    public FirstAccess(Parcel in) {
         super(in);
         this.id = in.readInt();
         this.device_id = in.readString();

@@ -9,7 +9,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.organize4event.organize.R;
+import com.organize4event.organize.common.AppApplication;
+import com.organize4event.organize.controller.FirstAccessControll;
+import com.organize4event.organize.listener.ControllResponseListener;
+import com.organize4event.organize.model.FirstAccess;
 
+import java.util.Date;
 import java.util.Locale;
 
 import butterknife.Bind;
@@ -19,6 +24,7 @@ public class SplashActivity extends BaseActivity {
     private Context context;
     private String locale;
     private String device_id;
+    private FirstAccess firstAccess;
 
     Handler handler;
 
@@ -46,10 +52,58 @@ public class SplashActivity extends BaseActivity {
         txtLoading.setVisibility(View.GONE);
         locale = Locale.getDefault().toString();
         device_id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        firstAccess = AppApplication.getFirstAccess();
+        if (firstAccess == null){
+            getFirstAccess();
+        }
+    }
 
-        //TODO: implementar first access
+    public void getFirstAccess(){
+        new FirstAccessControll(context).getFirstAccess(device_id, new ControllResponseListener() {
+            @Override
+            public void sucess(Object object) {
+                firstAccess = (FirstAccess) object;
+                if (firstAccess.getId() == 0){
+                    saveFirstAccess();
+                }
+            }
 
-        startActivity(new Intent(context, _TestActivity.class));
-        finish();
+            @Override
+            public void fail(Error error) {
+                if(isOline(context)){
+                    showDialogMessage(context.getResources().getString(R.string.error_title), error.getMessage());
+                }
+                else {
+                    showDialogMessage(context.getResources().getString(R.string.error_title), context.getResources().getString(R.string.error_message_conect));
+                }
+            }
+        });
+    }
+
+    public void saveFirstAccess(){
+        firstAccess = new FirstAccess();
+        firstAccess.setDevice_id(device_id);
+        firstAccess.setLocale(locale);
+        firstAccess.setInstalation_date(new Date());
+
+        new FirstAccessControll(context).saveFirstAccess(firstAccess, new ControllResponseListener() {
+            @Override
+            public void sucess(Object object) {
+                firstAccess = (FirstAccess) object;
+                //TODO: IMPLEMENTAR PARSEABLE FIRTS ACCESS
+                startActivity(new Intent(context, _TestActivity.class));
+                finish();
+            }
+
+            @Override
+            public void fail(Error error) {
+                if(isOline(context)){
+                    showDialogMessage(context.getResources().getString(R.string.error_title), error.getMessage());
+                }
+                else {
+                    showDialogMessage(context.getResources().getString(R.string.error_title), context.getResources().getString(R.string.error_message_conect));
+                }
+            }
+        });
     }
 }

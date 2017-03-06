@@ -7,6 +7,7 @@
     <string name="label_data_final">Fim</string>
     <string name="label_notificacoes">Notificações</string>
     <string name="label_termo_uso">Termo de Uso</string>
+    <string name="error_title">Erro</string>
     <string name="error_message_generic">Erro ao conectar ao servidor</string>
     <string name="error_message_conect">Erro de conexão. Verifique a internet</string>
 
