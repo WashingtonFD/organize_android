@@ -71,15 +71,4 @@ public class ErrorReturn implements Parcelable {
         this.message = in.readString();
     }
 
-    public static final Parcelable.Creator<ErrorReturn> CREATOR = new Parcelable.Creator<ErrorReturn>() {
-        @Override
-        public ErrorReturn createFromParcel(Parcel source) {
-            return new ErrorReturn(source);
-        }
-
-        @Override
-        public ErrorReturn[] newArray(int size) {
-            return new ErrorReturn[size];
-        }
-    };
 }

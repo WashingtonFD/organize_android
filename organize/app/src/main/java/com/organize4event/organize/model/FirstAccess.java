@@ -15,10 +15,8 @@ public class FirstAccess extends ErrorReturn{
     private Date instalation_date;
     @SerializedName("locale")
     private String locale;
-
-    public FirstAccess() {
-
-    }
+    @SerializedName("created_at")
+    private String created_at;
 
     public int getId() {
         return id;
@@ -52,6 +50,14 @@ public class FirstAccess extends ErrorReturn{
         this.locale = locale;
     }
 
+    public String getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -64,15 +70,20 @@ public class FirstAccess extends ErrorReturn{
         dest.writeString(this.device_id);
         dest.writeLong(this.instalation_date != null ? this.instalation_date.getTime() : -1);
         dest.writeString(this.locale);
+        dest.writeString(this.created_at);
     }
 
-    public FirstAccess(Parcel in) {
+    public FirstAccess() {
+    }
+
+    protected FirstAccess(Parcel in) {
         super(in);
         this.id = in.readInt();
         this.device_id = in.readString();
         long tmpInstalation_date = in.readLong();
         this.instalation_date = tmpInstalation_date == -1 ? null : new Date(tmpInstalation_date);
         this.locale = in.readString();
+        this.created_at = in.readString();
     }
 
     public static final Creator<FirstAccess> CREATOR = new Creator<FirstAccess>() {
