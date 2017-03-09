@@ -22,7 +22,7 @@ public class _TestActivity extends BaseActivity {
     public void action_click(View view){
         switch (view.getId()){
             case R.id.primeiroacesso:
-                startActivity(new Intent(this, TermUseActivity.class));
+                startActivity(new Intent(this, ApresentationActivity.class));
                 break;
             case R.id.home:
                 startActivity(new Intent(this, WelcomeActivity.class));

@@ -58,11 +58,12 @@
         <TextView
             android:id="@+id/txtContent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_below="@+id/txtTitle"
             android:layout_marginTop="@dimen/default_margin_top"
             android:padding="@dimen/default_padding"
             android:scrollbars="vertical"
+            android:maxLines="30"
             android:textSize="@dimen/default_text_size"
             android:textColor="@color/colorTextDefault"
             android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"

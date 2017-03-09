@@ -19,5 +19,8 @@
     <!-- Buttons -->
     <dimen name="default_heigth">50dp</dimen>
 
+    <!-- Layouts -->
+    <dimen name="img_top_layout_heigth">250dp</dimen>
+
 
 </resources>

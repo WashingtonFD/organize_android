@@ -7,6 +7,8 @@
     <string name="label_data_final">Fim</string>
     <string name="label_notificacoes">Notificações</string>
     <string name="label_termo_uso">Termo de Uso</string>
+    <string name="label_site">www.organize4event.com</string>
+
     <string name="error_title">Erro</string>
     <string name="error_message_generic">Erro ao conectar ao servidor</string>
     <string name="error_message_conect">Erro de conexão. Verifique a internet</string>
@@ -20,6 +22,10 @@
     <string name="label_nav_purchase">Compras</string>
     <string name="label_nav_settings">Configurações</string>
     <string name="label_nav_institutional">Institucional</string>
+
+    <string name="content_presentation">Morbi a metus. Phasellus enim erat, vestibulum vel, aliquam a, posuere eu, velit. Nullam sapien sem, ornare ac, nonummy non, lobortis a, enim. Nunc tincidunt ante vitae massa. Duis ante</string>
+
+    <string name="content_term_use">clique aqui para acessar o TERMO DE USO E PRIVACIDADE do sistema.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -56,6 +56,9 @@ public class SplashActivity extends BaseActivity {
         if (firstAccess == null){
             getFirstAccess();
         }
+        else {
+            startActivitApresentation();
+        }
     }
 
     public void getFirstAccess(){
@@ -65,6 +68,9 @@ public class SplashActivity extends BaseActivity {
                 firstAccess = (FirstAccess) object;
                 if (firstAccess.getId() == 0){
                     saveFirstAccess();
+                }
+                else{
+                    startActivitApresentation();
                 }
             }
 
@@ -90,9 +96,7 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void sucess(Object object) {
                 firstAccess = (FirstAccess) object;
-                //TODO: IMPLEMENTAR PARSEABLE FIRTS ACCESS
-                startActivity(new Intent(context, _TestActivity.class));
-                finish();
+                startActivitApresentation();
             }
 
             @Override
@@ -105,5 +109,12 @@ public class SplashActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    public void startActivitApresentation(){
+        startActivity(new Intent(context, _TestActivity.class));
+        finish();
+
+        //TODO: ALTERAR ACTIVITY PARA APRESENTATION ACTIVITY
     }
 }
