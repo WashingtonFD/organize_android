@@ -3,6 +3,7 @@ package com.organize4event.organize.ui.activities;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.organize4event.organize.R;
@@ -27,6 +28,9 @@ public class TermUseActivity extends BaseActivity {
     @Bind(R.id.txtContent)
     TextView txtContent;
 
+    @Bind(R.id.imgAccept)
+    ImageView imgAccept;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +38,7 @@ public class TermUseActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         context = TermUseActivity.this;
+        imgAccept.setEnabled(false);
 
         configureToolbar(context, toolbar, context.getResources().getString(R.string.label_termo_uso), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
             @Override
@@ -68,5 +73,9 @@ public class TermUseActivity extends BaseActivity {
                }
             }
         });
+    }
+
+    public void enableAccept(){
+
     }
 }

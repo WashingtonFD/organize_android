@@ -25,7 +25,7 @@
 
     <string name="content_presentation">Morbi a metus. Phasellus enim erat, vestibulum vel, aliquam a, posuere eu, velit. Nullam sapien sem, ornare ac, nonummy non, lobortis a, enim. Nunc tincidunt ante vitae massa. Duis ante</string>
 
-    <string name="content_term_use">clique aqui para acessar o TERMO DE USO E PRIVACIDADE do sistema.</string>
+    <string name="content_term_use">Acesse o TERMO DE USO E PRIVACIDADE do sistema.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

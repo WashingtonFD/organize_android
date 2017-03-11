@@ -55,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtPresentation"
-            android:layout_marginTop="@dimen/default_margin_top"
+            android:layout_marginTop="@dimen/default_margin_top_large"
             android:text="@string/content_term_use"
             android:textAlignment="center"
             android:textSize="@dimen/text_size_large"

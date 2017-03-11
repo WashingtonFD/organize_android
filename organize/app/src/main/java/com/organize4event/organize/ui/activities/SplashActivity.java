@@ -57,7 +57,7 @@ public class SplashActivity extends BaseActivity {
             getFirstAccess();
         }
         else {
-            startActivitApresentation();
+            startActivit(_TestActivity.class);
         }
     }
 
@@ -70,7 +70,7 @@ public class SplashActivity extends BaseActivity {
                     saveFirstAccess();
                 }
                 else{
-                    startActivitApresentation();
+                    getUser();
                 }
             }
 
@@ -96,7 +96,7 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void sucess(Object object) {
                 firstAccess = (FirstAccess) object;
-                startActivitApresentation();
+                startActivit(_TestActivity.class);
             }
 
             @Override
@@ -111,10 +111,20 @@ public class SplashActivity extends BaseActivity {
         });
     }
 
-    public void startActivitApresentation(){
-        startActivity(new Intent(context, _TestActivity.class));
-        finish();
+    public void getUser(){
+        // TODO: implementar getUser()
 
-        //TODO: ALTERAR ACTIVITY PARA APRESENTATION ACTIVITY
+        getToken();
+    }
+
+    public void getToken(){
+        // TODO: implementar getToken()
+
+        startActivit(_TestActivity.class); //TODO: mudar para apresentation activity
+    }
+
+    public void startActivit(Class classActivity){
+        startActivity(new Intent(context, classActivity));
+        finish();
     }
 }

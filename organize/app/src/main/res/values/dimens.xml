@@ -3,7 +3,9 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="default_margin_top">16dp</dimen>
+    <dimen name="default_margin_top_large">25dp</dimen>
     <dimen name="default_margin_botton">16dp</dimen>
+    <dimen name="default_margin_botton_large">25dp</dimen>
 
     <!-- Paddings -->
     <dimen name="default_padding">16dp</dimen>
