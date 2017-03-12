@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.organize4event.organize.ui.activities.PlanIdentifierActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            tools:ignore="MissingPrefix"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <ImageView
+                android:id="@+id/imgAccept"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="22dp"
+                android:src="@drawable/ic_done_black_24dp"
+                android:tint="@color/colorDestakText"
+                />
+
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:id="@+id/containerContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/appBarLayout"
+        android:padding="@dimen/default_padding"
+        >
+
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/default_margin_top"
+            android:text="@string/label_plan_question"
+            android:textColor="@color/colorTextDefault"
+            android:textSize="@dimen/default_text_size"
+            android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
+            />
+
+        <RadioGroup
+            android:id="@+id/listPlans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtTitle"
+            android:layout_marginTop="@dimen/default_margin_top"
+            >
+
+            <RadioButton
+                android:id="@+id/btnPlanFree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:button="@drawable/selector_radio_button"
+                android:buttonTint="@color/colorPrimary"
+                android:padding="@dimen/default_padding"
+                android:text="@string/label_plan_free"
+                android:textColor="@color/colorTextDefault"
+                android:textSize="@dimen/default_text_size"
+                android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                android:checked="true"
+                />
+
+            <RadioButton
+                android:id="@+id/btnPlanBasic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:button="@drawable/selector_radio_button"
+                android:buttonTint="@color/colorPrimary"
+                android:padding="@dimen/default_padding"
+                android:text="@string/label_plan_basic"
+                android:textColor="@color/colorTextDefault"
+                android:textSize="@dimen/default_text_size"
+                android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                />
+
+            <RadioButton
+                android:id="@+id/btnPlanPremium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:button="@drawable/selector_radio_button"
+                android:buttonTint="@color/colorPrimary"
+                android:padding="@dimen/default_padding"
+                android:text="@string/label_plan_premium"
+                android:textColor="@color/colorTextDefault"
+                android:textSize="@dimen/default_text_size"
+                android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                />
+
+        </RadioGroup>
+
+
+        <RelativeLayout
+            android:id="@+id/containerValidateCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/listPlans"
+            android:layout_marginTop="@dimen/default_margin_top"
+            android:visibility="gone"
+            >
+
+            <TextView
+                android:id="@+id/txtValidateCodeLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin_top"
+                android:text="@string/label_validate_code"
+                android:textColor="@color/colorTextDefault"
+                android:textSize="@dimen/default_text_size"
+                android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                />
+
+            <EditText
+                android:id="@+id/txtValidateCode"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_heigth"
+                android:layout_below="@+id/txtValidateCodeLabel"
+                android:drawableRight="@drawable/ic_info_black_24dp_tint"
+                android:hint="@string/placeholder_validate_code"
+                android:textColorHint="@color/colorHintDefault"
+                android:textColor="@color/colorTextDefault"
+                android:textSize="@dimen/default_text_size"
+                android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

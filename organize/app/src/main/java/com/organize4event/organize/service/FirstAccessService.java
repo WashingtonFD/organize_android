@@ -22,7 +22,6 @@ public interface FirstAccessService {
             @Field("instalation_date") String instalation_date
     );
 
-
     @GET("term")
     Call<TermUse> getTermUse();
 }

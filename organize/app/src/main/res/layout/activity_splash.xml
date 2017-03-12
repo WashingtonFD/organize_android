@@ -25,7 +25,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="40dp"
             android:layout_centerHorizontal="true"
-            android:text="@string/info_carregando"
+            android:text="@string/info_loading"
             android:textColor="@color/colorTextDefault"
             />
 

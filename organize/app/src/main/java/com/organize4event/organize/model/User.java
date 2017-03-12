@@ -238,6 +238,9 @@ public class User extends ErrorReturn{
         dest.writeInt(this.plan);
     }
 
+    public User() {
+    }
+
     protected User(Parcel in) {
         super(in);
         this.id = in.readInt();

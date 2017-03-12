@@ -1,23 +1,31 @@
 package com.organize4event.organize.ui.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.organize4event.organize.R;
+import com.organize4event.organize.common.AppApplication;
 import com.organize4event.organize.controller.TermUseControll;
 import com.organize4event.organize.listener.ControllResponseListener;
 import com.organize4event.organize.listener.ToolbarListener;
 import com.organize4event.organize.model.TermUse;
+import com.organize4event.organize.model.User;
+
+import org.parceler.Parcels;
+
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class TermUseActivity extends BaseActivity {
     private Context context;
     private TermUse termUse;
+    private User user;
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -28,9 +36,6 @@ public class TermUseActivity extends BaseActivity {
     @Bind(R.id.txtContent)
     TextView txtContent;
 
-    @Bind(R.id.imgAccept)
-    ImageView imgAccept;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,9 +43,13 @@ public class TermUseActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         context = TermUseActivity.this;
-        imgAccept.setEnabled(false);
+        user = AppApplication.getUserLogged();
 
-        configureToolbar(context, toolbar, context.getResources().getString(R.string.label_termo_uso), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
+        if (user == null){
+            user = new User();
+        }
+
+        configureToolbar(context, toolbar, context.getResources().getString(R.string.label_term_use), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
             @Override
             public void onClick() {
                 finish();
@@ -75,7 +84,19 @@ public class TermUseActivity extends BaseActivity {
         });
     }
 
-    public void enableAccept(){
+    public void acceptTerm(){
+        user.setTerm(termUse);
+        user.setTerm_accept(true);
+        user.setTerm_accept_date(new Date());
 
+        Intent intent = new Intent(context, PlanIdentifierActivity.class);
+        intent.putExtra("user", Parcels.wrap(User.class, user));
+        startActivity(intent);
+        finish();
+    }
+
+    @OnClick(R.id.imgAccept)
+    public void actionTermAccept(){
+        acceptTerm();
     }
 }

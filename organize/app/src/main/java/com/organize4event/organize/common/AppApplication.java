@@ -45,4 +45,15 @@ public class AppApplication extends Application{
     public static void setFirstAccess(FirstAccess firstAccess) {
         AppApplication.firstAccess = firstAccess;
     }
+
+    public static User getUserLogged(){
+        if (userLogged == null){
+            userLogged = PreferencesManager.getUserLogged();
+        }
+        return userLogged;
+    }
+
+    public static void setUserLogged(User userLogged){
+        AppApplication.userLogged = userLogged;
+    }
 }

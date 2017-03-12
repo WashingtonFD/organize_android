@@ -5,16 +5,16 @@
     <color name="colorAccent">#f8ee05</color>
 
     <color name="colorBackgroundFilter">#85000000</color>
-    <color name="colorDivider">#a8a8a8</color>
+    <color name="colorDivider">#868686</color>
 
-    <color name="colorTextDefault">#dedede</color>
-    <color name="colorSecondaryText">#cacaca</color>
-    <color name="colorDisableText">#30cacaca</color>
+    <color name="colorTextDefault">#c1c1c1</color>
+    <color name="colorSecondaryText">#a3a3a3</color>
+    <color name="colorDisableText">#909090</color>
 
     <color name="colorDestakText">#424242</color>
     <color name="colorDestakTextSecundary">#5b5b5b</color>
 
-    <color name="colorHintDefault">#e7e7e7</color>
+    <color name="colorHintDefault">#616161</color>
 
     <color name="colorRedDark">#d50000</color>
     <color name="colorPink">#C51162</color>

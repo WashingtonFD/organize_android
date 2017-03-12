@@ -31,7 +31,8 @@
         <activity android:name=".ui.activities.NotificationsActivity" />
         <activity android:name=".ui.activities.PlanDetailActivity" />
         <activity android:name=".ui.activities.TermUseActivity" />
-        <activity android:name=".ui.activities.ApresentationActivity"></activity>
+        <activity android:name=".ui.activities.ApresentationActivity" />
+        <activity android:name=".ui.activities.PlanIdentifierActivity"></activity>
     </application>
 
 </manifest>

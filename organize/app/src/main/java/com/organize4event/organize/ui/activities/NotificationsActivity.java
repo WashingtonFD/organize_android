@@ -24,7 +24,7 @@ public class NotificationsActivity extends BaseActivity {
 
         context = NotificationsActivity.this;
 
-        configureToolbar(context, toolbar, context.getResources().getString(R.string.label_notificacoes), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
+        configureToolbar(context, toolbar, context.getResources().getString(R.string.label_notifications), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
             @Override
             public void onClick() {
                 finish();

@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.organize4event.organize.model.FirstAccess;
+import com.organize4event.organize.model.User;
 
 import java.lang.reflect.Type;
 
@@ -29,5 +30,26 @@ public class PreferencesManager {
         Type type = new TypeToken<FirstAccess>(){}.getType();
         firstAccess = gson.fromJson(first_access, type);
         return firstAccess;
+    }
+
+    public static void saveUserLogged(User user){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(AppApplication.getInstance().getApplicationContext());
+        SharedPreferences.Editor editor = preferences.edit();
+        if (user != null){
+            Gson gson = new Gson();
+            String userLogged = gson.toJson(user);
+            editor.putString("user", userLogged);
+            editor.commit();
+        }
+    }
+
+    public static User getUserLogged(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(AppApplication.getInstance().getApplicationContext());
+        User user = null;
+        Gson gson = new Gson();
+        String userLogged = preferences.getString("user", "");
+        Type type = new TypeToken<User>(){}.getType();
+        user = gson.fromJson(userLogged, type);
+        return user;
     }
 }

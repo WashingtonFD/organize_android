@@ -143,7 +143,7 @@ public class BaseActivity  extends AppCompatActivity{
                         editText.setText(simpleDateFormat.format(startCalendar.getTime()));
                     }
                 });
-                startDatePickerDialog.setTitle(context.getResources().getString(R.string.label_data_nascimento));
+                startDatePickerDialog.setTitle(context.getResources().getString(R.string.label_birth_date));
                 startDatePickerDialog.show();
                 break;
 
@@ -157,7 +157,7 @@ public class BaseActivity  extends AppCompatActivity{
                         editText.setText(simpleDateFormat.format(startCalendar.getTime()));
                     }
                 });
-                startDatePickerDialog.setTitle(context.getResources().getString(R.string.label_data_inicio));
+                startDatePickerDialog.setTitle(context.getResources().getString(R.string.label_start_date));
                 startDatePickerDialog.show();
 
                 break;
@@ -175,7 +175,7 @@ public class BaseActivity  extends AppCompatActivity{
                         editText.setText(simpleDateFormat.format(startCalendar.getTime()));
                     }
                 });
-                startDatePickerDialog.setTitle(context.getResources().getString(R.string.label_data_final));
+                startDatePickerDialog.setTitle(context.getResources().getString(R.string.label_final_date));
                 startDatePickerDialog.show();
 
                 break;

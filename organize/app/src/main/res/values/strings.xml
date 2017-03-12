@@ -1,13 +1,18 @@
 <resources>
     <string name="app_name">Organize</string>
-    <string name="info_carregando">Carregando...</string>
+    <string name="info_loading">Carregando...</string>
     <string name="date_format">dd-mm-yyyy</string>
-    <string name="label_data_nascimento">Data de nascimento</string>
-    <string name="label_data_inicio">Início</string>
-    <string name="label_data_final">Fim</string>
-    <string name="label_notificacoes">Notificações</string>
-    <string name="label_termo_uso">Termo de Uso</string>
+    <string name="label_birth_date">Data de nascimento</string>
+    <string name="label_start_date">Início</string>
+    <string name="label_final_date">Fim</string>
+    <string name="label_notifications">Notificações</string>
+    <string name="label_term_use">Termo de Uso</string>
+    <string name="label_plan_identifier">Identificação do Plano</string>
     <string name="label_site">www.organize4event.com</string>
+    <string name="label_validate_code">Código de validação</string>
+    <string name="label_plan_premium">Plano Prêmium</string>
+    <string name="label_plan_basic">Plano Básico</string>
+    <string name="label_plan_free">Plano Gratuito</string>
 
     <string name="error_title">Erro</string>
     <string name="error_message_generic">Erro ao conectar ao servidor</string>
@@ -23,11 +28,14 @@
     <string name="label_nav_settings">Configurações</string>
     <string name="label_nav_institutional">Institucional</string>
 
+    <string name="label_plan_question">Escolha seu plano de acesso</string>
+
     <string name="content_presentation">Morbi a metus. Phasellus enim erat, vestibulum vel, aliquam a, posuere eu, velit. Nullam sapien sem, ornare ac, nonummy non, lobortis a, enim. Nunc tincidunt ante vitae massa. Duis ante</string>
 
     <string name="content_term_use">Acesse o TERMO DE USO E PRIVACIDADE do sistema.</string>
+    <string name="message_validate_code_plan">Código de confirmação enviado em seu e-mail na contratação do plano. Caso não tenha recebido o codigo ou não o solicitou, entre em contato com o suporte Organize ou acesse com o plano gratuito.</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="placeholder_validate_code">Insira o código de validação</string>
+
 
 </resources>

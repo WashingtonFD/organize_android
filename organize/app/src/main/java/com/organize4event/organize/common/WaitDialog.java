@@ -50,7 +50,7 @@ public class WaitDialog extends BaseFragmentDialog{
             dwMessage.setText(MESSAGE);
         }
         else{
-            dwMessage.setText(R.string.info_carregando);
+            dwMessage.setText(R.string.info_loading);
         }
     }
 }
