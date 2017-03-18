@@ -43,7 +43,7 @@ public class TermUseActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         context = TermUseActivity.this;
-        user = AppApplication.getToken().getUser();
+        user = AppApplication.getUser();
 
         if (user == null){
             user = new User();

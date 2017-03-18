@@ -15,28 +15,37 @@ public class ErrorReturn implements Parcelable {
     private String message;
     @SerializedName("exception")
     private String exception;
-    @SerializedName("data")
-    private Object data;
 
     public boolean isError() {
-
         return error;
+    }
+
+    public void setError(boolean error) {
+        this.error = error;
     }
 
     public int getCode() {
         return code;
     }
 
+    public void setCode(int code) {
+        this.code = code;
+    }
+
     public String getMessage() {
         return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getException() {
         return exception;
     }
 
-    public Object getData() {
-        return data;
+    public void setException(String exception) {
+        this.exception = exception;
     }
 
 
@@ -61,7 +70,17 @@ public class ErrorReturn implements Parcelable {
         this.code = in.readInt();
         this.message = in.readString();
         this.exception = in.readString();
-        this.data = in.readParcelable(Object.class.getClassLoader());
     }
 
+    public static final Creator<ErrorReturn> CREATOR = new Creator<ErrorReturn>() {
+        @Override
+        public ErrorReturn createFromParcel(Parcel source) {
+            return new ErrorReturn(source);
+        }
+
+        @Override
+        public ErrorReturn[] newArray(int size) {
+            return new ErrorReturn[size];
+        }
+    };
 }
