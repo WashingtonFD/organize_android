@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import com.organize4event.organize.R;
-import com.organize4event.organize.listener.ToolbarListener;
+import com.organize4event.organize.listeners.ToolbarListener;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

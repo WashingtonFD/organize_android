@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-        android:name=".common.AppApplication"
+        android:name=".commons.AppApplication"
         android:allowBackup="false"
         android:icon="@drawable/_logo"
         android:label="@string/app_name"

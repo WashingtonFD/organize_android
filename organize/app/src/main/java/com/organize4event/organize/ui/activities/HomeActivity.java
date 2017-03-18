@@ -12,7 +12,7 @@ import android.view.Gravity;
 import android.view.View;
 
 import com.organize4event.organize.R;
-import com.organize4event.organize.listener.ToolbarListener;
+import com.organize4event.organize.listeners.ToolbarListener;
 import com.organize4event.organize.ui.fragments.HomeFragment;
 import com.organize4event.organize.ui.fragments.InstitutionalFragment;
 import com.organize4event.organize.ui.fragments.SettingsFragment;

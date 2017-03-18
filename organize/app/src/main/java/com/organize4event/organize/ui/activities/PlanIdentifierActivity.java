@@ -11,9 +11,9 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
 import com.organize4event.organize.R;
-import com.organize4event.organize.listener.ToolbarListener;
-import com.organize4event.organize.model.Plan;
-import com.organize4event.organize.model.User;
+import com.organize4event.organize.listeners.ToolbarListener;
+import com.organize4event.organize.models.Plan;
+import com.organize4event.organize.models.User;
 
 import org.parceler.Parcels;
 

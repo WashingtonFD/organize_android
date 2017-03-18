@@ -9,10 +9,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.organize4event.organize.R;
-import com.organize4event.organize.common.AppApplication;
-import com.organize4event.organize.controller.FirstAccessControll;
-import com.organize4event.organize.listener.ControllResponseListener;
-import com.organize4event.organize.model.FirstAccess;
+import com.organize4event.organize.commons.AppApplication;
+import com.organize4event.organize.controllers.FirstAccessControll;
+import com.organize4event.organize.listeners.ControllResponseListener;
+import com.organize4event.organize.models.FirstAccess;
 
 import java.util.Date;
 import java.util.Locale;
@@ -110,6 +110,8 @@ public class SplashActivity extends BaseActivity {
             }
         });
     }
+
+
 
     public void getUser(){
         // TODO: implementar getUser()

@@ -7,12 +7,12 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.organize4event.organize.R;
-import com.organize4event.organize.common.AppApplication;
-import com.organize4event.organize.controller.TermUseControll;
-import com.organize4event.organize.listener.ControllResponseListener;
-import com.organize4event.organize.listener.ToolbarListener;
-import com.organize4event.organize.model.TermUse;
-import com.organize4event.organize.model.User;
+import com.organize4event.organize.commons.AppApplication;
+import com.organize4event.organize.controllers.TermUseControll;
+import com.organize4event.organize.listeners.ControllResponseListener;
+import com.organize4event.organize.listeners.ToolbarListener;
+import com.organize4event.organize.models.TermUse;
+import com.organize4event.organize.models.User;
 
 import org.parceler.Parcels;
 

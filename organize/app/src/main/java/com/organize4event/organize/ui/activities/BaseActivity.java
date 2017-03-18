@@ -19,8 +19,8 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.organize4event.organize.R;
-import com.organize4event.organize.common.WaitDialog;
-import com.organize4event.organize.listener.ToolbarListener;
+import com.organize4event.organize.commons.WaitDialog;
+import com.organize4event.organize.listeners.ToolbarListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
