@@ -18,8 +18,8 @@ public class Controll {
         if (errorReturn == null){
             error = new Error(context.getString(R.string.error_message_generic));
         }
-        else if (!errorReturn.isSucess()){
-            error = new Error(errorReturn.getError_return());
+        else if (errorReturn.isError()){
+            error = new Error(errorReturn.getMessage());
         }
         return error;
     }

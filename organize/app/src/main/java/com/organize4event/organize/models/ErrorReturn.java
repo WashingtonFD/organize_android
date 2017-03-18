@@ -7,46 +7,38 @@ import com.google.gson.annotations.SerializedName;
 
 public class ErrorReturn implements Parcelable {
 
-    @SerializedName("sucess")
-    private boolean sucess;
+    @SerializedName("error")
+    private boolean error;
     @SerializedName("code")
     private int code;
-    @SerializedName("error_return")
-    private String error_return;
     @SerializedName("message")
     private String message;
+    @SerializedName("exception")
+    private String exception;
+    @SerializedName("data")
+    private Object data;
 
-    public boolean isSucess() {
-        return sucess;
-    }
+    public boolean isError() {
 
-    public void setSucess(boolean sucess) {
-        this.sucess = sucess;
+        return error;
     }
 
     public int getCode() {
         return code;
     }
 
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getError_return() {
-        return error_return;
-    }
-
-    public void setError_return(String error_return) {
-        this.error_return = error_return;
-    }
-
     public String getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public String getException() {
+        return exception;
     }
+
+    public Object getData() {
+        return data;
+    }
+
 
     @Override
     public int describeContents() {
@@ -55,20 +47,21 @@ public class ErrorReturn implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeByte(this.sucess ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.error ? (byte) 1 : (byte) 0);
         dest.writeInt(this.code);
-        dest.writeString(this.error_return);
         dest.writeString(this.message);
+        dest.writeString(this.exception);
     }
 
     public ErrorReturn() {
     }
 
     protected ErrorReturn(Parcel in) {
-        this.sucess = in.readByte() != 0;
+        this.error = in.readByte() != 0;
         this.code = in.readInt();
-        this.error_return = in.readString();
         this.message = in.readString();
+        this.exception = in.readString();
+        this.data = in.readParcelable(Object.class.getClassLoader());
     }
 
 }

@@ -1,5 +1,6 @@
 package com.organize4event.organize.services;
 
+import com.organize4event.organize.models.AccessPlatform;
 import com.organize4event.organize.models.FirstAccess;
 import com.organize4event.organize.models.TermUse;
 
@@ -21,6 +22,11 @@ public interface FirstAccessService {
             @Field("locale") String locale,
             @Field("instalation_date") String instalation_date
     );
+
+    @GET("access_platform/{locale}/{code_enum}")
+    Call<AccessPlatform> getAccessPlatform(
+            @Path("locale") String locale,
+            @Path("code_enum") int code_enum);
 
     @GET("term")
     Call<TermUse> getTermUse();

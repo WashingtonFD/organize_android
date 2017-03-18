@@ -181,4 +181,13 @@ public class BaseActivity  extends AppCompatActivity{
                 break;
         }
     }
+
+    public void returnErrorMessage(Error error, Context context){
+        if(isOline(context)){
+            showDialogMessage(context.getResources().getString(R.string.error_title), error.getMessage());
+        }
+        else {
+            showDialogMessage(context.getResources().getString(R.string.error_title), context.getResources().getString(R.string.error_message_conect));
+        }
+    }
 }

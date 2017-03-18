@@ -5,14 +5,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
-import android.view.View;
 import android.widget.TextView;
 
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.AppApplication;
+import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.controllers.FirstAccessControll;
+import com.organize4event.organize.controllers.TokenControll;
 import com.organize4event.organize.listeners.ControllResponseListener;
 import com.organize4event.organize.models.FirstAccess;
+import com.organize4event.organize.models.Token;
+import com.organize4event.organize.models.User;
 
 import java.util.Date;
 import java.util.Locale;
@@ -21,15 +24,15 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class SplashActivity extends BaseActivity {
+    Handler handler;
+    @Bind(R.id.txtLoading)
+    TextView txtLoading;
     private Context context;
     private String locale;
     private String device_id;
     private FirstAccess firstAccess;
-
-    Handler handler;
-
-    @Bind(R.id.txtLoading)
-    TextView txtLoading;
+    private Token token;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,41 +52,42 @@ public class SplashActivity extends BaseActivity {
     }
 
     public void getData(){
-        txtLoading.setVisibility(View.GONE);
+        firstAccess = AppApplication.getFirstAccess();
+        token = AppApplication.getToken();
+        user = AppApplication.getUser();
+
         locale = Locale.getDefault().toString();
         device_id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-        firstAccess = AppApplication.getFirstAccess();
-        if (firstAccess == null){
-            getFirstAccess();
-        }
-        else {
-            startActivit(_TestActivity.class);
-        }
+
+        getFirstAccess();
     }
 
     public void getFirstAccess(){
-        new FirstAccessControll(context).getFirstAccess(device_id, new ControllResponseListener() {
-            @Override
-            public void sucess(Object object) {
-                firstAccess = (FirstAccess) object;
-                if (firstAccess.getId() == 0){
-                    saveFirstAccess();
+        if (firstAccess == null){
+            new FirstAccessControll(context).getFirstAccess(device_id, new ControllResponseListener() {
+                @Override
+                public void sucess(Object object) {
+                    firstAccess = (FirstAccess) object;
+                    if (firstAccess.getId() == 0){
+                        saveFirstAccess();
+                    }
+                    else{
+                        PreferencesManager.saveFirstAccess(firstAccess);
+                        AppApplication.setFirstAccess(firstAccess);
+                        startActivity(new Intent(context, ApresentationActivity.class));
+                        finish();
+                    }
                 }
-                else{
-                    getUser();
-                }
-            }
 
-            @Override
-            public void fail(Error error) {
-                if(isOline(context)){
-                    showDialogMessage(context.getResources().getString(R.string.error_title), error.getMessage());
+                @Override
+                public void fail(Error error) {
+                    returnErrorMessage(error, context);
                 }
-                else {
-                    showDialogMessage(context.getResources().getString(R.string.error_title), context.getResources().getString(R.string.error_message_conect));
-                }
-            }
-        });
+            });
+        }
+        else{
+            getToken();
+        }
     }
 
     public void saveFirstAccess(){
@@ -96,37 +100,91 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void sucess(Object object) {
                 firstAccess = (FirstAccess) object;
-                startActivit(_TestActivity.class);
+                startActivity(new Intent(context, ApresentationActivity.class));
+                finish();
             }
 
             @Override
             public void fail(Error error) {
-                if(isOline(context)){
-                    showDialogMessage(context.getResources().getString(R.string.error_title), error.getMessage());
-                }
-                else {
-                    showDialogMessage(context.getResources().getString(R.string.error_title), context.getResources().getString(R.string.error_message_conect));
-                }
+                returnErrorMessage(error, context);
             }
         });
     }
 
+    public void getToken(){
+        if (token == null || user == null){
+            new TokenControll(context).getToken(firstAccess, new ControllResponseListener() {
+                @Override
+                public void sucess(Object object) {
+                    token = (Token) object;
+                    if (token.getId() == 0){
+                        startActivity(new Intent(context, ApresentationActivity.class));
+                        finish();
+                    }
+                    else{
+                        PreferencesManager.saveToken(token);
+                        AppApplication.setToken(token);
+                        if (token.getUser() == null){
+                            startActivity(new Intent(context, ApresentationActivity.class));
+                            finish();
+                        }
+                        else{
+                            user = token.getUser();
+                            PreferencesManager.saveUser(user);
+                            AppApplication.setUser(user);
+                        }
+                    }
+                }
 
+                @Override
+                public void fail(Error error) {
+                    returnErrorMessage(error, context);
+                }
+            });
+        }
+        else {
+            getTermUser();
+        }
+    }
+
+    public void getTermUser(){
+        if (user.getTerm() == null && !user.isTerm_accept()){
+            startActivity(new Intent(context, ApresentationActivity.class));
+            finish();
+        }
+        else{
+            getPlanUser();
+        }
+    }
+
+    public void getPlanUser(){
+        if (user.getPlan() == null){
+            startActivity(new Intent(context, PlanIdentifierActivity.class));
+            finish();
+        }
+        else{
+            getUser();
+        }
+    }
 
     public void getUser(){
-        // TODO: implementar getUser()
-
-        getToken();
+        if (user.getMail() == null || user.getCpf() == null){
+            startActivity(new Intent(context, UserRegisterActivity.class));
+            finish();
+        }
+        else{
+            getKeepLogin();
+        }
     }
 
-    public void getToken(){
-        // TODO: implementar getToken()
-
-        startActivit(_TestActivity.class); //TODO: mudar para apresentation activity
-    }
-
-    public void startActivit(Class classActivity){
-        startActivity(new Intent(context, classActivity));
-        finish();
+    public void getKeepLogin(){
+        if (token.isKeep_logged()){
+            startActivity(new Intent(context, HomeActivity.class));
+            finish();
+        }
+        else{
+            startActivity(new Intent(context, LoginActivity.class));
+            finish();
+        }
     }
 }

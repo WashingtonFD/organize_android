@@ -1,6 +1,6 @@
 package com.organize4event.organize.enuns;
 
-public enum AccessPlatform {
+public enum AccessPlatformEnum {
 
     WEBSITE(1),
     ANDROID(2),
@@ -8,7 +8,7 @@ public enum AccessPlatform {
 
     private int value;
 
-    AccessPlatform(int Value) {
+    AccessPlatformEnum(int Value) {
         this.value = Value;
     }
 

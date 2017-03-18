@@ -61,15 +61,15 @@ public class PlanIdentifierActivity extends BaseActivity {
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 switch (checkedId){
                     case R.id.btnPlanFree:
-                        user.setPlan(1);
+                        user.setPlan(plans.get(0));
                         containerValidateCode.setVisibility(View.GONE);
                         break;
                     case R.id.btnPlanBasic:
-                        user.setPlan(2);
+                        user.setPlan(plans.get(1));
                         containerValidateCode.setVisibility(View.VISIBLE);
                         break;
                     case R.id.btnPlanPremium:
-                        user.setPlan(3);
+                        user.setPlan(plans.get(2));
                         containerValidateCode.setVisibility(View.VISIBLE);
                         break;
                 }
@@ -100,7 +100,7 @@ public class PlanIdentifierActivity extends BaseActivity {
     }
 
     public void validateCodePlan(){
-        if (user.getPlan() != 1){
+        if (user.getPlan() != plans.get(0)){
             //TODO: VALIDAR CODIGO.
         }
 

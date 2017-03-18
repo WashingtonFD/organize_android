@@ -22,9 +22,6 @@ public class TermUseControll extends Controll{
             @Override
             public void onResponse(Response<TermUse> response, Retrofit retrofit) {
                 TermUse termUse = (TermUse) response.body();
-                if (termUse.getId() > 0){
-                    termUse.setSucess(true);
-                }
                 Error error = parserError(termUse);
                 if(error == null){
                     listener.sucess(termUse);

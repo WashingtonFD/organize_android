@@ -1,15 +1,15 @@
 package com.organize4event.organize.enuns;
 
-public enum UserType {
+public enum ContactTypeEnum {
 
-    MASTER(1),
-    OWNER(2),
-    ADMINISTRATOR(3),
-    DEFAULT(4);
+    EMAIL(1),
+    PHONE(2),
+    CELLPHONE(3),
+    WHATSAPP(4);
 
     private int value;
 
-    UserType(int Value) {
+    ContactTypeEnum(int Value) {
         this.value = Value;
     }
 

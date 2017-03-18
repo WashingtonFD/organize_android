@@ -45,4 +45,9 @@ public class BaseFragment extends Fragment {
         activity.showToastMessage(context, message);
     }
 
+    public void returnErrorMessage(Error error, Context context){
+        BaseActivity activity = (BaseActivity) getActivity();
+        activity.returnErrorMessage(error, context);
+    }
+
 }

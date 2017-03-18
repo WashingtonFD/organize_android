@@ -1,6 +1,6 @@
 package com.organize4event.organize.enuns;
 
-public enum  LoginType {
+public enum LoginTypeEnum {
 
     EMAIL(1),
     FACEBOOK(2),
@@ -9,7 +9,7 @@ public enum  LoginType {
 
     private int value;
 
-    LoginType(int Value) {
+    LoginTypeEnum(int Value) {
         this.value = Value;
     }
 

@@ -7,6 +7,7 @@ import com.organize4event.organize.commons.AppApplication;
 import com.organize4event.organize.commons.Constants;
 import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.listeners.ControllResponseListener;
+import com.organize4event.organize.models.AccessPlatform;
 import com.organize4event.organize.models.FirstAccess;
 import com.organize4event.organize.services.FirstAccessService;
 
@@ -32,9 +33,6 @@ public class FirstAccessControll extends Controll{
             @Override
             public void onResponse(Response<FirstAccess> response, Retrofit retrofit) {
                 FirstAccess firstAccess = (FirstAccess) response.body();
-                if (firstAccess.getId() > 0){
-                    firstAccess.setSucess(true);
-                }
                 Error error = parserError(firstAccess);
                 if (error == null){
                     PreferencesManager.saveFirstAccess(firstAccess);
@@ -59,18 +57,31 @@ public class FirstAccessControll extends Controll{
             @Override
             public void onResponse(Response<FirstAccess> response, Retrofit retrofit) {
                 FirstAccess firstAccess = (FirstAccess) response.body();
-                if (firstAccess == null){
-                    firstAccess = new FirstAccess();
-                    firstAccess.setSucess(true);
-                }
-                else if (firstAccess.getId() > 0){
-                    firstAccess.setSucess(true);
-                }
                 Error error = parserError(firstAccess);
                 if (error == null){
-                    PreferencesManager.saveFirstAccess(firstAccess);
-                    AppApplication.setFirstAccess(firstAccess);
                     listener.sucess(firstAccess);
+                }
+                else{
+                    listener.fail(error);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                listener.fail(new Error(t.getMessage()));
+            }
+        });
+    }
+
+    public void getAccessPlatform(String locale, int code_enum, final ControllResponseListener listener){
+        FirstAccessService service = ApiClient.getRetrofit().create(FirstAccessService.class);
+        service.getAccessPlatform(locale, code_enum).enqueue(new Callback<AccessPlatform>() {
+            @Override
+            public void onResponse(Response<AccessPlatform> response, Retrofit retrofit) {
+                AccessPlatform accessPlatform = response.body();
+                Error error = parserError(accessPlatform);
+                if (error == null){
+                    listener.sucess(accessPlatform);
                 }
                 else{
                     listener.fail(error);
