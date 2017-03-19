@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.mobsandgeeks.saripaar.ValidationError;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.WaitDialog;
 import com.organize4event.organize.listeners.ToolbarListener;
@@ -25,6 +26,7 @@ import com.organize4event.organize.listeners.ToolbarListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -189,5 +191,12 @@ public class BaseActivity  extends AppCompatActivity{
         else {
             showDialogMessage(context.getResources().getString(R.string.error_title), context.getResources().getString(R.string.error_message_conect));
         }
+    }
+
+    public void validateError(List<ValidationError> errors){
+        ValidationError currentError = errors.get(0);
+        EditText editTextError = (EditText)currentError.getView();
+        editTextError.requestFocus();
+        editTextError.setError(currentError.getCollatedErrorMessage(this));
     }
 }

@@ -148,7 +148,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     public void getTermUser(){
-        if (user.getTerm() == null && !user.isTerm_accept()){
+        if (user.getTerm() == null || !user.isTerm_accept()){
             startActivity(new Intent(context, ApresentationActivity.class));
             finish();
         }

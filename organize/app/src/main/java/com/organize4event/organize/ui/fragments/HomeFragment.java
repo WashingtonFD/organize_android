@@ -26,6 +26,6 @@ public class HomeFragment extends BaseFragment{
     }
 
     public void getData(){
-        //TODO: Wireframe - HOME - Elcio
+
     }
 }

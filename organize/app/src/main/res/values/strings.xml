@@ -50,10 +50,20 @@
 
     <string name="placeholder_cpf">Insira o seu CPF.</string>
     <string name="placeholder_mail">Insira o seu e-mail.</string>
-    <string name="placeholder_name">Insira o seu nome completo.</string>
+    <string name="placeholder_date">Insira a data no formato dd/mm/aaaa.</string>
+    <string name="placeholder_name">Insira o seu nome.</string>
     <string name="placeholder_password_confirm">Confirme sua senha.</string>
     <string name="placeholder_password">Insira o sua senha.</string>
     <string name="placeholder_validate_code">Insira o código de validação.</string>
+
+    <string name="validate_required_field">O campo não pode ser vazio</string>
+    <string name="validate_mail">E-mail inválido.</string>
+    <string name="validate_password">Senha inválida.</string>
+    <string name="validate_password_confirm">As senhas não são iguais.</string>
+    <string name="validate_date">Data inválida.</string>
+
+
+
 
 
 </resources>
