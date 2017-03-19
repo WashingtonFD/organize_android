@@ -16,4 +16,10 @@
         <item name="fontPath">fonts/GothamRounded-Bold.otf</item>
         <item name="android:ellipsize">end</item>
     </style>
+
+    <style name="Theme.Organize.TextAppearance.GothamRounded.Medium.Italic" parent="@android:style/TextAppearance">
+        <item name="fontPath">fonts/GothamRounded-Medium.otf</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:ellipsize">end</item>
+    </style>
 </resources>

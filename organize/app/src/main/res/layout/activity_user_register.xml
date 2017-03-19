@@ -6,11 +6,280 @@
     android:layout_height="match_parent"
     tools:context="com.organize4event.organize.ui.activities.UserRegisterActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="USER REGISTER"
-        />
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            tools:ignore="MissingPrefix"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <ImageView
+                android:id="@+id/imgAccept"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="22dp"
+                android:src="@drawable/ic_done_black_24dp"
+                android:tint="@color/colorDestakText"
+                />
+
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/appBarLayout"
+        >
+
+        <RelativeLayout
+            android:id="@+id/containerContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/default_padding"
+            >
+
+            <RelativeLayout
+                android:id="@+id/contentImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                >
+
+                <com.github.siyamed.shapeimageview.CircularImageView
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/img_transparent"
+                    app:siBorderColor="@color/colorPrimary"
+                    />
+
+                <ImageView
+                    android:id="@+id/imgProfile"
+                    android:layout_width="84dp"
+                    android:layout_height="85dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_photo_camera_black_48dp"
+                    android:tint="@color/colorPrimary"
+                    android:alpha="0.5"
+                    />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/txtInfoRequiredFields"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/info_all_required_fields"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_size_small"
+                android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Medium.Italic"
+                />
+
+            <LinearLayout
+                android:id="@+id/contentName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin_top"
+                android:layout_toLeftOf="@+id/contentImage"
+                android:layout_marginRight="@dimen/default_padding"
+                android:layout_below="@+id/txtInfoRequiredFields"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_name"
+                    android:textColor="@color/colorTextDefault"
+                    android:textSize="@dimen/text_size_small"
+                    android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                    />
+
+                <EditText
+                    android:id="@+id/txtFullName"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_heigth"
+                    android:inputType="textAutoComplete|textCapWords"
+                    android:hint="@string/placeholder_name"
+                    android:textColorHint="@color/colorHintDefault"
+                    android:textColor="@color/colorTextDefault"
+                    android:textSize="@dimen/default_text_size"
+                    android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/contentCpf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin_top"
+                android:layout_below="@+id/contentName"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_cpf"
+                    android:textColor="@color/colorTextDefault"
+                    android:textSize="@dimen/text_size_small"
+                    android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                    />
+
+                <EditText
+                    android:id="@+id/txtCpf"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_heigth"
+                    android:inputType="number"
+                    android:hint="@string/placeholder_cpf"
+                    android:textColorHint="@color/colorHintDefault"
+                    android:textColor="@color/colorTextDefault"
+                    android:textSize="@dimen/default_text_size"
+                    android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/contentMail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin_top"
+                android:layout_below="@+id/contentCpf"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_mail"
+                    android:textColor="@color/colorTextDefault"
+                    android:textSize="@dimen/text_size_small"
+                    android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                    />
+
+                <EditText
+                    android:id="@+id/txtMail"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_heigth"
+                    android:inputType="textAutoComplete|textEmailAddress"
+                    android:hint="@string/placeholder_mail"
+                    android:textColorHint="@color/colorHintDefault"
+                    android:textColor="@color/colorTextDefault"
+                    android:textSize="@dimen/default_text_size"
+                    android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/contentBirthDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin_top"
+                android:layout_below="@+id/contentMail"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_birth_date"
+                    android:textColor="@color/colorTextDefault"
+                    android:textSize="@dimen/text_size_small"
+                    android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                    />
+
+                <EditText
+                    android:id="@+id/txtBirthDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_heigth"
+                    android:inputType="date"
+                    android:hint="@string/placeholder_mail"
+                    android:textColorHint="@color/colorHintDefault"
+                    android:textColor="@color/colorTextDefault"
+                    android:textSize="@dimen/default_text_size"
+                    android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/contentPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin_top"
+                android:layout_below="@+id/contentBirthDate"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_password"
+                    android:textColor="@color/colorTextDefault"
+                    android:textSize="@dimen/text_size_small"
+                    android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                    />
+
+                <EditText
+                    android:id="@+id/txtPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_heigth"
+                    android:inputType="textPassword"
+                    android:hint="@string/placeholder_password"
+                    android:textColorHint="@color/colorHintDefault"
+                    android:textColor="@color/colorTextDefault"
+                    android:textSize="@dimen/default_text_size"
+                    android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/contentConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin_top"
+                android:layout_below="@+id/contentPassword"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_password_confirm"
+                    android:textColor="@color/colorTextDefault"
+                    android:textSize="@dimen/text_size_small"
+                    android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                    />
+
+                <EditText
+                    android:id="@+id/txtConfirmPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_heigth"
+                    android:inputType="textPassword"
+                    android:hint="@string/placeholder_password_confirm"
+                    android:textColorHint="@color/colorHintDefault"
+                    android:textColor="@color/colorTextDefault"
+                    android:textSize="@dimen/default_text_size"
+                    android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                    />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
 
 </RelativeLayout>
