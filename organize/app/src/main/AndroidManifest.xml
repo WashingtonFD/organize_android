@@ -33,7 +33,7 @@
         <activity android:name=".ui.activities.ApresentationActivity" />
         <activity android:name=".ui.activities.PlanIdentifierActivity" />
         <activity android:name=".ui.activities.UserRegisterActivity" />
-        <activity android:name=".ui.activities.LoginActivity"></activity>
+        <activity android:name=".ui.activities.LoginActivity"/>
     </application>
 
 </manifest>

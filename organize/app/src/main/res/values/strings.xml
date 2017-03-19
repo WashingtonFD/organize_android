@@ -41,7 +41,9 @@
     <string name="label_term_use">Termo de Uso</string>
     <string name="label_validate_code">Código de validação</string>
     <string name="label_register_user">Registro de usuário</string>
-
+    <string name="label_login_email">Login com E-mail</string>
+    <string name="label_login_facebook">Login com Facebook</string>
+    <string name="label_forgot_password">Esqueci minha senha</string>
 
     <string name="message_info_password">Entre 6 a 10 caracteres alfanuméricos.</string>
     <string name="message_info_cpf">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget sem quis risus sagittis tincidunt nec tempus libero. Suspendisse non.</string>

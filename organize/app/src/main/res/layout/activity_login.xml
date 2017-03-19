@@ -4,13 +4,86 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.organize4event.organize.ui.activities.LoginActivity">
+    tools:context="com.organize4event.organize.ui.activities.LoginActivity"
+    android:background="@drawable/bg_login"
+    >
 
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/imgContainer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="LOGIN"
+        android:padding="@dimen/margin_default"
+        >
+
+        <ImageView
+            android:id="@+id/imgBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_back_black_24dp"
+            android:tint="@color/colorWhite"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackgroundFilter"
         />
 
+    <RelativeLayout
+        android:id="@+id/containerContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/containerButtom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:padding="50dp"
+            >
+
+            <Button
+                android:id="@+id/btnLoginEmail"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/heigth_button"
+                android:background="@drawable/selector_button"
+                android:enabled="true"
+                android:padding="@dimen/padding_buttons"
+                android:text="@string/label_login_email"
+                android:textColor="@color/colorDestakText"
+                android:textSize="@dimen/text_button_default"
+                android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
+                android:textAllCaps="false"
+                />
+
+            <Button
+                android:id="@+id/btnLoginFacebook"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/heigth_button"
+                android:layout_marginTop="@dimen/margin_large"
+                android:background="@drawable/bg_button_facebook"
+                android:padding="@dimen/padding_buttons"
+                android:text="@string/label_login_facebook"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_button_default"
+                android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
+                android:textAllCaps="false"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtForgotPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/margin_default"
+            android:layout_marginLeft="@dimen/margin_default"
+            android:text="@string/label_forgot_password"
+            android:textSize="@dimen/text_size_default"
+            android:textColor="@color/colorTextDefault"
+            android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
+            />
+    </RelativeLayout>
 </RelativeLayout>

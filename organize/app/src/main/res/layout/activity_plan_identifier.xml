@@ -39,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/appBarLayout"
-        android:padding="@dimen/default_padding"
+        android:padding="@dimen/padding_default"
         >
 
         <TextView
@@ -47,10 +47,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/default_margin_top"
+            android:layout_marginTop="@dimen/margin_default"
             android:text="@string/label_plan_question"
             android:textColor="@color/colorTextDefault"
-            android:textSize="@dimen/default_text_size"
+            android:textSize="@dimen/text_size_default"
             android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
             />
 
@@ -59,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtTitle"
-            android:layout_marginTop="@dimen/default_margin_top"
+            android:layout_marginTop="@dimen/margin_default"
             >
 
             <RadioButton
@@ -69,10 +69,10 @@
                 android:layout_gravity="center_vertical"
                 android:button="@drawable/selector_radio_button"
                 android:buttonTint="@color/colorPrimary"
-                android:padding="@dimen/default_padding"
+                android:padding="@dimen/padding_default"
                 android:text="@string/label_plan_free"
                 android:textColor="@color/colorTextDefault"
-                android:textSize="@dimen/default_text_size"
+                android:textSize="@dimen/text_size_default"
                 android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
                 android:checked="true"
                 />
@@ -84,10 +84,10 @@
                 android:layout_gravity="center_vertical"
                 android:button="@drawable/selector_radio_button"
                 android:buttonTint="@color/colorPrimary"
-                android:padding="@dimen/default_padding"
+                android:padding="@dimen/padding_default"
                 android:text="@string/label_plan_basic"
                 android:textColor="@color/colorTextDefault"
-                android:textSize="@dimen/default_text_size"
+                android:textSize="@dimen/text_size_default"
                 android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
                 />
 
@@ -98,10 +98,10 @@
                 android:layout_gravity="center_vertical"
                 android:button="@drawable/selector_radio_button"
                 android:buttonTint="@color/colorPrimary"
-                android:padding="@dimen/default_padding"
+                android:padding="@dimen/padding_default"
                 android:text="@string/label_plan_premium"
                 android:textColor="@color/colorTextDefault"
-                android:textSize="@dimen/default_text_size"
+                android:textSize="@dimen/text_size_default"
                 android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
                 />
 
@@ -113,7 +113,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/listPlans"
-            android:layout_marginTop="@dimen/default_margin_top"
+            android:layout_marginTop="@dimen/margin_default"
             android:visibility="gone"
             >
 
@@ -121,24 +121,24 @@
                 android:id="@+id/txtValidateCodeLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_margin_top"
+                android:layout_marginTop="@dimen/margin_default"
                 android:text="@string/label_validate_code"
                 android:textColor="@color/colorTextDefault"
-                android:textSize="@dimen/default_text_size"
+                android:textSize="@dimen/text_size_default"
                 android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
                 />
 
             <EditText
                 android:id="@+id/txtValidateCode"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/default_heigth"
+                android:layout_height="@dimen/heigth_default"
                 android:layout_below="@+id/txtValidateCodeLabel"
                 android:drawableRight="@drawable/ic_info_black_24dp_tint"
                 android:hint="@string/placeholder_validate_code"
                 android:maxLength="10"
                 android:textColorHint="@color/colorHintDefault"
                 android:textColor="@color/colorTextDefault"
-                android:textSize="@dimen/default_text_size"
+                android:textSize="@dimen/text_size_default"
                 android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
                 />
 
