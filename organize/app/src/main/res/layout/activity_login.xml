@@ -7,7 +7,6 @@
     tools:context="com.organize4event.organize.ui.activities.LoginActivity"
     android:background="@drawable/bg_login"
     >
-
     <RelativeLayout
         android:id="@+id/imgContainer"
         android:layout_width="match_parent"
@@ -23,13 +22,11 @@
             android:tint="@color/colorWhite"
             />
     </RelativeLayout>
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBackgroundFilter"
         />
-
     <RelativeLayout
         android:id="@+id/containerContent"
         android:layout_width="match_parent"
@@ -85,5 +82,135 @@
             android:textColor="@color/colorTextDefault"
             android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
             />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/containerLoginEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:paddingLeft="@dimen/heigth_default"
+        android:paddingRight="@dimen/heigth_default"
+        android:paddingTop="120dp"
+        android:paddingBottom="120dp"
+        android:visibility="gone"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorDestakText"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_default"
+                >
+                <TextView
+                    android:id="@+id/txtLogin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:text="@string/label_login"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_size_large"
+                    android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Medium"
+                    />
+                <LinearLayout
+                    android:id="@+id/containerMail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtLogin"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_mail"
+                        android:textColor="@color/colorTextDefault"
+                        android:textSize="@dimen/text_size_small"
+                        android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                        />
+
+                    <EditText
+                        android:id="@+id/txtMail"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/heigth_default"
+                        android:inputType="textAutoComplete|textEmailAddress"
+                        android:maxLength="255"
+                        android:hint="@string/placeholder_mail"
+                        android:textColorHint="@color/colorHintDefault"
+                        android:textColor="@color/colorTextDefault"
+                        android:textSize="@dimen/text_size_default"
+                        android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/containerPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/containerMail"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_password"
+                        android:textColor="@color/colorTextDefault"
+                        android:textSize="@dimen/text_size_small"
+                        android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                        />
+
+                    <EditText
+                        android:id="@+id/txtPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/heigth_default"
+                        android:inputType="textPassword"
+                        android:maxLength="10"
+                        android:hint="@string/placeholder_password"
+                        android:textColorHint="@color/colorHintDefault"
+                        android:textColor="@color/colorTextDefault"
+                        android:textSize="@dimen/text_size_default"
+                        android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                        />
+
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/cbxKeepLogged"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/containerPassword"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="5dp"
+                    android:paddingLeft="5dp"
+                    android:text="@string/label_keep_logged"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_size_default"
+                    android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+
+                    />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/heigth_button"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorPrimary"
+                android:text="@string/label_login_buttom"
+                android:textColor="@color/colorDestakText"
+                android:textSize="@dimen/text_button_default"
+                android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
+                android:textAllCaps="false"
+                />
+
+        </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

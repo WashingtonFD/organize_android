@@ -44,6 +44,9 @@
     <string name="label_login_email">Login com E-mail</string>
     <string name="label_login_facebook">Login com Facebook</string>
     <string name="label_forgot_password">Esqueci minha senha</string>
+    <string name="label_login">Login</string>
+    <string name="label_login_buttom">Entrar</string>
+    <string name="label_keep_logged">Manter Logado</string>
 
     <string name="message_info_password">Entre 6 a 10 caracteres alfanuméricos.</string>
     <string name="message_info_cpf">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget sem quis risus sagittis tincidunt nec tempus libero. Suspendisse non.</string>
@@ -55,7 +58,7 @@
     <string name="placeholder_date">Insira a data no formato dd/mm/aaaa.</string>
     <string name="placeholder_name">Insira o seu nome.</string>
     <string name="placeholder_password_confirm">Confirme sua senha.</string>
-    <string name="placeholder_password">Insira o sua senha.</string>
+    <string name="placeholder_password">Insira a sua senha.</string>
     <string name="placeholder_validate_code">Insira o código de validação.</string>
 
     <string name="validate_required_field">O campo não pode ser vazio</string>

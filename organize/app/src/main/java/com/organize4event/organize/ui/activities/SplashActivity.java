@@ -179,7 +179,7 @@ public class SplashActivity extends BaseActivity {
 
     public void getKeepLogin(){
         if (token.isKeep_logged()){
-            startActivity(new Intent(context, HomeActivity.class));
+            startActivity(new Intent(context, WelcomeActivity.class));
             finish();
         }
         else{
