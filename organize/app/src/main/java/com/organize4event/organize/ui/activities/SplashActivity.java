@@ -74,8 +74,7 @@ public class SplashActivity extends BaseActivity {
                     else{
                         PreferencesManager.saveFirstAccess(firstAccess);
                         AppApplication.setFirstAccess(firstAccess);
-                        startActivity(new Intent(context, ApresentationActivity.class));
-                        finish();
+                        getToken();
                     }
                 }
 
@@ -132,6 +131,7 @@ public class SplashActivity extends BaseActivity {
                             user = token.getUser();
                             PreferencesManager.saveUser(user);
                             AppApplication.setUser(user);
+                            getTermUser();
                         }
                     }
                 }

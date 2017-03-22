@@ -85,11 +85,11 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         firstAccess = AppApplication.getFirstAccess();
         token = AppApplication.getToken();
 
-        if (token != null && token.isKeep_logged()){
-            startActivity(new Intent(context, HomeActivity.class));
-        }
-        else{
+        if (token == null){
             token = new Token();
+        }
+        else if(token.isKeep_logged()){
+            startActivity(new Intent(context, WelcomeActivity.class));
         }
 
         validator = new Validator(context);

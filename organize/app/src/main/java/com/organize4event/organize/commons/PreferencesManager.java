@@ -38,7 +38,7 @@ public class PreferencesManager {
         Token token = null;
         Gson gson = new Gson();
         String tokenActive = preferences.getString("token", "");
-        Type type = new TypeToken<User>(){}.getType();
+        Type type = new TypeToken<Token>(){}.getType();
         token = gson.fromJson(tokenActive, type);
         return token;
     }
