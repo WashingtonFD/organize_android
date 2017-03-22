@@ -108,7 +108,7 @@ public class PlanIdentifierActivity extends BaseActivity {
 
                 if(event.getAction() == MotionEvent.ACTION_UP) {
                     if(event.getRawX() >= (txtValidateCode.getRight() - txtValidateCode.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        showDialogMessage(context.getResources().getString(R.string.app_name), context.getResources().getString(R.string.message_validate_code_plan));
+                        showDialogMessage(context, context.getResources().getString(R.string.app_name), context.getResources().getString(R.string.message_validate_code_plan));
                         return true;
                     }
                 }

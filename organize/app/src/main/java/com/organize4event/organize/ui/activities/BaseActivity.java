@@ -3,6 +3,7 @@ package com.organize4event.organize.ui.activities;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -17,7 +18,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.WaitDialog;
@@ -109,8 +109,11 @@ public class BaseActivity  extends AppCompatActivity{
         return false;
     }
 
-    public void showDialogMessage(String title, String message){
-        new MaterialDialog.Builder(this).title(title).content(message).positiveText("Ok").show();
+    public void showDialogMessage(Context context, String title, String message){
+        Intent intent = new Intent(context, CustomDialog.class);
+        intent.putExtra("title", title);
+        intent.putExtra("message", message);
+        startActivity(intent);
     }
 
     public void showToastMessage(Context context, String message){
@@ -186,10 +189,10 @@ public class BaseActivity  extends AppCompatActivity{
 
     public void returnErrorMessage(Error error, Context context){
         if(isOline(context)){
-            showDialogMessage(context.getResources().getString(R.string.error_title), error.getMessage());
+            showDialogMessage(context, context.getResources().getString(R.string.error_title), error.getMessage());
         }
         else {
-            showDialogMessage(context.getResources().getString(R.string.error_title), context.getResources().getString(R.string.error_message_conect));
+            showDialogMessage(context, context.getResources().getString(R.string.error_title), context.getResources().getString(R.string.error_message_conect));
         }
     }
 

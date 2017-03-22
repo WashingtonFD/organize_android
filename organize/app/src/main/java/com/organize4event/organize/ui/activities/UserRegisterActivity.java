@@ -144,7 +144,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
                     if(event.getAction() == MotionEvent.ACTION_UP) {
                         if(event.getRawX() >= (editText.getRight() - editText.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                            showDialogMessage(context.getResources().getString(R.string.app_name), message);
+                            showDialogMessage(context, context.getResources().getString(R.string.app_name), message);
                             return true;
                         }
                     }
@@ -217,7 +217,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
     @OnClick(R.id.contentImage)
     public void actionUploadImage(){
-        showDialogMessage("Inserir imagem", "Fazer o Upload de Imagem");
+        showDialogMessage(context, "Inserir imagem", "Fazer o Upload de Imagem");
         //TODO: IMPLEMENTAR UPLOAD IMAGEM
     }
 

@@ -175,11 +175,12 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     }
 
     public void loginFacebook(){
+        hideLoading();
         //TODO: IMPLEMENTAR LOGIN COM FACEBOOK
     }
 
     public void forgotPassword(){
-        showDialogMessage("", "Esqueci minha senha");
+        showDialogMessage(context, "", "Esqueci minha senha");
         // TODO: IMPLEMENTAR ESQUECI SENHA
     }
 

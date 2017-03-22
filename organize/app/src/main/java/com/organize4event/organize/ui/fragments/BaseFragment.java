@@ -35,9 +35,9 @@ public class BaseFragment extends Fragment {
         activity.selectDate(context, editText, mode);
     }
 
-    public void showDialogMessage(String title, String message){
+    public void showDialogMessage(Context context, String title, String message){
         BaseActivity activity = (BaseActivity) getActivity();
-        activity.showDialogMessage(title, message);
+        activity.showDialogMessage(context,title, message);
     }
 
     public void showToastMessage(Context context, String message){
