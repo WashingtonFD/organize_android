@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.EditText;
 
+import com.organize4event.organize.listeners.CustomDialogListener;
 import com.organize4event.organize.ui.activities.BaseActivity;
 
 public class BaseFragment extends Fragment {
@@ -35,9 +36,9 @@ public class BaseFragment extends Fragment {
         activity.selectDate(context, editText, mode);
     }
 
-    public void showDialogMessage(Context context, String title, String message){
+    public void showDialogMessage(int type, String title, String message, CustomDialogListener listener){
         BaseActivity activity = (BaseActivity) getActivity();
-        activity.showDialogMessage(context,title, message);
+        activity.showDialogMessage(type, title, message, listener);
     }
 
     public void showToastMessage(Context context, String message){

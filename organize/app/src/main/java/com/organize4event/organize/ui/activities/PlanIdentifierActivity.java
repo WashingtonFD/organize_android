@@ -11,11 +11,13 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.AppApplication;
 import com.organize4event.organize.controllers.PlanControll;
 import com.organize4event.organize.enuns.PlanEnum;
 import com.organize4event.organize.listeners.ControllResponseListener;
+import com.organize4event.organize.listeners.CustomDialogListener;
 import com.organize4event.organize.listeners.ToolbarListener;
 import com.organize4event.organize.models.FirstAccess;
 import com.organize4event.organize.models.Plan;
@@ -108,7 +110,17 @@ public class PlanIdentifierActivity extends BaseActivity {
 
                 if(event.getAction() == MotionEvent.ACTION_UP) {
                     if(event.getRawX() >= (txtValidateCode.getRight() - txtValidateCode.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        showDialogMessage(context, context.getResources().getString(R.string.app_name), context.getResources().getString(R.string.message_validate_code_plan));
+                        showDialogMessage(1, context.getResources().getString(R.string.app_name), context.getResources().getString(R.string.message_validate_code_plan), new CustomDialogListener() {
+                            @Override
+                            public void positiveOnClick(MaterialDialog dialog) {
+                                dialog.dismiss();
+                            }
+
+                            @Override
+                            public void negativeOnClidck(MaterialDialog dialog) {
+
+                            }
+                        });
                         return true;
                     }
                 }

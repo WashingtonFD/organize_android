@@ -3,7 +3,6 @@ package com.organize4event.organize.ui.activities;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -15,12 +14,17 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.WaitDialog;
+import com.organize4event.organize.listeners.CustomDialogListener;
 import com.organize4event.organize.listeners.ToolbarListener;
 
 import java.text.SimpleDateFormat;
@@ -109,11 +113,40 @@ public class BaseActivity  extends AppCompatActivity{
         return false;
     }
 
-    public void showDialogMessage(Context context, String title, String message){
-        Intent intent = new Intent(context, CustomDialog.class);
-        intent.putExtra("title", title);
-        intent.putExtra("message", message);
-        startActivity(intent);
+    public void showDialogMessage(int type, String title, String message, final CustomDialogListener listener){
+        final MaterialDialog dialog = new MaterialDialog.Builder(this).customView(R.layout.custom_dialog, false).show();
+
+        TextView dialog_title = (TextView) dialog.getCustomView().findViewById(R.id.txtTitle);
+        TextView dialog_message = (TextView) dialog.getCustomView().findViewById(R.id.txtMessage);
+        Button dialog_positive = (Button) dialog.getCustomView().findViewById(R.id.btnPositive);
+        Button dialog_negative = (Button) dialog.getCustomView().findViewById(R.id.btnNegative);
+        RelativeLayout divider = (RelativeLayout) dialog.getCustomView().findViewById(R.id.divider);
+
+        dialog_title.setText(title);
+        dialog_message.setText(message);
+
+        if(type != 1){
+            dialog_negative.setVisibility(View.VISIBLE);
+            divider.setVisibility(View.VISIBLE);
+        }
+        else{
+            dialog_negative.setVisibility(View.GONE);
+            divider.setVisibility(View.GONE);
+        }
+
+        dialog_positive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.positiveOnClick(dialog);
+            }
+        });
+
+        dialog_negative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.negativeOnClidck(dialog);
+            }
+        });
     }
 
     public void showToastMessage(Context context, String message){
@@ -189,10 +222,30 @@ public class BaseActivity  extends AppCompatActivity{
 
     public void returnErrorMessage(Error error, Context context){
         if(isOline(context)){
-            showDialogMessage(context, context.getResources().getString(R.string.error_title), error.getMessage());
+            showDialogMessage(1, context.getResources().getString(R.string.error_title), error.getMessage(), new CustomDialogListener() {
+                @Override
+                public void positiveOnClick(MaterialDialog dialog) {
+                    dialog.dismiss();
+                }
+
+                @Override
+                public void negativeOnClidck(MaterialDialog dialog) {
+
+                }
+            });
         }
         else {
-            showDialogMessage(context, context.getResources().getString(R.string.error_title), context.getResources().getString(R.string.error_message_conect));
+            showDialogMessage(1, context.getResources().getString(R.string.error_title), context.getResources().getString(R.string.error_message_conect), new CustomDialogListener() {
+                @Override
+                public void positiveOnClick(MaterialDialog dialog) {
+                    dialog.dismiss();
+                }
+
+                @Override
+                public void negativeOnClidck(MaterialDialog dialog) {
+
+                }
+            });
         }
     }
 

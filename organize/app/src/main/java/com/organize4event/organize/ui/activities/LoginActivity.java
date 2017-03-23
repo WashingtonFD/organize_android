@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Email;
@@ -23,6 +24,7 @@ import com.organize4event.organize.controllers.TokenControll;
 import com.organize4event.organize.enuns.AccessPlatformEnum;
 import com.organize4event.organize.enuns.LoginTypeEnum;
 import com.organize4event.organize.listeners.ControllResponseListener;
+import com.organize4event.organize.listeners.CustomDialogListener;
 import com.organize4event.organize.models.AccessPlatform;
 import com.organize4event.organize.models.FirstAccess;
 import com.organize4event.organize.models.LoginType;
@@ -180,7 +182,17 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     }
 
     public void forgotPassword(){
-        showDialogMessage(context, "", "Esqueci minha senha");
+        showDialogMessage(1, "Organize", "Esqueci minha senha", new CustomDialogListener() {
+            @Override
+            public void positiveOnClick(MaterialDialog dialog) {
+                dialog.dismiss();
+            }
+
+            @Override
+            public void negativeOnClidck(MaterialDialog dialog) {
+
+            }
+        });
         // TODO: IMPLEMENTAR ESQUECI SENHA
     }
 

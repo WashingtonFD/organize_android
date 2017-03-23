@@ -47,6 +47,8 @@
     <string name="label_login">Login</string>
     <string name="label_login_buttom">Entrar</string>
     <string name="label_keep_logged">Manter Logado</string>
+    <string name="label_positive_button">OK</string>
+    <string name="label_negative_button">Cancelar</string>
 
     <string name="message_info_password">Entre 6 a 10 caracteres alfanuméricos.</string>
     <string name="message_info_cpf">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget sem quis risus sagittis tincidunt nec tempus libero. Suspendisse non.</string>

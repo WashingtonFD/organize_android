@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
@@ -23,6 +24,7 @@ import com.organize4event.organize.commons.Mask;
 import com.organize4event.organize.controllers.UserControll;
 import com.organize4event.organize.enuns.UserTypeEnum;
 import com.organize4event.organize.listeners.ControllResponseListener;
+import com.organize4event.organize.listeners.CustomDialogListener;
 import com.organize4event.organize.listeners.ToolbarListener;
 import com.organize4event.organize.models.FirstAccess;
 import com.organize4event.organize.models.User;
@@ -144,7 +146,17 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
                     if(event.getAction() == MotionEvent.ACTION_UP) {
                         if(event.getRawX() >= (editText.getRight() - editText.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                            showDialogMessage(context, context.getResources().getString(R.string.app_name), message);
+                            showDialogMessage(1, context.getResources().getString(R.string.app_name), message, new CustomDialogListener() {
+                                @Override
+                                public void positiveOnClick(MaterialDialog dialog) {
+                                    dialog.dismiss();
+                                }
+
+                                @Override
+                                public void negativeOnClidck(MaterialDialog dialog) {
+
+                                }
+                            });
                             return true;
                         }
                     }
@@ -217,7 +229,17 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
     @OnClick(R.id.contentImage)
     public void actionUploadImage(){
-        showDialogMessage(context, "Inserir imagem", "Fazer o Upload de Imagem");
+        showDialogMessage(1, "Inserir imagem", "Fazer o Upload de Imagem", new CustomDialogListener() {
+            @Override
+            public void positiveOnClick(MaterialDialog dialog) {
+                dialog.dismiss();
+            }
+
+            @Override
+            public void negativeOnClidck(MaterialDialog dialog) {
+
+            }
+        });
         //TODO: IMPLEMENTAR UPLOAD IMAGEM
     }
 

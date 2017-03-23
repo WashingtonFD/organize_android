@@ -34,7 +34,6 @@
         <activity android:name=".ui.activities.PlanIdentifierActivity" />
         <activity android:name=".ui.activities.UserRegisterActivity" />
         <activity android:name=".ui.activities.LoginActivity" />
-        <activity android:name=".ui.activities.CustomDialog"></activity>
     </application>
 
 </manifest>
