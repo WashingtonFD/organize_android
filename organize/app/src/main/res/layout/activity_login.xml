@@ -204,7 +204,7 @@
                 android:layout_below="@+id/contentLoginFields"
                 android:layout_marginTop="@dimen/margin_default"
                 android:background="@color/colorPrimary"
-                android:text="@string/label_login_buttom"
+                android:text="@string/label_enter"
                 android:textColor="@color/colorDestakText"
                 android:textSize="@dimen/text_button_default"
                 android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
@@ -212,4 +212,86 @@
                 />
         </RelativeLayout>
     </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/containerForgotPassword"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:padding="40dp"
+        android:visibility="gone"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@color/colorDestakText"
+            >
+
+            <RelativeLayout
+                android:id="@+id/contentForgotPasswordFields"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_default">
+                <TextView
+                    android:id="@+id/txtTitleForgotPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:text="@string/label_forgot_password"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_size_large"
+                    android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Medium"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/containerMailForgotPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtTitleForgotPassword"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_mail"
+                        android:textColor="@color/colorTextDefault"
+                        android:textSize="@dimen/text_size_small"
+                        android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                        />
+
+                    <EditText
+                        android:id="@+id/txtMailForgotPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/heigth_default"
+                        android:inputType="textAutoComplete|textEmailAddress"
+                        android:maxLength="255"
+                        android:hint="@string/placeholder_mail"
+                        android:textColorHint="@color/colorHintDefault"
+                        android:textColor="@color/colorTextDefault"
+                        android:textSize="@dimen/text_size_default"
+                        android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                        />
+
+                </LinearLayout>
+            </RelativeLayout>
+            <Button
+                android:id="@+id/btnSend"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/heigth_button"
+                android:layout_below="@+id/contentForgotPasswordFields"
+                android:layout_marginTop="@dimen/margin_default"
+                android:background="@color/colorPrimary"
+                android:text="@string/label_send"
+                android:textColor="@color/colorDestakText"
+                android:textSize="@dimen/text_button_default"
+                android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
+                android:textAllCaps="false"
+                />
+        </RelativeLayout>
+    </RelativeLayout>
+
 </RelativeLayout>

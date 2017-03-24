@@ -45,7 +45,8 @@
     <string name="label_login_facebook">Login com Facebook</string>
     <string name="label_forgot_password">Esqueci minha senha</string>
     <string name="label_login">Login</string>
-    <string name="label_login_buttom">Entrar</string>
+    <string name="label_enter">Entrar</string>
+    <string name="label_send">Enviar</string>
     <string name="label_keep_logged">Manter Logado</string>
     <string name="label_positive_button">OK</string>
     <string name="label_negative_button">Cancelar</string>
@@ -54,6 +55,8 @@
     <string name="message_info_cpf">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget sem quis risus sagittis tincidunt nec tempus libero. Suspendisse non.</string>
     <string name="message_info_birth_date">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget sem quis risus sagittis tincidunt nec tempus libero. Suspendisse non.</string>
     <string name="message_validate_code_plan">Código de confirmação enviado em seu e-mail na contratação do plano. Caso não tenha recebido o codigo ou não o solicitou, entre em contato com o suporte Organize ou acesse com o plano gratuito.</string>
+    <string name="message_forgot_password">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget sem quis risus sagittis tincidunt nec tempus libero. Suspendisse non.</string>
+    <string name="message_confirmation_forgot_password">E-mail de recuperação de senha enviado com sucesso.</string>
 
     <string name="placeholder_cpf">Insira o seu CPF.</string>
     <string name="placeholder_mail">Insira o seu e-mail.</string>

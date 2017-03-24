@@ -19,6 +19,7 @@ import com.mobsandgeeks.saripaar.annotation.Order;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.AppApplication;
+import com.organize4event.organize.commons.SendMail;
 import com.organize4event.organize.controllers.FirstAccessControll;
 import com.organize4event.organize.controllers.TokenControll;
 import com.organize4event.organize.enuns.AccessPlatformEnum;
@@ -33,6 +34,8 @@ import com.organize4event.organize.models.User;
 
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -57,6 +60,9 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     @Bind(R.id.containerLoginEmail)
     RelativeLayout containerLoginEmail;
 
+    @Bind(R.id.containerForgotPassword)
+    RelativeLayout containerForgotPassword;
+
     @Order(1)
     @NotEmpty(trim = true, sequence = 1, messageResId = R.string.validate_required_field)
     @Email(sequence = 2, messageResId = R.string.validate_mail)
@@ -68,6 +74,9 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     @Password(min = 6, sequence = 2, scheme = Password.Scheme.ALPHA_NUMERIC, messageResId = R.string.validate_password)
     @Bind(R.id.txtPassword)
     EditText txtPassword;
+
+    @Bind(R.id.txtMailForgotPassword)
+    EditText txtMailForgotPassword;
 
     @Bind(R.id.cbxKeepLogged)
     CheckBox cbxKeepLogged;
@@ -110,7 +119,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                 getAccessPlatform();
                 break;
             case R.id.txtForgotPassword:
-                forgotPassword();
+                containerForgotPassword.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -123,9 +132,16 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         }
     }
 
-    @OnClick(R.id.btnLogin)
-    public void actionLogin(){
-        validator.validate();
+    @OnClick({R.id.btnLogin, R.id.btnSend})
+    public void actionButtonClick(View view){
+        switch (view.getId()){
+            case R.id.btnLogin:
+                validator.validate();
+                break;
+            case R.id.btnSend:
+                forgotPassword();
+                break;
+        }
     }
 
     public void loginEmail(){
@@ -143,9 +159,25 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         new TokenControll(context).login(txtMail.getText().toString(), txtPassword.getText().toString(), new ControllResponseListener() {
             @Override
             public void sucess(Object object) {
+                hideLoading();
                 user = (User) object;
-                token.setUser(user);
-                saveToken();
+                if (user.getId() == 0){
+                    showDialogMessage(1, context.getString(R.string.app_name), user.getMessage(), new CustomDialogListener() {
+                        @Override
+                        public void positiveOnClick(MaterialDialog dialog) {
+                            dialog.dismiss();
+                        }
+
+                        @Override
+                        public void negativeOnClidck(MaterialDialog dialog) {
+
+                        }
+                    });
+                }
+                else{
+                    token.setUser(user);
+                    saveToken();
+                }
             }
 
             @Override
@@ -178,22 +210,35 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
     public void loginFacebook(){
         hideLoading();
+        showToastMessage(context, "Implementar Login com Facebook");
         //TODO: IMPLEMENTAR LOGIN COM FACEBOOK
     }
 
     public void forgotPassword(){
-        showDialogMessage(1, "Organize", "Esqueci minha senha", new CustomDialogListener() {
-            @Override
-            public void positiveOnClick(MaterialDialog dialog) {
-                dialog.dismiss();
-            }
+        if(!validadeEmail(txtMailForgotPassword.getText().toString())){
+            txtMailForgotPassword.setError(context.getResources().getString(R.string.validate_mail));
+        }
+        else{
+            String messageContent = context.getResources().getString(R.string.message_forgot_password);
+            String title = context.getResources().getString(R.string.label_forgot_password);
+            SendMail sendMail = new SendMail(txtMailForgotPassword.getText().toString(), title, messageContent);
+            sendMail.execute("");
+            containerForgotPassword.setVisibility(View.GONE);
+            showDialogMessage(1, context.getString(R.string.app_name), context.getString(R.string.message_confirmation_forgot_password), new CustomDialogListener() {
+                @Override
+                public void positiveOnClick(MaterialDialog dialog) {
+                    dialog.dismiss();
+                }
 
-            @Override
-            public void negativeOnClidck(MaterialDialog dialog) {
+                @Override
+                public void negativeOnClidck(MaterialDialog dialog) {
 
-            }
-        });
-        // TODO: IMPLEMENTAR ESQUECI SENHA
+                }
+            });
+
+            //TODO: IMPLEMENTAR ROTA DE ALTERAR SENHA POR E-MAIL
+
+        }
     }
 
     public void getAccessPlatform(){
@@ -240,5 +285,14 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     @Override
     public void onValidationFailed(List<ValidationError> errors) {
         validateError(errors);
+    }
+
+    public boolean validadeEmail(String email){
+        if ((email == null) || (email.trim().length() == 0))
+            return false;
+        String emailPattern = "\\b(^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@([A-Za-z0-9-])+(\\.[A-Za-z0-9-]+)*((\\.[A-Za-z0-9]{2,})|(\\.[A-Za-z0-9]{2,}\\.[A-Za-z0-9]{2,}))$)\\b";
+        Pattern pattern = Pattern.compile(emailPattern, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 }
