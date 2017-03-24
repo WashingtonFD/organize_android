@@ -49,7 +49,7 @@ public class TermUseActivity extends BaseActivity {
             user = new User();
         }
 
-        configureToolbar(context, toolbar, context.getResources().getString(R.string.label_term_use), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
+        configureToolbar(context, toolbar, context.getString(R.string.label_term_use), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
             @Override
             public void onClick() {
                 finish();
@@ -78,7 +78,7 @@ public class TermUseActivity extends BaseActivity {
                }
                 else{
                    hideLoading();
-                   showToastMessage(context, context.getResources().getString(R.string.error_message_conect));
+                   showToastMessage(context, context.getString(R.string.error_message_conect));
                }
             }
         });

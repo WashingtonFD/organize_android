@@ -154,7 +154,7 @@ public class BaseActivity  extends AppCompatActivity{
     }
 
     public void selectDate(Context context, final EditText editText, int mode){
-        simpleDateFormat = new SimpleDateFormat(context.getResources().getString(R.string.date_format));
+        simpleDateFormat = new SimpleDateFormat(context.getString(R.string.date_format));
 
         birthCalendarStart = GregorianCalendar.getInstance();
         birthCalendarFinish = GregorianCalendar.getInstance();
@@ -181,7 +181,7 @@ public class BaseActivity  extends AppCompatActivity{
                         editText.setText(simpleDateFormat.format(startCalendar.getTime()));
                     }
                 });
-                startDatePickerDialog.setTitle(context.getResources().getString(R.string.label_birth_date));
+                startDatePickerDialog.setTitle(context.getString(R.string.label_birth_date));
                 startDatePickerDialog.show();
                 break;
 
@@ -195,7 +195,7 @@ public class BaseActivity  extends AppCompatActivity{
                         editText.setText(simpleDateFormat.format(startCalendar.getTime()));
                     }
                 });
-                startDatePickerDialog.setTitle(context.getResources().getString(R.string.label_start_date));
+                startDatePickerDialog.setTitle(context.getString(R.string.label_start_date));
                 startDatePickerDialog.show();
 
                 break;
@@ -213,7 +213,7 @@ public class BaseActivity  extends AppCompatActivity{
                         editText.setText(simpleDateFormat.format(startCalendar.getTime()));
                     }
                 });
-                startDatePickerDialog.setTitle(context.getResources().getString(R.string.label_final_date));
+                startDatePickerDialog.setTitle(context.getString(R.string.label_final_date));
                 startDatePickerDialog.show();
 
                 break;
@@ -222,7 +222,7 @@ public class BaseActivity  extends AppCompatActivity{
 
     public void returnErrorMessage(Error error, Context context){
         if(isOline(context)){
-            showDialogMessage(1, context.getResources().getString(R.string.error_title), error.getMessage(), new CustomDialogListener() {
+            showDialogMessage(1, context.getString(R.string.error_title), error.getMessage(), new CustomDialogListener() {
                 @Override
                 public void positiveOnClick(MaterialDialog dialog) {
                     dialog.dismiss();
@@ -235,7 +235,7 @@ public class BaseActivity  extends AppCompatActivity{
             });
         }
         else {
-            showDialogMessage(1, context.getResources().getString(R.string.error_title), context.getResources().getString(R.string.error_message_conect), new CustomDialogListener() {
+            showDialogMessage(1, context.getString(R.string.error_title), context.getString(R.string.error_message_conect), new CustomDialogListener() {
                 @Override
                 public void positiveOnClick(MaterialDialog dialog) {
                     dialog.dismiss();

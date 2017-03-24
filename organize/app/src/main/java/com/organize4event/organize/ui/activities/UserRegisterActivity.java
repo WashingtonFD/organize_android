@@ -110,7 +110,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         user = Parcels.unwrap(getIntent().getExtras().getParcelable("user"));
         firstAccess = AppApplication.getFirstAccess();
 
-        configureToolbar(context, toolbar, context.getResources().getString(R.string.label_register_user), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
+        configureToolbar(context, toolbar, context.getString(R.string.label_register_user), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
             @Override
             public void onClick() {
                 finish();
@@ -146,7 +146,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
                     if(event.getAction() == MotionEvent.ACTION_UP) {
                         if(event.getRawX() >= (editText.getRight() - editText.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                            showDialogMessage(1, context.getResources().getString(R.string.app_name), message, new CustomDialogListener() {
+                            showDialogMessage(1, context.getString(R.string.app_name), message, new CustomDialogListener() {
                                 @Override
                                 public void positiveOnClick(MaterialDialog dialog) {
                                     dialog.dismiss();
@@ -204,19 +204,19 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     public void actionOnFocusChange(View view){
         switch (view.getId()){
             case R.id.txtCpf:
-                message = context.getResources().getString(R.string.message_info_cpf);
+                message = context.getString(R.string.message_info_cpf);
                 hideOrShowInfoIcon(txtCpf);
                 break;
             case R.id.txtBirthDate:
-                message = context.getResources().getString(R.string.message_info_birth_date);
+                message = context.getString(R.string.message_info_birth_date);
                 hideOrShowInfoIcon(txtBirthDate);
                 break;
             case R.id.txtPassword:
-                message = context.getResources().getString(R.string.message_info_password);
+                message = context.getString(R.string.message_info_password);
                 hideOrShowInfoIcon(txtPassword);
                 break;
             case R.id.txtPasswordConfirm:
-                message = context.getResources().getString(R.string.message_info_password);
+                message = context.getString(R.string.message_info_password);
                 hideOrShowInfoIcon(txtPasswordConfirm);
                 break;
         }

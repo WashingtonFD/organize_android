@@ -216,25 +216,40 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
     public void forgotPassword(){
         if(!validadeEmail(txtMailForgotPassword.getText().toString())){
-            txtMailForgotPassword.setError(context.getResources().getString(R.string.validate_mail));
+            txtMailForgotPassword.setError(context.getString(R.string.validate_mail));
         }
         else{
-            String messageContent = context.getResources().getString(R.string.message_forgot_password);
-            String title = context.getResources().getString(R.string.label_forgot_password);
-            SendMail sendMail = new SendMail(txtMailForgotPassword.getText().toString(), title, messageContent);
-            sendMail.execute("");
-            containerForgotPassword.setVisibility(View.GONE);
-            showDialogMessage(1, context.getString(R.string.app_name), context.getString(R.string.message_confirmation_forgot_password), new CustomDialogListener() {
-                @Override
-                public void positiveOnClick(MaterialDialog dialog) {
-                    dialog.dismiss();
-                }
+            String messageContent = context.getString(R.string.message_forgot_password);
+            String title = context.getString(R.string.label_forgot_password);
+            if (isOline(context)){
+                SendMail sendMail = new SendMail(txtMailForgotPassword.getText().toString(), title, messageContent);
+                sendMail.execute("");
+                containerForgotPassword.setVisibility(View.GONE);
+                showDialogMessage(1, context.getString(R.string.app_name), context.getString(R.string.message_confirmation_forgot_password), new CustomDialogListener() {
+                    @Override
+                    public void positiveOnClick(MaterialDialog dialog) {
+                        dialog.dismiss();
+                    }
 
-                @Override
-                public void negativeOnClidck(MaterialDialog dialog) {
+                    @Override
+                    public void negativeOnClidck(MaterialDialog dialog) {
 
-                }
-            });
+                    }
+                });
+            }
+            else{
+                showDialogMessage(1, context.getString(R.string.app_name), context.getString(R.string.error_message_conect), new CustomDialogListener() {
+                    @Override
+                    public void positiveOnClick(MaterialDialog dialog) {
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void negativeOnClidck(MaterialDialog dialog) {
+
+                    }
+                });
+            }
 
             //TODO: IMPLEMENTAR ROTA DE ALTERAR SENHA POR E-MAIL
 

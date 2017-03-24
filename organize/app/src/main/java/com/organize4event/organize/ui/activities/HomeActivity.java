@@ -37,7 +37,7 @@ public class HomeActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         context = HomeActivity.this;
-        setupToolbar(context.getResources().getString(R.string.label_nav_home));
+        setupToolbar(context.getString(R.string.label_nav_home));
 
         fragmentClass = HomeFragment.class;
         try{
@@ -72,7 +72,7 @@ public class HomeActivity extends BaseActivity {
             case R.id.userContainer:
                 break;
             case R.id.homeContainer:
-                setupToolbar(context.getResources().getString(R.string.label_nav_home));
+                setupToolbar(context.getString(R.string.label_nav_home));
                 fragmentClass = HomeFragment.class;
                 break;
             case R.id.eventContainer:
@@ -86,15 +86,15 @@ public class HomeActivity extends BaseActivity {
             case R.id.purchaseContainer:
                 break;
             case R.id.settingsContainer:
-                setupToolbar(context.getResources().getString(R.string.label_nav_settings));
+                setupToolbar(context.getString(R.string.label_nav_settings));
                 fragmentClass = SettingsFragment.class;
                 break;
             case R.id.institutionalContainer:
-                setupToolbar(context.getResources().getString(R.string.label_nav_institutional));
+                setupToolbar(context.getString(R.string.label_nav_institutional));
                 fragmentClass = InstitutionalFragment.class;
                 break;
             default:
-                setupToolbar(context.getResources().getString(R.string.label_nav_home));
+                setupToolbar(context.getString(R.string.label_nav_home));
                 fragmentClass = HomeFragment.class;
                 break;
         }

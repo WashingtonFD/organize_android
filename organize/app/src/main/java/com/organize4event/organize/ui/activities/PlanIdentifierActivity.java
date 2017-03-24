@@ -63,7 +63,7 @@ public class PlanIdentifierActivity extends BaseActivity {
         user = Parcels.unwrap(getIntent().getExtras().getParcelable("user"));
         firstAccess = AppApplication.getFirstAccess();
 
-        configureToolbar(context, toolbar, context.getResources().getString(R.string.label_plan_identifier), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
+        configureToolbar(context, toolbar, context.getString(R.string.label_plan_identifier), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
             @Override
             public void onClick() {
                 finish();
@@ -110,7 +110,7 @@ public class PlanIdentifierActivity extends BaseActivity {
 
                 if(event.getAction() == MotionEvent.ACTION_UP) {
                     if(event.getRawX() >= (txtValidateCode.getRight() - txtValidateCode.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        showDialogMessage(1, context.getResources().getString(R.string.app_name), context.getResources().getString(R.string.message_validate_code_plan), new CustomDialogListener() {
+                        showDialogMessage(1, context.getString(R.string.app_name), context.getString(R.string.message_validate_code_plan), new CustomDialogListener() {
                             @Override
                             public void positiveOnClick(MaterialDialog dialog) {
                                 dialog.dismiss();
