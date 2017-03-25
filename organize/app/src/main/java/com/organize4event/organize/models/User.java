@@ -37,6 +37,8 @@ public class User extends ErrorReturn{
     private Date rg_emitter_date;
     @SerializedName("birth_date")
     private Date birth_date;
+    @SerializedName("gender")
+    private String gender;
     @SerializedName("responsible_name")
     private String responsible_name;
     @SerializedName("responsible_cpf")
@@ -170,6 +172,14 @@ public class User extends ErrorReturn{
         this.birth_date = birth_date;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     public String getResponsible_name() {
         return responsible_name;
     }
@@ -242,6 +252,7 @@ public class User extends ErrorReturn{
         dest.writeString(this.rg_emitter_organ);
         dest.writeLong(this.rg_emitter_date != null ? this.rg_emitter_date.getTime() : -1);
         dest.writeLong(this.birth_date != null ? this.birth_date.getTime() : -1);
+        dest.writeString(this.gender);
         dest.writeString(this.responsible_name);
         dest.writeString(this.responsible_cpf);
         dest.writeParcelable(this.term, flags);
@@ -272,6 +283,7 @@ public class User extends ErrorReturn{
         this.rg_emitter_date = tmpRg_emitter_date == -1 ? null : new Date(tmpRg_emitter_date);
         long tmpBirth_date = in.readLong();
         this.birth_date = tmpBirth_date == -1 ? null : new Date(tmpBirth_date);
+        this.gender = in.readString();
         this.responsible_name = in.readString();
         this.responsible_cpf = in.readString();
         this.term = in.readParcelable(TermUse.class.getClassLoader());

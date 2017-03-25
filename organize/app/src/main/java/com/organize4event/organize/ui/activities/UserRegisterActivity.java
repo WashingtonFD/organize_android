@@ -99,6 +99,8 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     @Bind(R.id.txtPasswordConfirm)
     EditText txtPasswordConfirm;
 
+    //TODO: INSERIR GENERO NO CADASTRO DE USUÁRIO
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -4,23 +4,114 @@
     android:id="@+id/activity_welcome"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_welcome"
     tools:context="com.organize4event.organize.ui.activities.WelcomeActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Bem Vindo"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackgroundFilter"
         />
 
-    <TextView
-        android:id="@+id/goHome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
-        android:layout_centerHorizontal="true"
-        android:text=" IR PARA HOME"
-        />
+
+    <RelativeLayout
+        android:id="@+id/containerContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/padding_default"
+        >
+
+        <TextView
+            android:id="@+id/txtWelcomeUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/heigth_default"
+            android:textSize="@dimen/text_size_maxlarge"
+            android:textColor="@color/colorTextDefault"
+            android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Bold"
+            />
+
+        <LinearLayout
+            android:id="@+id/contentButtons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtWelcomeUser"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:id="@+id/txtCurrentPlan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_current_plan"
+                android:textSize="@dimen/text_size_default"
+                android:textColor="@color/colorTextDefault"
+                android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Medium"
+                />
+
+            <TextView
+                android:id="@+id/txtPlan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_default"
+                android:textSize="@dimen/text_size_large"
+                android:textColor="@color/colorTextDefault"
+                android:textAllCaps="true"
+                android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Medium"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtPlanDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_default"
+            android:layout_below="@+id/contentButtons"
+            android:text="@string/message_info_cpf"
+            android:textAlignment="center"
+            android:textSize="@dimen/text_size_default"
+            android:textColor="@color/colorTextDefault"
+            android:shadowColor="@color/colorDestakText"
+            android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+            />
+
+        <Button
+            android:id="@+id/btnTutorial"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/heigth_button"
+            android:layout_below="@+id/txtPlanDescription"
+            android:layout_marginTop="@dimen/heigth_default"
+            android:background="@drawable/selector_button"
+            android:enabled="true"
+            android:padding="@dimen/padding_buttons"
+            android:text="@string/label_know_system"
+            android:textColor="@color/colorDestakText"
+            android:textSize="@dimen/text_button_default"
+            android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
+            android:textAllCaps="false"
+            />
+
+        <TextView
+            android:id="@+id/txtSkipTutorial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/btnTutorial"
+            android:layout_marginTop="@dimen/margin_large"
+            android:text="@string/label_skip_tutorial"
+            android:textSize="@dimen/text_size_large"
+            android:textColor="@color/colorAccent"
+            android:shadowColor="@color/colorDestakText"
+            android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Medium"
+            />
+
+
+
+
+
+    </RelativeLayout>
 
 </RelativeLayout>

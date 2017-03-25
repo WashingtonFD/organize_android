@@ -19,6 +19,7 @@ import com.mobsandgeeks.saripaar.annotation.Order;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.AppApplication;
+import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.controllers.FirstAccessControll;
 import com.organize4event.organize.controllers.TokenControll;
 import com.organize4event.organize.enuns.AccessPlatformEnum;
@@ -100,7 +101,12 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             token = new Token();
         }
         else if(token.isKeep_logged()){
-            startActivity(new Intent(context, WelcomeActivity.class));
+            if (PreferencesManager.isHideWelcome()){
+                startActivity(new Intent(context, HomeActivity.class));
+            }
+            else{
+                startActivity(new Intent(context, WelcomeActivity.class));
+            }
         }
 
         validator = new Validator(context);
@@ -216,7 +222,12 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             public void sucess(Object object) {
                 hideLoading();
                 token = (Token) object;
-                startActivity(new Intent(context, WelcomeActivity.class));
+                if (PreferencesManager.isHideWelcome()){
+                    startActivity(new Intent(context, HomeActivity.class));
+                }
+                else{
+                    startActivity(new Intent(context, WelcomeActivity.class));
+                }
                 finish();
             }
 
@@ -235,7 +246,12 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             public void sucess(Object object) {
                 hideLoading();
                 token = (Token) object;
-                startActivity(new Intent(context, WelcomeActivity.class));
+                if (PreferencesManager.isHideWelcome()){
+                    startActivity(new Intent(context, HomeActivity.class));
+                }
+                else{
+                    startActivity(new Intent(context, WelcomeActivity.class));
+                }
                 finish();
             }
 

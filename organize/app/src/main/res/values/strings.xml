@@ -50,6 +50,13 @@
     <string name="label_keep_logged">Manter Logado</string>
     <string name="label_positive_button">OK</string>
     <string name="label_negative_button">Cancelar</string>
+    <string name="label_welcome_masc">Bem vindo</string>
+    <string name="label_welcome_fem">Bem vinda</string>
+    <string name="label_current_plan">Seu plano atual é:</string>
+    <string name="label_know_system">Conhecer o sistema</string>
+    <string name="label_skip_tutorial">Pular o tutorial</string>
+
+
 
     <string name="message_info_password">Entre 6 a 10 caracteres alfanuméricos.</string>
     <string name="message_info_cpf">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget sem quis risus sagittis tincidunt nec tempus libero. Suspendisse non.</string>
