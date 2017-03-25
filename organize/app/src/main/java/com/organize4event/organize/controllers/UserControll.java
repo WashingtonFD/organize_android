@@ -75,6 +75,7 @@ public class UserControll extends Controll {
                 user.getCpf(),
                 user.getMail(),
                 simpleDateFormat.format(user.getBirth_date()),
+                user.getGender(),
                 user.getPassword(),
                 user.getTerm().getId(),
                 term_accept,

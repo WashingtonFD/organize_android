@@ -31,6 +31,7 @@
     <string name="label_notifications">Notificações</string>
     <string name="label_password_confirm">Confirme a senha</string>
     <string name="label_password">Senha</string>
+    <string name="label_gender">Gênero</string>
     <string name="label_plan_basic">Plano Básico</string>
     <string name="label_plan_free">Plano Gratuito</string>
     <string name="label_plan_identifier">Identificação do Plano</string>
@@ -55,6 +56,8 @@
     <string name="label_current_plan">Seu plano atual é:</string>
     <string name="label_know_system">Conhecer o sistema</string>
     <string name="label_skip_tutorial">Pular o tutorial</string>
+    <string name="label_gender_masc">Masculino</string>
+    <string name="label_gender_fem">Feminino</string>
 
 
 

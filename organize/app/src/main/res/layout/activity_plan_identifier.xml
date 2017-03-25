@@ -55,7 +55,7 @@
             />
 
         <RadioGroup
-            android:id="@+id/listPlans"
+            android:id="@+id/rgpListPlans"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtTitle"
@@ -112,7 +112,7 @@
             android:id="@+id/containerValidateCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/listPlans"
+            android:layout_below="@+id/rgpListPlans"
             android:layout_marginTop="@dimen/margin_default"
             android:visibility="gone"
             >

@@ -44,8 +44,8 @@ public class PlanIdentifierActivity extends BaseActivity {
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
-    @Bind(R.id.listPlans)
-    RadioGroup listPlans;
+    @Bind(R.id.rgpListPlans)
+    RadioGroup rgpListPlans;
 
     @Bind(R.id.containerValidateCode)
     RelativeLayout containerValidateCode;
@@ -75,7 +75,7 @@ public class PlanIdentifierActivity extends BaseActivity {
     }
 
     public void selectPlan(){
-        listPlans.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        rgpListPlans.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 switch (checkedId){

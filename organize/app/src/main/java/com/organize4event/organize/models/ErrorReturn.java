@@ -15,7 +15,7 @@ public class ErrorReturn implements Parcelable {
     private String message;
     @SerializedName("exception")
     private String exception;
-    @SerializedName("is_new")
+    //@SerializedName("is_new")
     private boolean is_new;
 
     public boolean isError() {

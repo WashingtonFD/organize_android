@@ -3,11 +3,13 @@ package com.organize4event.organize.ui.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -63,6 +65,8 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     @Bind(R.id.imgProfile)
     ImageView imgProfile;
 
+    @Bind(R.id.rgpListGender)
+    RadioGroup rgpListGender;
 
     @Order(1)
     @NotEmpty(trim = true, sequence = 1, messageResId = R.string.validate_required_field)
@@ -124,6 +128,8 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
         txtCpf.addTextChangedListener(Mask.insert(Mask.CPF_MASK, txtCpf));
         txtBirthDate.addTextChangedListener(Mask.insert(Mask.DATE_MASK, txtBirthDate));
+
+        selectGender();
     }
 
     public void hideOrShowInfoIcon(EditText editText){
@@ -166,6 +172,22 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
                 }
             });
         }
+    }
+
+    public void selectGender(){
+        rgpListGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                switch (checkedId){
+                    case R.id.btnGenderFem:
+                        user.setGender("F");
+                        break;
+                    case R.id.btnGenderMasc:
+                        user.setGender("M");
+                        break;
+                }
+            }
+        });
     }
 
     public void saveUser(){
@@ -244,7 +266,6 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         });
         //TODO: IMPLEMENTAR UPLOAD IMAGEM
     }
-
 
     @Override
     public void onValidationSucceeded() {

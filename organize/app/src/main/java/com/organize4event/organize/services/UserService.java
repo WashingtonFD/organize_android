@@ -28,6 +28,7 @@ public interface UserService {
             @Field("cpf") String cpf,
             @Field("mail") String mail,
             @Field("birth_date") String birth_date,
+            @Field("gender") String gender,
             @Field("password") String password,
             @Field("term") int term_id,
             @Field("term_accept") int term_accept,
