@@ -158,7 +158,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     public void loginEmail(){
         hideLoading();
         containerLoginEmail.setVisibility(View.VISIBLE);
-        if(token.getId() == 0){
+        if(token.is_new()){
             token.setFirstAccess(firstAccess);
             token.setLogin_type(loginType);
             token.setAccess_platform(accessPlatform);
@@ -180,7 +180,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             public void sucess(Object object) {
                 hideLoading();
                 newUser = (User) object;
-                if (newUser.getId() == 0){
+                if (newUser.is_new()){
                     containerLoginEmail.setVisibility(View.GONE);
                     showDialogMessage(1, context.getString(R.string.app_name), newUser.getMessage(), new CustomDialogListener() {
                         @Override
@@ -198,7 +198,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                 else{
                     user = newUser;
                     token.setUser(user);
-                    if (token.getId() == 0){
+                    if (token.is_new()){
                         saveToken();
                     }
                     else{
