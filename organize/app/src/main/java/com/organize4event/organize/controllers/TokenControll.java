@@ -76,8 +76,6 @@ public class TokenControll extends Controll{
                 User user = (User) response.body();
                 Error error = parserError(user);
                 if (error == null){
-                    PreferencesManager.saveUser(user);
-                    AppApplication.setUser(user);
                     listener.sucess(user);
                 }
                 else{
@@ -108,9 +106,43 @@ public class TokenControll extends Controll{
                 if(error == null){
                     PreferencesManager.saveToken(token);
                     AppApplication.setToken(token);
+                    PreferencesManager.saveUser(token.getUser());
+                    AppApplication.setUser(token.getUser());
                     listener.sucess(token);
                 }
                 else {
+                    listener.fail(error);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                listener.fail(new Error(t.getMessage()));
+            }
+        });
+    }
+
+    public void updateToken(Token token, int keep_logged, final ControllResponseListener listener){
+        SimpleDateFormat fullDateFormat = new SimpleDateFormat(Constants.FULL_DATE_FORMAT);
+        TokenService service = ApiClient.getRetrofit().create(TokenService.class);
+        service.updateToken(token.getId(),
+                token.getUser().getId(),
+                token.getLogin_type().getId(),
+                token.getAccess_platform().getId(),
+                fullDateFormat.format(token.getAccess_date()),
+                keep_logged).enqueue(new Callback<Token>() {
+            @Override
+            public void onResponse(Response<Token> response, Retrofit retrofit) {
+                Token token = (Token) response.body();
+                Error error = parserError(token);
+                if (error == null){
+                    PreferencesManager.saveToken(token);
+                    AppApplication.setToken(token);
+                    PreferencesManager.saveUser(token.getUser());
+                    AppApplication.setUser(token.getUser());
+                    listener.sucess(token);
+                }
+                else{
                     listener.fail(error);
                 }
             }
