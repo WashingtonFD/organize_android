@@ -8,21 +8,6 @@
     android:background="@drawable/bg_login"
     >
     <RelativeLayout
-        android:id="@+id/imgContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/margin_default"
-        >
-
-        <ImageView
-            android:id="@+id/imgBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_arrow_back_black_24dp"
-            android:tint="@color/colorWhite"
-            />
-    </RelativeLayout>
-    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBackgroundFilter"
@@ -197,19 +182,48 @@
                     />
             </RelativeLayout>
 
-            <Button
-                android:id="@+id/btnLogin"
+            <LinearLayout
+                android:id="@+id/contentButtons"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/heigth_button"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/contentLoginFields"
                 android:layout_marginTop="@dimen/margin_default"
-                android:background="@color/colorPrimary"
-                android:text="@string/label_enter"
-                android:textColor="@color/colorDestakText"
-                android:textSize="@dimen/text_button_default"
-                android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
-                android:textAllCaps="false"
-                />
+                android:orientation="horizontal"
+                android:weightSum="1"
+                >
+
+                <Button
+                    android:id="@+id/btnCancel"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/heigth_button"
+                    android:background="@color/colorPrimary"
+                    android:alpha="0.8"
+                    android:layout_weight="0.5"
+                    android:text="@string/label_negative_button"
+                    android:textColor="@color/colorDestakText"
+                    android:textSize="@dimen/text_button_default"
+                    android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
+                    android:textAllCaps="false"
+                    />
+                <RelativeLayout
+                    android:id="@+id/divider"
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorDestakText"
+                    android:visibility="gone"
+                    />
+                <Button
+                    android:id="@+id/btnLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/heigth_button"
+                    android:layout_weight="0.5"
+                    android:background="@color/colorPrimary"
+                    android:text="@string/label_positive_button"
+                    android:textColor="@color/colorDestakText"
+                    android:textSize="@dimen/text_button_default"
+                    android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
+                    android:textAllCaps="false" />
+            </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>
     <RelativeLayout
@@ -278,19 +292,48 @@
 
                 </LinearLayout>
             </RelativeLayout>
-            <Button
-                android:id="@+id/btnSend"
+            <LinearLayout
+                android:id="@+id/contentForgotPasswordButtons"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/heigth_button"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/contentForgotPasswordFields"
                 android:layout_marginTop="@dimen/margin_default"
-                android:background="@color/colorPrimary"
-                android:text="@string/label_send"
-                android:textColor="@color/colorDestakText"
-                android:textSize="@dimen/text_button_default"
-                android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
-                android:textAllCaps="false"
-                />
+                android:orientation="horizontal"
+                android:weightSum="1"
+                >
+
+                <Button
+                    android:id="@+id/btnForgotPasswordCancel"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/heigth_button"
+                    android:background="@color/colorPrimary"
+                    android:alpha="0.8"
+                    android:layout_weight="0.5"
+                    android:text="@string/label_negative_button"
+                    android:textColor="@color/colorDestakText"
+                    android:textSize="@dimen/text_button_default"
+                    android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
+                    android:textAllCaps="false"
+                    />
+                <RelativeLayout
+                    android:id="@+id/ForgotPassworddivider"
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorDestakText"
+                    android:visibility="gone"
+                    />
+                <Button
+                    android:id="@+id/btnForgotPasswordSend"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/heigth_button"
+                    android:layout_weight="0.5"
+                    android:background="@color/colorPrimary"
+                    android:text="@string/label_positive_button"
+                    android:textColor="@color/colorDestakText"
+                    android:textSize="@dimen/text_button_default"
+                    android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
+                    android:textAllCaps="false" />
+            </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>
 

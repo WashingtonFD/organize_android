@@ -12,5 +12,6 @@
     <dimen name="text_button_default">18sp</dimen>
     <dimen name="text_size_default">15sp</dimen>
     <dimen name="text_size_large">21sp</dimen>
+    <dimen name="text_size_maxlarge">31sp</dimen>
     <dimen name="text_size_small">12sp</dimen>
 </resources>

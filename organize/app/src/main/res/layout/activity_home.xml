@@ -104,7 +104,7 @@
                 android:lines="1"
                 android:text="@string/label_nav_user"
                 android:textSize="@dimen/text_size_default"
-                android:textColor="@color/colorDestakText"
+                android:textColor="@color/colorWhite"
                 android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
                 />
 
@@ -122,7 +122,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="22dp"
                     android:src="@drawable/ic_menu_black_24dp"
-                    android:tint="@color/colorDestakText"
+                    android:tint="@color/colorWhite"
 
                     />
 
@@ -133,7 +133,7 @@
                     android:lines="1"
                     android:text="@string/label_nav_home"
                     android:textSize="@dimen/text_size_default"
-                    android:textColor="@color/colorDestakText"
+                    android:textColor="@color/colorWhite"
                     android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
                     />
 
@@ -151,7 +151,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="22dp"
                     android:src="@drawable/ic_event_black_24dp"
-                    android:tint="@color/colorDestakText"
+                    android:tint="@color/colorWhite"
                     />
 
                 <TextView
@@ -161,7 +161,7 @@
                     android:lines="1"
                     android:text="@string/label_nav_events"
                     android:textSize="@dimen/text_size_default"
-                    android:textColor="@color/colorDestakText"
+                    android:textColor="@color/colorWhite"
                     android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
                     />
             </LinearLayout>
@@ -178,7 +178,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="22dp"
                     android:src="@drawable/ic_assignment_turned_in_black_24dp"
-                    android:tint="@color/colorDestakText"
+                    android:tint="@color/colorWhite"
                     />
 
                 <TextView
@@ -188,7 +188,7 @@
                     android:lines="1"
                     android:text="@string/label_nav_shedule"
                     android:textSize="@dimen/text_size_default"
-                    android:textColor="@color/colorDestakText"
+                    android:textColor="@color/colorWhite"
                     android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
                     />
             </LinearLayout>
@@ -205,7 +205,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="22dp"
                     android:src="@drawable/ic_people_black_24dp"
-                    android:tint="@color/colorDestakText"
+                    android:tint="@color/colorWhite"
                     />
 
                 <TextView
@@ -215,7 +215,7 @@
                     android:lines="1"
                     android:text="@string/label_nav_partners"
                     android:textSize="@dimen/text_size_default"
-                    android:textColor="@color/colorDestakText"
+                    android:textColor="@color/colorWhite"
                     android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
                     />
             </LinearLayout>
@@ -232,7 +232,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="22dp"
                     android:src="@drawable/ic_payment_black_24dp"
-                    android:tint="@color/colorDestakText"
+                    android:tint="@color/colorWhite"
                     />
 
                 <TextView
@@ -242,7 +242,7 @@
                     android:lines="1"
                     android:text="@string/label_nav_payment"
                     android:textSize="@dimen/text_size_default"
-                    android:textColor="@color/colorDestakText"
+                    android:textColor="@color/colorWhite"
                     android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
                     />
             </LinearLayout>
@@ -259,7 +259,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="22dp"
                     android:src="@drawable/ic_add_shopping_cart_black_24dp"
-                    android:tint="@color/colorDestakText"
+                    android:tint="@color/colorWhite"
                     />
 
                 <TextView
@@ -269,7 +269,7 @@
                     android:lines="1"
                     android:text="@string/label_nav_purchase"
                     android:textSize="@dimen/text_size_default"
-                    android:textColor="@color/colorDestakText"
+                    android:textColor="@color/colorWhite"
                     android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
                     />
             </LinearLayout>
@@ -286,7 +286,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="22dp"
                     android:src="@drawable/ic_settings_black_24dp"
-                    android:tint="@color/colorDestakText"
+                    android:tint="@color/colorWhite"
                     />
 
                 <TextView
@@ -296,7 +296,7 @@
                     android:lines="1"
                     android:text="@string/label_nav_settings"
                     android:textSize="@dimen/text_size_default"
-                    android:textColor="@color/colorDestakText"
+                    android:textColor="@color/colorWhite"
                     android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
                     />
             </LinearLayout>
@@ -313,7 +313,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="22dp"
                     android:src="@drawable/ic_info_black_24dp"
-                    android:tint="@color/colorDestakText"
+                    android:tint="@color/colorWhite"
                     />
 
                 <TextView
@@ -323,7 +323,7 @@
                     android:lines="1"
                     android:text="@string/label_nav_institutional"
                     android:textSize="@dimen/text_size_default"
-                    android:textColor="@color/colorDestakText"
+                    android:textColor="@color/colorWhite"
                     android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
                     />
             </LinearLayout>

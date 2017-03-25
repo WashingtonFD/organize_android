@@ -217,11 +217,70 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/contentPassword"
+                android:id="@+id/contentGender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_default"
                 android:layout_below="@+id/contentBirthDate"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_gender"
+                    android:textColor="@color/colorTextDefault"
+                    android:textSize="@dimen/text_size_small"
+                    android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                    />
+
+                <RadioGroup
+                    android:id="@+id/rgpListGender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <RadioButton
+                        android:id="@+id/btnGenderFem"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:button="@drawable/selector_radio_button"
+                        android:buttonTint="@color/colorPrimary"
+                        android:padding="@dimen/padding_default"
+                        android:text="@string/label_gender_fem"
+                        android:textColor="@color/colorTextDefault"
+                        android:textSize="@dimen/text_size_default"
+                        android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                        android:checked="false"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/btnGenderMasc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:button="@drawable/selector_radio_button"
+                        android:buttonTint="@color/colorPrimary"
+                        android:padding="@dimen/padding_default"
+                        android:text="@string/label_gender_masc"
+                        android:textColor="@color/colorTextDefault"
+                        android:textSize="@dimen/text_size_default"
+                        android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                        android:checked="false"
+                        />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/contentPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_default"
+                android:layout_below="@+id/contentGender"
                 android:orientation="vertical"
                 >
 

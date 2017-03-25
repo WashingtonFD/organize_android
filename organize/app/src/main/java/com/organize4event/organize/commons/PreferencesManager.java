@@ -74,4 +74,16 @@ public class PreferencesManager {
             editor.commit();
         }
     }
+
+    public static void hideWelcome(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(AppApplication.getInstance().getApplicationContext());
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("hideWelcome", true);
+        editor.commit();
+    }
+
+    public static boolean isHideWelcome(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(AppApplication.getInstance().getApplicationContext());
+        return preferences.contains("hideWelcome");
+    }
 }

@@ -68,7 +68,7 @@ public class SplashActivity extends BaseActivity {
                 @Override
                 public void sucess(Object object) {
                     firstAccess = (FirstAccess) object;
-                    if (firstAccess.getId() == 0){
+                    if (firstAccess.is_new()){
                         saveFirstAccess();
                     }
                     else{
@@ -116,7 +116,7 @@ public class SplashActivity extends BaseActivity {
                 @Override
                 public void sucess(Object object) {
                     token = (Token) object;
-                    if (token.getId() == 0){
+                    if (token.is_new()){
                         startActivity(new Intent(context, ApresentationActivity.class));
                         finish();
                     }
@@ -179,7 +179,12 @@ public class SplashActivity extends BaseActivity {
 
     public void getKeepLogin(){
         if (token.isKeep_logged()){
-            startActivity(new Intent(context, WelcomeActivity.class));
+            if (PreferencesManager.isHideWelcome()){
+                startActivity(new Intent(context, HomeActivity.class));
+            }
+            else{
+                startActivity(new Intent(context, WelcomeActivity.class));
+            }
             finish();
         }
         else{

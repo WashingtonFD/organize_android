@@ -8,8 +8,8 @@ public enum PlanEnum {
 
     private int value;
 
-    PlanEnum(int Value) {
-        this.value = Value;
+    PlanEnum(int value) {
+        this.value = value;
     }
 
     public int getValue() {

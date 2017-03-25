@@ -31,6 +31,7 @@
     <string name="label_notifications">Notificações</string>
     <string name="label_password_confirm">Confirme a senha</string>
     <string name="label_password">Senha</string>
+    <string name="label_gender">Gênero</string>
     <string name="label_plan_basic">Plano Básico</string>
     <string name="label_plan_free">Plano Gratuito</string>
     <string name="label_plan_identifier">Identificação do Plano</string>
@@ -50,12 +51,20 @@
     <string name="label_keep_logged">Manter Logado</string>
     <string name="label_positive_button">OK</string>
     <string name="label_negative_button">Cancelar</string>
+    <string name="label_welcome_masc">Bem vindo</string>
+    <string name="label_welcome_fem">Bem vinda</string>
+    <string name="label_current_plan">Seu plano atual é:</string>
+    <string name="label_know_system">Conhecer o sistema</string>
+    <string name="label_skip_tutorial">Pular o tutorial</string>
+    <string name="label_gender_masc">Masculino</string>
+    <string name="label_gender_fem">Feminino</string>
+
+
 
     <string name="message_info_password">Entre 6 a 10 caracteres alfanuméricos.</string>
     <string name="message_info_cpf">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget sem quis risus sagittis tincidunt nec tempus libero. Suspendisse non.</string>
     <string name="message_info_birth_date">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget sem quis risus sagittis tincidunt nec tempus libero. Suspendisse non.</string>
     <string name="message_validate_code_plan">Código de confirmação enviado em seu e-mail na contratação do plano. Caso não tenha recebido o codigo ou não o solicitou, entre em contato com o suporte Organize ou acesse com o plano gratuito.</string>
-    <string name="message_forgot_password">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget sem quis risus sagittis tincidunt nec tempus libero. Suspendisse non.</string>
     <string name="message_confirmation_forgot_password">E-mail de recuperação de senha enviado com sucesso.</string>
 
     <string name="placeholder_cpf">Insira o seu CPF.</string>

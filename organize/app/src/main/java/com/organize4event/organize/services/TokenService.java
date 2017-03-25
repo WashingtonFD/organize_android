@@ -38,4 +38,15 @@ public interface TokenService {
             @Field("access_date") String access_date,
             @Field("keep_logged") int keep_logged
     );
+
+    @FormUrlEncoded
+    @POST("token/{token_id}")
+    Call<Token> updateToken(
+            @Path("token_id") int token_id,
+            @Field("user") int user_id,
+            @Field("login_type") int login_type_id,
+            @Field("access_platform") int access_platform_id,
+            @Field("access_date") String access_date,
+            @Field("keep_logged") int keep_logged
+    );
 }

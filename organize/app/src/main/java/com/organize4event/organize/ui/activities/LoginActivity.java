@@ -19,7 +19,7 @@ import com.mobsandgeeks.saripaar.annotation.Order;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.AppApplication;
-import com.organize4event.organize.commons.SendMail;
+import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.controllers.FirstAccessControll;
 import com.organize4event.organize.controllers.TokenControll;
 import com.organize4event.organize.enuns.AccessPlatformEnum;
@@ -52,6 +52,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     private Validator validator;
 
     private User user;
+    private User newUser;
     private FirstAccess firstAccess;
     private Token token;
     private LoginType loginType;
@@ -100,7 +101,12 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             token = new Token();
         }
         else if(token.isKeep_logged()){
-            startActivity(new Intent(context, WelcomeActivity.class));
+            if (PreferencesManager.isHideWelcome()){
+                startActivity(new Intent(context, HomeActivity.class));
+            }
+            else{
+                startActivity(new Intent(context, WelcomeActivity.class));
+            }
         }
 
         validator = new Validator(context);
@@ -132,26 +138,39 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         }
     }
 
-    @OnClick({R.id.btnLogin, R.id.btnSend})
+    @OnClick({R.id.btnLogin, R.id.btnCancel, R.id.btnForgotPasswordSend, R.id.btnForgotPasswordCancel})
     public void actionButtonClick(View view){
         switch (view.getId()){
             case R.id.btnLogin:
                 validator.validate();
                 break;
-            case R.id.btnSend:
+            case R.id.btnCancel:
+                containerLoginEmail.setVisibility(View.GONE);
+                break;
+            case R.id.btnForgotPasswordSend:
                 forgotPassword();
                 break;
+            case R.id.btnForgotPasswordCancel:
+                containerForgotPassword.setVisibility(View.GONE);
         }
     }
 
     public void loginEmail(){
         hideLoading();
         containerLoginEmail.setVisibility(View.VISIBLE);
-        token.setFirstAccess(firstAccess);
-        token.setLogin_type(loginType);
-        token.setAccess_platform(accessPlatform);
-        token.setAccess_date(new Date());
-        token.setKeep_logged(keep_logged);
+        if(token.is_new()){
+            token.setFirstAccess(firstAccess);
+            token.setLogin_type(loginType);
+            token.setAccess_platform(accessPlatform);
+            token.setAccess_date(new Date());
+            token.setKeep_logged(keep_logged);
+        }
+        else{
+            token.setLogin_type(loginType);
+            token.setAccess_platform(accessPlatform);
+            token.setAccess_date(new Date());
+            token.setKeep_logged(keep_logged);
+        }
     }
 
     public void login(){
@@ -160,12 +179,14 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             @Override
             public void sucess(Object object) {
                 hideLoading();
-                user = (User) object;
-                if (user.getId() == 0){
-                    showDialogMessage(1, context.getString(R.string.app_name), user.getMessage(), new CustomDialogListener() {
+                newUser = (User) object;
+                if (newUser.is_new()){
+                    containerLoginEmail.setVisibility(View.GONE);
+                    showDialogMessage(1, context.getString(R.string.app_name), newUser.getMessage(), new CustomDialogListener() {
                         @Override
                         public void positiveOnClick(MaterialDialog dialog) {
                             dialog.dismiss();
+                            containerLoginEmail.setVisibility(View.VISIBLE);
                         }
 
                         @Override
@@ -175,8 +196,14 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                     });
                 }
                 else{
+                    user = newUser;
                     token.setUser(user);
-                    saveToken();
+                    if (token.is_new()){
+                        saveToken();
+                    }
+                    else{
+                        updateToken();
+                    }
                 }
             }
 
@@ -195,7 +222,36 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             public void sucess(Object object) {
                 hideLoading();
                 token = (Token) object;
-                startActivity(new Intent(context, WelcomeActivity.class));
+                if (PreferencesManager.isHideWelcome()){
+                    startActivity(new Intent(context, HomeActivity.class));
+                }
+                else{
+                    startActivity(new Intent(context, WelcomeActivity.class));
+                }
+                finish();
+            }
+
+            @Override
+            public void fail(Error error) {
+                hideLoading();
+                containerLoginEmail.setVisibility(View.GONE);
+                returnErrorMessage(error, context);
+            }
+        });
+    }
+
+    public void updateToken(){
+        new TokenControll(context).updateToken(token, keep_logged_int, new ControllResponseListener() {
+            @Override
+            public void sucess(Object object) {
+                hideLoading();
+                token = (Token) object;
+                if (PreferencesManager.isHideWelcome()){
+                    startActivity(new Intent(context, HomeActivity.class));
+                }
+                else{
+                    startActivity(new Intent(context, WelcomeActivity.class));
+                }
                 finish();
             }
 
@@ -219,40 +275,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             txtMailForgotPassword.setError(context.getString(R.string.validate_mail));
         }
         else{
-            String messageContent = context.getString(R.string.message_forgot_password);
-            String title = context.getString(R.string.label_forgot_password);
-            if (isOline(context)){
-                SendMail sendMail = new SendMail(txtMailForgotPassword.getText().toString(), title, messageContent);
-                sendMail.execute("");
-                containerForgotPassword.setVisibility(View.GONE);
-                showDialogMessage(1, context.getString(R.string.app_name), context.getString(R.string.message_confirmation_forgot_password), new CustomDialogListener() {
-                    @Override
-                    public void positiveOnClick(MaterialDialog dialog) {
-                        dialog.dismiss();
-                    }
-
-                    @Override
-                    public void negativeOnClidck(MaterialDialog dialog) {
-
-                    }
-                });
-            }
-            else{
-                showDialogMessage(1, context.getString(R.string.app_name), context.getString(R.string.error_message_conect), new CustomDialogListener() {
-                    @Override
-                    public void positiveOnClick(MaterialDialog dialog) {
-                        dialog.dismiss();
-                    }
-
-                    @Override
-                    public void negativeOnClidck(MaterialDialog dialog) {
-
-                    }
-                });
-            }
-
             //TODO: IMPLEMENTAR ROTA DE ALTERAR SENHA POR E-MAIL
-
         }
     }
 
