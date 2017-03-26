@@ -22,19 +22,23 @@ import com.mobsandgeeks.saripaar.annotation.Password;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.AppApplication;
 import com.organize4event.organize.commons.Mask;
+import com.organize4event.organize.controllers.SettingsControll;
 import com.organize4event.organize.controllers.UserControll;
 import com.organize4event.organize.enuns.UserTypeEnum;
 import com.organize4event.organize.listeners.ControllResponseListener;
 import com.organize4event.organize.listeners.CustomDialogListener;
 import com.organize4event.organize.listeners.ToolbarListener;
 import com.organize4event.organize.models.FirstAccess;
+import com.organize4event.organize.models.Setting;
 import com.organize4event.organize.models.User;
+import com.organize4event.organize.models.UserSetting;
 import com.organize4event.organize.models.UserType;
 
 import org.parceler.Parcels;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -52,6 +56,9 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     private User user;
     private FirstAccess firstAccess;
     private UserType userType;
+    private UserSetting userSetting;
+    private ArrayList<Setting> settings = new ArrayList<>();
+    private ArrayList<UserSetting> userSettings = new ArrayList<>();
 
     Validator validator;
     SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -146,6 +153,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     }
 
     public void saveUser(){
+        showLoading();
         try {
             birthDate = format.parse(txtBirthDate.getText().toString());
         } catch (ParseException e) {
@@ -168,12 +176,12 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
             @Override
             public void sucess(Object object) {
                 user = (User) object;
-                startActivity(new Intent(context, LoginActivity.class));
-                finish();
+                getSettings();
             }
 
             @Override
             public void fail(Error error) {
+                hideLoading();
                 returnErrorMessage(error, context);
             }
         });
@@ -243,5 +251,56 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     @Override
     public void onValidationFailed(List<ValidationError> errors) {
         validateError(errors);
+    }
+
+    public void getSettings(){
+        new SettingsControll(context).getSettings(firstAccess.getLocale(), new ControllResponseListener() {
+            @Override
+            public void sucess(Object object) {
+                settings = (ArrayList<Setting>) object;
+                if (settings.size() > 0){
+                    for(Setting setting : settings){
+                        saveUserSetting(setting);
+                    }
+                }
+            }
+
+            @Override
+            public void fail(Error error) {
+                hideLoading();
+                returnErrorMessage(error,context);
+            }
+        });
+    }
+
+    public void saveUserSetting(final Setting setting){
+        int checking = 0;
+        if (setting.isCheck_default()){
+            checking = 1;
+        }
+        userSetting = new UserSetting();
+        userSetting.setUser(user);
+        userSetting.setSettings(setting);
+        userSetting.setChecking(setting.isCheck_default());
+
+        new SettingsControll(context).saveUserSettings(userSetting, checking, new ControllResponseListener() {
+            @Override
+            public void sucess(Object object) {
+                userSetting = (UserSetting) object;
+                userSettings.add(userSetting);
+
+                if (userSettings.size() == settings.size()){
+                    hideLoading();
+                    startActivity(new Intent(context, LoginActivity.class));
+                    finish();
+                }
+            }
+
+            @Override
+            public void fail(Error error) {
+                hideLoading();
+                returnErrorMessage(error, context);
+            }
+        });
     }
 }

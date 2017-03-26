@@ -18,6 +18,18 @@ public class ErrorReturn implements Parcelable {
     //@SerializedName("is_new")
     private boolean is_new;
 
+    public static final Creator<ErrorReturn> CREATOR = new Creator<ErrorReturn>() {
+        @Override
+        public ErrorReturn createFromParcel(Parcel in) {
+            return new ErrorReturn(in);
+        }
+
+        @Override
+        public ErrorReturn[] newArray(int size) {
+            return new ErrorReturn[size];
+        }
+    };
+
     public boolean isError() {
         return error;
     }
@@ -84,15 +96,4 @@ public class ErrorReturn implements Parcelable {
         this.is_new = in.readByte() != 0;
     }
 
-    public static final Creator<ErrorReturn> CREATOR = new Creator<ErrorReturn>() {
-        @Override
-        public ErrorReturn createFromParcel(Parcel source) {
-            return new ErrorReturn(source);
-        }
-
-        @Override
-        public ErrorReturn[] newArray(int size) {
-            return new ErrorReturn[size];
-        }
-    };
 }
