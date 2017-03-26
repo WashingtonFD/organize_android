@@ -19,6 +19,7 @@ import com.mobsandgeeks.saripaar.annotation.Order;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.AppApplication;
+import com.organize4event.organize.commons.CustomValidate;
 import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.controllers.FirstAccessControll;
 import com.organize4event.organize.controllers.TokenControll;
@@ -34,8 +35,6 @@ import com.organize4event.organize.models.User;
 
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -50,6 +49,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     private int keep_logged_int = 0;
 
     private Validator validator;
+    private CustomValidate customValidate;
 
     private User user;
     private User newUser;
@@ -271,7 +271,8 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     }
 
     public void forgotPassword(){
-        if(!validadeEmail(txtMailForgotPassword.getText().toString())){
+        customValidate = new CustomValidate();
+        if(!customValidate.validadeEmail(txtMailForgotPassword.getText().toString())){
             txtMailForgotPassword.setError(context.getString(R.string.validate_mail));
         }
         else{
@@ -323,14 +324,5 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     @Override
     public void onValidationFailed(List<ValidationError> errors) {
         validateError(errors);
-    }
-
-    public boolean validadeEmail(String email){
-        if ((email == null) || (email.trim().length() == 0))
-            return false;
-        String emailPattern = "\\b(^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@([A-Za-z0-9-])+(\\.[A-Za-z0-9-]+)*((\\.[A-Za-z0-9]{2,})|(\\.[A-Za-z0-9]{2,}\\.[A-Za-z0-9]{2,}))$)\\b";
-        Pattern pattern = Pattern.compile(emailPattern, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
     }
 }

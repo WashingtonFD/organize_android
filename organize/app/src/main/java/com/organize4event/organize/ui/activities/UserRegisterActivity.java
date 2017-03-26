@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.widget.Toolbar;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -47,6 +46,7 @@ import butterknife.OnFocusChange;
 public class UserRegisterActivity extends BaseActivity implements Validator.ValidationListener{
     private Context context;
     private String message = "";
+    private String title = "";
     private Date birthDate;
 
     private User user;
@@ -103,9 +103,6 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     @Bind(R.id.txtPasswordConfirm)
     EditText txtPasswordConfirm;
 
-    //TODO: INSERIR GENERO NO CADASTRO DE USUÁRIO
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,48 +127,6 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         txtBirthDate.addTextChangedListener(Mask.insert(Mask.DATE_MASK, txtBirthDate));
 
         selectGender();
-    }
-
-    public void hideOrShowInfoIcon(EditText editText){
-        if (editText.hasFocus()){
-            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_info_black_24dp_tint, 0);
-            instanceInfo(editText);
-        }
-        else{
-            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_transparent_small, 0);
-        }
-    }
-
-    public void instanceInfo(final EditText editText){
-        if (editText.hasFocus()){
-            editText.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    final int DRAWABLE_LEFT = 0;
-                    final int DRAWABLE_TOP = 1;
-                    final int DRAWABLE_RIGHT = 2;
-                    final int DRAWABLE_BOTTOM = 3;
-
-                    if(event.getAction() == MotionEvent.ACTION_UP) {
-                        if(event.getRawX() >= (editText.getRight() - editText.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                            showDialogMessage(1, context.getString(R.string.app_name), message, new CustomDialogListener() {
-                                @Override
-                                public void positiveOnClick(MaterialDialog dialog) {
-                                    dialog.dismiss();
-                                }
-
-                                @Override
-                                public void negativeOnClidck(MaterialDialog dialog) {
-
-                                }
-                            });
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-            });
-        }
     }
 
     public void selectGender(){
@@ -226,22 +181,23 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
     @OnFocusChange({R.id.txtCpf, R.id.txtBirthDate, R.id.txtPassword, R.id.txtPasswordConfirm})
     public void actionOnFocusChange(View view){
+        title = context.getString(R.string.app_name);
         switch (view.getId()){
             case R.id.txtCpf:
                 message = context.getString(R.string.message_info_cpf);
-                hideOrShowInfoIcon(txtCpf);
+                hideOrShowInfoIcon(title, message, txtCpf);
                 break;
             case R.id.txtBirthDate:
                 message = context.getString(R.string.message_info_birth_date);
-                hideOrShowInfoIcon(txtBirthDate);
+                hideOrShowInfoIcon(title, message, txtBirthDate);
                 break;
             case R.id.txtPassword:
                 message = context.getString(R.string.message_info_password);
-                hideOrShowInfoIcon(txtPassword);
+                hideOrShowInfoIcon(title, message, txtPassword);
                 break;
             case R.id.txtPasswordConfirm:
                 message = context.getString(R.string.message_info_password);
-                hideOrShowInfoIcon(txtPasswordConfirm);
+                hideOrShowInfoIcon(title, message, txtPasswordConfirm);
                 break;
         }
     }

@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -254,5 +255,47 @@ public class BaseActivity  extends AppCompatActivity{
         EditText editTextError = (EditText)currentError.getView();
         editTextError.requestFocus();
         editTextError.setError(currentError.getCollatedErrorMessage(this));
+    }
+
+    public void hideOrShowInfoIcon(String title, String message, EditText editText){
+        if (editText.hasFocus()){
+            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_info_black_24dp_tint, 0);
+            instanceInfo(title, message, editText);
+        }
+        else{
+            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_transparent_small, 0);
+        }
+    }
+
+    public void instanceInfo(final String title, final String message, final EditText editText){
+        if (editText.hasFocus()){
+            editText.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    final int DRAWABLE_LEFT = 0;
+                    final int DRAWABLE_TOP = 1;
+                    final int DRAWABLE_RIGHT = 2;
+                    final int DRAWABLE_BOTTOM = 3;
+
+                    if(event.getAction() == MotionEvent.ACTION_UP) {
+                        if(event.getRawX() >= (editText.getRight() - editText.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                            showDialogMessage(1, title, message, new CustomDialogListener() {
+                                @Override
+                                public void positiveOnClick(MaterialDialog dialog) {
+                                    dialog.dismiss();
+                                }
+
+                                @Override
+                                public void negativeOnClidck(MaterialDialog dialog) {
+
+                                }
+                            });
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            });
+        }
     }
 }
