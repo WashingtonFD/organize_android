@@ -84,6 +84,7 @@ public class Setting extends ErrorReturn{
     }
 
     public Setting() {
+        this.setIs_new(true);
     }
 
     protected Setting(Parcel in) {

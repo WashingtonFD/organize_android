@@ -63,6 +63,7 @@ public class FirstAccess extends ErrorReturn{
     }
 
     public FirstAccess() {
+        this.setIs_new(true);
     }
 
     protected FirstAccess(Parcel in) {

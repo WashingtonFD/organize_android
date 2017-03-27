@@ -84,6 +84,7 @@ public class PlanPrice extends ErrorReturn{
     }
 
     public PlanPrice() {
+        this.setIs_new(true);
     }
 
     protected PlanPrice(Parcel in) {

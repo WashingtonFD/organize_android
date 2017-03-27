@@ -180,7 +180,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             public void sucess(Object object) {
                 hideLoading();
                 newUser = (User) object;
-                if (newUser.is_new()){
+                if (!newUser.is_new()){
                     containerLoginEmail.setVisibility(View.GONE);
                     showDialogMessage(1, context.getString(R.string.app_name), newUser.getMessage(), new CustomDialogListener() {
                         @Override
@@ -197,6 +197,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                 }
                 else{
                     user = newUser;
+                    user.setIs_new(false);
                     token.setUser(user);
                     if (token.is_new()){
                         saveToken();

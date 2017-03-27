@@ -63,6 +63,7 @@ public class UserType extends ErrorReturn {
     }
 
     public UserType() {
+        this.setIs_new(true);
     }
 
     protected UserType(Parcel in) {

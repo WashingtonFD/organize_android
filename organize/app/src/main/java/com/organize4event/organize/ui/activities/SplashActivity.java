@@ -91,6 +91,7 @@ public class SplashActivity extends BaseActivity {
 
     public void saveFirstAccess(){
         firstAccess = new FirstAccess();
+        firstAccess.setIs_new(true);
         firstAccess.setDevice_id(device_id);
         firstAccess.setLocale(locale);
         firstAccess.setInstalation_date(new Date());

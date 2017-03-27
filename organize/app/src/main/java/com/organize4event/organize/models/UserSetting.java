@@ -73,6 +73,7 @@ public class UserSetting extends ErrorReturn{
     }
 
     public UserSetting() {
+        this.setIs_new(true);
     }
 
     protected UserSetting(Parcel in) {

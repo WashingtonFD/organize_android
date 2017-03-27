@@ -122,7 +122,7 @@ public class PlanIdentifierActivity extends BaseActivity {
             for(int i = 0; i < plans.size(); i++){
                 if (plans.get(i).getCode_enum() == plan_switch){
                     plan = plans.get(i);
-                    user.setPlan(plan);
+                    break;
                 }
             }
         }
@@ -145,6 +145,7 @@ public class PlanIdentifierActivity extends BaseActivity {
         }
 
         if (validate){
+            user.setPlan(plan);
             Intent intent = new Intent(context, UserRegisterActivity.class);
             intent.putExtra("user", Parcels.wrap(User.class, user));
             startActivity(intent);

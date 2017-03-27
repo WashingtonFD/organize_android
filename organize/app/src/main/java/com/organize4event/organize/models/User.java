@@ -262,6 +262,7 @@ public class User extends ErrorReturn{
     }
 
     public User() {
+        this.setIs_new(true);
     }
 
     protected User(Parcel in) {

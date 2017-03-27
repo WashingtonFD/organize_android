@@ -120,6 +120,7 @@ public class Plan extends ErrorReturn{
     }
 
     public Plan() {
+        this.setIs_new(true);
     }
 
     protected Plan(Parcel in) {
