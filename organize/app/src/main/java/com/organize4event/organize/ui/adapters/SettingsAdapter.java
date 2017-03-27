@@ -50,7 +50,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.Settin
         holder.txtSettingDescription.setText(userSetting.getSettings().getDescription());
         holder.swtChecking.setChecked(userSetting.isChecking());
 
-        if (userSetting.getSettings().getCode_enum() == SettingsEnum.BEST_DAY_FOR_PAYMENT.getValue() || userSetting.getSettings().getCode_enum() == SettingsEnum.PRIVACY.getValue() || userSetting.getSettings().getCode_enum() == SettingsEnum.TUTORIAL.getValue() || userSetting.getSettings().getCode_enum() == SettingsEnum.EXIT.getValue()){
+        if (userSetting.getSettings().getCode_enum() == SettingsEnum.BEST_DAY_FOR_PAYMENT.getValue() || userSetting.getSettings().getCode_enum() == SettingsEnum.PRIVACY.getValue() || userSetting.getSettings().getCode_enum() == SettingsEnum.OUR_PLANS.getValue() || userSetting.getSettings().getCode_enum() == SettingsEnum.TUTORIAL.getValue() || userSetting.getSettings().getCode_enum() == SettingsEnum.EXIT.getValue()){
             holder.swtChecking.setVisibility(View.GONE);
             holder.rowContent.setOnClickListener(new View.OnClickListener() {
                 @Override
