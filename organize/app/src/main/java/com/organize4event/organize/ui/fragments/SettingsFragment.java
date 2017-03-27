@@ -1,6 +1,7 @@
 package com.organize4event.organize.ui.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,11 +12,14 @@ import android.view.ViewGroup;
 
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.AppApplication;
+import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.controllers.SettingsControll;
+import com.organize4event.organize.enuns.SettingsEnum;
 import com.organize4event.organize.listeners.ControllResponseListener;
-import com.organize4event.organize.listeners.SwitchChangeListener;
+import com.organize4event.organize.listeners.MultipleRecyclerViewListener;
 import com.organize4event.organize.models.User;
 import com.organize4event.organize.models.UserSetting;
+import com.organize4event.organize.ui.activities.LoginActivity;
 import com.organize4event.organize.ui.adapters.SettingsAdapter;
 
 import java.util.ArrayList;
@@ -29,6 +33,7 @@ public class SettingsFragment extends BaseFragment{
     private User user;
     private ArrayList<UserSetting> userSettings;
     private SettingsAdapter adapter;
+    private int checking = 0;
 
     @Bind(R.id.rcvListSettings)
     RecyclerView rcvListSettings;
@@ -59,14 +64,49 @@ public class SettingsFragment extends BaseFragment{
                userSettings = (ArrayList<UserSetting>) object;
                Collections.sort(userSettings);
 
-               if (userSettings.size() > 0){
-                   adapter = new SettingsAdapter(context, userSettings, rcvListSettings, new SwitchChangeListener() {
+               if (userSettings.size() > 0) {
+                   adapter = new SettingsAdapter(context, userSettings, rcvListSettings, new MultipleRecyclerViewListener() {
+                       @Override
+                       public void onClick(int position) {
+                           UserSetting userSetting = userSettings.get(position);
+                           SettingsEnum settingsEnum = SettingsEnum.values()[(userSetting.getSettings().getCode_enum()) -1];
+                           switch (settingsEnum){
+                               case PRIVACY:
+                                   startPrivacySettings();
+                                   break;
+                               case BEST_DAY_FOR_PAYMENT:
+                                   startDayPayment();
+                                   break;
+                               case TUTORIAL:
+                                   startTutorial();
+                                   break;
+                               case EXIT:
+                                   logoff();
+                                   break;
+                           }
+                       }
+
+                       @Override
+                       public void onLongClick(int position) {
+
+                       }
+
                        @Override
                        public void onChange(int position) {
+                           if (userSettings.get(position).isChecking()){
+                               userSettings.get(position).setChecking(false);
+                               checking = 0;
+                           }
+                           else {
+                               userSettings.get(position).setChecking(true);
+                               checking = 1;
+                           }
 
+                           checkingUserSettings(userSettings.get(position), checking);
                        }
                    });
                }
+
                rcvListSettings.setAdapter(adapter);
            }
 
@@ -76,5 +116,41 @@ public class SettingsFragment extends BaseFragment{
                returnErrorMessage(error, context);
            }
        });
+    }
+
+    public void checkingUserSettings(final UserSetting userSetting, int checking){
+        new SettingsControll(context).checkingUserSettings(userSetting, checking, new ControllResponseListener() {
+            @Override
+            public void sucess(Object object) {
+
+            }
+
+            @Override
+            public void fail(Error error) {
+                returnErrorMessage(error, context);
+            }
+        });
+    }
+
+    public void startPrivacySettings(){
+        showToastMessage(context, "ABRIR ACTIVITY PRIVACY");
+    }
+
+    public void startDayPayment(){
+        showToastMessage(context, "ABRIR ACTIVITY MELHOR DIA PAGAMENTO");
+        //TODO: IMPLEMENTAR MELHOR DIA PAGAMENTO.
+    }
+
+    public void startTutorial(){
+        showToastMessage(context, "ABRIR TUTORIAL");
+    }
+
+    public void logoff(){
+        PreferencesManager.saveUser(null);
+        AppApplication.setUser(null);
+        PreferencesManager.saveToken(null);
+        AppApplication.setToken(null);
+        startActivity(new Intent(context, LoginActivity.class));
+        getActivity().finish();
     }
 }

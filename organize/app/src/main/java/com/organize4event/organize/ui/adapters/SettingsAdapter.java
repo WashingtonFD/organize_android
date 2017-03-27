@@ -10,11 +10,10 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.organize4event.organize.R;
 import com.organize4event.organize.enuns.SettingsEnum;
-import com.organize4event.organize.listeners.SwitchChangeListener;
+import com.organize4event.organize.listeners.MultipleRecyclerViewListener;
 import com.organize4event.organize.models.UserSetting;
 
 import java.util.ArrayList;
@@ -27,10 +26,10 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.Settin
     private Context context;
     private ArrayList<UserSetting> items;
     private RecyclerView recyclerView;
-    private SwitchChangeListener listener;
+    private MultipleRecyclerViewListener listener;
     private int expandedPosition = -1;
 
-    public SettingsAdapter(Context context, ArrayList<UserSetting> items, RecyclerView recyclerView, SwitchChangeListener listener) {
+    public SettingsAdapter(Context context, ArrayList<UserSetting> items, RecyclerView recyclerView, MultipleRecyclerViewListener listener) {
         this.context = context;
         this.items = items;
         this.recyclerView = recyclerView;
@@ -51,13 +50,12 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.Settin
         holder.txtSettingDescription.setText(userSetting.getSettings().getDescription());
         holder.swtChecking.setChecked(userSetting.isChecking());
 
-        if (userSetting.getSettings().getCode_enum() == SettingsEnum.BEST_DAY_FOR_PAYMENT.getValue() || userSetting.getSettings().getCode_enum() == SettingsEnum.TUTORIAL.getValue() || userSetting.getSettings().getCode_enum() == SettingsEnum.EXIT.getValue()){
+        if (userSetting.getSettings().getCode_enum() == SettingsEnum.BEST_DAY_FOR_PAYMENT.getValue() || userSetting.getSettings().getCode_enum() == SettingsEnum.PRIVACY.getValue() || userSetting.getSettings().getCode_enum() == SettingsEnum.TUTORIAL.getValue() || userSetting.getSettings().getCode_enum() == SettingsEnum.EXIT.getValue()){
             holder.swtChecking.setVisibility(View.GONE);
             holder.rowContent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO: IMPLEMENTAR CLIQUE NOS ITENS NECESSÁRIOS
-                    Toast.makeText(context, "Clique em " + position, Toast.LENGTH_LONG).show();
+                    listener.onClick(position);
                 }
             });
         }
