@@ -138,7 +138,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         }
     }
 
-    @OnClick({R.id.btnLogin, R.id.btnCancel, R.id.btnForgotPasswordSend, R.id.btnForgotPasswordCancel})
+    @OnClick({R.id.btnLogin, R.id.btnCancel, R.id.btnForgotPasswordSend, R.id.btnForgotPasswordCancel, R.id.txtIsNotRegistered})
     public void actionButtonClick(View view){
         switch (view.getId()){
             case R.id.btnLogin:
@@ -152,6 +152,10 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                 break;
             case R.id.btnForgotPasswordCancel:
                 containerForgotPassword.setVisibility(View.GONE);
+                break;
+            case R.id.txtIsNotRegistered:
+                startActivity(new Intent(context, ApresentationActivity.class));
+                break;
         }
     }
 
