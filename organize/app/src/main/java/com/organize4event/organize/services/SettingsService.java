@@ -16,7 +16,7 @@ public interface SettingsService {
     @GET("settings/{locale}")
     Call<ArrayList<Setting>> getSettings(@Path("locale") String locale);
 
-    @GET("user_settings/{user_id}")
+    @GET("user_settings/user/{user_id}")
     Call<ArrayList<UserSetting>> getUserSettings(@Path("user_id") int user_id);
 
     @FormUrlEncoded

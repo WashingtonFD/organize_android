@@ -1,10 +1,11 @@
 package com.organize4event.organize.models;
 
 import android.os.Parcel;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
-public class UserSetting extends ErrorReturn{
+public class UserSetting extends ErrorReturn implements Comparable<UserSetting>{
     @SerializedName("id")
     private int id;
     @SerializedName("user")
@@ -96,4 +97,15 @@ public class UserSetting extends ErrorReturn{
             return new UserSetting[size];
         }
     };
+
+    @Override
+    public int compareTo(@NonNull UserSetting o) {
+        if (this.getSettings().getCode_enum() > o.getSettings().getCode_enum()){
+            return 1;
+        }
+        if (this.getSettings().getCode_enum() < o.getSettings().getCode_enum()){
+            return -1;
+        }
+        return 0;
+    }
 }
