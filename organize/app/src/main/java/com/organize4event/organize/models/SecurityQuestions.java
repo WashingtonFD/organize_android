@@ -56,6 +56,7 @@ public class SecurityQuestions extends ErrorReturn{
         this.restrict = restrict;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -69,6 +70,10 @@ public class SecurityQuestions extends ErrorReturn{
         dest.writeString(this.locale);
         dest.writeString(this.security_question);
         dest.writeByte(this.restrict ? (byte) 1 : (byte) 0);
+    }
+
+    public SecurityQuestions() {
+        this.setIs_new(true);
     }
 
     protected SecurityQuestions(Parcel in) {

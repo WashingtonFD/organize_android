@@ -33,7 +33,7 @@ public class ApresentationActivity extends BaseActivity {
         context = ApresentationActivity.this;
     }
 
-    @OnClick({R.id.txtTermUse, R.id.txtSite, R.id.imgBack})
+    @OnClick({R.id.txtTermUse, R.id.txtSite, R.id.imgBack, R.id.txtIsRegistered})
     public void actionOnClickView(View view){
         switch (view.getId()){
             case R.id.txtTermUse:
@@ -48,6 +48,9 @@ public class ApresentationActivity extends BaseActivity {
             case R.id.imgBack:
                 finish();
                 break;
+            case R.id.txtIsRegistered:
+                startActivity(new Intent(context, LoginActivity.class));
+                finish();
         }
     }
 }

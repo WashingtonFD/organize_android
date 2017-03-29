@@ -74,6 +74,7 @@ public class ErrorReturn implements Parcelable {
     }
 
     public ErrorReturn() {
+        this.setIs_new(true);
     }
 
     protected ErrorReturn(Parcel in) {
@@ -84,15 +85,4 @@ public class ErrorReturn implements Parcelable {
         this.is_new = in.readByte() != 0;
     }
 
-    public static final Creator<ErrorReturn> CREATOR = new Creator<ErrorReturn>() {
-        @Override
-        public ErrorReturn createFromParcel(Parcel source) {
-            return new ErrorReturn(source);
-        }
-
-        @Override
-        public ErrorReturn[] newArray(int size) {
-            return new ErrorReturn[size];
-        }
-    };
 }

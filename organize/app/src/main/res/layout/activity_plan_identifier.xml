@@ -133,7 +133,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/heigth_default"
                 android:layout_below="@+id/txtValidateCodeLabel"
-                android:drawableRight="@drawable/ic_info_black_24dp_tint"
                 android:hint="@string/placeholder_validate_code"
                 android:maxLength="10"
                 android:textColorHint="@color/colorHintDefault"

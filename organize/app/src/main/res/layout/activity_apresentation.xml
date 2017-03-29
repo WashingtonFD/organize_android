@@ -64,6 +64,19 @@
             />
 
         <TextView
+            android:id="@+id/txtIsRegistered"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtTermUse"
+            android:layout_marginTop="@dimen/margin_large"
+            android:text="@string/content_is_registered"
+            android:textAlignment="center"
+            android:textSize="@dimen/text_size_default"
+            android:textColor="@color/colorPrimary"
+            android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
+            />
+
+        <TextView
             android:id="@+id/txtSite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

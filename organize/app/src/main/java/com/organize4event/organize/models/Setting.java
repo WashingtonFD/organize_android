@@ -4,10 +4,7 @@ import android.os.Parcel;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-
-public class Plan extends ErrorReturn{
-
+public class Setting extends ErrorReturn{
     @SerializedName("id")
     private int id;
     @SerializedName("locale")
@@ -18,14 +15,8 @@ public class Plan extends ErrorReturn{
     private String name;
     @SerializedName("description")
     private String description;
-    @SerializedName("security_code")
-    private String security_code;
-    @SerializedName("is_active")
-    private boolean is_active;
-    @SerializedName("advantages")
-    private ArrayList<PlanAdvantage> advantages;
-    @SerializedName("price")
-    private ArrayList<PlanPrice> price;
+    @SerializedName("check_default")
+    private boolean check_default;
 
     public int getId() {
         return id;
@@ -67,36 +58,12 @@ public class Plan extends ErrorReturn{
         this.description = description;
     }
 
-    public String getSecurity_code() {
-        return security_code;
+    public boolean isCheck_default() {
+        return check_default;
     }
 
-    public void setSecurity_code(String security_code) {
-        this.security_code = security_code;
-    }
-
-    public boolean is_active() {
-        return is_active;
-    }
-
-    public void setIs_active(boolean is_active) {
-        this.is_active = is_active;
-    }
-
-    public ArrayList<PlanAdvantage> getAdvantages() {
-        return advantages;
-    }
-
-    public void setAdvantages(ArrayList<PlanAdvantage> advantages) {
-        this.advantages = advantages;
-    }
-
-    public ArrayList<PlanPrice> getPrice() {
-        return price;
-    }
-
-    public void setPrice(ArrayList<PlanPrice> price) {
-        this.price = price;
+    public void setCheck_default(boolean check_default) {
+        this.check_default = check_default;
     }
 
 
@@ -113,38 +80,32 @@ public class Plan extends ErrorReturn{
         dest.writeInt(this.code_enum);
         dest.writeString(this.name);
         dest.writeString(this.description);
-        dest.writeString(this.security_code);
-        dest.writeByte(this.is_active ? (byte) 1 : (byte) 0);
-        dest.writeTypedList(this.advantages);
-        dest.writeTypedList(this.price);
+        dest.writeByte(this.check_default ? (byte) 1 : (byte) 0);
     }
 
-    public Plan() {
+    public Setting() {
         this.setIs_new(true);
     }
 
-    protected Plan(Parcel in) {
+    protected Setting(Parcel in) {
         super(in);
         this.id = in.readInt();
         this.locale = in.readString();
         this.code_enum = in.readInt();
         this.name = in.readString();
         this.description = in.readString();
-        this.security_code = in.readString();
-        this.is_active = in.readByte() != 0;
-        this.advantages = in.createTypedArrayList(PlanAdvantage.CREATOR);
-        this.price = in.createTypedArrayList(PlanPrice.CREATOR);
+        this.check_default = in.readByte() != 0;
     }
 
-    public static final Creator<Plan> CREATOR = new Creator<Plan>() {
+    public static final Creator<Setting> CREATOR = new Creator<Setting>() {
         @Override
-        public Plan createFromParcel(Parcel source) {
-            return new Plan(source);
+        public Setting createFromParcel(Parcel source) {
+            return new Setting(source);
         }
 
         @Override
-        public Plan[] newArray(int size) {
-            return new Plan[size];
+        public Setting[] newArray(int size) {
+            return new Setting[size];
         }
     };
 }
