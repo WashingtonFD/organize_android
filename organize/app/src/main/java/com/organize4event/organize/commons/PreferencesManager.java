@@ -100,4 +100,17 @@ public class PreferencesManager {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(AppApplication.getInstance().getApplicationContext());
         return preferences.contains("hideWelcome");
     }
+
+    public static void setIsLogged(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(AppApplication.getInstance().getApplicationContext());
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("isLogged", true);
+        editor.commit();
+    }
+
+    public static boolean isLogged(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(AppApplication.getInstance().getApplicationContext());
+        return preferences.contains("isLogged");
+    }
+
 }

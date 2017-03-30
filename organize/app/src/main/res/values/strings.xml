@@ -62,7 +62,7 @@
     <string name="label_gender_fem">Feminino</string>
     <string name="label_our_plans">Nossos Planos</string>
     <string name="label_plan">Plano</string>
-
+    <string name="label_about">Sobre o aplicativo</string>
 
 
     <string name="message_info_password">Entre 6 a 10 caracteres alfanuméricos.</string>
