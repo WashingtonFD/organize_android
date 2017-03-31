@@ -12,6 +12,7 @@ import android.view.Gravity;
 import android.view.View;
 
 import com.organize4event.organize.R;
+import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.listeners.ToolbarListener;
 import com.organize4event.organize.ui.fragments.HomeFragment;
 import com.organize4event.organize.ui.fragments.InstitutionalFragment;
@@ -38,6 +39,9 @@ public class HomeActivity extends BaseActivity {
 
         context = HomeActivity.this;
         setupToolbar(context.getString(R.string.label_nav_home));
+        if (!PreferencesManager.isLogged()){
+            PreferencesManager.setIsLogged();
+        }
 
         fragmentClass = HomeFragment.class;
         try{

@@ -8,8 +8,10 @@ public enum SettingsEnum {
     ROUND_VALUES(4),
     EMAIL_REPORT(5),
     OUR_PLANS(6),
-    TUTORIAL(7),
-    EXIT(8);
+    TERM_USE(7),
+    TUTORIAL(8),
+    ABOUT(9),
+    EXIT(10);
 
     private int value;
 

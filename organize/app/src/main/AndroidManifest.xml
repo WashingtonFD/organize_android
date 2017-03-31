@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:name=".commons.AppApplication"
@@ -34,6 +35,7 @@
         <activity android:name=".ui.activities.PlanIdentifierActivity" />
         <activity android:name=".ui.activities.UserRegisterActivity" />
         <activity android:name=".ui.activities.LoginActivity" />
+        <activity android:name=".ui.activities.AboutActivity"></activity>
     </application>
 
 </manifest>

@@ -4,10 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.AppApplication;
+import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.controllers.TermUseControll;
 import com.organize4event.organize.listeners.ControllResponseListener;
 import com.organize4event.organize.listeners.ToolbarListener;
@@ -36,6 +39,9 @@ public class TermUseActivity extends BaseActivity {
     @Bind(R.id.txtContent)
     TextView txtContent;
 
+    @Bind(R.id.imgAccept)
+    ImageView imgAccept;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +53,15 @@ public class TermUseActivity extends BaseActivity {
 
         if (user == null){
             user = new User();
+        }
+
+        boolean logged = PreferencesManager.isLogged();
+
+        if (PreferencesManager.isLogged() && user.isTerm_accept()){
+            imgAccept.setVisibility(View.GONE);
+        }
+        else{
+            imgAccept.setVisibility(View.VISIBLE);
         }
 
         configureToolbar(context, toolbar, context.getString(R.string.label_term_use), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
@@ -93,6 +108,7 @@ public class TermUseActivity extends BaseActivity {
         intent.putExtra("user", Parcels.wrap(User.class, user));
         startActivity(intent);
         finish();
+
     }
 
     @OnClick(R.id.imgAccept)

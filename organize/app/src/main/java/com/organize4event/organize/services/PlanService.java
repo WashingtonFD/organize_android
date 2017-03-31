@@ -13,4 +13,8 @@ public interface PlanService {
     @GET("plan/{locale}")
     Call<ArrayList<Plan>> getPlan(@Path("locale") String locale);
 
+    @GET("plan/{locale}/{code_enum}")
+    Call<Plan> getPLanId(@Path("locale") String locale,
+                         @Path("code_enum") int code_enum);
+
 }

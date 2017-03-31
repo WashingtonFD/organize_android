@@ -5,6 +5,7 @@
     <dimen name="heigth_button">60dp</dimen>
     <dimen name="img_top_layout_heigth">250dp</dimen>
     <dimen name="margin_default">16dp</dimen>
+    <dimen name="margin_small">7dp</dimen>
     <dimen name="margin_large">25dp</dimen>
     <dimen name="padding_buttons">15dp</dimen>
     <dimen name="padding_default">16dp</dimen>

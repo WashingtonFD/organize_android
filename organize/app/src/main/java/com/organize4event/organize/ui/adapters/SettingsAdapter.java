@@ -50,17 +50,28 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.Settin
         holder.txtSettingDescription.setText(userSetting.getSettings().getDescription());
         holder.swtChecking.setChecked(userSetting.isChecking());
 
-        if (userSetting.getSettings().getCode_enum() == SettingsEnum.BEST_DAY_FOR_PAYMENT.getValue() || userSetting.getSettings().getCode_enum() == SettingsEnum.PRIVACY.getValue() || userSetting.getSettings().getCode_enum() == SettingsEnum.OUR_PLANS.getValue() || userSetting.getSettings().getCode_enum() == SettingsEnum.TUTORIAL.getValue() || userSetting.getSettings().getCode_enum() == SettingsEnum.EXIT.getValue()){
-            holder.swtChecking.setVisibility(View.GONE);
-            holder.rowContent.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onClick(position);
-                }
-            });
-        }
-        else{
-            isExpand(holder, position);
+        ArrayList<SettingsEnum> settingsEnums = new ArrayList<>();
+        settingsEnums.add(SettingsEnum.BEST_DAY_FOR_PAYMENT);
+        settingsEnums.add(SettingsEnum.PRIVACY);
+        settingsEnums.add(SettingsEnum.OUR_PLANS);
+        settingsEnums.add(SettingsEnum.TERM_USE);
+        settingsEnums.add(SettingsEnum.TUTORIAL);
+        settingsEnums.add(SettingsEnum.ABOUT);
+        settingsEnums.add(SettingsEnum.EXIT);
+
+        for (SettingsEnum settingsEnum : settingsEnums){
+            if (settingsEnum.getValue() == userSetting.getSettings().getCode_enum()){
+                holder.swtChecking.setVisibility(View.GONE);
+                holder.rowContent.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listener.onClick(position);
+                    }
+                });
+            }
+            else{
+                isExpand(holder, position);
+            }
         }
 
         holder.swtChecking.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

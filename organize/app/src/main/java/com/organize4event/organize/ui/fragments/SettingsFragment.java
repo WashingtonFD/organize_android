@@ -26,8 +26,10 @@ import com.organize4event.organize.models.FirstAccess;
 import com.organize4event.organize.models.Plan;
 import com.organize4event.organize.models.User;
 import com.organize4event.organize.models.UserSetting;
+import com.organize4event.organize.ui.activities.AboutActivity;
 import com.organize4event.organize.ui.activities.LoginActivity;
 import com.organize4event.organize.ui.activities.PlanDetailActivity;
+import com.organize4event.organize.ui.activities.TermUseActivity;
 import com.organize4event.organize.ui.adapters.PlanAdapter;
 import com.organize4event.organize.ui.adapters.SettingsAdapter;
 
@@ -94,8 +96,14 @@ public class SettingsFragment extends BaseFragment{
                                case OUR_PLANS:
                                    getPlans();
                                    break;
+                               case TERM_USE:
+                                   startTermUse();
+                                   break;
                                case TUTORIAL:
                                    startTutorial();
+                                   break;
+                               case ABOUT:
+                                   startAbout();
                                    break;
                                case EXIT:
                                    logoff();
@@ -211,8 +219,16 @@ public class SettingsFragment extends BaseFragment{
         });
     }
 
+    public void startTermUse(){
+        startActivity(new Intent(context, TermUseActivity.class));
+    }
+
     public void startTutorial(){
         showToastMessage(context, "ABRIR TUTORIAL");
+    }
+
+    public void startAbout(){
+        startActivity(new Intent(context, AboutActivity.class));
     }
 
     public void logoff(){
