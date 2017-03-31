@@ -5,7 +5,8 @@ public enum ContactTypeEnum {
     EMAIL(1),
     PHONE(2),
     CELLPHONE(3),
-    WHATSAPP(4);
+    WHATSAPP(4),
+    FACEBOOK(5);
 
     private int value;
 
