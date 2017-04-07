@@ -181,7 +181,6 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
             @Override
             public void fail(Error error) {
-                hideLoading();
                 returnErrorMessage(error, context);
             }
         });
@@ -267,7 +266,6 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
             @Override
             public void fail(Error error) {
-                hideLoading();
                 returnErrorMessage(error,context);
             }
         });
@@ -298,7 +296,6 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
             @Override
             public void fail(Error error) {
-                hideLoading();
                 returnErrorMessage(error, context);
             }
         });

@@ -137,7 +137,6 @@ public class SettingsFragment extends BaseFragment{
 
            @Override
            public void fail(Error error) {
-               hideLoading();
                returnErrorMessage(error, context);
            }
        });

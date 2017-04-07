@@ -214,7 +214,6 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
             @Override
             public void fail(Error error) {
-                hideLoading();
                 containerLoginEmail.setVisibility(View.GONE);
                 returnErrorMessage(error, context);
             }
@@ -238,7 +237,6 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
             @Override
             public void fail(Error error) {
-                hideLoading();
                 containerLoginEmail.setVisibility(View.GONE);
                 returnErrorMessage(error, context);
             }
@@ -262,7 +260,6 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
             @Override
             public void fail(Error error) {
-                hideLoading();
                 containerLoginEmail.setVisibility(View.GONE);
                 returnErrorMessage(error, context);
             }

@@ -87,14 +87,7 @@ public class TermUseActivity extends BaseActivity {
 
             @Override
             public void fail(Error error) {
-               if (isOline(context)){
-                   hideLoading();
-                   showToastMessage(context, error.getMessage());
-               }
-                else{
-                   hideLoading();
-                   showToastMessage(context, context.getString(R.string.error_message_conect));
-               }
+               returnErrorMessage(error, context);
             }
         });
     }

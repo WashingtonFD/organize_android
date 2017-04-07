@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -48,6 +49,8 @@ public class InstitutionalFragment extends BaseFragment {
     private Institutional institutional;
     private SectionedRecyclerViewAdapter adapter;
 
+    @Bind(R.id.contentFilter)
+    RelativeLayout contentFilter;
     @Bind(R.id.txtDescription)
     TextView txtDescription;
     @Bind(R.id.txtMission)
@@ -56,7 +59,6 @@ public class InstitutionalFragment extends BaseFragment {
     TextView txtVision;
     @Bind(R.id.txtValues)
     TextView txtValues;
-
     @Bind(R.id.txtFree)
     TextView txtFree;
     @Bind(R.id.txtBasic)
@@ -69,7 +71,6 @@ public class InstitutionalFragment extends BaseFragment {
     TextView txtPlanBasic;
     @Bind(R.id.txtPlanPremium)
     TextView txtPlanPremium;
-
     @Bind(R.id.rcvListContacts)
     RecyclerView rcvListContacts;
 
@@ -90,7 +91,6 @@ public class InstitutionalFragment extends BaseFragment {
         new InstitutionalControll(context).getInstitutional(firstAccess.getLocale(), new ControllResponseListener() {
             @Override
             public void sucess(Object object) {
-                hideLoading();
                 institutional = (Institutional) object;
                 txtDescription.setText(institutional.getDescription());
                 txtMission.setText(institutional.getMission());
@@ -102,7 +102,6 @@ public class InstitutionalFragment extends BaseFragment {
 
             @Override
             public void fail(Error error) {
-                hideLoading();
                 returnErrorMessage(error, context);
             }
         });
@@ -174,6 +173,8 @@ public class InstitutionalFragment extends BaseFragment {
                 rcvListContacts.setLayoutManager(new LinearLayoutManager(context));
                 rcvListContacts.setItemAnimator(new DefaultItemAnimator());
                 rcvListContacts.setAdapter(adapter);
+                contentFilter.setVisibility(View.GONE);
+                hideLoading();
             }
 
             @Override
@@ -197,7 +198,6 @@ public class InstitutionalFragment extends BaseFragment {
 
             @Override
             public void fail(Error error) {
-                hideLoading();
                 returnErrorMessage(error, context);
             }
         });
