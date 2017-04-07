@@ -27,5 +27,8 @@ Repositório do aplicativo android
 	- Baixar as SDK a partir da 19. 
 	- Muito cuidado ao manipular o Gradle (redundancias ou frameworks obsoletas causam erros).
 
+[Washington Fernandes] [06.04.2017]
+Configurado ambiente de desenvolvimento
+
 	
 		
