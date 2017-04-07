@@ -219,7 +219,7 @@ public class InstitutionalFragment extends BaseFragment {
                 sendWhasappMessage(contact);
                 break;
             case FACEBOOK:
-                openPageFacebook(contact);
+                openPageFacebook(context);
                 break;
         }
     }
@@ -257,12 +257,16 @@ public class InstitutionalFragment extends BaseFragment {
         startActivity(sendIntent);
     }
 
-    public void openPageFacebook(Contact contact){
-        //TODO: ABRIR PAGINA FACEBOOK
-        showToastMessage(context, "facebook");
+    public void openPageFacebook(Context context){
+        try {
+            context.getPackageManager().getPackageInfo("com.facebook.katana", 0);
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/1881281328782009")));
+        } catch (Exception e) {
+            startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.facebook.com/organize4event")));
+        }
     }
 
-    @OnClick({R.id.txtFree, R.id.txtBasic, R.id.txtPremium})
+    @OnClick({R.id.txtFree, R.id.txtBasic, R.id.txtPremium, R.id.txtSite})
     public void actionStartPlanDetail(View view){
         Plan plan = plans.get(0);
         switch (view.getId()){
@@ -274,6 +278,11 @@ public class InstitutionalFragment extends BaseFragment {
                 break;
             case R.id.txtPremium:
                 getPlanId(PlanEnum.PREMIUM.getValue());
+                break;
+            case R.id.txtSite:
+                Uri site = Uri.parse("http://organize4event.com/");
+                Intent intent = new Intent(Intent.ACTION_VIEW, site);
+                startActivity(intent);
                 break;
         }
     }
