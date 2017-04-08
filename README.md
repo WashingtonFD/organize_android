@@ -28,7 +28,12 @@ Repositório do aplicativo android
 	- Muito cuidado ao manipular o Gradle (redundancias ou frameworks obsoletas causam erros).
 
 [Washington Fernandes] [06.04.2017]
+
 Configurado ambiente de desenvolvimento
+
+[Marcela Melo] [08.04.2017]
+
+Teste upstream
 
 	
 		
