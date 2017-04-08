@@ -5,19 +5,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.widget.Toolbar;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.AppApplication;
+import com.organize4event.organize.commons.CustomValidate;
 import com.organize4event.organize.controllers.PlanControll;
 import com.organize4event.organize.enuns.PlanEnum;
 import com.organize4event.organize.listeners.ControllResponseListener;
-import com.organize4event.organize.listeners.CustomDialogListener;
 import com.organize4event.organize.listeners.ToolbarListener;
 import com.organize4event.organize.models.FirstAccess;
 import com.organize4event.organize.models.Plan;
@@ -30,15 +28,20 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnFocusChange;
 
 public class PlanIdentifierActivity extends BaseActivity {
     private Context context;
     private int plan_switch = PlanEnum.FREE.getValue();
+    private String title = "";
+    private String message = "";
 
     private User user;
     private FirstAccess firstAccess;
     private ArrayList<Plan> plans = new ArrayList<>();
     private Plan plan;
+
+    private CustomValidate customValidate;
 
 
     @Bind(R.id.toolbar)
@@ -69,9 +72,9 @@ public class PlanIdentifierActivity extends BaseActivity {
                 finish();
             }
         });
+
         getPlan();
         selectPlan();
-        instanceInfo();
     }
 
     public void selectPlan(){
@@ -99,36 +102,6 @@ public class PlanIdentifierActivity extends BaseActivity {
         });
     }
 
-    public void instanceInfo(){
-        txtValidateCode.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                final int DRAWABLE_LEFT = 0;
-                final int DRAWABLE_TOP = 1;
-                final int DRAWABLE_RIGHT = 2;
-                final int DRAWABLE_BOTTOM = 3;
-
-                if(event.getAction() == MotionEvent.ACTION_UP) {
-                    if(event.getRawX() >= (txtValidateCode.getRight() - txtValidateCode.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        showDialogMessage(1, context.getString(R.string.app_name), context.getString(R.string.message_validate_code_plan), new CustomDialogListener() {
-                            @Override
-                            public void positiveOnClick(MaterialDialog dialog) {
-                                dialog.dismiss();
-                            }
-
-                            @Override
-                            public void negativeOnClidck(MaterialDialog dialog) {
-
-                            }
-                        });
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
-    }
-
     public void getPlan(){
         new PlanControll(context).getPlan(firstAccess.getLocale(), new ControllResponseListener() {
             @Override
@@ -149,25 +122,30 @@ public class PlanIdentifierActivity extends BaseActivity {
             for(int i = 0; i < plans.size(); i++){
                 if (plans.get(i).getCode_enum() == plan_switch){
                     plan = plans.get(i);
-                    user.setPlan(plan);
+                    break;
                 }
             }
         }
     }
 
-    public boolean validateCodePlan(){
-        String code = txtValidateCode.getText().toString();
-        return code.equals(plan.getSecurity_code());
+    @OnFocusChange(R.id.txtValidateCode)
+    public void actionOnFocus(){
+        title = context.getString(R.string.app_name);
+        message = context.getString(R.string.message_info_code_plan);
+        hideOrShowInfoIcon(title, message, txtValidateCode);
     }
+
 
     @OnClick(R.id.imgAccept)
     public void actionSavePlan(){
+        customValidate = new CustomValidate();
         boolean validate = true;
         if (plan.getCode_enum() != PlanEnum.FREE.getValue()){
-            validate = validateCodePlan();
+            validate = customValidate.validateCodePlan(txtValidateCode, plan);
         }
 
         if (validate){
+            user.setPlan(plan);
             Intent intent = new Intent(context, UserRegisterActivity.class);
             intent.putExtra("user", Parcels.wrap(User.class, user));
             startActivity(intent);

@@ -4,19 +4,16 @@ import android.os.Parcel;
 
 import com.google.gson.annotations.SerializedName;
 
-public class PlanPrice extends ErrorReturn{
+public class ContactType extends ErrorReturn{
+
     @SerializedName("id")
     private int id;
     @SerializedName("locale")
     private String locale;
     @SerializedName("code_enum")
     private int code_enum;
-    @SerializedName("plan")
-    private int plan;
-    @SerializedName("price")
-    private double price;
-    @SerializedName("is_active")
-    private boolean is_active;
+    @SerializedName("name")
+    private String name;
 
     public int getId() {
         return id;
@@ -42,28 +39,12 @@ public class PlanPrice extends ErrorReturn{
         this.code_enum = code_enum;
     }
 
-    public int getPlan() {
-        return plan;
+    public String getName() {
+        return name;
     }
 
-    public void setPlan(int plan) {
-        this.plan = plan;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public boolean is_active() {
-        return is_active;
-    }
-
-    public void setIs_active(boolean is_active) {
-        this.is_active = is_active;
+    public void setName(String name) {
+        this.name = name;
     }
 
 
@@ -78,34 +59,30 @@ public class PlanPrice extends ErrorReturn{
         dest.writeInt(this.id);
         dest.writeString(this.locale);
         dest.writeInt(this.code_enum);
-        dest.writeInt(this.plan);
-        dest.writeDouble(this.price);
-        dest.writeByte(this.is_active ? (byte) 1 : (byte) 0);
+        dest.writeString(this.name);
     }
 
-    public PlanPrice() {
+    public ContactType() {
         this.setIs_new(true);
     }
 
-    protected PlanPrice(Parcel in) {
+    protected ContactType(Parcel in) {
         super(in);
         this.id = in.readInt();
         this.locale = in.readString();
         this.code_enum = in.readInt();
-        this.plan = in.readInt();
-        this.price = in.readDouble();
-        this.is_active = in.readByte() != 0;
+        this.name = in.readString();
     }
 
-    public static final Creator<PlanPrice> CREATOR = new Creator<PlanPrice>() {
+    public static final Creator<ContactType> CREATOR = new Creator<ContactType>() {
         @Override
-        public PlanPrice createFromParcel(Parcel source) {
-            return new PlanPrice(source);
+        public ContactType createFromParcel(Parcel source) {
+            return new ContactType(source);
         }
 
         @Override
-        public PlanPrice[] newArray(int size) {
-            return new PlanPrice[size];
+        public ContactType[] newArray(int size) {
+            return new ContactType[size];
         }
     };
 }

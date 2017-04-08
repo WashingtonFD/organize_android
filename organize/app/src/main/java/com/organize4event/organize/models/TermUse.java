@@ -79,6 +79,7 @@ public class TermUse extends ErrorReturn{
         this.is_active = is_active;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -94,6 +95,10 @@ public class TermUse extends ErrorReturn{
         dest.writeString(this.content);
         dest.writeLong(this.publication_date != null ? this.publication_date.getTime() : -1);
         dest.writeByte(this.is_active ? (byte) 1 : (byte) 0);
+    }
+
+    public TermUse() {
+        this.setIs_new(true);
     }
 
     protected TermUse(Parcel in) {

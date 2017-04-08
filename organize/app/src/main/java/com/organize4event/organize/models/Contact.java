@@ -4,17 +4,20 @@ import android.os.Parcel;
 
 import com.google.gson.annotations.SerializedName;
 
-public class PlanPrice extends ErrorReturn{
+public class Contact extends ErrorReturn{
+
     @SerializedName("id")
     private int id;
     @SerializedName("locale")
     private String locale;
     @SerializedName("code_enum")
     private int code_enum;
-    @SerializedName("plan")
-    private int plan;
-    @SerializedName("price")
-    private double price;
+    @SerializedName("description")
+    private String description;
+    @SerializedName("contact_type")
+    private ContactType contact_type;
+    @SerializedName("contact")
+    private String contact;
     @SerializedName("is_active")
     private boolean is_active;
 
@@ -42,20 +45,28 @@ public class PlanPrice extends ErrorReturn{
         this.code_enum = code_enum;
     }
 
-    public int getPlan() {
-        return plan;
+    public String getDescription() {
+        return description;
     }
 
-    public void setPlan(int plan) {
-        this.plan = plan;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public double getPrice() {
-        return price;
+    public ContactType getContact_type() {
+        return contact_type;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setContact_type(ContactType contact_type) {
+        this.contact_type = contact_type;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 
     public boolean is_active() {
@@ -78,34 +89,36 @@ public class PlanPrice extends ErrorReturn{
         dest.writeInt(this.id);
         dest.writeString(this.locale);
         dest.writeInt(this.code_enum);
-        dest.writeInt(this.plan);
-        dest.writeDouble(this.price);
+        dest.writeString(this.description);
+        dest.writeParcelable(this.contact_type, flags);
+        dest.writeString(this.contact);
         dest.writeByte(this.is_active ? (byte) 1 : (byte) 0);
     }
 
-    public PlanPrice() {
+    public Contact() {
         this.setIs_new(true);
     }
 
-    protected PlanPrice(Parcel in) {
+    protected Contact(Parcel in) {
         super(in);
         this.id = in.readInt();
         this.locale = in.readString();
         this.code_enum = in.readInt();
-        this.plan = in.readInt();
-        this.price = in.readDouble();
+        this.description = in.readString();
+        this.contact_type = in.readParcelable(ContactType.class.getClassLoader());
+        this.contact = in.readString();
         this.is_active = in.readByte() != 0;
     }
 
-    public static final Creator<PlanPrice> CREATOR = new Creator<PlanPrice>() {
+    public static final Creator<Contact> CREATOR = new Creator<Contact>() {
         @Override
-        public PlanPrice createFromParcel(Parcel source) {
-            return new PlanPrice(source);
+        public Contact createFromParcel(Parcel source) {
+            return new Contact(source);
         }
 
         @Override
-        public PlanPrice[] newArray(int size) {
-            return new PlanPrice[size];
+        public Contact[] newArray(int size) {
+            return new Contact[size];
         }
     };
 }

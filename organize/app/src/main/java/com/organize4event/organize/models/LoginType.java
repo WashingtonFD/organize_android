@@ -63,6 +63,7 @@ public class LoginType extends ErrorReturn{
     }
 
     public LoginType() {
+        this.setIs_new(true);
     }
 
     protected LoginType(Parcel in) {

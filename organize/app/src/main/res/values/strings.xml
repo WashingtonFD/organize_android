@@ -3,6 +3,8 @@
 
     <string name="content_presentation">Morbi a metus. Phasellus enim erat, vestibulum vel, aliquam a, posuere eu, velit. Nullam sapien sem, ornare ac, nonummy non, lobortis a, enim. Nunc tincidunt ante vitae massa. Duis ante</string>
     <string name="content_term_use">Acesse o TERMO DE USO E PRIVACIDADE do sistema.</string>
+    <string name="content_is_registered">Já tenho um cadastro</string>
+    <string name="content_is_not_registered">Não possuo cadastro</string>
 
     <string name="date_format">dd-mm-yyyy</string>
 
@@ -58,14 +60,27 @@
     <string name="label_skip_tutorial">Pular o tutorial</string>
     <string name="label_gender_masc">Masculino</string>
     <string name="label_gender_fem">Feminino</string>
+    <string name="label_our_plans">Nossos Planos</string>
+    <string name="label_plan">Plano</string>
+    <string name="label_about">Sobre o aplicativo</string>
+    <string name="label_mission">Missão</string>
+    <string name="label_vision">Visão</string>
+    <string name="label_values">Valores</string>
+    <string name="label_contact">Entre em contato</string>
+    <string name="label_subject">Assunto: </string>
+    <string name="label_send_mail">Enviar e-mail como: </string>
+    <string name="label_call">Realizar chamada</string>
 
 
 
     <string name="message_info_password">Entre 6 a 10 caracteres alfanuméricos.</string>
     <string name="message_info_cpf">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget sem quis risus sagittis tincidunt nec tempus libero. Suspendisse non.</string>
     <string name="message_info_birth_date">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget sem quis risus sagittis tincidunt nec tempus libero. Suspendisse non.</string>
-    <string name="message_validate_code_plan">Código de confirmação enviado em seu e-mail na contratação do plano. Caso não tenha recebido o codigo ou não o solicitou, entre em contato com o suporte Organize ou acesse com o plano gratuito.</string>
+    <string name="message_info_code_plan">Código de confirmação enviado em seu e-mail na contratação do plano. Caso não tenha recebido o codigo ou não o solicitou, entre em contato com o suporte Organize ou acesse com o plano gratuito.</string>
     <string name="message_confirmation_forgot_password">E-mail de recuperação de senha enviado com sucesso.</string>
+    <string name="message_list_plan">Sobre qual plano deseja informações?</string>
+    <string name="message_call_phone">Deseja realizar uma ligação? Isto acarretará em gastos de consumo de acordo com seu plano em sua operadora.</string>
+    <string name="message_whatsapp">É necessário ter o Whatsapp instalado para executar essa requisição.</string>
 
     <string name="placeholder_cpf">Insira o seu CPF.</string>
     <string name="placeholder_mail">Insira o seu e-mail.</string>

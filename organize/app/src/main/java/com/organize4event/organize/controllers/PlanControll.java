@@ -39,4 +39,26 @@ public class PlanControll extends Controll {
             }
         });
     }
+
+    public void getPlanId(String locale, int code_enum, final ControllResponseListener listener){
+        PlanService service = ApiClient.getRetrofit().create(PlanService.class);
+        service.getPLanId(locale, code_enum).enqueue(new Callback<Plan>() {
+            @Override
+            public void onResponse(Response<Plan> response, Retrofit retrofit) {
+                Plan plan = (Plan) response.body();
+                Error error = parserError(plan);
+                if (error == null){
+                    listener.sucess(plan);
+                }
+                else{
+                    listener.fail(error);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                listener.fail(new Error(t.getMessage()));
+            }
+        });
+    }
 }

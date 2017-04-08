@@ -6,8 +6,11 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.EditText;
 
+import com.mobsandgeeks.saripaar.ValidationError;
 import com.organize4event.organize.listeners.CustomDialogListener;
 import com.organize4event.organize.ui.activities.BaseActivity;
+
+import java.util.List;
 
 public class BaseFragment extends Fragment {
 
@@ -51,4 +54,18 @@ public class BaseFragment extends Fragment {
         activity.returnErrorMessage(error, context);
     }
 
+    public void validateError(List<ValidationError> errors){
+        BaseActivity activity = (BaseActivity) getActivity();
+        activity.validateError(errors);
+    }
+
+    public void hideOrShowInfoIcon(String title, String message, EditText editText){
+        BaseActivity activity = (BaseActivity) getActivity();
+        activity.hideOrShowInfoIcon(title, message, editText);
+    }
+
+    public void instanceInfo(String title, String message, EditText editText){
+        BaseActivity activity = (BaseActivity) getActivity();
+        activity.instanceInfo(title, message, editText);
+    }
 }

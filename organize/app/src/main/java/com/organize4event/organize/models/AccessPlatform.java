@@ -62,6 +62,7 @@ public class AccessPlatform extends ErrorReturn{
     }
 
     public AccessPlatform() {
+        this.setIs_new(true);
     }
 
     protected AccessPlatform(Parcel in) {

@@ -21,6 +21,10 @@ public class PreferencesManager {
             editor.putString("first_access", first_access);
             editor.commit();
         }
+        else {
+            editor.remove("first_access");
+            editor.commit();
+        }
     }
 
     public static FirstAccess getFirstAccess(){
@@ -52,6 +56,11 @@ public class PreferencesManager {
             editor.putString("token", tokenActive);
             editor.commit();
         }
+        else{
+            editor.remove("token");
+            editor.remove("hideWelcome");
+            editor.commit();
+        }
     }
 
     public static User getUser(){
@@ -73,6 +82,11 @@ public class PreferencesManager {
             editor.putString("user", userLogged);
             editor.commit();
         }
+        else{
+            editor.remove("user");
+            editor.commit();
+
+        }
     }
 
     public static void hideWelcome(){
@@ -86,4 +100,17 @@ public class PreferencesManager {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(AppApplication.getInstance().getApplicationContext());
         return preferences.contains("hideWelcome");
     }
+
+    public static void setIsLogged(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(AppApplication.getInstance().getApplicationContext());
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("isLogged", true);
+        editor.commit();
+    }
+
+    public static boolean isLogged(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(AppApplication.getInstance().getApplicationContext());
+        return preferences.contains("isLogged");
+    }
+
 }

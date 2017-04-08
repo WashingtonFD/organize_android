@@ -56,6 +56,18 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/txtIsNotRegistered"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/containerButtom"
+            android:layout_centerHorizontal="true"
+            android:text="@string/content_is_not_registered"
+            android:textSize="@dimen/text_size_default"
+            android:textColor="@color/colorAccent"
+            android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
+            />
+
+        <TextView
             android:id="@+id/txtForgotPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

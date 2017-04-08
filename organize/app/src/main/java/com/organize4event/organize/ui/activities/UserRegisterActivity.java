@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.widget.Toolbar;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,19 +22,23 @@ import com.mobsandgeeks.saripaar.annotation.Password;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.AppApplication;
 import com.organize4event.organize.commons.Mask;
+import com.organize4event.organize.controllers.SettingsControll;
 import com.organize4event.organize.controllers.UserControll;
 import com.organize4event.organize.enuns.UserTypeEnum;
 import com.organize4event.organize.listeners.ControllResponseListener;
 import com.organize4event.organize.listeners.CustomDialogListener;
 import com.organize4event.organize.listeners.ToolbarListener;
 import com.organize4event.organize.models.FirstAccess;
+import com.organize4event.organize.models.Setting;
 import com.organize4event.organize.models.User;
+import com.organize4event.organize.models.UserSetting;
 import com.organize4event.organize.models.UserType;
 
 import org.parceler.Parcels;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -47,11 +50,15 @@ import butterknife.OnFocusChange;
 public class UserRegisterActivity extends BaseActivity implements Validator.ValidationListener{
     private Context context;
     private String message = "";
+    private String title = "";
     private Date birthDate;
 
     private User user;
     private FirstAccess firstAccess;
     private UserType userType;
+    private UserSetting userSetting;
+    private ArrayList<Setting> settings = new ArrayList<>();
+    private ArrayList<UserSetting> userSettings = new ArrayList<>();
 
     Validator validator;
     SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -103,9 +110,6 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     @Bind(R.id.txtPasswordConfirm)
     EditText txtPasswordConfirm;
 
-    //TODO: INSERIR GENERO NO CADASTRO DE USUÁRIO
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,48 +136,6 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         selectGender();
     }
 
-    public void hideOrShowInfoIcon(EditText editText){
-        if (editText.hasFocus()){
-            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_info_black_24dp_tint, 0);
-            instanceInfo(editText);
-        }
-        else{
-            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_transparent_small, 0);
-        }
-    }
-
-    public void instanceInfo(final EditText editText){
-        if (editText.hasFocus()){
-            editText.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    final int DRAWABLE_LEFT = 0;
-                    final int DRAWABLE_TOP = 1;
-                    final int DRAWABLE_RIGHT = 2;
-                    final int DRAWABLE_BOTTOM = 3;
-
-                    if(event.getAction() == MotionEvent.ACTION_UP) {
-                        if(event.getRawX() >= (editText.getRight() - editText.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                            showDialogMessage(1, context.getString(R.string.app_name), message, new CustomDialogListener() {
-                                @Override
-                                public void positiveOnClick(MaterialDialog dialog) {
-                                    dialog.dismiss();
-                                }
-
-                                @Override
-                                public void negativeOnClidck(MaterialDialog dialog) {
-
-                                }
-                            });
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-            });
-        }
-    }
-
     public void selectGender(){
         rgpListGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -191,6 +153,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     }
 
     public void saveUser(){
+        showLoading();
         try {
             birthDate = format.parse(txtBirthDate.getText().toString());
         } catch (ParseException e) {
@@ -213,12 +176,12 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
             @Override
             public void sucess(Object object) {
                 user = (User) object;
-                startActivity(new Intent(context, LoginActivity.class));
-                finish();
+                getSettings();
             }
 
             @Override
             public void fail(Error error) {
+                hideLoading();
                 returnErrorMessage(error, context);
             }
         });
@@ -226,22 +189,23 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
     @OnFocusChange({R.id.txtCpf, R.id.txtBirthDate, R.id.txtPassword, R.id.txtPasswordConfirm})
     public void actionOnFocusChange(View view){
+        title = context.getString(R.string.app_name);
         switch (view.getId()){
             case R.id.txtCpf:
                 message = context.getString(R.string.message_info_cpf);
-                hideOrShowInfoIcon(txtCpf);
+                hideOrShowInfoIcon(title, message, txtCpf);
                 break;
             case R.id.txtBirthDate:
                 message = context.getString(R.string.message_info_birth_date);
-                hideOrShowInfoIcon(txtBirthDate);
+                hideOrShowInfoIcon(title, message, txtBirthDate);
                 break;
             case R.id.txtPassword:
                 message = context.getString(R.string.message_info_password);
-                hideOrShowInfoIcon(txtPassword);
+                hideOrShowInfoIcon(title, message, txtPassword);
                 break;
             case R.id.txtPasswordConfirm:
                 message = context.getString(R.string.message_info_password);
-                hideOrShowInfoIcon(txtPasswordConfirm);
+                hideOrShowInfoIcon(title, message, txtPasswordConfirm);
                 break;
         }
     }
@@ -287,5 +251,56 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     @Override
     public void onValidationFailed(List<ValidationError> errors) {
         validateError(errors);
+    }
+
+    public void getSettings(){
+        new SettingsControll(context).getSettings(firstAccess.getLocale(), new ControllResponseListener() {
+            @Override
+            public void sucess(Object object) {
+                settings = (ArrayList<Setting>) object;
+                if (settings.size() > 0){
+                    for(Setting setting : settings){
+                        saveUserSetting(setting);
+                    }
+                }
+            }
+
+            @Override
+            public void fail(Error error) {
+                hideLoading();
+                returnErrorMessage(error,context);
+            }
+        });
+    }
+
+    public void saveUserSetting(final Setting setting){
+        int checking = 0;
+        if (setting.isCheck_default()){
+            checking = 1;
+        }
+        userSetting = new UserSetting();
+        userSetting.setUser(user);
+        userSetting.setSettings(setting);
+        userSetting.setChecking(setting.isCheck_default());
+
+        new SettingsControll(context).saveUserSettings(userSetting, checking, new ControllResponseListener() {
+            @Override
+            public void sucess(Object object) {
+                userSetting = (UserSetting) object;
+                userSettings.add(userSetting);
+
+                if (userSettings.size() == settings.size()){
+                    hideLoading();
+                    startActivity(new Intent(context, LoginActivity.class));
+                    finish();
+                }
+            }
+
+            @Override
+            public void fail(Error error) {
+                hideLoading();
+                returnErrorMessage(error, context);
+            }
+        });
     }
 }

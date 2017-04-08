@@ -108,6 +108,7 @@ public class Token extends ErrorReturn{
     }
 
     public Token() {
+        this.setIs_new(true);
     }
 
     protected Token(Parcel in) {

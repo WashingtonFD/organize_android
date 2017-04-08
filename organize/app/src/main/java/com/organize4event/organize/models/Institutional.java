@@ -4,28 +4,25 @@ import android.os.Parcel;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-
-public class Plan extends ErrorReturn{
-
+public class Institutional extends ErrorReturn {
     @SerializedName("id")
     private int id;
     @SerializedName("locale")
     private String locale;
     @SerializedName("code_enum")
     private int code_enum;
-    @SerializedName("name")
-    private String name;
+    @SerializedName("site_url")
+    private String site_url;
     @SerializedName("description")
     private String description;
-    @SerializedName("security_code")
-    private String security_code;
+    @SerializedName("mission")
+    private String mission;
+    @SerializedName("vision")
+    private String vision;
+    @SerializedName("values")
+    private String values;
     @SerializedName("is_active")
     private boolean is_active;
-    @SerializedName("advantages")
-    private ArrayList<PlanAdvantage> advantages;
-    @SerializedName("price")
-    private ArrayList<PlanPrice> price;
 
     public int getId() {
         return id;
@@ -51,12 +48,12 @@ public class Plan extends ErrorReturn{
         this.code_enum = code_enum;
     }
 
-    public String getName() {
-        return name;
+    public String getSite_url() {
+        return site_url;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSite_url(String site_url) {
+        this.site_url = site_url;
     }
 
     public String getDescription() {
@@ -67,12 +64,28 @@ public class Plan extends ErrorReturn{
         this.description = description;
     }
 
-    public String getSecurity_code() {
-        return security_code;
+    public String getMission() {
+        return mission;
     }
 
-    public void setSecurity_code(String security_code) {
-        this.security_code = security_code;
+    public void setMission(String mission) {
+        this.mission = mission;
+    }
+
+    public String getVision() {
+        return vision;
+    }
+
+    public void setVision(String vision) {
+        this.vision = vision;
+    }
+
+    public String getValues() {
+        return values;
+    }
+
+    public void setValues(String values) {
+        this.values = values;
     }
 
     public boolean is_active() {
@@ -81,22 +94,6 @@ public class Plan extends ErrorReturn{
 
     public void setIs_active(boolean is_active) {
         this.is_active = is_active;
-    }
-
-    public ArrayList<PlanAdvantage> getAdvantages() {
-        return advantages;
-    }
-
-    public void setAdvantages(ArrayList<PlanAdvantage> advantages) {
-        this.advantages = advantages;
-    }
-
-    public ArrayList<PlanPrice> getPrice() {
-        return price;
-    }
-
-    public void setPrice(ArrayList<PlanPrice> price) {
-        this.price = price;
     }
 
 
@@ -111,40 +108,40 @@ public class Plan extends ErrorReturn{
         dest.writeInt(this.id);
         dest.writeString(this.locale);
         dest.writeInt(this.code_enum);
-        dest.writeString(this.name);
+        dest.writeString(this.site_url);
         dest.writeString(this.description);
-        dest.writeString(this.security_code);
+        dest.writeString(this.mission);
+        dest.writeString(this.vision);
+        dest.writeString(this.values);
         dest.writeByte(this.is_active ? (byte) 1 : (byte) 0);
-        dest.writeTypedList(this.advantages);
-        dest.writeTypedList(this.price);
     }
 
-    public Plan() {
+    public Institutional() {
         this.setIs_new(true);
     }
 
-    protected Plan(Parcel in) {
+    protected Institutional(Parcel in) {
         super(in);
         this.id = in.readInt();
         this.locale = in.readString();
         this.code_enum = in.readInt();
-        this.name = in.readString();
+        this.site_url = in.readString();
         this.description = in.readString();
-        this.security_code = in.readString();
+        this.mission = in.readString();
+        this.vision = in.readString();
+        this.values = in.readString();
         this.is_active = in.readByte() != 0;
-        this.advantages = in.createTypedArrayList(PlanAdvantage.CREATOR);
-        this.price = in.createTypedArrayList(PlanPrice.CREATOR);
     }
 
-    public static final Creator<Plan> CREATOR = new Creator<Plan>() {
+    public static final Creator<Institutional> CREATOR = new Creator<Institutional>() {
         @Override
-        public Plan createFromParcel(Parcel source) {
-            return new Plan(source);
+        public Institutional createFromParcel(Parcel source) {
+            return new Institutional(source);
         }
 
         @Override
-        public Plan[] newArray(int size) {
-            return new Plan[size];
+        public Institutional[] newArray(int size) {
+            return new Institutional[size];
         }
     };
 }

@@ -73,6 +73,7 @@ public class PlanAdvantage extends ErrorReturn{
     }
 
     public PlanAdvantage() {
+        this.setIs_new(true);
     }
 
     protected PlanAdvantage(Parcel in) {
