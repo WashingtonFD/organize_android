@@ -254,7 +254,11 @@ public class InstitutionalFragment extends BaseFragment {
         Uri uri = Uri.parse("smsto:" + contact.getContact());
         Intent sendIntent = new Intent(Intent.ACTION_SENDTO, uri);
         sendIntent.setPackage("com.whatsapp");
-        startActivity(sendIntent);
+        startActivity(Intent.createChooser(sendIntent, ""));
+//        Uri uri = Uri.parse("smsto:" + number);
+//        Intent i = new Intent(Intent.ACTION_SENDTO, uri);
+//        i.setPackage("com.whatsapp");
+//        startActivity(Intent.createChooser(i, ""));
     }
 
     public void openPageFacebook(Context context){

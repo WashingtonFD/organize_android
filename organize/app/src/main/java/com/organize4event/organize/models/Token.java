@@ -9,16 +9,12 @@ import java.util.Date;
 public class Token extends ErrorReturn{
     @SerializedName("id")
     private int id;
-    @SerializedName("user")
-    private User user;
-    @SerializedName("firstAccess")
-    private FirstAccess firstAccess;
     @SerializedName("login_type")
     private LoginType login_type;
-    @SerializedName("access_token")
-    private String access_token;
     @SerializedName("access_platform")
     private AccessPlatform access_platform;
+    @SerializedName("access_token")
+    private String access_token;
     @SerializedName("access_date")
     private Date access_date;
     @SerializedName("keep_logged")
@@ -32,22 +28,6 @@ public class Token extends ErrorReturn{
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public FirstAccess getFirstAccess() {
-        return firstAccess;
-    }
-
-    public void setFirstAccess(FirstAccess firstAccess) {
-        this.firstAccess = firstAccess;
-    }
-
     public LoginType getLogin_type() {
         return login_type;
     }
@@ -56,20 +36,20 @@ public class Token extends ErrorReturn{
         this.login_type = login_type;
     }
 
-    public String getAccess_token() {
-        return access_token;
-    }
-
-    public void setAccess_token(String access_token) {
-        this.access_token = access_token;
-    }
-
     public AccessPlatform getAccess_platform() {
         return access_platform;
     }
 
     public void setAccess_platform(AccessPlatform access_platform) {
         this.access_platform = access_platform;
+    }
+
+    public String getAccess_token() {
+        return access_token;
+    }
+
+    public void setAccess_token(String access_token) {
+        this.access_token = access_token;
     }
 
     public Date getAccess_date() {
@@ -98,11 +78,9 @@ public class Token extends ErrorReturn{
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
         dest.writeInt(this.id);
-        dest.writeParcelable(this.user, flags);
-        dest.writeParcelable(this.firstAccess, flags);
         dest.writeParcelable(this.login_type, flags);
-        dest.writeString(this.access_token);
         dest.writeParcelable(this.access_platform, flags);
+        dest.writeString(this.access_token);
         dest.writeLong(this.access_date != null ? this.access_date.getTime() : -1);
         dest.writeByte(this.keep_logged ? (byte) 1 : (byte) 0);
     }
@@ -114,11 +92,9 @@ public class Token extends ErrorReturn{
     protected Token(Parcel in) {
         super(in);
         this.id = in.readInt();
-        this.user = in.readParcelable(User.class.getClassLoader());
-        this.firstAccess = in.readParcelable(FirstAccess.class.getClassLoader());
         this.login_type = in.readParcelable(LoginType.class.getClassLoader());
-        this.access_token = in.readString();
         this.access_platform = in.readParcelable(AccessPlatform.class.getClassLoader());
+        this.access_token = in.readString();
         long tmpAccess_date = in.readLong();
         this.access_date = tmpAccess_date == -1 ? null : new Date(tmpAccess_date);
         this.keep_logged = in.readByte() != 0;
