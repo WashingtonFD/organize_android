@@ -60,7 +60,7 @@ public class TermUseActivity extends BaseActivity {
         new TermUseControll(context).getTermUse(new ControllResponseListener() {
 
             @Override
-            public void sucess(Object object) {
+            public void success(Object object) {
                 termUse = (TermUse)object;
                 if (!termUse.is_new()) {
                     userTerm.setTerm(termUse);

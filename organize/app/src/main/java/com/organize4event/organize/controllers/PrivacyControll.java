@@ -27,7 +27,7 @@ public class PrivacyControll extends Controll {
                 ArrayList<Privacy> privacies = (ArrayList<Privacy>) response.body();
                 Error error = parserError(privacies.get(0));
                 if (error == null){
-                    listener.sucess(privacies);
+                    listener.success(privacies);
                 }
                 else {
                     listener.fail(error);
@@ -49,7 +49,7 @@ public class PrivacyControll extends Controll {
                 UserPrivacy userPrivacy = (UserPrivacy) response.body();
                 Error error = parserError(userPrivacy);
                 if (error == null){
-                    listener.sucess(userPrivacy);
+                    listener.success(userPrivacy);
                 }
                 else{
                     listener.fail(error);

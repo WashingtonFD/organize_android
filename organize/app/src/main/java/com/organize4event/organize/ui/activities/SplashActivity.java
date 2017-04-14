@@ -62,7 +62,7 @@ public class SplashActivity extends BaseActivity {
     protected void getFirstAccess(){
         new FirstAccessControll(context).getFirstAccess(device_id, new ControllResponseListener() {
             @Override
-            public void sucess(Object object) {
+            public void success(Object object) {
                 firstAccess = (FirstAccess) object;
                 if (firstAccess.is_new()){
                     setFirstAccess();

@@ -35,7 +35,7 @@ public class InstitutionalControll extends Controll {
                 }
                 Error error = parserError(active_institutional);
                 if (error == null){
-                    listener.sucess(active_institutional);
+                    listener.success(active_institutional);
                 }
                 else {
                     listener.fail(error);
@@ -57,7 +57,7 @@ public class InstitutionalControll extends Controll {
                 ArrayList<ContactType> contactTypes = (ArrayList<ContactType>) response.body();
                 Error error = parserError(contactTypes.get(0));
                 if (error == null){
-                    listener.sucess(contactTypes);
+                    listener.success(contactTypes);
                 }
                 else{
                     listener.fail(error);
@@ -79,7 +79,7 @@ public class InstitutionalControll extends Controll {
                 ArrayList<Contact> contacts = (ArrayList<Contact>) response.body();
                 Error error = parserError(contacts.get(0));
                 if (error == null){
-                    listener.sucess(contacts);
+                    listener.success(contacts);
                 }
                 else {
                     listener.fail(error);

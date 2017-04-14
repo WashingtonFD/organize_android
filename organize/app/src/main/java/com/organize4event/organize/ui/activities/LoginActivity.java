@@ -181,7 +181,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         showLoading();
         new TokenControll(context).login(txtMail.getText().toString(), txtPassword.getText().toString(), new ControllResponseListener() {
             @Override
-            public void sucess(Object object) {
+            public void success(Object object) {
                 hideLoading();
                 newUser = (User) object;
                 if (!newUser.is_new()){
@@ -223,7 +223,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     public void saveToken(){
         new TokenControll(context).saveToken(token, keep_logged_int, new ControllResponseListener() {
             @Override
-            public void sucess(Object object) {
+            public void success(Object object) {
                 hideLoading();
                 token = (Token) object;
                 if (PreferencesManager.isHideWelcome()){
@@ -246,7 +246,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     public void updateToken(){
         new TokenControll(context).updateToken(token, keep_logged_int, new ControllResponseListener() {
             @Override
-            public void sucess(Object object) {
+            public void success(Object object) {
                 hideLoading();
                 token = (Token) object;
                 if (PreferencesManager.isHideWelcome()){
@@ -286,7 +286,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         showLoading();
         new FirstAccessControll(context).getAccessPlatform(firstAccess.getLocale(), code_enum_platform, new ControllResponseListener() {
             @Override
-            public void sucess(Object object) {
+            public void success(Object object) {
                 accessPlatform = (AccessPlatform) object;
                 getLoginType();
             }
@@ -301,7 +301,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     public void getLoginType(){
         new TokenControll(context).getLoginType(firstAccess.getLocale(), code_enum, new ControllResponseListener() {
             @Override
-            public void sucess(Object object) {
+            public void success(Object object) {
                 loginType = (LoginType) object;
                 if (loginType.getCode_enum() == LoginTypeEnum.EMAIL.getValue()){
                     loginEmail();

@@ -24,7 +24,7 @@ public class TermUseControll extends Controll{
                 TermUse termUse = (TermUse) response.body();
                 Error error = parserError(termUse);
                 if(error == null){
-                    listener.sucess(termUse);
+                    listener.success(termUse);
                 }
                 else {
                     listener.fail(error);

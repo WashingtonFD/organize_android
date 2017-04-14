@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.AppApplication;
-import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.controllers.PlanControll;
 import com.organize4event.organize.controllers.SettingsControll;
 import com.organize4event.organize.enuns.SettingsEnum;
@@ -27,7 +26,6 @@ import com.organize4event.organize.models.Plan;
 import com.organize4event.organize.models.User;
 import com.organize4event.organize.models.UserSetting;
 import com.organize4event.organize.ui.activities.AboutActivity;
-import com.organize4event.organize.ui.activities.LoginActivity;
 import com.organize4event.organize.ui.activities.PlanDetailActivity;
 import com.organize4event.organize.ui.activities.TermUseActivity;
 import com.organize4event.organize.ui.adapters.PlanAdapter;
@@ -60,7 +58,6 @@ public class SettingsFragment extends BaseFragment{
 
         context = getActivity();
         firstAccess = AppApplication.getFirstAccess();
-        user = AppApplication.getUser();
 
         rcvListSettings.setLayoutManager(new LinearLayoutManager(context));
         rcvListSettings.setItemAnimator(new DefaultItemAnimator());
@@ -75,7 +72,7 @@ public class SettingsFragment extends BaseFragment{
         showLoading();
         new SettingsControll(context).getUserSettings(user.getId(), new ControllResponseListener() {
            @Override
-           public void sucess(Object object) {
+           public void success(Object object) {
                hideLoading();
                userSettings = (ArrayList<UserSetting>) object;
                Collections.sort(userSettings);
@@ -85,7 +82,7 @@ public class SettingsFragment extends BaseFragment{
                        @Override
                        public void onClick(int position) {
                            UserSetting userSetting = userSettings.get(position);
-                           SettingsEnum settingsEnum = SettingsEnum.values()[(userSetting.getSettings().getCode_enum()) -1];
+                           SettingsEnum settingsEnum = SettingsEnum.values()[(userSetting.getSetting().getCode_enum()) -1];
                            switch (settingsEnum){
                                case PRIVACY:
                                    startPrivacySettings();
@@ -104,9 +101,6 @@ public class SettingsFragment extends BaseFragment{
                                    break;
                                case ABOUT:
                                    startAbout();
-                                   break;
-                               case EXIT:
-                                   logoff();
                                    break;
                            }
                        }
@@ -145,7 +139,7 @@ public class SettingsFragment extends BaseFragment{
     public void getPlans(){
         new PlanControll(context).getPlan(firstAccess.getLocale(), new ControllResponseListener() {
             @Override
-            public void sucess(Object object) {
+            public void success(Object object) {
                 plans = (ArrayList<Plan>) object;
                 startOurPlans(plans);
             }
@@ -161,7 +155,7 @@ public class SettingsFragment extends BaseFragment{
     public void checkingUserSettings(final UserSetting userSetting, int checking){
         new SettingsControll(context).checkingUserSettings(userSetting, checking, new ControllResponseListener() {
             @Override
-            public void sucess(Object object) {
+            public void success(Object object) {
 
             }
 
@@ -228,14 +222,5 @@ public class SettingsFragment extends BaseFragment{
 
     public void startAbout(){
         startActivity(new Intent(context, AboutActivity.class));
-    }
-
-    public void logoff(){
-        PreferencesManager.saveUser(null);
-        AppApplication.setUser(null);
-        PreferencesManager.saveToken(null);
-        AppApplication.setToken(null);
-        startActivity(new Intent(context, LoginActivity.class));
-        getActivity().finish();
     }
 }

@@ -90,7 +90,7 @@ public class InstitutionalFragment extends BaseFragment {
         showLoading();
         new InstitutionalControll(context).getInstitutional(firstAccess.getLocale(), new ControllResponseListener() {
             @Override
-            public void sucess(Object object) {
+            public void success(Object object) {
                 institutional = (Institutional) object;
                 txtDescription.setText(institutional.getDescription());
                 txtMission.setText(institutional.getMission());
@@ -110,7 +110,7 @@ public class InstitutionalFragment extends BaseFragment {
     public void getPlans(){
         new PlanControll(context).getPlan(firstAccess.getLocale(), new ControllResponseListener() {
             @Override
-            public void sucess(Object object) {
+            public void success(Object object) {
                 plans = (ArrayList<Plan>) object;
                 for (Plan plan : plans){
                     if (plan.getCode_enum() == PlanEnum.FREE.getValue()){
@@ -140,7 +140,7 @@ public class InstitutionalFragment extends BaseFragment {
     public void getContacts(){
         new InstitutionalControll(context).getContact(firstAccess.getLocale(), new ControllResponseListener() {
             @Override
-            public void sucess(Object object) {
+            public void success(Object object) {
                 contacts = (ArrayList<Contact>) object;
                 adapter = new SectionedRecyclerViewAdapter();
                 TreeMap<String, ContactSection> sections = new TreeMap<String, ContactSection>();
@@ -188,7 +188,7 @@ public class InstitutionalFragment extends BaseFragment {
         showLoading();
         new PlanControll(context).getPlanId(firstAccess.getLocale(), code_enum, new ControllResponseListener() {
             @Override
-            public void sucess(Object object) {
+            public void success(Object object) {
                 hideLoading();
                 Plan plan = (Plan) object;
                 Intent intent = new Intent(context, PlanDetailActivity.class);

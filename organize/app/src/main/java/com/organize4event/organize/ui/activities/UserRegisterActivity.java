@@ -1,6 +1,7 @@
 package com.organize4event.organize.ui.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.widget.Toolbar;
@@ -20,7 +21,9 @@ import com.mobsandgeeks.saripaar.annotation.Order;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.Mask;
+import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.controllers.PrivacyControll;
+import com.organize4event.organize.controllers.SettingsControll;
 import com.organize4event.organize.controllers.UserControll;
 import com.organize4event.organize.enuns.UserTypeEnum;
 import com.organize4event.organize.listeners.ControllResponseListener;
@@ -59,8 +62,11 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     private UserType userType;
 
     private ArrayList<Privacy> privacies = new ArrayList<>();
+    private ArrayList<UserPrivacy> userPrivacies = new ArrayList<>();
+    private UserPrivacy userPrivacy;
     private ArrayList<Setting> settings = new ArrayList<>();
     private ArrayList<UserSetting> userSettings = new ArrayList<>();
+    private UserSetting userSetting;
 
     Validator validator;
     SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -159,7 +165,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         final int code_user_type = UserTypeEnum.DEFAULT.getValue();
         new UserControll(context).getUserType(firstAccess.getLocale(), code_user_type, new ControllResponseListener() {
             @Override
-            public void sucess(Object object) {
+            public void success(Object object) {
                 userType = (UserType)object;
                 if (!userType.is_new()){
                     prepareUser();
@@ -190,14 +196,37 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         user.setPassword(txtPassword.getText().toString());
         user.setCpf(txtCpf.getText().toString());
         user.setBirth_date(birthDate);
+
+        saveUser();
+    }
+
+    protected void saveUser(){
+        new UserControll(context).saveUser(user, new ControllResponseListener() {
+            @Override
+            public void success(Object object) {
+                user = (User) object;
+                if (!user.is_new()){
+                    getPrivacy();
+                }
+            }
+
+            @Override
+            public void fail(Error error) {
+                returnErrorMessage(error, context);
+            }
+        });
     }
 
     protected void getPrivacy(){
         new PrivacyControll(context).getPrivacy(firstAccess.getLocale(), new ControllResponseListener() {
             @Override
-            public void sucess(Object object) {
+            public void success(Object object) {
                 privacies = (ArrayList<Privacy>) object;
-                setUserPrivacy();
+                if (privacies.size() > 0){
+                    for (Privacy privacy : privacies){
+                        saveUserPrivacy(privacy);
+                    }
+                }
             }
 
             @Override
@@ -207,26 +236,25 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         });
     }
 
-    protected void setUserPrivacy(){
-        if (privacies.size() > 0){
-            for (Privacy privacy : privacies){
-                int checking_user_privacy = 0;
-                UserPrivacy userPrivacy = new UserPrivacy();
-                userPrivacy.setUser(user);
-                userPrivacy.setPrivacy(privacy);
-                if (privacy.isCheck_default()){
-                    checking_user_privacy = 1;
-                }
-                saveUserPrivacy(userPrivacy, checking_user_privacy);
-            }
+    protected void saveUserPrivacy(Privacy privacy){
+        int cheking = 0;
+        if (privacy.isCheck_default()){
+            cheking = 1;
         }
-    }
+        userPrivacy = new UserPrivacy();
+        userPrivacy.setUser(user);
+        userPrivacy.setPrivacy(privacy);
+        userPrivacy.setCheking(privacy.isCheck_default());
 
-    protected void saveUserPrivacy(UserPrivacy userPrivacy, int cheking){
         new PrivacyControll(context).saveUserPrivacy(userPrivacy, cheking, new ControllResponseListener() {
             @Override
-            public void sucess(Object object) {
-                return;
+            public void success(Object object) {
+                userPrivacy = (UserPrivacy)object;
+                userPrivacies.add(userPrivacy);
+
+                if (userPrivacies.size() == privacies.size()){
+                    getSettings();
+                }
             }
 
             @Override
@@ -234,6 +262,62 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
                 returnErrorMessage(error, context);
             }
         });
+    }
+
+    protected void getSettings(){
+        new SettingsControll(context).getSettings(firstAccess.getLocale(), new ControllResponseListener() {
+            @Override
+            public void success(Object object) {
+                settings = (ArrayList<Setting>) object;
+                if (settings.size() > 0){
+                    for(Setting setting : settings){
+                        saveUserSetting(setting);
+                    }
+                }
+            }
+
+            @Override
+            public void fail(Error error) {
+                returnErrorMessage(error,context);
+            }
+        });
+    }
+
+    public void saveUserSetting(final Setting setting){
+        int checking = 0;
+        if (setting.isCheck_default()){
+            checking = 1;
+        }
+        userSetting = new UserSetting();
+        userSetting.setUser(user);
+        userSetting.setSetting(setting);
+        userSetting.setChecking(setting.isCheck_default());
+
+        new SettingsControll(context).saveUserSettings(userSetting, checking, new ControllResponseListener() {
+            @Override
+            public void success(Object object) {
+                userSetting = (UserSetting) object;
+                userSettings.add(userSetting);
+
+                if (userSettings.size() == settings.size()){
+                    firstAccess.setUser(user);
+                    PreferencesManager.saveFirstAccess(firstAccess);
+                    starLoginActivity();
+                }
+            }
+
+            @Override
+            public void fail(Error error) {
+                returnErrorMessage(error, context);
+            }
+        });
+    }
+
+    protected void starLoginActivity(){
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
+        startActivity(intent);
+        finish();
     }
 
     @OnFocusChange({R.id.txtCpf, R.id.txtBirthDate, R.id.txtPassword, R.id.txtPasswordConfirm})

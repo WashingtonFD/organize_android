@@ -32,7 +32,7 @@ public class TokenControll extends Controll{
                 LoginType loginType = (LoginType) response.body();
                 Error error = parserError(loginType);
                 if (error == null){
-                    listener.sucess(loginType);
+                    listener.success(loginType);
                 }
                 else {
                     listener.fail(error);
@@ -54,7 +54,7 @@ public class TokenControll extends Controll{
                 Token token = (Token) response.body();
                 Error error = parserError(token);
                 if (error == null){
-                    listener.sucess(token);
+                    listener.success(token);
                 }
                 else {
                     listener.fail(error);
@@ -76,7 +76,7 @@ public class TokenControll extends Controll{
                 User user = (User) response.body();
                 Error error = parserError(user);
                 if (error == null){
-                    listener.sucess(user);
+                    listener.success(user);
                 }
                 else{
                     listener.fail(error);
@@ -108,7 +108,7 @@ public class TokenControll extends Controll{
                     AppApplication.setToken(token);
                     PreferencesManager.saveUser(token.getUser());
                     AppApplication.setUser(token.getUser());
-                    listener.sucess(token);
+                    listener.success(token);
                 }
                 else {
                     listener.fail(error);
@@ -140,7 +140,7 @@ public class TokenControll extends Controll{
                     AppApplication.setToken(token);
                     PreferencesManager.saveUser(token.getUser());
                     AppApplication.setUser(token.getUser());
-                    listener.sucess(token);
+                    listener.success(token);
                 }
                 else{
                     listener.fail(error);

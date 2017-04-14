@@ -37,7 +37,7 @@ public class FirstAccessControll extends Controll{
                 if (error == null){
                     PreferencesManager.saveFirstAccess(firstAccess);
                     AppApplication.setFirstAccess(firstAccess);
-                    listener.sucess(firstAccess);
+                    listener.success(firstAccess);
                 }
                 else{
                     listener.fail(error);
@@ -59,7 +59,7 @@ public class FirstAccessControll extends Controll{
                 FirstAccess firstAccess = (FirstAccess) response.body();
                 Error error = parserError(firstAccess);
                 if (error == null){
-                    listener.sucess(firstAccess);
+                    listener.success(firstAccess);
                 }
                 else{
                     listener.fail(error);
@@ -81,7 +81,7 @@ public class FirstAccessControll extends Controll{
                 AccessPlatform accessPlatform = response.body();
                 Error error = parserError(accessPlatform);
                 if (error == null){
-                    listener.sucess(accessPlatform);
+                    listener.success(accessPlatform);
                 }
                 else{
                     listener.fail(error);
