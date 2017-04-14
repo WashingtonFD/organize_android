@@ -10,8 +10,8 @@ public class UserSetting extends ErrorReturn implements Comparable<UserSetting>{
     private int id;
     @SerializedName("user")
     private User user;
-    @SerializedName("settings")
-    private Setting settings;
+    @SerializedName("setting")
+    private Setting setting;
     @SerializedName("checking")
     private boolean checking;
     @SerializedName("value")
@@ -33,12 +33,12 @@ public class UserSetting extends ErrorReturn implements Comparable<UserSetting>{
         this.user = user;
     }
 
-    public Setting getSettings() {
-        return settings;
+    public Setting getSetting() {
+        return setting;
     }
 
-    public void setSettings(Setting settings) {
-        this.settings = settings;
+    public void setSetting(Setting setting) {
+        this.setting = setting;
     }
 
     public boolean isChecking() {
@@ -68,7 +68,7 @@ public class UserSetting extends ErrorReturn implements Comparable<UserSetting>{
         super.writeToParcel(dest, flags);
         dest.writeInt(this.id);
         dest.writeParcelable(this.user, flags);
-        dest.writeParcelable(this.settings, flags);
+        dest.writeParcelable(this.setting, flags);
         dest.writeByte(this.checking ? (byte) 1 : (byte) 0);
         dest.writeInt(this.value);
     }
@@ -81,7 +81,7 @@ public class UserSetting extends ErrorReturn implements Comparable<UserSetting>{
         super(in);
         this.id = in.readInt();
         this.user = in.readParcelable(User.class.getClassLoader());
-        this.settings = in.readParcelable(Setting.class.getClassLoader());
+        this.setting = in.readParcelable(Setting.class.getClassLoader());
         this.checking = in.readByte() != 0;
         this.value = in.readInt();
     }
@@ -100,10 +100,10 @@ public class UserSetting extends ErrorReturn implements Comparable<UserSetting>{
 
     @Override
     public int compareTo(@NonNull UserSetting o) {
-        if (this.getSettings().getCode_enum() > o.getSettings().getCode_enum()){
+        if (this.getSetting().getCode_enum() > o.getSetting().getCode_enum()){
             return 1;
         }
-        if (this.getSettings().getCode_enum() < o.getSettings().getCode_enum()){
+        if (this.getSetting().getCode_enum() < o.getSetting().getCode_enum()){
             return -1;
         }
         return 0;

@@ -10,6 +10,9 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.organize4event.organize.R;
+import com.organize4event.organize.models.FirstAccess;
+
+import org.parceler.Parcels;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -18,6 +21,7 @@ import butterknife.OnClick;
 public class ApresentationActivity extends BaseActivity {
 
     private Context context;
+    private FirstAccess firstAccess;
 
     @Bind(R.id.txtSite)
     TextView txtSite;
@@ -31,14 +35,14 @@ public class ApresentationActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         context = ApresentationActivity.this;
+        firstAccess = Parcels.unwrap(getIntent().getExtras().getParcelable("firstAccess"));
     }
 
     @OnClick({R.id.txtTermUse, R.id.txtSite, R.id.imgBack, R.id.txtIsRegistered})
     public void actionOnClickView(View view){
         switch (view.getId()){
             case R.id.txtTermUse:
-                startActivity(new Intent(context, TermUseActivity.class));
-                finish();
+                starTermUseActivity();
                 break;
             case R.id.txtSite:
                 Uri site = Uri.parse("http://organize4event.com/");
@@ -52,5 +56,12 @@ public class ApresentationActivity extends BaseActivity {
                 startActivity(new Intent(context, LoginActivity.class));
                 finish();
         }
+    }
+
+    protected void starTermUseActivity(){
+        Intent intent = new Intent(context, TermUseActivity.class);
+        intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
+        startActivity(intent);
+        finish();
     }
 }

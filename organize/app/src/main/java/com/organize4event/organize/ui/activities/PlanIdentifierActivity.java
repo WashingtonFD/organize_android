@@ -11,8 +11,8 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
 import com.organize4event.organize.R;
-import com.organize4event.organize.commons.AppApplication;
 import com.organize4event.organize.commons.CustomValidate;
+import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.controllers.PlanControll;
 import com.organize4event.organize.enuns.PlanEnum;
 import com.organize4event.organize.listeners.ControllResponseListener;
@@ -63,8 +63,8 @@ public class PlanIdentifierActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         context = PlanIdentifierActivity.this;
-        user = Parcels.unwrap(getIntent().getExtras().getParcelable("user"));
-        firstAccess = AppApplication.getFirstAccess();
+        firstAccess = Parcels.unwrap(getIntent().getExtras().getParcelable("firstAccess"));
+        user = firstAccess.getUser();
 
         configureToolbar(context, toolbar, context.getString(R.string.label_plan_identifier), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
             @Override
@@ -77,7 +77,7 @@ public class PlanIdentifierActivity extends BaseActivity {
         selectPlan();
     }
 
-    public void selectPlan(){
+    protected void selectPlan(){
         rgpListPlans.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
@@ -102,7 +102,7 @@ public class PlanIdentifierActivity extends BaseActivity {
         });
     }
 
-    public void getPlan(){
+    protected void getPlan(){
         new PlanControll(context).getPlan(firstAccess.getLocale(), new ControllResponseListener() {
             @Override
             public void sucess(Object object) {
@@ -117,7 +117,7 @@ public class PlanIdentifierActivity extends BaseActivity {
         });
     }
 
-    public void setPlan(){
+    protected void setPlan(){
         if (plans.size() > 0){
             for(int i = 0; i < plans.size(); i++){
                 if (plans.get(i).getCode_enum() == plan_switch){
@@ -146,10 +146,17 @@ public class PlanIdentifierActivity extends BaseActivity {
 
         if (validate){
             user.setPlan(plan);
-            Intent intent = new Intent(context, UserRegisterActivity.class);
-            intent.putExtra("user", Parcels.wrap(User.class, user));
-            startActivity(intent);
-            finish();
+            firstAccess.setUser(user);
+            PreferencesManager.saveFirstAccess(firstAccess);
+
+            startUserRegisterActivity();
         }
+    }
+
+    protected void startUserRegisterActivity(){
+        Intent intent = new Intent(context, UserRegisterActivity.class);
+        intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
+        startActivity(intent);
+        finish();
     }
 }

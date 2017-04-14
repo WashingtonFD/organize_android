@@ -4,6 +4,7 @@ import android.os.Parcel;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class User extends ErrorReturn{
@@ -43,6 +44,14 @@ public class User extends ErrorReturn{
     private String responsible_cpf;
     @SerializedName("user_term")
     private UserTerm user_term;
+    @SerializedName("user_security")
+    private UserSecurity user_security;
+    @SerializedName("user_settings")
+    private ArrayList<UserSetting> user_settings;
+    @SerializedName("user_privacy")
+    private ArrayList<UserPrivacy> user_privacy;
+    @SerializedName("user_notifications")
+    private ArrayList<UserNotification> user_notifications;
 
     public int getId() {
         return id;
@@ -188,6 +197,38 @@ public class User extends ErrorReturn{
         this.user_term = user_term;
     }
 
+    public UserSecurity getUser_security() {
+        return user_security;
+    }
+
+    public void setUser_security(UserSecurity user_security) {
+        this.user_security = user_security;
+    }
+
+    public ArrayList<UserSetting> getUser_settings() {
+        return user_settings;
+    }
+
+    public void setUser_settings(ArrayList<UserSetting> user_settings) {
+        this.user_settings = user_settings;
+    }
+
+    public ArrayList<UserPrivacy> getUser_privacy() {
+        return user_privacy;
+    }
+
+    public void setUser_privacy(ArrayList<UserPrivacy> user_privacy) {
+        this.user_privacy = user_privacy;
+    }
+
+    public ArrayList<UserNotification> getUser_notifications() {
+        return user_notifications;
+    }
+
+    public void setUser_notifications(ArrayList<UserNotification> user_notifications) {
+        this.user_notifications = user_notifications;
+    }
+
 
     @Override
     public int describeContents() {
@@ -215,6 +256,10 @@ public class User extends ErrorReturn{
         dest.writeString(this.responsible_name);
         dest.writeString(this.responsible_cpf);
         dest.writeParcelable(this.user_term, flags);
+        dest.writeParcelable(this.user_security, flags);
+        dest.writeTypedList(this.user_settings);
+        dest.writeTypedList(this.user_privacy);
+        dest.writeTypedList(this.user_notifications);
     }
 
     public User() {
@@ -242,6 +287,10 @@ public class User extends ErrorReturn{
         this.responsible_name = in.readString();
         this.responsible_cpf = in.readString();
         this.user_term = in.readParcelable(UserTerm.class.getClassLoader());
+        this.user_security = in.readParcelable(UserSecurity.class.getClassLoader());
+        this.user_settings = in.createTypedArrayList(UserSetting.CREATOR);
+        this.user_privacy = in.createTypedArrayList(UserPrivacy.CREATOR);
+        this.user_notifications = in.createTypedArrayList(UserNotification.CREATOR);
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
