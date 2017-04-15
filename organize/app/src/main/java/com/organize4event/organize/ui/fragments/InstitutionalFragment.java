@@ -255,10 +255,7 @@ public class InstitutionalFragment extends BaseFragment {
         Intent sendIntent = new Intent(Intent.ACTION_SENDTO, uri);
         sendIntent.setPackage("com.whatsapp");
         startActivity(Intent.createChooser(sendIntent, ""));
-//        Uri uri = Uri.parse("smsto:" + number);
-//        Intent i = new Intent(Intent.ACTION_SENDTO, uri);
-//        i.setPackage("com.whatsapp");
-//        startActivity(Intent.createChooser(i, ""));
+        //TODO: MELHORAR ISTO - WHATSAPP
     }
 
     public void openPageFacebook(Context context){

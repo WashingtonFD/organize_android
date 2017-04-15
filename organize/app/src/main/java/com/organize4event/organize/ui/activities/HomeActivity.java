@@ -3,6 +3,7 @@ package com.organize4event.organize.ui.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -13,7 +14,10 @@ import android.view.View;
 
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.PreferencesManager;
+import com.organize4event.organize.controllers.FirstAccessControll;
+import com.organize4event.organize.listeners.ControllResponseListener;
 import com.organize4event.organize.listeners.ToolbarListener;
+import com.organize4event.organize.models.FirstAccess;
 import com.organize4event.organize.ui.fragments.HomeFragment;
 import com.organize4event.organize.ui.fragments.InstitutionalFragment;
 import com.organize4event.organize.ui.fragments.SettingsFragment;
@@ -24,6 +28,8 @@ import butterknife.OnClick;
 
 public class HomeActivity extends BaseActivity {
     private Context context;
+    private String device_id;
+    private FirstAccess firstAccess;
     Class fragmentClass;
 
     @Bind(R.id.drawerLayout)
@@ -38,6 +44,8 @@ public class HomeActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         context = HomeActivity.this;
+        device_id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+
         setupToolbar(context.getString(R.string.label_nav_home));
         if (!PreferencesManager.isLogged()){
             PreferencesManager.setIsLogged();
@@ -54,13 +62,30 @@ public class HomeActivity extends BaseActivity {
             Log.v("instance HOME ERROR", "Home fragment instance error");
             e.printStackTrace();
         }
+
+        getData();
     }
 
-    public void setupToolbar(String title){
+    protected void setupToolbar(String title){
         configureToolbar(context, toolbar, title, context.getResources().getDrawable(R.drawable.ic_menu_black_24dp), true, new ToolbarListener() {
             @Override
             public void onClick() {
                 drawerLayout.openDrawer(Gravity.LEFT);
+            }
+        });
+    }
+
+    protected void getData(){
+        new FirstAccessControll(context).getFirstAccess(device_id, new ControllResponseListener() {
+            @Override
+            public void success(Object object) {
+                firstAccess = (FirstAccess) object;
+                PreferencesManager.saveFirstAccess(firstAccess);
+            }
+
+            @Override
+            public void fail(Error error) {
+                returnErrorMessage(error, context);
             }
         });
     }

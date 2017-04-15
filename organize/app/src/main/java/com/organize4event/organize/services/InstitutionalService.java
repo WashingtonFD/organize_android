@@ -12,7 +12,7 @@ import retrofit.http.Path;
 
 public interface InstitutionalService {
     @GET("institutional/{locale}")
-    Call<ArrayList<Institutional>> getInstitutional(@Path("locale") String locale);
+    Call<Institutional> getInstitutional(@Path("locale") String locale);
 
     @GET("contact_type/{locale}")
     Call<ArrayList<ContactType>> getContactType(@Path("locale") String locale);

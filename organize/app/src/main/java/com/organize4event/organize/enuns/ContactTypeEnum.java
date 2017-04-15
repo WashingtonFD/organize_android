@@ -3,10 +3,10 @@ package com.organize4event.organize.enuns;
 public enum ContactTypeEnum {
 
     EMAIL(1),
-    PHONE(2),
-    CELLPHONE(3),
-    WHATSAPP(4),
-    FACEBOOK(5);
+    FACEBOOK(2),
+    WHATSAPP(3),
+    PHONE(4),
+    CELLPHONE(5);
 
     private int value;
 

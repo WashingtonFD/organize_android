@@ -20,24 +20,16 @@ public class InstitutionalControll extends Controll {
         super(context);
     }
 
-    public void getInstitutional(String locale, final ControllResponseListener listener){
+    public void getInstitutional(String locale, final ControllResponseListener listener) {
         InstitutionalService service = ApiClient.getRetrofit().create(InstitutionalService.class);
-        service.getInstitutional(locale).enqueue(new Callback<ArrayList<Institutional>>() {
+        service.getInstitutional(locale).enqueue(new Callback<Institutional>() {
             @Override
-            public void onResponse(Response<ArrayList<Institutional>> response, Retrofit retrofit) {
-                ArrayList<Institutional> institutionals = (ArrayList<Institutional>) response.body();
-                Institutional active_institutional = institutionals.get(0);
-                for (Institutional institutional : institutionals){
-                    if (institutional.is_active()){
-                        active_institutional = institutional;
-                        break;
-                    }
-                }
-                Error error = parserError(active_institutional);
-                if (error == null){
-                    listener.success(active_institutional);
-                }
-                else {
+            public void onResponse(Response<Institutional> response, Retrofit retrofit) {
+                Institutional institutional = (Institutional) response.body();
+                Error error = parserError(institutional);
+                if (error == null) {
+                    listener.success(institutional);
+                } else {
                     listener.fail(error);
                 }
             }
@@ -49,17 +41,16 @@ public class InstitutionalControll extends Controll {
         });
     }
 
-    public void getContactType(String locale, final ControllResponseListener listener){
+    public void getContactType(String locale, final ControllResponseListener listener) {
         InstitutionalService service = ApiClient.getRetrofit().create(InstitutionalService.class);
         service.getContactType(locale).enqueue(new Callback<ArrayList<ContactType>>() {
             @Override
             public void onResponse(Response<ArrayList<ContactType>> response, Retrofit retrofit) {
                 ArrayList<ContactType> contactTypes = (ArrayList<ContactType>) response.body();
                 Error error = parserError(contactTypes.get(0));
-                if (error == null){
+                if (error == null) {
                     listener.success(contactTypes);
-                }
-                else{
+                } else {
                     listener.fail(error);
                 }
             }
@@ -71,17 +62,16 @@ public class InstitutionalControll extends Controll {
         });
     }
 
-    public void getContact(String locale, final ControllResponseListener listener){
+    public void getContact(String locale, final ControllResponseListener listener) {
         InstitutionalService service = ApiClient.getRetrofit().create(InstitutionalService.class);
         service.getContact(locale).enqueue(new Callback<ArrayList<Contact>>() {
             @Override
             public void onResponse(Response<ArrayList<Contact>> response, Retrofit retrofit) {
                 ArrayList<Contact> contacts = (ArrayList<Contact>) response.body();
                 Error error = parserError(contacts.get(0));
-                if (error == null){
+                if (error == null) {
                     listener.success(contacts);
-                }
-                else {
+                } else {
                     listener.fail(error);
                 }
             }

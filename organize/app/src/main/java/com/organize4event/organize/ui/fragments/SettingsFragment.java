@@ -39,7 +39,7 @@ import java.util.Collections;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SettingsFragment extends BaseFragment{
+public class SettingsFragment extends BaseFragment {
     private Context context;
     private FirstAccess firstAccess;
     private User user;
@@ -52,91 +52,96 @@ public class SettingsFragment extends BaseFragment{
     RecyclerView rcvListSettings;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         ButterKnife.bind(this, view);
 
         context = getActivity();
         firstAccess = AppApplication.getFirstAccess();
+        user = firstAccess.getUser();
+        userSettings = user.getUser_settings();
+
+        if (userSettings == null || userSettings.size() < 1) {
+            getData();
+        } else {
+            loadAdapter();
+        }
 
         rcvListSettings.setLayoutManager(new LinearLayoutManager(context));
         rcvListSettings.setItemAnimator(new DefaultItemAnimator());
         rcvListSettings.setAdapter(adapter);
 
-        getData();
-
         return view;
     }
 
-    public void getData(){
+    protected void getData() {
         showLoading();
         new SettingsControll(context).getUserSettings(user.getId(), new ControllResponseListener() {
-           @Override
-           public void success(Object object) {
-               hideLoading();
-               userSettings = (ArrayList<UserSetting>) object;
-               Collections.sort(userSettings);
+            @Override
+            public void success(Object object) {
+                hideLoading();
+                userSettings = (ArrayList<UserSetting>) object;
+                loadAdapter();
+            }
 
-               if (userSettings.size() > 0) {
-                   adapter = new SettingsAdapter(context, userSettings, rcvListSettings, new MultipleRecyclerViewListener() {
-                       @Override
-                       public void onClick(int position) {
-                           UserSetting userSetting = userSettings.get(position);
-                           SettingsEnum settingsEnum = SettingsEnum.values()[(userSetting.getSetting().getCode_enum()) -1];
-                           switch (settingsEnum){
-                               case PRIVACY:
-                                   startPrivacySettings();
-                                   break;
-                               case BEST_DAY_FOR_PAYMENT:
-                                   startDayPayment();
-                                   break;
-                               case OUR_PLANS:
-                                   getPlans();
-                                   break;
-                               case TERM_USE:
-                                   startTermUse();
-                                   break;
-                               case TUTORIAL:
-                                   startTutorial();
-                                   break;
-                               case ABOUT:
-                                   startAbout();
-                                   break;
-                           }
-                       }
-
-                       @Override
-                       public void onLongClick(int position) {
-
-                       }
-
-                       @Override
-                       public void onChange(int position) {
-                           if (userSettings.get(position).isChecking()){
-                               userSettings.get(position).setChecking(false);
-                               checking = 0;
-                           }
-                           else {
-                               userSettings.get(position).setChecking(true);
-                               checking = 1;
-                           }
-
-                           checkingUserSettings(userSettings.get(position), checking);
-                       }
-                   });
-               }
-
-               rcvListSettings.setAdapter(adapter);
-           }
-
-           @Override
-           public void fail(Error error) {
-               returnErrorMessage(error, context);
-           }
-       });
+            @Override
+            public void fail(Error error) {
+                returnErrorMessage(error, context);
+            }
+        });
     }
 
-    public void getPlans(){
+    protected void loadAdapter() {
+        Collections.sort(userSettings);
+        adapter = new SettingsAdapter(context, userSettings, rcvListSettings, new MultipleRecyclerViewListener() {
+            @Override
+            public void onClick(int position) {
+                UserSetting userSetting = userSettings.get(position);
+                SettingsEnum settingsEnum = SettingsEnum.values()[(userSetting.getSetting().getCode_enum()) - 1];
+                switch (settingsEnum) {
+                    case PRIVACY:
+                        startPrivacySettings();
+                        break;
+                    case BEST_DAY_FOR_PAYMENT:
+                        startDayPayment();
+                        break;
+                    case OUR_PLANS:
+                        getPlans();
+                        break;
+                    case TERM_USE:
+                        startTermUse();
+                        break;
+                    case TUTORIAL:
+                        startTutorial();
+                        break;
+                    case ABOUT:
+                        startAbout();
+                        break;
+                }
+            }
+
+            @Override
+            public void onLongClick(int position) {
+
+            }
+
+            @Override
+            public void onChange(int position) {
+                if (userSettings.get(position).isChecking()) {
+                    userSettings.get(position).setChecking(false);
+                    checking = 0;
+                } else {
+                    userSettings.get(position).setChecking(true);
+                    checking = 1;
+                }
+
+                checkingUserSettings(userSettings.get(position), checking);
+            }
+        });
+        rcvListSettings.setAdapter(adapter);
+    }
+
+    public void getPlans() {
         new PlanControll(context).getPlan(firstAccess.getLocale(), new ControllResponseListener() {
             @Override
             public void success(Object object) {
@@ -152,7 +157,7 @@ public class SettingsFragment extends BaseFragment{
 
     }
 
-    public void checkingUserSettings(final UserSetting userSetting, int checking){
+    public void checkingUserSettings(final UserSetting userSetting, int checking) {
         new SettingsControll(context).checkingUserSettings(userSetting, checking, new ControllResponseListener() {
             @Override
             public void success(Object object) {
@@ -166,16 +171,16 @@ public class SettingsFragment extends BaseFragment{
         });
     }
 
-    public void startPrivacySettings(){
+    public void startPrivacySettings() {
         showToastMessage(context, "ABRIR ACTIVITY PRIVACY");
     }
 
-    public void startDayPayment(){
+    public void startDayPayment() {
         showToastMessage(context, "ABRIR ACTIVITY MELHOR DIA PAGAMENTO");
         //TODO: IMPLEMENTAR MELHOR DIA PAGAMENTO.
     }
 
-    public void startOurPlans(final ArrayList<Plan> plans){
+    public void startOurPlans(final ArrayList<Plan> plans) {
         String title = context.getString(R.string.label_our_plans);
         String message = context.getString(R.string.message_list_plan);
 
@@ -212,15 +217,17 @@ public class SettingsFragment extends BaseFragment{
         });
     }
 
-    public void startTermUse(){
-        startActivity(new Intent(context, TermUseActivity.class));
+    public void startTermUse() {
+        Intent intent = new Intent(context, TermUseActivity.class);
+        intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
+        startActivity(intent);
     }
 
-    public void startTutorial(){
+    public void startTutorial() {
         showToastMessage(context, "ABRIR TUTORIAL");
     }
 
-    public void startAbout(){
+    public void startAbout() {
         startActivity(new Intent(context, AboutActivity.class));
     }
 }

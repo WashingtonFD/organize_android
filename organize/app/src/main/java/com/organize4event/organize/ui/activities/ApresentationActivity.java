@@ -38,19 +38,14 @@ public class ApresentationActivity extends BaseActivity {
         firstAccess = Parcels.unwrap(getIntent().getExtras().getParcelable("firstAccess"));
     }
 
-    @OnClick({R.id.txtTermUse, R.id.txtSite, R.id.imgBack, R.id.txtIsRegistered})
+    @OnClick({R.id.txtTermUse, R.id.txtSite, R.id.txtIsRegistered})
     public void actionOnClickView(View view){
         switch (view.getId()){
             case R.id.txtTermUse:
                 starTermUseActivity();
                 break;
             case R.id.txtSite:
-                Uri site = Uri.parse("http://organize4event.com/");
-                Intent intent = new Intent(Intent.ACTION_VIEW, site);
-                startActivity(intent);
-                break;
-            case R.id.imgBack:
-                finish();
+                startSiteActivity();
                 break;
             case R.id.txtIsRegistered:
                 starLoginActivity();
@@ -69,5 +64,11 @@ public class ApresentationActivity extends BaseActivity {
         intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
         startActivity(intent);
         finish();
+    }
+
+    protected void startSiteActivity(){
+        Uri site = Uri.parse("http://organize4event.com/");
+        Intent intent = new Intent(Intent.ACTION_VIEW, site);
+        startActivity(intent);
     }
 }
