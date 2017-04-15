@@ -17,22 +17,21 @@ public interface UserService {
             @Path("locale") String locale,
             @Path("code_enum") int code_enum);
 
-    @GET("user/{id}")
-    Call<User> getUser(@Path("id") int id);
-
     @FormUrlEncoded
     @POST("user/save")
     Call<User> saveUser(
             @Field("user_type") int user_type_id,
+            @Field("plan") int plan_id,
             @Field("full_name") String full_name,
-            @Field("cpf") String cpf,
             @Field("mail") String mail,
-            @Field("birth_date") String birth_date,
-            @Field("gender") String gender,
             @Field("password") String password,
-            @Field("term") int term_id,
-            @Field("term_accept") int term_accept,
-            @Field("term_accept_date") String term_accept_date,
-            @Field("plan") int plan_id
+            @Field("cpf") String cpf,
+            @Field("birth_date") String birth_date,
+            @Field("gender") String gender
     );
+
+    @FormUrlEncoded
+    @POST("user/{user_id}")
+    Call<User> updateUserToken(@Path("user_id") int user_id,
+                               @Field("token") int token_id);
 }

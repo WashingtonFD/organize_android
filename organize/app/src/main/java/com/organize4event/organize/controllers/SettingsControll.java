@@ -27,7 +27,7 @@ public class SettingsControll extends Controll {
                 ArrayList<Setting> settings = (ArrayList<Setting>) response.body();
                 Error error = parserError(settings.get(0));
                 if (error == null){
-                    listener.sucess(settings);
+                    listener.success(settings);
                 }
                 else{
                     listener.fail(error);
@@ -49,7 +49,7 @@ public class SettingsControll extends Controll {
                 ArrayList<UserSetting> userSettings = (ArrayList<UserSetting>) response.body();
                 Error error = parserError(userSettings.get(0));
                 if (error == null){
-                    listener.sucess(userSettings);
+                    listener.success(userSettings);
                 }
                 else{
                     listener.fail(error);
@@ -63,10 +63,14 @@ public class SettingsControll extends Controll {
         });
     }
 
-    public void saveUserSettings(UserSetting userSetting, int checking, final ControllResponseListener listener){
+    public void saveUserSettings(UserSetting userSetting, final ControllResponseListener listener){
+        int checking = 0;
+        if (userSetting.isChecking()){
+            checking = 1;
+        }
         SettingsService service = ApiClient.getRetrofit().create(SettingsService.class);
-        service.saveUserSetting(userSetting.getUser().getId(),
-                userSetting.getSettings().getId(),
+        service.saveUserSetting(userSetting.getUser(),
+                userSetting.getSetting().getId(),
                 checking,
                 userSetting.getValue()).enqueue(new Callback<UserSetting>() {
             @Override
@@ -74,7 +78,7 @@ public class SettingsControll extends Controll {
                 UserSetting userSetting = (UserSetting) response.body();
                 Error error = parserError(userSetting);
                 if (error == null){
-                    listener.sucess(userSetting);
+                    listener.success(userSetting);
                 }
                 else{
                     listener.fail(error);
@@ -96,7 +100,7 @@ public class SettingsControll extends Controll {
                 UserSetting userSetting = (UserSetting) response.body();
                 Error error = parserError(userSetting);
                 if (error == null){
-                    listener.sucess(userSetting);
+                    listener.success(userSetting);
                 }
                 else{
                     listener.fail(error);

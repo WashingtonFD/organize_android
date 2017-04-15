@@ -46,8 +46,8 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.Settin
     @Override
     public void onBindViewHolder(final SettingsViewHolder holder, final int position) {
         UserSetting userSetting = items.get(position);
-        holder.txtSettingName.setText(userSetting.getSettings().getName());
-        holder.txtSettingDescription.setText(userSetting.getSettings().getDescription());
+        holder.txtSettingName.setText(userSetting.getSetting().getName());
+        holder.txtSettingDescription.setText(userSetting.getSetting().getDescription());
         holder.swtChecking.setChecked(userSetting.isChecking());
 
         ArrayList<SettingsEnum> settingsEnums = new ArrayList<>();
@@ -60,7 +60,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.Settin
         settingsEnums.add(SettingsEnum.EXIT);
 
         for (SettingsEnum settingsEnum : settingsEnums){
-            if (settingsEnum.getValue() == userSetting.getSettings().getCode_enum()){
+            if (settingsEnum.getValue() == userSetting.getSetting().getCode_enum()){
                 holder.swtChecking.setVisibility(View.GONE);
                 holder.rowContent.setOnClickListener(new View.OnClickListener() {
                     @Override

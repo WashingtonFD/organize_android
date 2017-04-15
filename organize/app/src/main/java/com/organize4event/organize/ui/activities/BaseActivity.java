@@ -222,6 +222,7 @@ public class BaseActivity  extends AppCompatActivity{
     }
 
     public void returnErrorMessage(Error error, Context context){
+        hideLoading();
         if(isOline(context)){
             showDialogMessage(1, context.getString(R.string.error_title), error.getMessage(), new CustomDialogListener() {
                 @Override

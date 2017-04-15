@@ -20,18 +20,23 @@ import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Order;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.organize4event.organize.R;
-import com.organize4event.organize.commons.AppApplication;
 import com.organize4event.organize.commons.Mask;
+import com.organize4event.organize.controllers.FirstAccessControll;
+import com.organize4event.organize.controllers.PrivacyControll;
 import com.organize4event.organize.controllers.SettingsControll;
+import com.organize4event.organize.controllers.TermUseControll;
 import com.organize4event.organize.controllers.UserControll;
 import com.organize4event.organize.enuns.UserTypeEnum;
 import com.organize4event.organize.listeners.ControllResponseListener;
 import com.organize4event.organize.listeners.CustomDialogListener;
 import com.organize4event.organize.listeners.ToolbarListener;
 import com.organize4event.organize.models.FirstAccess;
+import com.organize4event.organize.models.Privacy;
 import com.organize4event.organize.models.Setting;
 import com.organize4event.organize.models.User;
+import com.organize4event.organize.models.UserPrivacy;
 import com.organize4event.organize.models.UserSetting;
+import com.organize4event.organize.models.UserTerm;
 import com.organize4event.organize.models.UserType;
 
 import org.parceler.Parcels;
@@ -52,13 +57,19 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     private String message = "";
     private String title = "";
     private Date birthDate;
+    private int term_accept = 0;
 
     private User user;
     private FirstAccess firstAccess;
+    private UserTerm userTerm;
     private UserType userType;
-    private UserSetting userSetting;
+
+    private ArrayList<Privacy> privacies = new ArrayList<>();
+    private ArrayList<UserPrivacy> userPrivacies = new ArrayList<>();
+    private UserPrivacy userPrivacy;
     private ArrayList<Setting> settings = new ArrayList<>();
     private ArrayList<UserSetting> userSettings = new ArrayList<>();
+    private UserSetting userSetting;
 
     Validator validator;
     SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -117,8 +128,10 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         ButterKnife.bind(this);
 
         context = UserRegisterActivity.this;
-        user = Parcels.unwrap(getIntent().getExtras().getParcelable("user"));
-        firstAccess = AppApplication.getFirstAccess();
+        firstAccess = Parcels.unwrap(getIntent().getExtras().getParcelable("firstAccess"));
+        user = firstAccess.getUser();
+        userTerm = user.getUser_term();
+
 
         configureToolbar(context, toolbar, context.getString(R.string.label_register_user), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
             @Override
@@ -136,7 +149,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         selectGender();
     }
 
-    public void selectGender(){
+    protected void selectGender(){
         rgpListGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
@@ -152,39 +165,187 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         });
     }
 
-    public void saveUser(){
+    protected void getUserType(){
         showLoading();
+        final int code_user_type = UserTypeEnum.DEFAULT.getValue();
+        new UserControll(context).getUserType(firstAccess.getLocale(), code_user_type, new ControllResponseListener() {
+            @Override
+            public void success(Object object) {
+                userType = (UserType)object;
+                prepareUser();
+            }
+
+            @Override
+            public void fail(Error error) {
+                returnErrorMessage(error, context);
+            }
+        });
+    }
+
+    protected void prepareUser(){
         try {
             birthDate = format.parse(txtBirthDate.getText().toString());
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        int term_accept = 0;
-        if (user.isTerm_accept()){
-            term_accept = 1;
-        }
-
         user.setUser_type(userType);
         user.setFull_name(txtFullName.getText().toString());
-        user.setCpf(txtCpf.getText().toString());
         user.setMail(txtMail.getText().toString());
-        user.setBirth_date(birthDate);
         user.setPassword(txtPassword.getText().toString());
+        user.setCpf(txtCpf.getText().toString());
+        user.setBirth_date(birthDate);
 
-        new UserControll(context).saveUser(user, term_accept, new ControllResponseListener() {
+        saveUser();
+    }
+
+    protected void saveUser(){
+        new UserControll(context).saveUser(user, new ControllResponseListener() {
             @Override
-            public void sucess(Object object) {
-                user = (User) object;
-                getSettings();
+            public void success(Object object) {
+                user = (User)object;
+                saveFirstAccess();
             }
 
             @Override
             public void fail(Error error) {
-                hideLoading();
                 returnErrorMessage(error, context);
             }
         });
+    }
+
+    protected  void saveFirstAccess(){
+        firstAccess.setUser(user);
+        new FirstAccessControll(context).saveFirstAccess(firstAccess, new ControllResponseListener() {
+            @Override
+            public void success(Object object) {
+                saveUserTerm();
+            }
+
+            @Override
+            public void fail(Error error) {
+                returnErrorMessage(error, context);
+            }
+        });
+
+    }
+
+    protected void saveUserTerm(){
+        userTerm.setUser(user.getId());
+
+        if (userTerm.isTerm_accept()){
+            term_accept = 1;
+        }
+
+        new TermUseControll(context).saveUserTerm(userTerm, term_accept, new ControllResponseListener() {
+            @Override
+            public void success(Object object) {
+                userTerm = (UserTerm) object;
+                getPrivacy();
+            }
+
+            @Override
+            public void fail(Error error) {
+                returnErrorMessage(error, context);
+
+            }
+        });
+    }
+
+    protected void getPrivacy(){
+        new PrivacyControll(context).getPrivacy(firstAccess.getLocale(), new ControllResponseListener() {
+            @Override
+            public void success(Object object) {
+                privacies = (ArrayList<Privacy>) object;
+                if (privacies.size() > 0){
+                    for (Privacy privacy : privacies){
+                        saveUserPrivacy(privacy);
+                    }
+                }
+            }
+
+            @Override
+            public void fail(Error error) {
+                returnErrorMessage(error, context);
+            }
+        });
+    }
+
+    protected void saveUserPrivacy(Privacy privacy){
+
+        userPrivacy = new UserPrivacy();
+        userPrivacy.setUser(user.getId());
+        userPrivacy.setPrivacy(privacy);
+        userPrivacy.setChecking(privacy.isCheck_default());
+
+        new PrivacyControll(context).saveUserPrivacy(userPrivacy, new ControllResponseListener() {
+            @Override
+            public void success(Object object) {
+                userPrivacy = (UserPrivacy)object;
+                userPrivacies.add(userPrivacy);
+
+                if (userPrivacies.size() == privacies.size()){
+                    getSettings();
+                }
+            }
+
+            @Override
+            public void fail(Error error) {
+                returnErrorMessage(error, context);
+            }
+        });
+    }
+
+    protected void getSettings(){
+        new SettingsControll(context).getSettings(firstAccess.getLocale(), new ControllResponseListener() {
+            @Override
+            public void success(Object object) {
+                settings = (ArrayList<Setting>) object;
+                if (settings.size() > 0){
+                    for(Setting setting : settings){
+                        saveUserSetting(setting);
+                    }
+                }
+            }
+
+            @Override
+            public void fail(Error error) {
+                returnErrorMessage(error,context);
+            }
+        });
+    }
+
+    public void saveUserSetting(final Setting setting){
+
+        userSetting = new UserSetting();
+        userSetting.setUser(user.getId());
+        userSetting.setSetting(setting);
+        userSetting.setChecking(setting.isCheck_default());
+
+        new SettingsControll(context).saveUserSettings(userSetting, new ControllResponseListener() {
+            @Override
+            public void success(Object object) {
+                userSetting = (UserSetting) object;
+                userSettings.add(userSetting);
+
+                if (userSettings.size() == settings.size()){
+                    hideLoading();
+                    starLoginActivity();
+                }
+            }
+
+            @Override
+            public void fail(Error error) {
+                returnErrorMessage(error, context);
+            }
+        });
+    }
+
+    protected void starLoginActivity(){
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
+        startActivity(intent);
+        finish();
     }
 
     @OnFocusChange({R.id.txtCpf, R.id.txtBirthDate, R.id.txtPassword, R.id.txtPasswordConfirm})
@@ -233,19 +394,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
     @Override
     public void onValidationSucceeded() {
-        int code_enum = UserTypeEnum.DEFAULT.getValue();
-        new UserControll(context).getUserType(firstAccess.getLocale(), code_enum, new ControllResponseListener() {
-            @Override
-            public void sucess(Object object) {
-                userType = (UserType) object;
-                saveUser();
-            }
-
-            @Override
-            public void fail(Error error) {
-                returnErrorMessage(error, context);
-            }
-        });
+        getUserType();
     }
 
     @Override
@@ -253,54 +402,4 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         validateError(errors);
     }
 
-    public void getSettings(){
-        new SettingsControll(context).getSettings(firstAccess.getLocale(), new ControllResponseListener() {
-            @Override
-            public void sucess(Object object) {
-                settings = (ArrayList<Setting>) object;
-                if (settings.size() > 0){
-                    for(Setting setting : settings){
-                        saveUserSetting(setting);
-                    }
-                }
-            }
-
-            @Override
-            public void fail(Error error) {
-                hideLoading();
-                returnErrorMessage(error,context);
-            }
-        });
-    }
-
-    public void saveUserSetting(final Setting setting){
-        int checking = 0;
-        if (setting.isCheck_default()){
-            checking = 1;
-        }
-        userSetting = new UserSetting();
-        userSetting.setUser(user);
-        userSetting.setSettings(setting);
-        userSetting.setChecking(setting.isCheck_default());
-
-        new SettingsControll(context).saveUserSettings(userSetting, checking, new ControllResponseListener() {
-            @Override
-            public void sucess(Object object) {
-                userSetting = (UserSetting) object;
-                userSettings.add(userSetting);
-
-                if (userSettings.size() == settings.size()){
-                    hideLoading();
-                    startActivity(new Intent(context, LoginActivity.class));
-                    finish();
-                }
-            }
-
-            @Override
-            public void fail(Error error) {
-                hideLoading();
-                returnErrorMessage(error, context);
-            }
-        });
-    }
 }

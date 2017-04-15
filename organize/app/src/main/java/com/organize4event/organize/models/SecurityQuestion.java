@@ -4,17 +4,17 @@ import android.os.Parcel;
 
 import com.google.gson.annotations.SerializedName;
 
-public class SecurityQuestions extends ErrorReturn{
+public class SecurityQuestion extends ErrorReturn{
     @SerializedName("id")
     private int id;
     @SerializedName("user")
-    private User user;
+    private int user;
     @SerializedName("locale")
     private String locale;
     @SerializedName("security_question")
     private String security_question;
-    @SerializedName("private")
-    private boolean restrict;
+    @SerializedName("private_use")
+    private boolean private_use;
 
     public int getId() {
         return id;
@@ -24,11 +24,11 @@ public class SecurityQuestions extends ErrorReturn{
         this.id = id;
     }
 
-    public User getUser() {
+    public int getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(int user) {
         this.user = user;
     }
 
@@ -48,12 +48,12 @@ public class SecurityQuestions extends ErrorReturn{
         this.security_question = security_question;
     }
 
-    public boolean isRestrict() {
-        return restrict;
+    public boolean isPrivate_use() {
+        return private_use;
     }
 
-    public void setRestrict(boolean restrict) {
-        this.restrict = restrict;
+    public void setPrivate_use(boolean private_use) {
+        this.private_use = private_use;
     }
 
 
@@ -66,34 +66,34 @@ public class SecurityQuestions extends ErrorReturn{
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
         dest.writeInt(this.id);
-        dest.writeParcelable(this.user, flags);
+        dest.writeInt(this.user);
         dest.writeString(this.locale);
         dest.writeString(this.security_question);
-        dest.writeByte(this.restrict ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.private_use ? (byte) 1 : (byte) 0);
     }
 
-    public SecurityQuestions() {
+    public SecurityQuestion() {
         this.setIs_new(true);
     }
 
-    protected SecurityQuestions(Parcel in) {
+    protected SecurityQuestion(Parcel in) {
         super(in);
         this.id = in.readInt();
-        this.user = in.readParcelable(User.class.getClassLoader());
+        this.user = in.readInt();
         this.locale = in.readString();
         this.security_question = in.readString();
-        this.restrict = in.readByte() != 0;
+        this.private_use = in.readByte() != 0;
     }
 
-    public static final Creator<SecurityQuestions> CREATOR = new Creator<SecurityQuestions>() {
+    public static final Creator<SecurityQuestion> CREATOR = new Creator<SecurityQuestion>() {
         @Override
-        public SecurityQuestions createFromParcel(Parcel source) {
-            return new SecurityQuestions(source);
+        public SecurityQuestion createFromParcel(Parcel source) {
+            return new SecurityQuestion(source);
         }
 
         @Override
-        public SecurityQuestions[] newArray(int size) {
-            return new SecurityQuestions[size];
+        public SecurityQuestion[] newArray(int size) {
+            return new SecurityQuestion[size];
         }
     };
 }

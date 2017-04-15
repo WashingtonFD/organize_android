@@ -5,8 +5,6 @@ import android.support.multidex.MultiDex;
 
 import com.organize4event.organize.R;
 import com.organize4event.organize.models.FirstAccess;
-import com.organize4event.organize.models.Token;
-import com.organize4event.organize.models.User;
 
 import pl.tajchert.nammu.Nammu;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -14,8 +12,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 public class AppApplication extends Application{
     private static AppApplication instance;
     private static FirstAccess firstAccess;
-    private static Token token;
-    private static User user;
 
     public void onCreate()
     {
@@ -46,29 +42,5 @@ public class AppApplication extends Application{
 
     public static void setFirstAccess(FirstAccess firstAccess) {
         AppApplication.firstAccess = firstAccess;
-    }
-
-    public static Token getToken() {
-        if (token == null){
-            token = PreferencesManager.getToken();
-        }
-
-        return token;
-    }
-
-    public static void setToken(Token token) {
-        AppApplication.token = token;
-    }
-
-    public static User getUser() {
-        if (user == null){
-            user = PreferencesManager.getUser();
-        }
-
-        return user;
-    }
-
-    public static void setUser(User user) {
-        AppApplication.user = user;
     }
 }

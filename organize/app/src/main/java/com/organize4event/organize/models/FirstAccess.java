@@ -9,6 +9,8 @@ import java.util.Date;
 public class FirstAccess extends ErrorReturn{
     @SerializedName("id")
     private int id;
+    @SerializedName("user")
+    private User user;
     @SerializedName("device_id")
     private String device_id;
     @SerializedName("instalation_date")
@@ -22,6 +24,14 @@ public class FirstAccess extends ErrorReturn{
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getDevice_id() {
@@ -48,6 +58,7 @@ public class FirstAccess extends ErrorReturn{
         this.locale = locale;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -57,6 +68,7 @@ public class FirstAccess extends ErrorReturn{
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
         dest.writeInt(this.id);
+        dest.writeParcelable(this.user, flags);
         dest.writeString(this.device_id);
         dest.writeLong(this.instalation_date != null ? this.instalation_date.getTime() : -1);
         dest.writeString(this.locale);
@@ -69,6 +81,7 @@ public class FirstAccess extends ErrorReturn{
     protected FirstAccess(Parcel in) {
         super(in);
         this.id = in.readInt();
+        this.user = in.readParcelable(User.class.getClassLoader());
         this.device_id = in.readString();
         long tmpInstalation_date = in.readLong();
         this.instalation_date = tmpInstalation_date == -1 ? null : new Date(tmpInstalation_date);

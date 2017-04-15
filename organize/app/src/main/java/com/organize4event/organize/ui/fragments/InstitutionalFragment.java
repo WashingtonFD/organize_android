@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -48,6 +49,8 @@ public class InstitutionalFragment extends BaseFragment {
     private Institutional institutional;
     private SectionedRecyclerViewAdapter adapter;
 
+    @Bind(R.id.contentFilter)
+    RelativeLayout contentFilter;
     @Bind(R.id.txtDescription)
     TextView txtDescription;
     @Bind(R.id.txtMission)
@@ -56,7 +59,6 @@ public class InstitutionalFragment extends BaseFragment {
     TextView txtVision;
     @Bind(R.id.txtValues)
     TextView txtValues;
-
     @Bind(R.id.txtFree)
     TextView txtFree;
     @Bind(R.id.txtBasic)
@@ -69,7 +71,6 @@ public class InstitutionalFragment extends BaseFragment {
     TextView txtPlanBasic;
     @Bind(R.id.txtPlanPremium)
     TextView txtPlanPremium;
-
     @Bind(R.id.rcvListContacts)
     RecyclerView rcvListContacts;
 
@@ -89,8 +90,7 @@ public class InstitutionalFragment extends BaseFragment {
         showLoading();
         new InstitutionalControll(context).getInstitutional(firstAccess.getLocale(), new ControllResponseListener() {
             @Override
-            public void sucess(Object object) {
-                hideLoading();
+            public void success(Object object) {
                 institutional = (Institutional) object;
                 txtDescription.setText(institutional.getDescription());
                 txtMission.setText(institutional.getMission());
@@ -102,7 +102,6 @@ public class InstitutionalFragment extends BaseFragment {
 
             @Override
             public void fail(Error error) {
-                hideLoading();
                 returnErrorMessage(error, context);
             }
         });
@@ -111,7 +110,7 @@ public class InstitutionalFragment extends BaseFragment {
     public void getPlans(){
         new PlanControll(context).getPlan(firstAccess.getLocale(), new ControllResponseListener() {
             @Override
-            public void sucess(Object object) {
+            public void success(Object object) {
                 plans = (ArrayList<Plan>) object;
                 for (Plan plan : plans){
                     if (plan.getCode_enum() == PlanEnum.FREE.getValue()){
@@ -141,7 +140,7 @@ public class InstitutionalFragment extends BaseFragment {
     public void getContacts(){
         new InstitutionalControll(context).getContact(firstAccess.getLocale(), new ControllResponseListener() {
             @Override
-            public void sucess(Object object) {
+            public void success(Object object) {
                 contacts = (ArrayList<Contact>) object;
                 adapter = new SectionedRecyclerViewAdapter();
                 TreeMap<String, ContactSection> sections = new TreeMap<String, ContactSection>();
@@ -174,6 +173,8 @@ public class InstitutionalFragment extends BaseFragment {
                 rcvListContacts.setLayoutManager(new LinearLayoutManager(context));
                 rcvListContacts.setItemAnimator(new DefaultItemAnimator());
                 rcvListContacts.setAdapter(adapter);
+                contentFilter.setVisibility(View.GONE);
+                hideLoading();
             }
 
             @Override
@@ -187,7 +188,7 @@ public class InstitutionalFragment extends BaseFragment {
         showLoading();
         new PlanControll(context).getPlanId(firstAccess.getLocale(), code_enum, new ControllResponseListener() {
             @Override
-            public void sucess(Object object) {
+            public void success(Object object) {
                 hideLoading();
                 Plan plan = (Plan) object;
                 Intent intent = new Intent(context, PlanDetailActivity.class);
@@ -197,7 +198,6 @@ public class InstitutionalFragment extends BaseFragment {
 
             @Override
             public void fail(Error error) {
-                hideLoading();
                 returnErrorMessage(error, context);
             }
         });
@@ -219,7 +219,7 @@ public class InstitutionalFragment extends BaseFragment {
                 sendWhasappMessage(contact);
                 break;
             case FACEBOOK:
-                openPageFacebook(contact);
+                openPageFacebook(context);
                 break;
         }
     }
@@ -254,15 +254,23 @@ public class InstitutionalFragment extends BaseFragment {
         Uri uri = Uri.parse("smsto:" + contact.getContact());
         Intent sendIntent = new Intent(Intent.ACTION_SENDTO, uri);
         sendIntent.setPackage("com.whatsapp");
-        startActivity(sendIntent);
+        startActivity(Intent.createChooser(sendIntent, ""));
+//        Uri uri = Uri.parse("smsto:" + number);
+//        Intent i = new Intent(Intent.ACTION_SENDTO, uri);
+//        i.setPackage("com.whatsapp");
+//        startActivity(Intent.createChooser(i, ""));
     }
 
-    public void openPageFacebook(Contact contact){
-        //TODO: ABRIR PAGINA FACEBOOK
-        showToastMessage(context, "facebook");
+    public void openPageFacebook(Context context){
+        try {
+            context.getPackageManager().getPackageInfo("com.facebook.katana", 0);
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/1881281328782009")));
+        } catch (Exception e) {
+            startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.facebook.com/organize4event")));
+        }
     }
 
-    @OnClick({R.id.txtFree, R.id.txtBasic, R.id.txtPremium})
+    @OnClick({R.id.txtFree, R.id.txtBasic, R.id.txtPremium, R.id.txtSite})
     public void actionStartPlanDetail(View view){
         Plan plan = plans.get(0);
         switch (view.getId()){
@@ -274,6 +282,11 @@ public class InstitutionalFragment extends BaseFragment {
                 break;
             case R.id.txtPremium:
                 getPlanId(PlanEnum.PREMIUM.getValue());
+                break;
+            case R.id.txtSite:
+                Uri site = Uri.parse("http://organize4event.com/");
+                Intent intent = new Intent(Intent.ACTION_VIEW, site);
+                startActivity(intent);
                 break;
         }
     }

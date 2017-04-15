@@ -4,6 +4,7 @@ import android.os.Parcel;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class User extends ErrorReturn{
@@ -11,18 +12,16 @@ public class User extends ErrorReturn{
     private int id;
     @SerializedName("user_type")
     private UserType user_type;
+    @SerializedName("token")
+    private Token token;
+    @SerializedName("plan")
+    private Plan plan;
     @SerializedName("full_name")
     private String full_name;
     @SerializedName("mail")
     private String mail;
     @SerializedName("password")
     private String password;
-    @SerializedName("facebook_id")
-    private String facebook_id;
-    @SerializedName("linkedin_id")
-    private String linkedin_id;
-    @SerializedName("google_id")
-    private String google_id;
     @SerializedName("profile_picture")
     private String profile_picture;
     @SerializedName("cpf")
@@ -34,7 +33,7 @@ public class User extends ErrorReturn{
     @SerializedName("rg_emitter_organ")
     private String rg_emitter_organ;
     @SerializedName("rg_emitter_date")
-    private Date rg_emitter_date;
+    private String rg_emitter_date;
     @SerializedName("birth_date")
     private Date birth_date;
     @SerializedName("gender")
@@ -43,14 +42,16 @@ public class User extends ErrorReturn{
     private String responsible_name;
     @SerializedName("responsible_cpf")
     private String responsible_cpf;
-    @SerializedName("term")
-    private TermUse term;
-    @SerializedName("term_accept")
-    private boolean term_accept;
-    @SerializedName("term_accept_date")
-    private Date term_accept_date;
-    @SerializedName("plan")
-    private Plan plan;
+    @SerializedName("user_term")
+    private UserTerm user_term;
+    @SerializedName("user_security")
+    private UserSecurity user_security;
+    @SerializedName("user_settings")
+    private ArrayList<UserSetting> user_settings;
+    @SerializedName("user_privacy")
+    private ArrayList<UserPrivacy> user_privacy;
+    @SerializedName("user_notifications")
+    private ArrayList<UserNotification> user_notifications;
 
     public int getId() {
         return id;
@@ -66,6 +67,22 @@ public class User extends ErrorReturn{
 
     public void setUser_type(UserType user_type) {
         this.user_type = user_type;
+    }
+
+    public Token getToken() {
+        return token;
+    }
+
+    public void setToken(Token token) {
+        this.token = token;
+    }
+
+    public Plan getPlan() {
+        return plan;
+    }
+
+    public void setPlan(Plan plan) {
+        this.plan = plan;
     }
 
     public String getFull_name() {
@@ -90,30 +107,6 @@ public class User extends ErrorReturn{
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getFacebook_id() {
-        return facebook_id;
-    }
-
-    public void setFacebook_id(String facebook_id) {
-        this.facebook_id = facebook_id;
-    }
-
-    public String getLinkedin_id() {
-        return linkedin_id;
-    }
-
-    public void setLinkedin_id(String linkedin_id) {
-        this.linkedin_id = linkedin_id;
-    }
-
-    public String getGoogle_id() {
-        return google_id;
-    }
-
-    public void setGoogle_id(String google_id) {
-        this.google_id = google_id;
     }
 
     public String getProfile_picture() {
@@ -156,11 +149,11 @@ public class User extends ErrorReturn{
         this.rg_emitter_organ = rg_emitter_organ;
     }
 
-    public Date getRg_emitter_date() {
+    public String getRg_emitter_date() {
         return rg_emitter_date;
     }
 
-    public void setRg_emitter_date(Date rg_emitter_date) {
+    public void setRg_emitter_date(String rg_emitter_date) {
         this.rg_emitter_date = rg_emitter_date;
     }
 
@@ -196,36 +189,44 @@ public class User extends ErrorReturn{
         this.responsible_cpf = responsible_cpf;
     }
 
-    public TermUse getTerm() {
-        return term;
+    public UserTerm getUser_term() {
+        return user_term;
     }
 
-    public void setTerm(TermUse term) {
-        this.term = term;
+    public void setUser_term(UserTerm user_term) {
+        this.user_term = user_term;
     }
 
-    public boolean isTerm_accept() {
-        return term_accept;
+    public UserSecurity getUser_security() {
+        return user_security;
     }
 
-    public void setTerm_accept(boolean term_accept) {
-        this.term_accept = term_accept;
+    public void setUser_security(UserSecurity user_security) {
+        this.user_security = user_security;
     }
 
-    public Date getTerm_accept_date() {
-        return term_accept_date;
+    public ArrayList<UserSetting> getUser_settings() {
+        return user_settings;
     }
 
-    public void setTerm_accept_date(Date term_accept_date) {
-        this.term_accept_date = term_accept_date;
+    public void setUser_settings(ArrayList<UserSetting> user_settings) {
+        this.user_settings = user_settings;
     }
 
-    public Plan getPlan() {
-        return plan;
+    public ArrayList<UserPrivacy> getUser_privacy() {
+        return user_privacy;
     }
 
-    public void setPlan(Plan plan) {
-        this.plan = plan;
+    public void setUser_privacy(ArrayList<UserPrivacy> user_privacy) {
+        this.user_privacy = user_privacy;
+    }
+
+    public ArrayList<UserNotification> getUser_notifications() {
+        return user_notifications;
+    }
+
+    public void setUser_notifications(ArrayList<UserNotification> user_notifications) {
+        this.user_notifications = user_notifications;
     }
 
 
@@ -239,26 +240,26 @@ public class User extends ErrorReturn{
         super.writeToParcel(dest, flags);
         dest.writeInt(this.id);
         dest.writeParcelable(this.user_type, flags);
+        dest.writeParcelable(this.token, flags);
+        dest.writeParcelable(this.plan, flags);
         dest.writeString(this.full_name);
         dest.writeString(this.mail);
         dest.writeString(this.password);
-        dest.writeString(this.facebook_id);
-        dest.writeString(this.linkedin_id);
-        dest.writeString(this.google_id);
         dest.writeString(this.profile_picture);
         dest.writeString(this.cpf);
         dest.writeString(this.rg_number);
         dest.writeString(this.rg_emitter_uf);
         dest.writeString(this.rg_emitter_organ);
-        dest.writeLong(this.rg_emitter_date != null ? this.rg_emitter_date.getTime() : -1);
+        dest.writeString(this.rg_emitter_date);
         dest.writeLong(this.birth_date != null ? this.birth_date.getTime() : -1);
         dest.writeString(this.gender);
         dest.writeString(this.responsible_name);
         dest.writeString(this.responsible_cpf);
-        dest.writeParcelable(this.term, flags);
-        dest.writeByte(this.term_accept ? (byte) 1 : (byte) 0);
-        dest.writeLong(this.term_accept_date != null ? this.term_accept_date.getTime() : -1);
-        dest.writeParcelable(this.plan, flags);
+        dest.writeParcelable(this.user_term, flags);
+        dest.writeParcelable(this.user_security, flags);
+        dest.writeTypedList(this.user_settings);
+        dest.writeTypedList(this.user_privacy);
+        dest.writeTypedList(this.user_notifications);
     }
 
     public User() {
@@ -269,29 +270,27 @@ public class User extends ErrorReturn{
         super(in);
         this.id = in.readInt();
         this.user_type = in.readParcelable(UserType.class.getClassLoader());
+        this.token = in.readParcelable(Token.class.getClassLoader());
+        this.plan = in.readParcelable(Plan.class.getClassLoader());
         this.full_name = in.readString();
         this.mail = in.readString();
         this.password = in.readString();
-        this.facebook_id = in.readString();
-        this.linkedin_id = in.readString();
-        this.google_id = in.readString();
         this.profile_picture = in.readString();
         this.cpf = in.readString();
         this.rg_number = in.readString();
         this.rg_emitter_uf = in.readString();
         this.rg_emitter_organ = in.readString();
-        long tmpRg_emitter_date = in.readLong();
-        this.rg_emitter_date = tmpRg_emitter_date == -1 ? null : new Date(tmpRg_emitter_date);
+        this.rg_emitter_date = in.readString();
         long tmpBirth_date = in.readLong();
         this.birth_date = tmpBirth_date == -1 ? null : new Date(tmpBirth_date);
         this.gender = in.readString();
         this.responsible_name = in.readString();
         this.responsible_cpf = in.readString();
-        this.term = in.readParcelable(TermUse.class.getClassLoader());
-        this.term_accept = in.readByte() != 0;
-        long tmpTerm_accept_date = in.readLong();
-        this.term_accept_date = tmpTerm_accept_date == -1 ? null : new Date(tmpTerm_accept_date);
-        this.plan = in.readParcelable(Plan.class.getClassLoader());
+        this.user_term = in.readParcelable(UserTerm.class.getClassLoader());
+        this.user_security = in.readParcelable(UserSecurity.class.getClassLoader());
+        this.user_settings = in.createTypedArrayList(UserSetting.CREATOR);
+        this.user_privacy = in.createTypedArrayList(UserPrivacy.CREATOR);
+        this.user_notifications = in.createTypedArrayList(UserNotification.CREATOR);
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {

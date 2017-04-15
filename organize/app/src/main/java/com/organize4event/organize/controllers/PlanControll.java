@@ -26,7 +26,7 @@ public class PlanControll extends Controll {
                 ArrayList<Plan> plans = (ArrayList<Plan>) response.body();
                 Error error = parserError(plans.get(0));
                 if (error == null){
-                    listener.sucess(plans);
+                    listener.success(plans);
                 }
                 else {
                     listener.fail(error);
@@ -48,7 +48,7 @@ public class PlanControll extends Controll {
                 Plan plan = (Plan) response.body();
                 Error error = parserError(plan);
                 if (error == null){
-                    listener.sucess(plan);
+                    listener.success(plan);
                 }
                 else{
                     listener.fail(error);

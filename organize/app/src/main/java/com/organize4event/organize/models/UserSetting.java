@@ -9,9 +9,9 @@ public class UserSetting extends ErrorReturn implements Comparable<UserSetting>{
     @SerializedName("id")
     private int id;
     @SerializedName("user")
-    private User user;
-    @SerializedName("settings")
-    private Setting settings;
+    private int user;
+    @SerializedName("setting")
+    private Setting setting;
     @SerializedName("checking")
     private boolean checking;
     @SerializedName("value")
@@ -25,20 +25,20 @@ public class UserSetting extends ErrorReturn implements Comparable<UserSetting>{
         this.id = id;
     }
 
-    public User getUser() {
+    public int getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(int user) {
         this.user = user;
     }
 
-    public Setting getSettings() {
-        return settings;
+    public Setting getSetting() {
+        return setting;
     }
 
-    public void setSettings(Setting settings) {
-        this.settings = settings;
+    public void setSetting(Setting setting) {
+        this.setting = setting;
     }
 
     public boolean isChecking() {
@@ -58,6 +58,18 @@ public class UserSetting extends ErrorReturn implements Comparable<UserSetting>{
     }
 
 
+
+    @Override
+    public int compareTo(@NonNull UserSetting o) {
+        if (this.getSetting().getCode_enum() > o.getSetting().getCode_enum()){
+            return 1;
+        }
+        if (this.getSetting().getCode_enum() < o.getSetting().getCode_enum()){
+            return -1;
+        }
+        return 0;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -67,21 +79,20 @@ public class UserSetting extends ErrorReturn implements Comparable<UserSetting>{
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
         dest.writeInt(this.id);
-        dest.writeParcelable(this.user, flags);
-        dest.writeParcelable(this.settings, flags);
+        dest.writeInt(this.user);
+        dest.writeParcelable(this.setting, flags);
         dest.writeByte(this.checking ? (byte) 1 : (byte) 0);
         dest.writeInt(this.value);
     }
 
     public UserSetting() {
-        this.setIs_new(true);
     }
 
     protected UserSetting(Parcel in) {
         super(in);
         this.id = in.readInt();
-        this.user = in.readParcelable(User.class.getClassLoader());
-        this.settings = in.readParcelable(Setting.class.getClassLoader());
+        this.user = in.readInt();
+        this.setting = in.readParcelable(Setting.class.getClassLoader());
         this.checking = in.readByte() != 0;
         this.value = in.readInt();
     }
@@ -97,15 +108,4 @@ public class UserSetting extends ErrorReturn implements Comparable<UserSetting>{
             return new UserSetting[size];
         }
     };
-
-    @Override
-    public int compareTo(@NonNull UserSetting o) {
-        if (this.getSettings().getCode_enum() > o.getSettings().getCode_enum()){
-            return 1;
-        }
-        if (this.getSettings().getCode_enum() < o.getSettings().getCode_enum()){
-            return -1;
-        }
-        return 0;
-    }
 }

@@ -26,6 +26,7 @@ public class FirstAccessControll extends Controll{
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.FULL_DATE_FORMAT);
         FirstAccessService service = ApiClient.getRetrofit().create(FirstAccessService.class);
         service.saveFirstAccess(
+                firstAccess.getUser().getId(),
                 firstAccess.getDevice_id(),
                 firstAccess.getLocale(),
                 simpleDateFormat.format(firstAccess.getInstalation_date())
@@ -37,7 +38,7 @@ public class FirstAccessControll extends Controll{
                 if (error == null){
                     PreferencesManager.saveFirstAccess(firstAccess);
                     AppApplication.setFirstAccess(firstAccess);
-                    listener.sucess(firstAccess);
+                    listener.success(firstAccess);
                 }
                 else{
                     listener.fail(error);
@@ -59,7 +60,7 @@ public class FirstAccessControll extends Controll{
                 FirstAccess firstAccess = (FirstAccess) response.body();
                 Error error = parserError(firstAccess);
                 if (error == null){
-                    listener.sucess(firstAccess);
+                    listener.success(firstAccess);
                 }
                 else{
                     listener.fail(error);
@@ -81,7 +82,7 @@ public class FirstAccessControll extends Controll{
                 AccessPlatform accessPlatform = response.body();
                 Error error = parserError(accessPlatform);
                 if (error == null){
-                    listener.sucess(accessPlatform);
+                    listener.success(accessPlatform);
                 }
                 else{
                     listener.fail(error);

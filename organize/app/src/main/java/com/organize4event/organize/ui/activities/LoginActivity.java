@@ -18,7 +18,6 @@ import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Order;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.organize4event.organize.R;
-import com.organize4event.organize.commons.AppApplication;
 import com.organize4event.organize.commons.CustomValidate;
 import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.controllers.FirstAccessControll;
@@ -32,6 +31,8 @@ import com.organize4event.organize.models.FirstAccess;
 import com.organize4event.organize.models.LoginType;
 import com.organize4event.organize.models.Token;
 import com.organize4event.organize.models.User;
+
+import org.parceler.Parcels;
 
 import java.util.Date;
 import java.util.List;
@@ -93,9 +94,9 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         context = LoginActivity.this;
         code_enum_platform = AccessPlatformEnum.ANDROID.getValue();
 
-        user = AppApplication.getUser();
-        firstAccess = AppApplication.getFirstAccess();
-        token = AppApplication.getToken();
+        firstAccess = Parcels.unwrap(getIntent().getExtras().getParcelable("firstAccess"));
+        user = firstAccess.getUser();
+        token = user.getToken();
 
         if (token == null){
             token = new Token();
@@ -159,29 +160,16 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         }
     }
 
-    public void loginEmail(){
+    protected void loginEmail(){
         hideLoading();
         containerLoginEmail.setVisibility(View.VISIBLE);
-        if(token.is_new()){
-            token.setFirstAccess(firstAccess);
-            token.setLogin_type(loginType);
-            token.setAccess_platform(accessPlatform);
-            token.setAccess_date(new Date());
-            token.setKeep_logged(keep_logged);
-        }
-        else{
-            token.setLogin_type(loginType);
-            token.setAccess_platform(accessPlatform);
-            token.setAccess_date(new Date());
-            token.setKeep_logged(keep_logged);
-        }
     }
 
-    public void login(){
+    protected void login(){
         showLoading();
         new TokenControll(context).login(txtMail.getText().toString(), txtPassword.getText().toString(), new ControllResponseListener() {
             @Override
-            public void sucess(Object object) {
+            public void success(Object object) {
                 hideLoading();
                 newUser = (User) object;
                 if (!newUser.is_new()){
@@ -200,33 +188,30 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                     });
                 }
                 else{
-                    user = newUser;
-                    user.setIs_new(false);
-                    token.setUser(user);
-                    if (token.is_new()){
-                        saveToken();
-                    }
-                    else{
-                        updateToken();
-                    }
+                    saveToken();
                 }
             }
 
             @Override
             public void fail(Error error) {
-                hideLoading();
                 containerLoginEmail.setVisibility(View.GONE);
                 returnErrorMessage(error, context);
             }
         });
     }
 
-    public void saveToken(){
-        new TokenControll(context).saveToken(token, keep_logged_int, new ControllResponseListener() {
+    protected void saveToken(){
+        token.setLogin_type(loginType);
+        token.setAccess_platform(accessPlatform);
+        token.setAccess_date(new Date());
+        token.setKeep_logged(keep_logged);
+        new TokenControll(context).saveToken(token, user.getId(), keep_logged_int, new ControllResponseListener() {
             @Override
-            public void sucess(Object object) {
-                hideLoading();
+            public void success(Object object) {
                 token = (Token) object;
+                user.setToken(token);
+                firstAccess.setUser(user);
+                PreferencesManager.saveFirstAccess(firstAccess);
                 if (PreferencesManager.isHideWelcome()){
                     startActivity(new Intent(context, HomeActivity.class));
                 }
@@ -238,44 +223,19 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
             @Override
             public void fail(Error error) {
-                hideLoading();
                 containerLoginEmail.setVisibility(View.GONE);
                 returnErrorMessage(error, context);
             }
         });
     }
 
-    public void updateToken(){
-        new TokenControll(context).updateToken(token, keep_logged_int, new ControllResponseListener() {
-            @Override
-            public void sucess(Object object) {
-                hideLoading();
-                token = (Token) object;
-                if (PreferencesManager.isHideWelcome()){
-                    startActivity(new Intent(context, HomeActivity.class));
-                }
-                else{
-                    startActivity(new Intent(context, WelcomeActivity.class));
-                }
-                finish();
-            }
-
-            @Override
-            public void fail(Error error) {
-                hideLoading();
-                containerLoginEmail.setVisibility(View.GONE);
-                returnErrorMessage(error, context);
-            }
-        });
-    }
-
-    public void loginFacebook(){
+    protected void loginFacebook(){
         hideLoading();
         showToastMessage(context, "Implementar Login com Facebook");
         //TODO: IMPLEMENTAR LOGIN COM FACEBOOK
     }
 
-    public void forgotPassword(){
+    protected void forgotPassword(){
         customValidate = new CustomValidate();
         if(!customValidate.validadeEmail(txtMailForgotPassword.getText().toString())){
             txtMailForgotPassword.setError(context.getString(R.string.validate_mail));
@@ -285,11 +245,11 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         }
     }
 
-    public void getAccessPlatform(){
+    protected void getAccessPlatform(){
         showLoading();
         new FirstAccessControll(context).getAccessPlatform(firstAccess.getLocale(), code_enum_platform, new ControllResponseListener() {
             @Override
-            public void sucess(Object object) {
+            public void success(Object object) {
                 accessPlatform = (AccessPlatform) object;
                 getLoginType();
             }
@@ -301,10 +261,10 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         });
     }
 
-    public void getLoginType(){
+    protected void getLoginType(){
         new TokenControll(context).getLoginType(firstAccess.getLocale(), code_enum, new ControllResponseListener() {
             @Override
-            public void sucess(Object object) {
+            public void success(Object object) {
                 loginType = (LoginType) object;
                 if (loginType.getCode_enum() == LoginTypeEnum.EMAIL.getValue()){
                     loginEmail();

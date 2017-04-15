@@ -2,7 +2,6 @@ package com.organize4event.organize.services;
 
 import com.organize4event.organize.models.AccessPlatform;
 import com.organize4event.organize.models.FirstAccess;
-import com.organize4event.organize.models.TermUse;
 
 import retrofit.Call;
 import retrofit.http.Field;
@@ -18,6 +17,7 @@ public interface FirstAccessService {
     @FormUrlEncoded
     @POST("first_access/save")
     Call<FirstAccess> saveFirstAccess(
+            @Field("user_id") int user_id,
             @Field("device_id") String device_id,
             @Field("locale") String locale,
             @Field("instalation_date") String instalation_date
@@ -27,7 +27,4 @@ public interface FirstAccessService {
     Call<AccessPlatform> getAccessPlatform(
             @Path("locale") String locale,
             @Path("code_enum") int code_enum);
-
-    @GET("term")
-    Call<TermUse> getTermUse();
 }
