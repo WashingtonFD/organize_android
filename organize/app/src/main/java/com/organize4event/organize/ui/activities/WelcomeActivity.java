@@ -7,8 +7,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.organize4event.organize.R;
+import com.organize4event.organize.commons.AppApplication;
 import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.enuns.PlanEnum;
+import com.organize4event.organize.models.FirstAccess;
 import com.organize4event.organize.models.User;
 
 import butterknife.Bind;
@@ -17,6 +19,7 @@ import butterknife.OnClick;
 
 public class WelcomeActivity extends BaseActivity {
     private Context context;
+    private FirstAccess firstAccess;
     private User user;
 
     @Bind(R.id.txtWelcomeUser)
@@ -35,6 +38,8 @@ public class WelcomeActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         context = WelcomeActivity.this;
+        firstAccess = AppApplication.getFirstAccess();
+        user = firstAccess.getUser();
 
         String[] user_full_name = user.getFull_name().split(" ");
         String welcome_user = "";

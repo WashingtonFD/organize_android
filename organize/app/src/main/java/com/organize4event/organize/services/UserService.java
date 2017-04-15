@@ -29,4 +29,9 @@ public interface UserService {
             @Field("birth_date") String birth_date,
             @Field("gender") String gender
     );
+
+    @FormUrlEncoded
+    @POST("user/{user_id}")
+    Call<User> updateUserToken(@Path("user_id") int user_id,
+                               @Field("token") int token_id);
 }

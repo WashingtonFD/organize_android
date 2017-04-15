@@ -53,13 +53,19 @@ public class ApresentationActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.txtIsRegistered:
-                startActivity(new Intent(context, LoginActivity.class));
-                finish();
+                starLoginActivity();
         }
     }
 
     protected void starTermUseActivity(){
         Intent intent = new Intent(context, TermUseActivity.class);
+        intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
+        startActivity(intent);
+        finish();
+    }
+
+    protected void starLoginActivity(){
+        Intent intent = new Intent(context, LoginActivity.class);
         intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
         startActivity(intent);
         finish();

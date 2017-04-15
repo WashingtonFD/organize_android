@@ -72,4 +72,26 @@ public class UserControll extends Controll {
             }
         });
     }
+
+    public void updateUserToken(User user, final ControllResponseListener listener){
+        UserService service = ApiClient.getRetrofit().create(UserService.class);
+        service.updateUserToken(user.getId(), user.getToken().getId()).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Response<User> response, Retrofit retrofit) {
+                User user = (User) response.body();
+                Error error = parserError(user);
+                if (error == null){
+                    listener.success(user);
+                }
+                else{
+                    listener.fail(error);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                listener.fail(new Error(t.getMessage()));
+            }
+        });
+    }
 }

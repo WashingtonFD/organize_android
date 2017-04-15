@@ -2,8 +2,8 @@ package com.organize4event.organize.enuns;
 
 public enum AccessPlatformEnum {
 
-    WEBSITE(1),
-    ANDROID(2),
+    ANDROID(1),
+    WEBSITE(2),
     IPHONE(3);
 
     private int value;

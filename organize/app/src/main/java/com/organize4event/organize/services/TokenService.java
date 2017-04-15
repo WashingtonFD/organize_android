@@ -18,9 +18,6 @@ public interface TokenService {
             @Path("locale") String locale,
             @Path("code_enum") int code_enum);
 
-    @GET("token/{first_access_id}")
-    Call<Token> getToken(@Path("first_access_id") int first_access_id);
-
     @FormUrlEncoded
     @POST("login")
     Call<User> login(
@@ -31,19 +28,7 @@ public interface TokenService {
     @FormUrlEncoded
     @POST("token/save")
     Call<Token> saveToken(
-            @Field("user") int user_id,
-            @Field("first_access") int first_access_id,
-            @Field("login_type") int login_type_id,
-            @Field("access_platform") int access_platform_id,
-            @Field("access_date") String access_date,
-            @Field("keep_logged") int keep_logged
-    );
-
-    @FormUrlEncoded
-    @POST("token/{token_id}")
-    Call<Token> updateToken(
-            @Path("token_id") int token_id,
-            @Field("user") int user_id,
+            @Field("user_id") int user_id,
             @Field("login_type") int login_type_id,
             @Field("access_platform") int access_platform_id,
             @Field("access_date") String access_date,

@@ -8,7 +8,6 @@ import android.provider.Settings;
 import android.widget.TextView;
 
 import com.organize4event.organize.R;
-import com.organize4event.organize.commons.AppApplication;
 import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.controllers.FirstAccessControll;
 import com.organize4event.organize.listeners.ControllResponseListener;
@@ -42,24 +41,14 @@ public class SplashActivity extends BaseActivity {
         context = SplashActivity.this;
         device_id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         locale = Locale.getDefault().toString();
-        firstAccess = AppApplication.getFirstAccess();
 
         handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                getData();
+                getFirstAccess();
             }
         }, 5000);
-    }
-
-    protected void getData(){
-        if (firstAccess == null){
-            getFirstAccess();
-        }
-        else{
-            verifyData();
-        }
     }
 
     protected void getFirstAccess(){
@@ -67,7 +56,7 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void success(Object object) {
                 firstAccess = (FirstAccess) object;
-                if (!firstAccess.is_new()){
+                if (!firstAccess.is_new() || firstAccess.getId() > 0){
                     verifyData();
                 }
                 else {
