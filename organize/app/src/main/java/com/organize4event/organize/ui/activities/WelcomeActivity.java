@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.organize4event.organize.R;
-import com.organize4event.organize.commons.AppApplication;
 import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.enuns.PlanEnum;
 import com.organize4event.organize.models.User;
@@ -36,7 +35,6 @@ public class WelcomeActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         context = WelcomeActivity.this;
-        user = AppApplication.getUser();
 
         String[] user_full_name = user.getFull_name().split(" ");
         String welcome_user = "";

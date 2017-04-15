@@ -8,11 +8,11 @@ public class UserPrivacy extends ErrorReturn{
     @SerializedName("id")
     private int id;
     @SerializedName("user")
-    private User user;
+    private int user;
     @SerializedName("privacy")
     private Privacy privacy;
-    @SerializedName("cheking")
-    private boolean cheking;
+    @SerializedName("checking")
+    private boolean checking;
 
     public int getId() {
         return id;
@@ -22,11 +22,11 @@ public class UserPrivacy extends ErrorReturn{
         this.id = id;
     }
 
-    public User getUser() {
+    public int getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(int user) {
         this.user = user;
     }
 
@@ -38,12 +38,12 @@ public class UserPrivacy extends ErrorReturn{
         this.privacy = privacy;
     }
 
-    public boolean isCheking() {
-        return cheking;
+    public boolean isChecking() {
+        return checking;
     }
 
-    public void setCheking(boolean cheking) {
-        this.cheking = cheking;
+    public void setChecking(boolean checking) {
+        this.checking = checking;
     }
 
 
@@ -56,21 +56,20 @@ public class UserPrivacy extends ErrorReturn{
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
         dest.writeInt(this.id);
-        dest.writeParcelable(this.user, flags);
+        dest.writeInt(this.user);
         dest.writeParcelable(this.privacy, flags);
-        dest.writeByte(this.cheking ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.checking ? (byte) 1 : (byte) 0);
     }
 
     public UserPrivacy() {
-        this.setIs_new(true);
     }
 
     protected UserPrivacy(Parcel in) {
         super(in);
         this.id = in.readInt();
-        this.user = in.readParcelable(User.class.getClassLoader());
+        this.user = in.readInt();
         this.privacy = in.readParcelable(Privacy.class.getClassLoader());
-        this.cheking = in.readByte() != 0;
+        this.checking = in.readByte() != 0;
     }
 
     public static final Creator<UserPrivacy> CREATOR = new Creator<UserPrivacy>() {

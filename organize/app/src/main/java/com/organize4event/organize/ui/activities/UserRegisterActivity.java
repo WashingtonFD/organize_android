@@ -21,9 +21,10 @@ import com.mobsandgeeks.saripaar.annotation.Order;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.Mask;
-import com.organize4event.organize.commons.PreferencesManager;
+import com.organize4event.organize.controllers.FirstAccessControll;
 import com.organize4event.organize.controllers.PrivacyControll;
 import com.organize4event.organize.controllers.SettingsControll;
+import com.organize4event.organize.controllers.TermUseControll;
 import com.organize4event.organize.controllers.UserControll;
 import com.organize4event.organize.enuns.UserTypeEnum;
 import com.organize4event.organize.listeners.ControllResponseListener;
@@ -35,6 +36,7 @@ import com.organize4event.organize.models.Setting;
 import com.organize4event.organize.models.User;
 import com.organize4event.organize.models.UserPrivacy;
 import com.organize4event.organize.models.UserSetting;
+import com.organize4event.organize.models.UserTerm;
 import com.organize4event.organize.models.UserType;
 
 import org.parceler.Parcels;
@@ -59,6 +61,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
     private User user;
     private FirstAccess firstAccess;
+    private UserTerm userTerm;
     private UserType userType;
 
     private ArrayList<Privacy> privacies = new ArrayList<>();
@@ -127,6 +130,8 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         context = UserRegisterActivity.this;
         firstAccess = Parcels.unwrap(getIntent().getExtras().getParcelable("firstAccess"));
         user = firstAccess.getUser();
+        userTerm = user.getUser_term();
+
 
         configureToolbar(context, toolbar, context.getString(R.string.label_register_user), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
             @Override
@@ -167,9 +172,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
             @Override
             public void success(Object object) {
                 userType = (UserType)object;
-                if (!userType.is_new()){
-                    prepareUser();
-                }
+                prepareUser();
             }
 
             @Override
@@ -186,10 +189,6 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
             e.printStackTrace();
         }
 
-        if (user.getUser_term().isTerm_accept()){
-            term_accept = 1;
-        }
-
         user.setUser_type(userType);
         user.setFull_name(txtFullName.getText().toString());
         user.setMail(txtMail.getText().toString());
@@ -204,15 +203,51 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         new UserControll(context).saveUser(user, new ControllResponseListener() {
             @Override
             public void success(Object object) {
-                user = (User) object;
-                if (!user.is_new()){
-                    getPrivacy();
-                }
+                user = (User)object;
+                saveFirstAccess();
             }
 
             @Override
             public void fail(Error error) {
                 returnErrorMessage(error, context);
+            }
+        });
+    }
+
+    protected  void saveFirstAccess(){
+        firstAccess.setUser(user);
+        new FirstAccessControll(context).saveFirstAccess(firstAccess, new ControllResponseListener() {
+            @Override
+            public void success(Object object) {
+                saveUserTerm();
+            }
+
+            @Override
+            public void fail(Error error) {
+                returnErrorMessage(error, context);
+            }
+        });
+
+    }
+
+    protected void saveUserTerm(){
+        userTerm.setUser(user.getId());
+
+        if (userTerm.isTerm_accept()){
+            term_accept = 1;
+        }
+
+        new TermUseControll(context).saveUserTerm(userTerm, term_accept, new ControllResponseListener() {
+            @Override
+            public void success(Object object) {
+                userTerm = (UserTerm) object;
+                getPrivacy();
+            }
+
+            @Override
+            public void fail(Error error) {
+                returnErrorMessage(error, context);
+
             }
         });
     }
@@ -237,16 +272,13 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     }
 
     protected void saveUserPrivacy(Privacy privacy){
-        int cheking = 0;
-        if (privacy.isCheck_default()){
-            cheking = 1;
-        }
-        userPrivacy = new UserPrivacy();
-        userPrivacy.setUser(user);
-        userPrivacy.setPrivacy(privacy);
-        userPrivacy.setCheking(privacy.isCheck_default());
 
-        new PrivacyControll(context).saveUserPrivacy(userPrivacy, cheking, new ControllResponseListener() {
+        userPrivacy = new UserPrivacy();
+        userPrivacy.setUser(user.getId());
+        userPrivacy.setPrivacy(privacy);
+        userPrivacy.setChecking(privacy.isCheck_default());
+
+        new PrivacyControll(context).saveUserPrivacy(userPrivacy, new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 userPrivacy = (UserPrivacy)object;
@@ -284,24 +316,20 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     }
 
     public void saveUserSetting(final Setting setting){
-        int checking = 0;
-        if (setting.isCheck_default()){
-            checking = 1;
-        }
+
         userSetting = new UserSetting();
-        userSetting.setUser(user);
+        userSetting.setUser(user.getId());
         userSetting.setSetting(setting);
         userSetting.setChecking(setting.isCheck_default());
 
-        new SettingsControll(context).saveUserSettings(userSetting, checking, new ControllResponseListener() {
+        new SettingsControll(context).saveUserSettings(userSetting, new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 userSetting = (UserSetting) object;
                 userSettings.add(userSetting);
 
                 if (userSettings.size() == settings.size()){
-                    firstAccess.setUser(user);
-                    PreferencesManager.saveFirstAccess(firstAccess);
+                    hideLoading();
                     starLoginActivity();
                 }
             }

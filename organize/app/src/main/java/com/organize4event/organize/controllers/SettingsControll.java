@@ -63,9 +63,13 @@ public class SettingsControll extends Controll {
         });
     }
 
-    public void saveUserSettings(UserSetting userSetting, int checking, final ControllResponseListener listener){
+    public void saveUserSettings(UserSetting userSetting, final ControllResponseListener listener){
+        int checking = 0;
+        if (userSetting.isChecking()){
+            checking = 1;
+        }
         SettingsService service = ApiClient.getRetrofit().create(SettingsService.class);
-        service.saveUserSetting(userSetting.getUser().getId(),
+        service.saveUserSetting(userSetting.getUser(),
                 userSetting.getSetting().getId(),
                 checking,
                 userSetting.getValue()).enqueue(new Callback<UserSetting>() {

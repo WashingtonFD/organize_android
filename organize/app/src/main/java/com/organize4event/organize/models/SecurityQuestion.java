@@ -8,7 +8,7 @@ public class SecurityQuestion extends ErrorReturn{
     @SerializedName("id")
     private int id;
     @SerializedName("user")
-    private User user;
+    private int user;
     @SerializedName("locale")
     private String locale;
     @SerializedName("security_question")
@@ -24,11 +24,11 @@ public class SecurityQuestion extends ErrorReturn{
         this.id = id;
     }
 
-    public User getUser() {
+    public int getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(int user) {
         this.user = user;
     }
 
@@ -66,7 +66,7 @@ public class SecurityQuestion extends ErrorReturn{
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
         dest.writeInt(this.id);
-        dest.writeParcelable(this.user, flags);
+        dest.writeInt(this.user);
         dest.writeString(this.locale);
         dest.writeString(this.security_question);
         dest.writeByte(this.private_use ? (byte) 1 : (byte) 0);
@@ -79,7 +79,7 @@ public class SecurityQuestion extends ErrorReturn{
     protected SecurityQuestion(Parcel in) {
         super(in);
         this.id = in.readInt();
-        this.user = in.readParcelable(User.class.getClassLoader());
+        this.user = in.readInt();
         this.locale = in.readString();
         this.security_question = in.readString();
         this.private_use = in.readByte() != 0;

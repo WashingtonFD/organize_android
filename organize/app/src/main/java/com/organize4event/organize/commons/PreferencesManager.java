@@ -29,9 +29,11 @@ public class PreferencesManager {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(AppApplication.getInstance().getApplicationContext());
         FirstAccess firstAccess = null;
         Gson gson = new Gson();
-        String first_access = preferences.getString("first_access", "");
-        Type type = new TypeToken<FirstAccess>(){}.getType();
-        firstAccess = gson.fromJson(first_access, type);
+        if (preferences.contains("first_access")){
+            String first_access = preferences.getString("first_access", "");
+            Type type = new TypeToken<FirstAccess>(){}.getType();
+            firstAccess = gson.fromJson(first_access, type);
+        }
         return firstAccess;
     }
 

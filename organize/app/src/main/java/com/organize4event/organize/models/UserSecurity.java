@@ -10,7 +10,7 @@ public class UserSecurity extends ErrorReturn{
     @SerializedName("id")
     private int id;
     @SerializedName("user")
-    private User user;
+    private int user;
     @SerializedName("security_question")
     private SecurityQuestion security_question;
     @SerializedName("access_platform")
@@ -30,11 +30,11 @@ public class UserSecurity extends ErrorReturn{
         this.id = id;
     }
 
-    public User getUser() {
+    public int getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(int user) {
         this.user = user;
     }
 
@@ -88,7 +88,7 @@ public class UserSecurity extends ErrorReturn{
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
         dest.writeInt(this.id);
-        dest.writeParcelable(this.user, flags);
+        dest.writeInt(this.user);
         dest.writeParcelable(this.security_question, flags);
         dest.writeParcelable(this.access_platform, flags);
         dest.writeString(this.security_answer);
@@ -97,13 +97,12 @@ public class UserSecurity extends ErrorReturn{
     }
 
     public UserSecurity() {
-        this.setIs_new(true);
     }
 
     protected UserSecurity(Parcel in) {
         super(in);
         this.id = in.readInt();
-        this.user = in.readParcelable(User.class.getClassLoader());
+        this.user = in.readInt();
         this.security_question = in.readParcelable(SecurityQuestion.class.getClassLoader());
         this.access_platform = in.readParcelable(AccessPlatform.class.getClassLoader());
         this.security_answer = in.readString();

@@ -13,7 +13,6 @@ public class AppApplication extends Application{
     private static AppApplication instance;
     private static FirstAccess firstAccess;
 
-
     public void onCreate()
     {
         super.onCreate();

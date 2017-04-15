@@ -11,6 +11,7 @@ import com.organize4event.organize.R;
 import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.controllers.TermUseControll;
 import com.organize4event.organize.listeners.ControllResponseListener;
+import com.organize4event.organize.listeners.ToolbarListener;
 import com.organize4event.organize.models.FirstAccess;
 import com.organize4event.organize.models.TermUse;
 import com.organize4event.organize.models.User;
@@ -53,18 +54,24 @@ public class TermUseActivity extends BaseActivity {
         firstAccess = Parcels.unwrap(getIntent().getExtras().getParcelable("firstAccess"));
         user = firstAccess.getUser();
 
+        configureToolbar(context, toolbar, context.getString(R.string.label_term_use), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
+            @Override
+            public void onClick() {
+                finish();
+            }
+        });
         getTermUse();
     }
 
     protected void getTermUse(){
+        showLoading();
         new TermUseControll(context).getTermUse(new ControllResponseListener() {
-
             @Override
             public void success(Object object) {
+                hideLoading();
                 termUse = (TermUse)object;
-                if (!termUse.is_new()) {
-                    userTerm.setTerm(termUse);
-                }
+                txtTitle.setText(termUse.getTitle());
+                txtContent.setText(termUse.getContent());
             }
 
             @Override
@@ -76,6 +83,8 @@ public class TermUseActivity extends BaseActivity {
 
     @OnClick(R.id.imgAccept)
     public void acceptTermAction(){
+        userTerm = new UserTerm();
+        userTerm.setTerm(termUse);
         userTerm.setTerm_accept(true);
         userTerm.setTerm_accept_date(new Date());
 

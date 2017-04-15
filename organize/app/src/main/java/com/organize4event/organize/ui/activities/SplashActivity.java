@@ -42,6 +42,7 @@ public class SplashActivity extends BaseActivity {
         context = SplashActivity.this;
         device_id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         locale = Locale.getDefault().toString();
+        firstAccess = AppApplication.getFirstAccess();
 
         handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -53,9 +54,11 @@ public class SplashActivity extends BaseActivity {
     }
 
     protected void getData(){
-        firstAccess = AppApplication.getFirstAccess();
         if (firstAccess == null){
             getFirstAccess();
+        }
+        else{
+            verifyData();
         }
     }
 
@@ -64,29 +67,11 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void success(Object object) {
                 firstAccess = (FirstAccess) object;
-                if (firstAccess.is_new()){
-                    setFirstAccess();
+                if (!firstAccess.is_new()){
+                    verifyData();
                 }
                 else {
-                    user = firstAccess.getUser();
-                    if (user.getUser_term() == null || !user.getUser_term().isTerm_accept()){
-                        startApresentationActivity();
-                    }
-                    else if(user.getPlan() == null){
-                        startPlanIdentifierActivity();
-                    }
-                    else if(user.getUser_type() == null){
-                        startUserRegisterActivity();
-                    }
-                    else if (user.getToken() == null || !user.getToken().isKeep_logged()){
-                        starLoginActivity();
-                    }
-                    else if (PreferencesManager.isHideWelcome()){
-                        startActivity(new Intent(context, HomeActivity.class));
-                    }
-                    else{
-                        startActivity(new Intent(context, WelcomeActivity.class));
-                    }
+                    setFirstAccess();
                 }
             }
 
@@ -103,11 +88,32 @@ public class SplashActivity extends BaseActivity {
         firstAccess.setDevice_id(device_id);
         firstAccess.setLocale(locale);
         firstAccess.setInstalation_date(new Date());
+        firstAccess.setIs_new(false);
 
         PreferencesManager.saveFirstAccess(firstAccess);
         startApresentationActivity();
+    }
 
-
+    protected void verifyData(){
+        user = firstAccess.getUser();
+        if (user.getUser_term() == null || !user.getUser_term().isTerm_accept()){
+            startApresentationActivity();
+        }
+        else if(user.getPlan() == null){
+            startPlanIdentifierActivity();
+        }
+        else if(user.getUser_type() == null){
+            startUserRegisterActivity();
+        }
+        else if (user.getToken() == null || !user.getToken().isKeep_logged()){
+            starLoginActivity();
+        }
+        else if (PreferencesManager.isHideWelcome()){
+            startActivity(new Intent(context, HomeActivity.class));
+        }
+        else{
+            startActivity(new Intent(context, WelcomeActivity.class));
+        }
     }
 
     protected void startApresentationActivity(){

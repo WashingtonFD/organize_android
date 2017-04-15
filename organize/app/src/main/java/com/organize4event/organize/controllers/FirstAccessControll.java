@@ -26,6 +26,7 @@ public class FirstAccessControll extends Controll{
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.FULL_DATE_FORMAT);
         FirstAccessService service = ApiClient.getRetrofit().create(FirstAccessService.class);
         service.saveFirstAccess(
+                firstAccess.getUser().getId(),
                 firstAccess.getDevice_id(),
                 firstAccess.getLocale(),
                 simpleDateFormat.format(firstAccess.getInstalation_date())

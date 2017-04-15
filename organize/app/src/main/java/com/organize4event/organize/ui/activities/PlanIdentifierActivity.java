@@ -32,7 +32,7 @@ import butterknife.OnFocusChange;
 
 public class PlanIdentifierActivity extends BaseActivity {
     private Context context;
-    private int plan_switch = PlanEnum.FREE.getValue();
+    private int plan_switch;
     private String title = "";
     private String message = "";
 
@@ -63,6 +63,7 @@ public class PlanIdentifierActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         context = PlanIdentifierActivity.this;
+        plan_switch = PlanEnum.FREE.getValue();
         firstAccess = Parcels.unwrap(getIntent().getExtras().getParcelable("firstAccess"));
         user = firstAccess.getUser();
 

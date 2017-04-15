@@ -13,7 +13,7 @@ import retrofit.http.POST;
 import retrofit.http.Path;
 
 public interface SettingsService {
-    @GET("settings/{locale}")
+    @GET("setting/{locale}")
     Call<ArrayList<Setting>> getSettings(@Path("locale") String locale);
 
     @GET("user_settings/user/{user_id}")
@@ -23,7 +23,7 @@ public interface SettingsService {
     @POST("user_settings/save")
     Call<UserSetting> saveUserSetting(
             @Field("user") int user_id,
-            @Field("settings") int setting_id,
+            @Field("setting") int setting_id,
             @Field("checking") int checking,
             @Field("value") int value);
 
