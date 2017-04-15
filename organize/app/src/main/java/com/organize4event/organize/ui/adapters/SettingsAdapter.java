@@ -57,7 +57,6 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.Settin
         settingsEnums.add(SettingsEnum.TERM_USE);
         settingsEnums.add(SettingsEnum.TUTORIAL);
         settingsEnums.add(SettingsEnum.ABOUT);
-        settingsEnums.add(SettingsEnum.EXIT);
 
         for (SettingsEnum settingsEnum : settingsEnums){
             if (settingsEnum.getValue() == userSetting.getSetting().getCode_enum()){
@@ -66,6 +65,13 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.Settin
                     @Override
                     public void onClick(View v) {
                         listener.onClick(position);
+                    }
+                });
+                holder.rowContent.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        isExpand(holder, position);
+                        return true;
                     }
                 });
             }
