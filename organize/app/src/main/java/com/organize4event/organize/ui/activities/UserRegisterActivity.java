@@ -58,6 +58,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     private String title = "";
     private Date birthDate;
     private int term_accept = 0;
+    private int checking = 0;
 
     private User user;
     private FirstAccess firstAccess;
@@ -278,7 +279,11 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         userPrivacy.setPrivacy(privacy);
         userPrivacy.setChecking(privacy.isCheck_default());
 
-        new PrivacyControll(context).saveUserPrivacy(userPrivacy, new ControllResponseListener() {
+        if (userPrivacy.isChecking()){
+            checking = 1;
+        }
+
+        new PrivacyControll(context).saveUserPrivacy(userPrivacy, checking, new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 userPrivacy = (UserPrivacy)object;
@@ -322,7 +327,11 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         userSetting.setSetting(setting);
         userSetting.setChecking(setting.isCheck_default());
 
-        new SettingsControll(context).saveUserSettings(userSetting, new ControllResponseListener() {
+        if (userSetting.isChecking()){
+            checking = 1;
+        }
+
+        new SettingsControll(context).saveUserSettings(userSetting, checking, new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 userSetting = (UserSetting) object;

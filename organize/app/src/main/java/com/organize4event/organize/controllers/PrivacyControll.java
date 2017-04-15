@@ -41,11 +41,7 @@ public class PrivacyControll extends Controll {
         });
     }
 
-    public void saveUserPrivacy(UserPrivacy userPrivacy, final ControllResponseListener listener){
-        int checking = 0;
-        if (userPrivacy.isChecking()){
-            checking = 1;
-        }
+    public void saveUserPrivacy(UserPrivacy userPrivacy, int checking, final ControllResponseListener listener){
         PrivacyService service = ApiClient.getRetrofit().create(PrivacyService.class);
         service.saveUserPrivacy(userPrivacy.getUser(), userPrivacy.getPrivacy().getId(), checking).enqueue(new Callback<UserPrivacy>() {
             @Override
