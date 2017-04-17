@@ -32,7 +32,7 @@ xmlns:android="http://schemas.android.com/apk/res/android">
         android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"/>
 
 <android.support.v7.widget.RecyclerView
-    android:id="@+id/rcvList"
+    android:id="@+id/dialogList"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_below="@+id/txtMessage"
@@ -43,7 +43,7 @@ xmlns:android="http://schemas.android.com/apk/res/android">
         android:id="@+id/contentButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rcvList"
+        android:layout_below="@+id/dialogList"
         android:layout_marginTop="@dimen/margin_default"
         android:orientation="horizontal"
         android:weightSum="1"

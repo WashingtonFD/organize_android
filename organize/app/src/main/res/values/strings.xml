@@ -70,6 +70,8 @@
     <string name="label_subject">Assunto: </string>
     <string name="label_send_mail">Enviar e-mail como: </string>
     <string name="label_call">Realizar chamada</string>
+    <string name="label_monthly">por mês</string>
+    <string name="label_advantages">Vantagens</string>
 
 
 

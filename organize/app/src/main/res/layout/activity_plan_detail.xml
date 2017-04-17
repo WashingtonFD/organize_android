@@ -24,19 +24,83 @@
     </android.support.design.widget.AppBarLayout>
 
     <RelativeLayout
-        android:id="@+id/containerContent"
+        android:id="@+id/contentDetail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/appBarLayout"
+        android:padding="@dimen/padding_default"
         >
 
+        <RelativeLayout
+            android:id="@+id/ContentPrice"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="@drawable/bg_rounded"
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:id="@+id/txtPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="R$ 10.00"
+                    android:textSize="@dimen/text_size_large"
+                    android:textColor="@color/colorTextDefault"
+                    android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Bold"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/label_monthly"
+                    android:textSize="@dimen/text_size_small"
+                    android:textColor="@color/colorTextDefault"
+                    android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Medium"
+                    />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="DETALHE DO PLANO"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/ContentPrice"
+            android:layout_marginLeft="@dimen/margin_default"
+            android:gravity="center"
+            android:textSize="@dimen/text_size_small"
+            android:textColor="@color/colorTextDefault"
+            android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Medium"
             />
 
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/txtAdvantages"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/contentDetail"
+        android:layout_marginTop="@dimen/margin_large"
+        android:text="@string/label_advantages"
+        android:textSize="@dimen/text_size_large"
+        android:textColor="@color/colorAccent"
+        android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Bold"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/listAdvantages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtAdvantages"
+        android:layout_marginTop="@dimen/margin_default"
+        />
 
 </RelativeLayout>

@@ -48,8 +48,8 @@ public class SettingsFragment extends BaseFragment {
     private SettingsAdapter adapter;
     private int checking = 0;
 
-    @Bind(R.id.rcvListSettings)
-    RecyclerView rcvListSettings;
+    @Bind(R.id.listSettings)
+    RecyclerView listSettings;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,9 +67,9 @@ public class SettingsFragment extends BaseFragment {
             loadAdapter();
         }
 
-        rcvListSettings.setLayoutManager(new LinearLayoutManager(context));
-        rcvListSettings.setItemAnimator(new DefaultItemAnimator());
-        rcvListSettings.setAdapter(adapter);
+        listSettings.setLayoutManager(new LinearLayoutManager(context));
+        listSettings.setItemAnimator(new DefaultItemAnimator());
+        listSettings.setAdapter(adapter);
 
         return view;
     }
@@ -93,7 +93,7 @@ public class SettingsFragment extends BaseFragment {
 
     protected void loadAdapter() {
         Collections.sort(userSettings);
-        adapter = new SettingsAdapter(context, userSettings, rcvListSettings, new MultipleRecyclerViewListener() {
+        adapter = new SettingsAdapter(context, userSettings, listSettings, new MultipleRecyclerViewListener() {
             @Override
             public void onClick(int position) {
                 UserSetting userSetting = userSettings.get(position);
@@ -138,7 +138,7 @@ public class SettingsFragment extends BaseFragment {
                 checkingUserSettings(userSettings.get(position), checking);
             }
         });
-        rcvListSettings.setAdapter(adapter);
+        listSettings.setAdapter(adapter);
     }
 
     public void getPlans() {
@@ -185,7 +185,7 @@ public class SettingsFragment extends BaseFragment {
         String message = context.getString(R.string.message_list_plan);
 
         final MaterialDialog dialog = new MaterialDialog.Builder(context).customView(R.layout.custom_dialog_list, false).show();
-        RecyclerView rcvList = (RecyclerView) dialog.getCustomView().findViewById(R.id.rcvList);
+        RecyclerView rcvList = (RecyclerView) dialog.getCustomView().findViewById(R.id.dialogList);
         TextView dialog_title = (TextView) dialog.getCustomView().findViewById(R.id.txtTitle);
         TextView dialog_message = (TextView) dialog.getCustomView().findViewById(R.id.txtMessage);
         Button dialog_positive = (Button) dialog.getCustomView().findViewById(R.id.btnPositive);

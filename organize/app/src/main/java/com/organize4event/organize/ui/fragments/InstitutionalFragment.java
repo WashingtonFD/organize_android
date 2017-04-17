@@ -71,8 +71,8 @@ public class InstitutionalFragment extends BaseFragment {
     TextView txtPlanBasic;
     @Bind(R.id.txtPlanPremium)
     TextView txtPlanPremium;
-    @Bind(R.id.rcvListContacts)
-    RecyclerView rcvListContacts;
+    @Bind(R.id.listContacts)
+    RecyclerView listContacts;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -170,9 +170,9 @@ public class InstitutionalFragment extends BaseFragment {
                     adapter.addSection(value);
                 }
 
-                rcvListContacts.setLayoutManager(new LinearLayoutManager(context));
-                rcvListContacts.setItemAnimator(new DefaultItemAnimator());
-                rcvListContacts.setAdapter(adapter);
+                listContacts.setLayoutManager(new LinearLayoutManager(context));
+                listContacts.setItemAnimator(new DefaultItemAnimator());
+                listContacts.setAdapter(adapter);
                 contentFilter.setVisibility(View.GONE);
                 hideLoading();
             }

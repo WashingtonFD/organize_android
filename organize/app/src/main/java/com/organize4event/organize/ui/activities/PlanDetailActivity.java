@@ -35,11 +35,5 @@ public class PlanDetailActivity extends BaseActivity {
                 finish();
             }
         });
-
-        getData();
-    }
-
-    public void getData(){
-        //TODO: Wireframe - tela 09 - Luciano
     }
 }
