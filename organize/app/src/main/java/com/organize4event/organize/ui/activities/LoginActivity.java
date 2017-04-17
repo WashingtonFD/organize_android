@@ -214,11 +214,11 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                 PreferencesManager.saveFirstAccess(firstAccess);
                 if (PreferencesManager.isHideWelcome()){
                     startActivity(new Intent(context, HomeActivity.class));
+                    finish();
                 }
                 else{
-                    startActivity(new Intent(context, WelcomeActivity.class));
+                    starWelcomeActivity();
                 }
-                finish();
             }
 
             @Override
@@ -289,5 +289,12 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     @Override
     public void onValidationFailed(List<ValidationError> errors) {
         validateError(errors);
+    }
+
+    protected void starWelcomeActivity(){
+        Intent intent = new Intent(context, WelcomeActivity.class);
+        intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
+        startActivity(intent);
+        finish();
     }
 }

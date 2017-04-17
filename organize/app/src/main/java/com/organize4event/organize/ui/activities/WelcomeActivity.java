@@ -7,11 +7,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.organize4event.organize.R;
-import com.organize4event.organize.commons.AppApplication;
 import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.enuns.PlanEnum;
 import com.organize4event.organize.models.FirstAccess;
 import com.organize4event.organize.models.User;
+
+import org.parceler.Parcels;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -38,7 +39,7 @@ public class WelcomeActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         context = WelcomeActivity.this;
-        firstAccess = AppApplication.getFirstAccess();
+        firstAccess = Parcels.unwrap(getIntent().getExtras().getParcelable("firstAccess"));
         user = firstAccess.getUser();
 
         String[] user_full_name = user.getFull_name().split(" ");

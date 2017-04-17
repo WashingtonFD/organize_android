@@ -71,6 +71,8 @@ public class SplashActivity extends BaseActivity {
         });
     }
 
+    //TODO: ATUALIZAR LOCALE
+
     protected void setFirstAccess(){
         user = new User();
         firstAccess.setUser(user);
@@ -98,10 +100,10 @@ public class SplashActivity extends BaseActivity {
             starLoginActivity();
         }
         else if (PreferencesManager.isHideWelcome()){
-            startActivity(new Intent(context, HomeActivity.class));
+            starHomeActivity();
         }
         else{
-            startActivity(new Intent(context, WelcomeActivity.class));
+            starWelcomeActivity();
         }
     }
 
@@ -129,6 +131,19 @@ public class SplashActivity extends BaseActivity {
     protected void starLoginActivity(){
         Intent intent = new Intent(context, LoginActivity.class);
         intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
+        startActivity(intent);
+        finish();
+    }
+
+    protected void starWelcomeActivity(){
+        Intent intent = new Intent(context, WelcomeActivity.class);
+        intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
+        startActivity(intent);
+        finish();
+    }
+
+    protected void starHomeActivity(){
+        Intent intent = new Intent(context, HomeActivity.class);
         startActivity(intent);
         finish();
     }
