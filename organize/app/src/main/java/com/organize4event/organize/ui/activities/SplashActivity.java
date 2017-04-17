@@ -56,7 +56,7 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void success(Object object) {
                 firstAccess = (FirstAccess) object;
-                if (!firstAccess.is_new() || firstAccess.getId() > 0){
+                if (firstAccess.getId() > 0){
                     verifyData();
                 }
                 else {
@@ -79,7 +79,6 @@ public class SplashActivity extends BaseActivity {
         firstAccess.setDevice_id(device_id);
         firstAccess.setLocale(locale);
         firstAccess.setInstalation_date(new Date());
-        firstAccess.setIs_new(false);
 
         PreferencesManager.saveFirstAccess(firstAccess);
         startApresentationActivity();

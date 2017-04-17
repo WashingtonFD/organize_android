@@ -172,7 +172,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             public void success(Object object) {
                 hideLoading();
                 newUser = (User) object;
-                if (!newUser.is_new()){
+                if (newUser.getId() > 0){
                     containerLoginEmail.setVisibility(View.GONE);
                     showDialogMessage(1, context.getString(R.string.app_name), newUser.getMessage(), new CustomDialogListener() {
                         @Override
