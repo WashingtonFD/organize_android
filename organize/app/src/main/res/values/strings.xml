@@ -72,6 +72,7 @@
     <string name="label_call">Realizar chamada</string>
     <string name="label_monthly">por mês</string>
     <string name="label_advantages">Vantagens</string>
+    <string name="know_more">Saiba mais</string>
 
 
 
@@ -83,6 +84,7 @@
     <string name="message_list_plan">Sobre qual plano deseja informações?</string>
     <string name="message_call_phone">Deseja realizar uma ligação? Isto acarretará em gastos de consumo de acordo com seu plano em sua operadora.</string>
     <string name="message_whatsapp">É necessário ter o Whatsapp instalado para executar essa requisição.</string>
+    <string name="message_free">GRÁTIS!</string>
 
     <string name="placeholder_cpf">Insira o seu CPF.</string>
     <string name="placeholder_mail">Insira o seu e-mail.</string>
