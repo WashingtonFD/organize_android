@@ -39,9 +39,11 @@
     <string name="label_plan_identifier">Identificação do Plano</string>
     <string name="label_plan_premium">Plano Prêmium</string>
     <string name="label_plan_question">Escolha seu plano de acesso</string>
+    <string name="label_select_privacy">Escolha o nivel de acesso ao seu perfil</string>
     <string name="label_site">www.organize4event.com</string>
     <string name="label_start_date">Início</string>
     <string name="label_term_use">Termo de Uso</string>
+    <string name="label_privacy">Privacidade</string>
     <string name="label_validate_code">Código de validação</string>
     <string name="label_register_user">Registro de usuário</string>
     <string name="label_login_email">Login com E-mail</string>
@@ -72,9 +74,10 @@
     <string name="label_call">Realizar chamada</string>
     <string name="label_monthly">por mês</string>
     <string name="label_advantages">Vantagens</string>
-    <string name="know_more">Saiba mais</string>
-
-
+    <string name="label_know_more">Saiba mais</string>
+    <string name="label_all">Todos</string>
+    <string name="label_just_friends">Somente amigos</string>
+    <string name="label_no_one">Ninguém</string>
 
     <string name="message_info_password">Entre 6 a 10 caracteres alfanuméricos.</string>
     <string name="message_info_cpf">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget sem quis risus sagittis tincidunt nec tempus libero. Suspendisse non.</string>
