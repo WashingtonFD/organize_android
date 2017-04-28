@@ -3,6 +3,7 @@ package com.organize4event.organize.commons;
 import android.app.Application;
 import android.support.multidex.MultiDex;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.organize4event.organize.R;
 import com.organize4event.organize.models.FirstAccess;
 
@@ -12,6 +13,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 public class AppApplication extends Application{
     private static AppApplication instance;
     private static FirstAccess firstAccess;
+    private FirebaseAnalytics firebaseAnalytics;
 
     public void onCreate()
     {
@@ -23,6 +25,8 @@ public class AppApplication extends Application{
         Nammu.init(instance);
         ApiClient.newInstance();
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder().setDefaultFontPath("fonts/GothamRounded-Light.otf").setFontAttrId(R.attr.fontPath).build());
+
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
     }
 
     public static AppApplication getInstance() {
