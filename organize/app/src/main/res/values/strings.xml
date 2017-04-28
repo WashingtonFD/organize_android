@@ -16,6 +16,7 @@
     <string name="info_all_required_fields">Todos os campos são obrigatórios</string>
     <string name="info_required_fields">* Campos obrigatórios</string>
     <string name="info_loading">Carregando...</string>
+    <string name="info_no_data">Não há dados a serem exibidos</string>
 
     <string name="label_birth_date">Data de nascimento</string>
     <string name="label_cpf">CPF</string>
