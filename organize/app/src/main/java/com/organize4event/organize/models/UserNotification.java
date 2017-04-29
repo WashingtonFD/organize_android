@@ -10,9 +10,9 @@ public class UserNotification extends ErrorReturn {
     @SerializedName("id")
     private int id;
     @SerializedName("user")
-    private User user;
-    @SerializedName("brief_descriptiom")
-    private String brief_descriptiom;
+    private int user;
+    @SerializedName("brief_description")
+    private String brief_description;
     @SerializedName("description")
     private String description;
     @SerializedName("notification_date")
@@ -29,20 +29,20 @@ public class UserNotification extends ErrorReturn {
         this.id = id;
     }
 
-    public User getUser() {
+    public int getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(int user) {
         this.user = user;
     }
 
-    public String getBrief_descriptiom() {
-        return brief_descriptiom;
+    public String getBrief_description() {
+        return brief_description;
     }
 
-    public void setBrief_descriptiom(String brief_descriptiom) {
-        this.brief_descriptiom = brief_descriptiom;
+    public void setBrief_description(String brief_descriptiom) {
+        this.brief_description = brief_descriptiom;
     }
 
     public String getDescription() {
@@ -79,8 +79,8 @@ public class UserNotification extends ErrorReturn {
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
         dest.writeInt(this.id);
-        dest.writeParcelable(this.user, flags);
-        dest.writeString(this.brief_descriptiom);
+        dest.writeInt(this.user);
+        dest.writeString(this.brief_description);
         dest.writeString(this.description);
         dest.writeLong(this.notification_date != null ? this.notification_date.getTime() : -1);
         dest.writeByte(this.is_read ? (byte) 1 : (byte) 0);
@@ -94,7 +94,7 @@ public class UserNotification extends ErrorReturn {
         super(in);
         this.id = in.readInt();
         this.user = in.readParcelable(User.class.getClassLoader());
-        this.brief_descriptiom = in.readString();
+        this.brief_description = in.readString();
         this.description = in.readString();
         long tmpNotification_date = in.readLong();
         this.notification_date = tmpNotification_date == -1 ? null : new Date(tmpNotification_date);
