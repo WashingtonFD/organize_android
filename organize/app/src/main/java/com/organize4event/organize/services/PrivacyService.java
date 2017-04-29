@@ -23,4 +23,11 @@ public interface PrivacyService {
             @Field("privacy") int privacy_id,
             @Field("checking") int checking
     );
+
+    @FormUrlEncoded
+    @POST("user_privacy/{user_privacy_id}/checking")
+    Call<UserPrivacy> privacyChecking(
+            @Path("user_privacy_id") int user_privacy_id,
+            @Field("checking") int checking
+    );
 }

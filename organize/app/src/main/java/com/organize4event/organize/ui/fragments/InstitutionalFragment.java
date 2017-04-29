@@ -20,6 +20,7 @@ import com.organize4event.organize.commons.AppApplication;
 import com.organize4event.organize.controllers.InstitutionalControll;
 import com.organize4event.organize.controllers.PlanControll;
 import com.organize4event.organize.enuns.ContactTypeEnum;
+import com.organize4event.organize.enuns.DialogTypeEnum;
 import com.organize4event.organize.enuns.PlanEnum;
 import com.organize4event.organize.listeners.ControllResponseListener;
 import com.organize4event.organize.listeners.CustomDialogListener;
@@ -241,7 +242,7 @@ public class InstitutionalFragment extends BaseFragment {
     }
 
     public void callPhone(final Contact contact){
-        showDialogMessage(2, context.getString(R.string.label_call), context.getString(R.string.message_call_phone), new CustomDialogListener() {
+        showDialogMessage(DialogTypeEnum.POSITIVE_AND_NEGATIVE, context.getString(R.string.label_call), context.getString(R.string.message_call_phone), new CustomDialogListener() {
             @Override
             public void positiveOnClick(MaterialDialog dialog) {
                 Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + contact.getContact()));

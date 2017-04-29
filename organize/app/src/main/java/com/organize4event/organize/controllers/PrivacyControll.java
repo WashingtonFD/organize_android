@@ -62,4 +62,26 @@ public class PrivacyControll extends Controll {
             }
         });
     }
+
+    public void privacyChecking(UserPrivacy userPrivacy, int checking, final ControllResponseListener listener){
+        PrivacyService service = ApiClient.getRetrofit().create(PrivacyService.class);
+        service.privacyChecking(userPrivacy.getId(), checking).enqueue(new Callback<UserPrivacy>() {
+            @Override
+            public void onResponse(Response<UserPrivacy> response, Retrofit retrofit) {
+                UserPrivacy userPrivacy = (UserPrivacy) response.body();
+                Error error = parserError(userPrivacy);
+                if (error == null){
+                    listener.success(userPrivacy);
+                }
+                else{
+                    listener.fail(error);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                listener.fail(new Error(t.getMessage()));
+            }
+        });
+    }
 }

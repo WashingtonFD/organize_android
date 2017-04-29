@@ -20,17 +20,7 @@
             tools:ignore="MissingPrefix"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-
-            <ImageView
-                android:id="@+id/imgAccept"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginRight="22dp"
-                android:src="@drawable/ic_done_black_24dp"
-                android:tint="@color/colorDestakText"
-                />
-
+            
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 

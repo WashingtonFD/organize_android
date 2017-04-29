@@ -24,6 +24,7 @@ import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.controllers.FirstAccessControll;
 import com.organize4event.organize.controllers.TokenControll;
 import com.organize4event.organize.enuns.AccessPlatformEnum;
+import com.organize4event.organize.enuns.DialogTypeEnum;
 import com.organize4event.organize.enuns.LoginTypeEnum;
 import com.organize4event.organize.listeners.ControllResponseListener;
 import com.organize4event.organize.listeners.CustomDialogListener;
@@ -180,7 +181,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                 newUser = (User) object;
                 if (newUser.getId() > 0){
                     containerLoginEmail.setVisibility(View.GONE);
-                    showDialogMessage(1, context.getString(R.string.app_name), newUser.getMessage(), new CustomDialogListener() {
+                    showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), newUser.getMessage(), new CustomDialogListener() {
                         @Override
                         public void positiveOnClick(MaterialDialog dialog) {
                             dialog.dismiss();

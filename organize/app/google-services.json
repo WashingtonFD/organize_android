@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "789916276084",
+    "firebase_url": "https://organize4event-ef3ad.firebaseio.com",
+    "project_id": "organize4event-ef3ad",
+    "storage_bucket": "organize4event-ef3ad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:789916276084:android:5c06630dfb60e404",
+        "android_client_info": {
+          "package_name": "com.organize4event.organize"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "789916276084-itu78c9piea06ge9rs1kf8v8f96qsrnb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5dd1m0NbcyPDO5Gf-YOW36NDFahOoqX4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

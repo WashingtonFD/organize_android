@@ -27,6 +27,7 @@ import com.organize4event.organize.controllers.PrivacyControll;
 import com.organize4event.organize.controllers.SettingsControll;
 import com.organize4event.organize.controllers.TermUseControll;
 import com.organize4event.organize.controllers.UserControll;
+import com.organize4event.organize.enuns.DialogTypeEnum;
 import com.organize4event.organize.enuns.UserTypeEnum;
 import com.organize4event.organize.listeners.ControllResponseListener;
 import com.organize4event.organize.listeners.CustomDialogListener;
@@ -393,7 +394,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
     @OnClick(R.id.contentImage)
     public void actionUploadImage(){
-        showDialogMessage(1, "Inserir imagem", "Fazer o Upload de Imagem", new CustomDialogListener() {
+        showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, "Inserir imagem", "Fazer o Upload de Imagem", new CustomDialogListener() {
             @Override
             public void positiveOnClick(MaterialDialog dialog) {
                 dialog.dismiss();
