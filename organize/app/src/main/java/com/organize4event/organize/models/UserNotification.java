@@ -93,7 +93,7 @@ public class UserNotification extends ErrorReturn {
     protected UserNotification(Parcel in) {
         super(in);
         this.id = in.readInt();
-        this.user = in.readParcelable(User.class.getClassLoader());
+        this.user = in.readInt();
         this.brief_description = in.readString();
         this.description = in.readString();
         long tmpNotification_date = in.readLong();

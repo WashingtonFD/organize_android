@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -49,16 +50,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         UserNotification userNotification = items.get(position);
         holder.txtNotificationBriefDescription.setText(userNotification.getBrief_description());
         holder.txtNotificationDescription.setText(userNotification.getDescription());
-        holder.rowContent.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
+
                 isExpand(holder, position);
-                return true;
-            }
-        });
-
-        isExpand(holder, position);
-
     }
 
     @Override
@@ -86,7 +79,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         }
     }
 
-    public void isExpand(final NotificationViewHolder holder, final int position){
+        public void isExpand(final NotificationViewHolder holder, final int position){
         final boolean isExpanded = position==expandedPosition;
         holder.txtNotificationDescription.setVisibility(isExpanded?View.VISIBLE:View.GONE);
         holder.itemView.setActivated(isExpanded);

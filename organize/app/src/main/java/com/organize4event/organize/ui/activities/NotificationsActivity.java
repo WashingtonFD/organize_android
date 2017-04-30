@@ -29,6 +29,7 @@ import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class NotificationsActivity extends BaseActivity {
     private Context context;
@@ -38,14 +39,12 @@ public class NotificationsActivity extends BaseActivity {
     private NotificationAdapter adapter;
     private int is_read = 0;
 
-    @Bind(R.id.imgClear)
-    ImageButton imgClear;
-
     @Bind(R.id.rcvListNotification)
     RecyclerView rcvListNotification;
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,12 +65,7 @@ public class NotificationsActivity extends BaseActivity {
             }
         });
 
-        imgClear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                rcvListNotification.clearOnChildAttachStateChangeListeners();
-            }
-        });
+
 
         if (userNotifications == null || userNotifications.size() < 1) {
             getData();
@@ -83,9 +77,8 @@ public class NotificationsActivity extends BaseActivity {
         rcvListNotification.setItemAnimator(new DefaultItemAnimator());
         rcvListNotification.setAdapter(adapter);
 
-       // RelativeTimeTextView txtNotificationTime = (RelativeTimeTextView) findViewById(R.id.txtNotificationTime);
 
-        //txtNotificationTime.setReferenceTime(new Date().getTime());
+
 
     }
 
@@ -110,7 +103,7 @@ public class NotificationsActivity extends BaseActivity {
     }
 
     protected void loadAdapter() {
-        Collections.singleton(userNotifications);
+        Collections.singletonList(userNotifications);
         adapter = new NotificationAdapter(context, userNotifications, rcvListNotification, new MultipleRecyclerViewListener() {
             @Override
             public void onClick(int position) {
@@ -125,7 +118,7 @@ public class NotificationsActivity extends BaseActivity {
 
             @Override
             public void onChange(int position) {
-                if (userNotifications.get(position).is_read()) {
+                if (userNotifications.get(position).is_read()){
                     userNotifications.get(position).setIs_read(false);
                     is_read = 0;
                 } else {
