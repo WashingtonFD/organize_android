@@ -71,7 +71,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             @Bind(R.id.txtNotificationDescription)
             TextView txtNotificationDescription;
 
-
         public NotificationViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
