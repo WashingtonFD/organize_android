@@ -27,23 +27,30 @@
                 android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
                 />
 
-            <com.github.curioustechizen.ago.RelativeTimeTextView
-                android:id="@+id/txtNotificationTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:relative_time_prefix="Completed "
-                android:layout_marginRight="@dimen/margin_default"
-                android:textSize="@dimen/text_size_large"
-                android:layout_alignEnd="@dimen/text_size_large"
-                android:textColor="@color/colorTextDefault"
-                android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
-                />
-
-
-
-
-
         </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/imgClock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contentFields"
+            android:layout_gravity="left"
+            android:layout_marginRight="22dp"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/ic_query_builder_black_24dp"
+            />
+
+        <com.github.curioustechizen.ago.RelativeTimeTextView
+            android:id="@+id/txtNotificationTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contentFields"
+            android:layout_toRightOf="@+id/imgClock"
+            app:relative_time_prefix=""
+            android:layout_marginRight="@dimen/margin_default"
+            android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
+            />
+
 
         <TextView
             android:id="@+id/txtNotificationDescription"
@@ -67,6 +74,7 @@
         android:layout_below="@+id/rowContent"
         android:background="@color/colorDivider"
         />
+
 
 
 

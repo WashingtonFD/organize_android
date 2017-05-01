@@ -6,12 +6,12 @@ import com.organize4event.organize.models.UserNotification;
 import java.util.ArrayList;
 import java.util.Date;
 
+import retrofit.Call;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.POST;
 import retrofit.http.Path;
-import retrofit2.Call;
-import retrofit2.http.GET;
+import retrofit.http.GET;
 
 public interface NotificationService {
 

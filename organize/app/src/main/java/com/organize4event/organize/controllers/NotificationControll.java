@@ -11,9 +11,10 @@ import com.organize4event.organize.services.NotificationService;
 
 import java.util.ArrayList;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 public class NotificationControll extends Controll {
     public NotificationControll(Context context) {
@@ -21,49 +22,54 @@ public class NotificationControll extends Controll {
     }
 
 
-    public void getNotification(int notification_id, final ControllResponseListener listener){
+    public void getNotification(int notification_id, final ControllResponseListener listener) {
         NotificationService service = ApiClient.getRetrofit().create(NotificationService.class);
         service.getNotification(notification_id).enqueue(new Callback<ArrayList<UserNotification>>() {
             @Override
-            public void onResponse(Call<ArrayList<UserNotification>> call, Response<ArrayList<UserNotification>> response) {
+            public void onResponse(Response<ArrayList<UserNotification>> response, Retrofit retrofit) {
                 ArrayList<UserNotification> userNotifications = (ArrayList<UserNotification>) response.body();
                 Error error = parserError(userNotifications.get(0));
 
-                if(error == null){
+                if (error == null) {
                     listener.success(userNotifications);
-                }else {
+                } else {
                     listener.fail(error);
                 }
+
             }
+
             @Override
-            public void onFailure(Call<ArrayList<UserNotification>> call, Throwable t) {
+            public void onFailure(Throwable t) {
                 listener.fail(new Error(t.getMessage()));
 
-            }
-        });
 
+            }
+
+        });
     }
 
-    public void getUserNotification(int user_id , final ControllResponseListener listener ){
+    public void getUserNotification(int user_id , final ControllResponseListener listener ) {
         NotificationService service = ApiClient.getRetrofit().create(NotificationService.class);
         service.getUserNotification(user_id).enqueue(new Callback<UserNotification>() {
             @Override
-            public void onResponse(Call<UserNotification> call, Response<UserNotification> response) {
+            public void onResponse(Response<UserNotification> response, Retrofit retrofit) {
                 UserNotification userNotification = (UserNotification) response.body();
                 Error error = parserError(userNotification);
 
-                if(error == null){
+                if (error == null) {
                     listener.success(userNotification);
-                }else {
+                } else {
                     listener.fail(error);
                 }
             }
 
             @Override
-            public void onFailure(Call<UserNotification> call, Throwable t) {
+            public void onFailure(Throwable t) {
                 listener.fail(new Error(t.getMessage()));
             }
+
         });
+
     }
 
 
@@ -75,7 +81,7 @@ public class NotificationControll extends Controll {
                                      is_read,
                                      userNotification.getNotification_date()).enqueue(new Callback<UserNotification>() {
             @Override
-            public void onResponse(Call<UserNotification> call, Response<UserNotification> response) {
+            public void onResponse(Response<UserNotification> response, Retrofit retrofit) {
                 UserNotification userNotification = (UserNotification) response.body();
                 Error error = parserError(userNotification);
 
@@ -84,11 +90,10 @@ public class NotificationControll extends Controll {
                 }else {
                     listener.fail(error);
                 }
-
             }
 
             @Override
-            public void onFailure(Call<UserNotification> call, Throwable t) {
+            public void onFailure(Throwable t) {
 
                 listener.fail(new Error(t.getMessage()));
 
@@ -101,7 +106,7 @@ public class NotificationControll extends Controll {
         NotificationService service = ApiClient.getRetrofit().create(NotificationService.class);
         service.readUserNotification(userNotification.getId(), is_read).enqueue(new Callback<UserNotification>() {
             @Override
-            public void onResponse(Call<UserNotification> call, Response<UserNotification> response) {
+            public void onResponse(Response<UserNotification> response, Retrofit retrofit) {
                 UserNotification userNotification = (UserNotification) response.body();
                 Error error = parserError(userNotification);
 
@@ -113,11 +118,12 @@ public class NotificationControll extends Controll {
             }
 
             @Override
-            public void onFailure(Call<UserNotification> call, Throwable t) {
+            public void onFailure(Throwable t) {
 
                 listener.fail(new Error(t.getMessage()));
 
             }
+
         });
     }
 

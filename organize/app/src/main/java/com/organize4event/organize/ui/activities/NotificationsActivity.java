@@ -45,6 +45,9 @@ public class NotificationsActivity extends BaseActivity {
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
+    @Bind(R.id.imgClear)
+    ImageView imgClear;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +80,17 @@ public class NotificationsActivity extends BaseActivity {
         rcvListNotification.setItemAnimator(new DefaultItemAnimator());
         rcvListNotification.setAdapter(adapter);
 
+        imgClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for(UserNotification userNotification : userNotifications){
+
+                    is_read = 1;
+                    readUserNotification(userNotification, is_read);
+                }
+            }
+        });
+
 
 
 
@@ -103,36 +117,23 @@ public class NotificationsActivity extends BaseActivity {
     }
 
     protected void loadAdapter() {
-        Collections.singletonList(userNotifications);
-        adapter = new NotificationAdapter(context, userNotifications, rcvListNotification, new MultipleRecyclerViewListener() {
+        Collections.reverse(userNotifications);
+        adapter = new NotificationAdapter(context, userNotifications, rcvListNotification, new RecyclerViewListener() {
             @Override
             public void onClick(int position) {
                 UserNotification userNotification = userNotifications.get(position);
-
-            }
-
-            @Override
-            public void onLongClick(int position) {
-
-            }
-
-            @Override
-            public void onChange(int position) {
-                if (userNotifications.get(position).is_read()){
-                    userNotifications.get(position).setIs_read(false);
-                    is_read = 0;
-                } else {
-                    userNotifications.get(position).setIs_read(true);
                     is_read = 1;
-                }
 
-                readUserNotification(userNotifications.get(position), is_read);
+                    readUserNotification(userNotification, is_read);
+
+
             }
+
         });
 
         rcvListNotification.setAdapter(adapter);
-    }
 
+    }
 
     public void readUserNotification(final UserNotification userNotification, int is_read) {
         new NotificationControll(context).readUserNotification(userNotification, is_read, new ControllResponseListener() {

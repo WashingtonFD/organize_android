@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.organize4event.organize.R;
 import com.organize4event.organize.listeners.MultipleRecyclerViewListener;
 import com.organize4event.organize.listeners.RecyclerViewListener;
@@ -19,6 +20,7 @@ import com.organize4event.organize.models.User;
 import com.organize4event.organize.models.UserNotification;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -28,10 +30,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         private Context context;
         private ArrayList<UserNotification> items;
         private RecyclerView recyclerView;
-        private MultipleRecyclerViewListener listener;
+        private RecyclerViewListener listener;
         private int expandedPosition = -1;
 
-    public NotificationAdapter(Context context, ArrayList<UserNotification> items, RecyclerView recyclerView, MultipleRecyclerViewListener listener) {
+    public NotificationAdapter(Context context, ArrayList<UserNotification> items, RecyclerView recyclerView, RecyclerViewListener listener) {
         this.context = context;
         this.items = items;
         this.recyclerView = recyclerView;
@@ -50,6 +52,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         UserNotification userNotification = items.get(position);
         holder.txtNotificationBriefDescription.setText(userNotification.getBrief_description());
         holder.txtNotificationDescription.setText(userNotification.getDescription());
+        holder.txtNotificationTime.setReferenceTime(userNotification.getNotification_date().getTime());
 
                 isExpand(holder, position);
     }
@@ -71,11 +74,15 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             @Bind(R.id.txtNotificationDescription)
             TextView txtNotificationDescription;
 
+            @Bind(R.id.txtNotificationTime)
+            RelativeTimeTextView txtNotificationTime;
+
         public NotificationViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
         }
+
     }
 
         public void isExpand(final NotificationViewHolder holder, final int position){
@@ -85,6 +92,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                listener.onClick(position);
                 expandedPosition = isExpanded ? -1:position;
                 TransitionManager.beginDelayedTransition(recyclerView);
                 notifyItemChanged(position);
