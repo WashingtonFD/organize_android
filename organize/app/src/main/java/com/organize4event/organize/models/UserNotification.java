@@ -36,12 +36,12 @@ public class UserNotification extends ErrorReturn {
         this.user = user;
     }
 
-    public String getBrief_descriptiom() {
-        return brief_descriptiom;
+    public String getBrief_description() {
+        return brief_description;
     }
 
-    public void setBrief_descriptiom(String brief_descriptiom) {
-        this.brief_descriptiom = brief_descriptiom;
+    public void setBrief_description(String brief_descriptiom) {
+        this.brief_description = brief_descriptiom;
     }
 
     public String getDescription() {
