@@ -9,17 +9,14 @@ import java.util.Date;
 import retrofit.Call;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
+import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Path;
-import retrofit.http.GET;
 
 public interface NotificationService {
 
-    @GET("notification")
-    Call<ArrayList<UserNotification>> getNotification(@Path("notification_id") int notification_id);
-
     @GET("notification/user/{user_id}")
-    Call<UserNotification> getUserNotification(@Path("user_id") int user_id);
+    Call<ArrayList<UserNotification>> getUserNotifications(@Path("user_id") int user_id);
 
     @FormUrlEncoded
     @POST("notification/save")

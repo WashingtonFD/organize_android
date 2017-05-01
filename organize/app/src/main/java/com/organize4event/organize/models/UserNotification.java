@@ -1,18 +1,19 @@
 package com.organize4event.organize.models;
 
 import android.os.Parcel;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class UserNotification extends ErrorReturn {
+public class UserNotification extends ErrorReturn implements Comparable<UserNotification>{
     @SerializedName("id")
     private int id;
     @SerializedName("user")
     private int user;
-    @SerializedName("brief_descriptiom")
-    private String brief_descriptiom;
+    @SerializedName("brief_description")
+    private String brief_description;
     @SerializedName("description")
     private String description;
     @SerializedName("notification_date")
@@ -40,8 +41,8 @@ public class UserNotification extends ErrorReturn {
         return brief_description;
     }
 
-    public void setBrief_description(String brief_descriptiom) {
-        this.brief_description = brief_descriptiom;
+    public void setBrief_description(String brief_description) {
+        this.brief_description = brief_description;
     }
 
     public String getDescription() {
@@ -79,7 +80,7 @@ public class UserNotification extends ErrorReturn {
         super.writeToParcel(dest, flags);
         dest.writeInt(this.id);
         dest.writeInt(this.user);
-        dest.writeString(this.brief_descriptiom);
+        dest.writeString(this.brief_description);
         dest.writeString(this.description);
         dest.writeLong(this.notification_date != null ? this.notification_date.getTime() : -1);
         dest.writeByte(this.is_read ? (byte) 1 : (byte) 0);
@@ -92,7 +93,7 @@ public class UserNotification extends ErrorReturn {
         super(in);
         this.id = in.readInt();
         this.user = in.readInt();
-        this.brief_descriptiom = in.readString();
+        this.brief_description = in.readString();
         this.description = in.readString();
         long tmpNotification_date = in.readLong();
         this.notification_date = tmpNotification_date == -1 ? null : new Date(tmpNotification_date);
@@ -110,4 +111,17 @@ public class UserNotification extends ErrorReturn {
             return new UserNotification[size];
         }
     };
+
+    @Override
+    public int compareTo(@NonNull UserNotification o) {
+        if (this.getNotification_date().getTime() < o.getNotification_date().getTime()){
+            return 1;
+        }
+        else if (this.getNotification_date().getTime() > o.getNotification_date().getTime()){
+            return -1;
+        }
+        else{
+            return 0;
+        }
+    }
 }
