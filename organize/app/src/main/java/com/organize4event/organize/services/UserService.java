@@ -22,6 +22,7 @@ public interface UserService {
     Call<User> saveUser(
             @Field("user_type") int user_type_id,
             @Field("plan") int plan_id,
+            @Field("privacy") int privacy_id,
             @Field("full_name") String full_name,
             @Field("mail") String mail,
             @Field("password") String password,
@@ -34,4 +35,9 @@ public interface UserService {
     @POST("user/{user_id}")
     Call<User> updateUserToken(@Path("user_id") int user_id,
                                @Field("token") int token_id);
+
+    @FormUrlEncoded
+    @POST("user/{user_id}")
+    Call<User> updateUserPrivacy(@Path("user_id") int user_id,
+                             @Field("privacy") int privacy_id);
 }

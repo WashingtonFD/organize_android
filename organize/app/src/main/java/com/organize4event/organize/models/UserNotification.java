@@ -10,7 +10,7 @@ public class UserNotification extends ErrorReturn {
     @SerializedName("id")
     private int id;
     @SerializedName("user")
-    private User user;
+    private int user;
     @SerializedName("brief_descriptiom")
     private String brief_descriptiom;
     @SerializedName("description")
@@ -20,7 +20,6 @@ public class UserNotification extends ErrorReturn {
     @SerializedName("is_read")
     private boolean is_read;
 
-
     public int getId() {
         return id;
     }
@@ -29,11 +28,11 @@ public class UserNotification extends ErrorReturn {
         this.id = id;
     }
 
-    public User getUser() {
+    public int getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(int user) {
         this.user = user;
     }
 
@@ -79,7 +78,7 @@ public class UserNotification extends ErrorReturn {
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
         dest.writeInt(this.id);
-        dest.writeParcelable(this.user, flags);
+        dest.writeInt(this.user);
         dest.writeString(this.brief_descriptiom);
         dest.writeString(this.description);
         dest.writeLong(this.notification_date != null ? this.notification_date.getTime() : -1);
@@ -87,13 +86,12 @@ public class UserNotification extends ErrorReturn {
     }
 
     public UserNotification() {
-        this.setIs_new(true);
     }
 
     protected UserNotification(Parcel in) {
         super(in);
         this.id = in.readInt();
-        this.user = in.readParcelable(User.class.getClassLoader());
+        this.user = in.readInt();
         this.brief_descriptiom = in.readString();
         this.description = in.readString();
         long tmpNotification_date = in.readLong();

@@ -5,7 +5,6 @@ import android.content.Context;
 import com.organize4event.organize.commons.ApiClient;
 import com.organize4event.organize.listeners.ControllResponseListener;
 import com.organize4event.organize.models.Privacy;
-import com.organize4event.organize.models.UserPrivacy;
 import com.organize4event.organize.services.PrivacyService;
 
 import java.util.ArrayList;
@@ -30,50 +29,6 @@ public class PrivacyControll extends Controll {
                     listener.success(privacies);
                 }
                 else {
-                    listener.fail(error);
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                listener.fail(new Error(t.getMessage()));
-            }
-        });
-    }
-
-    public void saveUserPrivacy(UserPrivacy userPrivacy, int checking, final ControllResponseListener listener){
-        PrivacyService service = ApiClient.getRetrofit().create(PrivacyService.class);
-        service.saveUserPrivacy(userPrivacy.getUser(), userPrivacy.getPrivacy().getId(), checking).enqueue(new Callback<UserPrivacy>() {
-            @Override
-            public void onResponse(Response<UserPrivacy> response, Retrofit retrofit) {
-                UserPrivacy userPrivacy = (UserPrivacy) response.body();
-                Error error = parserError(userPrivacy);
-                if (error == null){
-                    listener.success(userPrivacy);
-                }
-                else{
-                    listener.fail(error);
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                listener.fail(new Error(t.getMessage()));
-            }
-        });
-    }
-
-    public void privacyChecking(UserPrivacy userPrivacy, int checking, final ControllResponseListener listener){
-        PrivacyService service = ApiClient.getRetrofit().create(PrivacyService.class);
-        service.privacyChecking(userPrivacy.getId(), checking).enqueue(new Callback<UserPrivacy>() {
-            @Override
-            public void onResponse(Response<UserPrivacy> response, Retrofit retrofit) {
-                UserPrivacy userPrivacy = (UserPrivacy) response.body();
-                Error error = parserError(userPrivacy);
-                if (error == null){
-                    listener.success(userPrivacy);
-                }
-                else{
                     listener.fail(error);
                 }
             }
