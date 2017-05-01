@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.organize4event.organize.ui.activities.PrivacyActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            tools:ignore="MissingPrefix"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+            
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:id="@+id/conteinerContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/appBarLayout"
+        android:padding="@dimen/padding_default"
+        >
+
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_default"
+            android:text="@string/label_select_privacy"
+            android:textColor="@color/colorTextDefault"
+            android:textSize="@dimen/text_size_default"
+            android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtTitle"
+            android:layout_marginTop="@dimen/margin_default"
+            >
+
+            <RadioGroup
+                android:id="@+id/rgpListPrivacy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
+
+                <RadioButton
+                    android:id="@+id/btnAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_vertical"
+                    android:button="@drawable/selector_radio_button"
+                    android:buttonTint="@color/colorPrimary"
+                    android:padding="@dimen/padding_default"
+                    android:text="@string/label_all"
+                    android:textColor="@color/colorTextDefault"
+                    android:textSize="@dimen/text_size_default"
+                    android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                    android:checked="true"
+                    />
+
+                <RadioButton
+                    android:id="@+id/btnJustFriends"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_vertical"
+                    android:button="@drawable/selector_radio_button"
+                    android:buttonTint="@color/colorPrimary"
+                    android:padding="@dimen/padding_default"
+                    android:text="@string/label_just_friends"
+                    android:textColor="@color/colorTextDefault"
+                    android:textSize="@dimen/text_size_default"
+                    android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                    />
+
+                <RadioButton
+                    android:id="@+id/btnNoOne"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_vertical"
+                    android:button="@drawable/selector_radio_button"
+                    android:buttonTint="@color/colorPrimary"
+                    android:padding="@dimen/padding_default"
+                    android:text="@string/label_no_one"
+                    android:textColor="@color/colorTextDefault"
+                    android:textSize="@dimen/text_size_default"
+                    android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                    />
+
+            </RadioGroup>
+
+            <RelativeLayout
+                android:id="@+id/btnInfoAll"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_info_black_24dp"
+                    android:tint="@color/colorAccent"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/btnInfoJustFriends"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/btnInfoAll"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_info_black_24dp"
+                    android:tint="@color/colorAccent"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/btnInfoNoOne"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/btnInfoJustFriends"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_info_black_24dp"
+                    android:tint="@color/colorAccent"
+                    />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

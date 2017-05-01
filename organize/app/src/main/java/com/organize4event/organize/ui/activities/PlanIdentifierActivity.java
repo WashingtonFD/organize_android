@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.CustomValidate;
 import com.organize4event.organize.commons.PreferencesManager;
@@ -61,6 +62,11 @@ public class PlanIdentifierActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plan_identifier);
         ButterKnife.bind(this);
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "PLAN IDENTIFIER");
+        FirebaseAnalytics.getInstance(this).logEvent(FirebaseAnalytics.Event.VIEW_ITEM, bundle);
+
 
         context = PlanIdentifierActivity.this;
         plan_switch = PlanEnum.FREE.getValue();

@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.controllers.TermUseControll;
@@ -49,6 +50,11 @@ public class TermUseActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_term_use);
         ButterKnife.bind(this);
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "TERM OF USE");
+        FirebaseAnalytics.getInstance(this).logEvent(FirebaseAnalytics.Event.VIEW_ITEM, bundle);
+
 
         context = TermUseActivity.this;
         firstAccess = Parcels.unwrap(getIntent().getExtras().getParcelable("firstAccess"));

@@ -1,70 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:id="@+id/rowContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_default"
+        android:paddingLeft="@dimen/padding_default"
+        android:paddingRight="@dimen/padding_default"
+        android:paddingTop="@dimen/padding_default"
+        android:paddingBottom="@dimen/margin_small"
+        android:background="@color/colorBlack"
         >
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/contentFields"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/txtNotificationBriefDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/margin_default"
-                android:layout_centerVertical="true"
-                android:textSize="@dimen/text_size_large"
-                android:textColor="@color/colorTextDefault"
                 android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
+                android:textColor="@color/colorTextDefault"
+                android:textSize="@dimen/text_size_default" />
+
+            <TextView
+                android:id="@+id/txtNotificationDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:textAlignment="center"
+                android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                android:textColor="@color/colorTextDefault"
+                android:textSize="@dimen/text_size_small"
+                android:visibility="gone"
                 />
 
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contentFields"
+            android:layout_marginTop="@dimen/margin_small">
+
+            <ImageView
+                android:id="@+id/imgClock"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/margin_small"
+                android:src="@drawable/ic_access_time_black_24dp"
+                android:tint="@color/colorTextDefault" />
+
+            <com.github.curioustechizen.ago.RelativeTimeTextView
+                android:id="@+id/txtNotificationTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:layout_toRightOf="@+id/imgClock"
+                android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                android:textColor="@color/colorTextDefault"
+                android:textSize="@dimen/text_size_small"
+                app:relative_time_prefix="" />
+
         </RelativeLayout>
-
-        <ImageView
-            android:id="@+id/imgClock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/contentFields"
-            android:layout_gravity="left"
-            android:layout_marginRight="22dp"
-            android:layout_alignParentLeft="true"
-            android:src="@drawable/ic_query_builder_black_24dp"
-            />
-
-        <com.github.curioustechizen.ago.RelativeTimeTextView
-            android:id="@+id/txtNotificationTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/contentFields"
-            android:layout_toRightOf="@+id/imgClock"
-            app:relative_time_prefix=""
-            android:layout_marginRight="@dimen/margin_default"
-            android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
-            />
-
-
-        <TextView
-            android:id="@+id/txtNotificationDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/contentFields"
-            android:layout_marginTop="@dimen/margin_default"
-            android:padding="@dimen/padding_default"
-            android:textSize="@dimen/text_size_small"
-            android:textColor="@color/colorTextDefault"
-            android:textAlignment="center"
-            android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
-            android:visibility="gone"
-            />
 
     </RelativeLayout>
 
@@ -72,10 +78,6 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_below="@+id/rowContent"
-        android:background="@color/colorDivider"
-        />
-
-
-
+        android:background="@color/colorDivider" />
 
 </RelativeLayout>

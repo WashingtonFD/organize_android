@@ -11,31 +11,43 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.controllers.FirstAccessControll;
+import com.organize4event.organize.controllers.NotificationControll;
 import com.organize4event.organize.listeners.ControllResponseListener;
 import com.organize4event.organize.listeners.ToolbarListener;
 import com.organize4event.organize.models.FirstAccess;
+import com.organize4event.organize.models.UserNotification;
 import com.organize4event.organize.ui.fragments.HomeFragment;
 import com.organize4event.organize.ui.fragments.InstitutionalFragment;
 import com.organize4event.organize.ui.fragments.SettingsFragment;
+
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.organize4event.organize.R.id.containerContent;
+
 public class HomeActivity extends BaseActivity {
     private Context context;
     private String device_id;
     private FirstAccess firstAccess;
+    private ArrayList<UserNotification> userNotifications = new ArrayList<>();
     Class fragmentClass;
 
     @Bind(R.id.drawerLayout)
     DrawerLayout drawerLayout;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+    @Bind(R.id.imgNotification)
+    ImageView imgNotification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +68,7 @@ public class HomeActivity extends BaseActivity {
             Log.v("instance HOME", "Home fragment instance");
             Fragment fragment = (Fragment) fragmentClass.newInstance();
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.containerContent, fragment).commit();
+            fragmentManager.beginTransaction().replace(containerContent, fragment).commit();
         }
         catch (Exception e){
             Log.v("instance HOME ERROR", "Home fragment instance error");
@@ -64,6 +76,7 @@ public class HomeActivity extends BaseActivity {
         }
 
         getData();
+//        verifyData();
     }
 
     protected void setupToolbar(String title){
@@ -90,9 +103,58 @@ public class HomeActivity extends BaseActivity {
         });
     }
 
+    protected void getNotifications(){
+        new NotificationControll(context).getUserNotifications(firstAccess.getUser().getId(), new ControllResponseListener() {
+            @Override
+            public void success(Object object) {
+                userNotifications = (ArrayList<UserNotification>) object;
+                assetIconNotification();
+            }
+
+            @Override
+            public void fail(Error error) {
+                returnErrorMessage(error, context);
+            }
+        });
+    }
+
+    public void assetIconNotification(){
+        int count = 0;
+        if (userNotifications.size() > 0){
+            for (UserNotification userNotification : userNotifications){
+                if (!userNotification.is_read()){
+                    count ++;
+                }
+            }
+        }
+
+        if (count > 0){
+            imgNotification.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_notifications_black_24dp_on));
+            imgNotification.setColorFilter(context.getResources().getColor(R.color.colorTransparent));
+        }
+        else{
+            imgNotification.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_notifications_black_24dp));
+            imgNotification.setColorFilter(context.getResources().getColor(R.color.colorDestakText));
+        }
+    }
+
+    protected void verifyData(){
+        int delay = 5000;
+        int interval = 10000;
+        Timer timer = new Timer();
+
+        timer.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+                getNotifications();
+            }
+        }, delay, interval);
+    }
+
     @OnClick(R.id.imgNotification)
     public void actionOpenNotifications(){
-        startActivity(new Intent(context, NotificationsActivity.class));
+        Intent intent = new Intent(context, NotificationsActivity.class);
+        intent.putParcelableArrayListExtra("userNotifications", userNotifications);
+        startActivity(intent);
     }
 
     @OnClick({R.id.userContainer, R.id.homeContainer, R.id.eventContainer, R.id.sheduleContainer, R.id.partnerContainer, R.id.paymentContainer, R.id.purchaseContainer, R.id.settingsContainer, R.id.institutionalContainer})
@@ -131,7 +193,7 @@ public class HomeActivity extends BaseActivity {
         try {
             Fragment fragment = (Fragment) fragmentClass.newInstance();
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.containerContent, fragment).commit();
+            fragmentManager.beginTransaction().replace(containerContent, fragment).commit();
 
         } catch (Exception e) {
             e.printStackTrace();

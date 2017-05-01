@@ -12,6 +12,7 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
@@ -26,6 +27,8 @@ import com.organize4event.organize.controllers.PrivacyControll;
 import com.organize4event.organize.controllers.SettingsControll;
 import com.organize4event.organize.controllers.TermUseControll;
 import com.organize4event.organize.controllers.UserControll;
+import com.organize4event.organize.enuns.DialogTypeEnum;
+import com.organize4event.organize.enuns.PrivacyEnum;
 import com.organize4event.organize.enuns.UserTypeEnum;
 import com.organize4event.organize.listeners.ControllResponseListener;
 import com.organize4event.organize.listeners.CustomDialogListener;
@@ -34,7 +37,6 @@ import com.organize4event.organize.models.FirstAccess;
 import com.organize4event.organize.models.Privacy;
 import com.organize4event.organize.models.Setting;
 import com.organize4event.organize.models.User;
-import com.organize4event.organize.models.UserPrivacy;
 import com.organize4event.organize.models.UserSetting;
 import com.organize4event.organize.models.UserTerm;
 import com.organize4event.organize.models.UserType;
@@ -58,7 +60,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     private String title = "";
     private Date birthDate;
     private int term_accept = 0;
-    private int checking = 0;
+    private int checking = 1;
 
     private User user;
     private FirstAccess firstAccess;
@@ -66,9 +68,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     private UserType userType;
 
     private ArrayList<Privacy> privacies = new ArrayList<>();
-    private ArrayList<UserPrivacy> userPrivacies = new ArrayList<>();
-    private UserPrivacy userPrivacy;
-    private ArrayList<Setting> settings = new ArrayList<>();
+   private ArrayList<Setting> settings = new ArrayList<>();
     private ArrayList<UserSetting> userSettings = new ArrayList<>();
     private UserSetting userSetting;
 
@@ -128,6 +128,11 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         setContentView(R.layout.activity_user_register);
         ButterKnife.bind(this);
 
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "USER REGISTER");
+        FirebaseAnalytics.getInstance(this).logEvent(FirebaseAnalytics.Event.VIEW_ITEM, bundle);
+
+
         context = UserRegisterActivity.this;
         firstAccess = Parcels.unwrap(getIntent().getExtras().getParcelable("firstAccess"));
         user = firstAccess.getUser();
@@ -173,7 +178,29 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
             @Override
             public void success(Object object) {
                 userType = (UserType)object;
-                prepareUser();
+                getPrivacy();
+            }
+
+            @Override
+            public void fail(Error error) {
+                returnErrorMessage(error, context);
+            }
+        });
+    }
+
+    protected void getPrivacy(){
+        new PrivacyControll(context).getPrivacy(firstAccess.getLocale(), new ControllResponseListener() {
+            @Override
+            public void success(Object object) {
+                privacies = (ArrayList<Privacy>) object;
+                if (privacies.size() > 0){
+                    for (Privacy privacy : privacies){
+                        if (privacy.getCode_enum() == PrivacyEnum.NO_ONE.getValue()){
+                            user.setPrivacy(privacy);
+                            prepareUser();
+                        }
+                    }
+                }
             }
 
             @Override
@@ -242,61 +269,13 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
             @Override
             public void success(Object object) {
                 userTerm = (UserTerm) object;
-                getPrivacy();
+                getSettings();
             }
 
             @Override
             public void fail(Error error) {
                 returnErrorMessage(error, context);
 
-            }
-        });
-    }
-
-    protected void getPrivacy(){
-        new PrivacyControll(context).getPrivacy(firstAccess.getLocale(), new ControllResponseListener() {
-            @Override
-            public void success(Object object) {
-                privacies = (ArrayList<Privacy>) object;
-                if (privacies.size() > 0){
-                    for (Privacy privacy : privacies){
-                        saveUserPrivacy(privacy);
-                    }
-                }
-            }
-
-            @Override
-            public void fail(Error error) {
-                returnErrorMessage(error, context);
-            }
-        });
-    }
-
-    protected void saveUserPrivacy(Privacy privacy){
-
-        userPrivacy = new UserPrivacy();
-        userPrivacy.setUser(user.getId());
-        userPrivacy.setPrivacy(privacy);
-        userPrivacy.setChecking(privacy.isCheck_default());
-
-        if (userPrivacy.isChecking()){
-            checking = 1;
-        }
-
-        new PrivacyControll(context).saveUserPrivacy(userPrivacy, checking, new ControllResponseListener() {
-            @Override
-            public void success(Object object) {
-                userPrivacy = (UserPrivacy)object;
-                userPrivacies.add(userPrivacy);
-
-                if (userPrivacies.size() == privacies.size()){
-                    getSettings();
-                }
-            }
-
-            @Override
-            public void fail(Error error) {
-                returnErrorMessage(error, context);
             }
         });
     }
@@ -326,10 +305,6 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         userSetting.setUser(user.getId());
         userSetting.setSetting(setting);
         userSetting.setChecking(setting.isCheck_default());
-
-        if (userSetting.isChecking()){
-            checking = 1;
-        }
 
         new SettingsControll(context).saveUserSettings(userSetting, checking, new ControllResponseListener() {
             @Override
@@ -387,7 +362,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
     @OnClick(R.id.contentImage)
     public void actionUploadImage(){
-        showDialogMessage(1, "Inserir imagem", "Fazer o Upload de Imagem", new CustomDialogListener() {
+        showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, "Inserir imagem", "Fazer o Upload de Imagem", new CustomDialogListener() {
             @Override
             public void positiveOnClick(MaterialDialog dialog) {
                 dialog.dismiss();

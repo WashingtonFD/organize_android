@@ -25,6 +25,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.WaitDialog;
+import com.organize4event.organize.enuns.DialogTypeEnum;
 import com.organize4event.organize.listeners.CustomDialogListener;
 import com.organize4event.organize.listeners.ToolbarListener;
 
@@ -114,7 +115,7 @@ public class BaseActivity  extends AppCompatActivity{
         return false;
     }
 
-    public void showDialogMessage(int type, String title, String message, final CustomDialogListener listener){
+    public void showDialogMessage(DialogTypeEnum type, String title, String message, final CustomDialogListener listener){
         final MaterialDialog dialog = new MaterialDialog.Builder(this).customView(R.layout.custom_dialog, false).show();
 
         TextView dialog_title = (TextView) dialog.getCustomView().findViewById(R.id.txtTitle);
@@ -126,7 +127,7 @@ public class BaseActivity  extends AppCompatActivity{
         dialog_title.setText(title);
         dialog_message.setText(message);
 
-        if(type != 1){
+        if(type != DialogTypeEnum.JUSTPOSITIVE){
             dialog_negative.setVisibility(View.VISIBLE);
             divider.setVisibility(View.VISIBLE);
         }
@@ -224,7 +225,7 @@ public class BaseActivity  extends AppCompatActivity{
     public void returnErrorMessage(Error error, Context context){
         hideLoading();
         if(isOline(context)){
-            showDialogMessage(1, context.getString(R.string.error_title), error.getMessage(), new CustomDialogListener() {
+            showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.error_title), error.getMessage(), new CustomDialogListener() {
                 @Override
                 public void positiveOnClick(MaterialDialog dialog) {
                     dialog.dismiss();
@@ -237,7 +238,7 @@ public class BaseActivity  extends AppCompatActivity{
             });
         }
         else {
-            showDialogMessage(1, context.getString(R.string.error_title), context.getString(R.string.error_message_conect), new CustomDialogListener() {
+            showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.error_title), context.getString(R.string.error_message_conect), new CustomDialogListener() {
                 @Override
                 public void positiveOnClick(MaterialDialog dialog) {
                     dialog.dismiss();
@@ -280,7 +281,7 @@ public class BaseActivity  extends AppCompatActivity{
 
                     if(event.getAction() == MotionEvent.ACTION_UP) {
                         if(event.getRawX() >= (editText.getRight() - editText.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                            showDialogMessage(1, title, message, new CustomDialogListener() {
+                            showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, title, message, new CustomDialogListener() {
                                 @Override
                                 public void positiveOnClick(MaterialDialog dialog) {
                                     dialog.dismiss();

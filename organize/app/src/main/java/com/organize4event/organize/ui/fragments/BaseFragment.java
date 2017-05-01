@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.mobsandgeeks.saripaar.ValidationError;
+import com.organize4event.organize.enuns.DialogTypeEnum;
 import com.organize4event.organize.listeners.CustomDialogListener;
 import com.organize4event.organize.ui.activities.BaseActivity;
 
@@ -39,7 +40,7 @@ public class BaseFragment extends Fragment {
         activity.selectDate(context, editText, mode);
     }
 
-    public void showDialogMessage(int type, String title, String message, CustomDialogListener listener){
+    public void showDialogMessage(DialogTypeEnum type, String title, String message, CustomDialogListener listener){
         BaseActivity activity = (BaseActivity) getActivity();
         activity.showDialogMessage(type, title, message, listener);
     }

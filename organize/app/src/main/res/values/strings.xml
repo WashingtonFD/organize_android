@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Organize</string>
+    <string name="facebook_app_id">1888152091466735</string>
 
     <string name="content_presentation">Morbi a metus. Phasellus enim erat, vestibulum vel, aliquam a, posuere eu, velit. Nullam sapien sem, ornare ac, nonummy non, lobortis a, enim. Nunc tincidunt ante vitae massa. Duis ante</string>
     <string name="content_term_use">Acesse o TERMO DE USO E PRIVACIDADE do sistema.</string>
@@ -15,6 +16,7 @@
     <string name="info_all_required_fields">Todos os campos são obrigatórios</string>
     <string name="info_required_fields">* Campos obrigatórios</string>
     <string name="info_loading">Carregando...</string>
+    <string name="info_no_data">Não há dados a serem exibidos</string>
 
     <string name="label_birth_date">Data de nascimento</string>
     <string name="label_cpf">CPF</string>
@@ -39,9 +41,11 @@
     <string name="label_plan_identifier">Identificação do Plano</string>
     <string name="label_plan_premium">Plano Prêmium</string>
     <string name="label_plan_question">Escolha seu plano de acesso</string>
+    <string name="label_select_privacy">Escolha o nivel de acesso ao seu perfil</string>
     <string name="label_site">www.organize4event.com</string>
     <string name="label_start_date">Início</string>
     <string name="label_term_use">Termo de Uso</string>
+    <string name="label_privacy">Privacidade</string>
     <string name="label_validate_code">Código de validação</string>
     <string name="label_register_user">Registro de usuário</string>
     <string name="label_login_email">Login com E-mail</string>
@@ -70,8 +74,12 @@
     <string name="label_subject">Assunto: </string>
     <string name="label_send_mail">Enviar e-mail como: </string>
     <string name="label_call">Realizar chamada</string>
-
-
+    <string name="label_monthly">por mês</string>
+    <string name="label_advantages">Vantagens</string>
+    <string name="label_know_more">Saiba mais</string>
+    <string name="label_all">Todos</string>
+    <string name="label_just_friends">Somente amigos</string>
+    <string name="label_no_one">Ninguém</string>
 
     <string name="message_info_password">Entre 6 a 10 caracteres alfanuméricos.</string>
     <string name="message_info_cpf">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget sem quis risus sagittis tincidunt nec tempus libero. Suspendisse non.</string>
@@ -81,6 +89,7 @@
     <string name="message_list_plan">Sobre qual plano deseja informações?</string>
     <string name="message_call_phone">Deseja realizar uma ligação? Isto acarretará em gastos de consumo de acordo com seu plano em sua operadora.</string>
     <string name="message_whatsapp">É necessário ter o Whatsapp instalado para executar essa requisição.</string>
+    <string name="message_free">GRÁTIS!</string>
 
     <string name="placeholder_cpf">Insira o seu CPF.</string>
     <string name="placeholder_mail">Insira o seu e-mail.</string>

@@ -16,6 +16,8 @@ public class User extends ErrorReturn{
     private Token token;
     @SerializedName("plan")
     private Plan plan;
+    @SerializedName("privacy")
+    private Privacy privacy;
     @SerializedName("full_name")
     private String full_name;
     @SerializedName("mail")
@@ -48,8 +50,6 @@ public class User extends ErrorReturn{
     private UserSecurity user_security;
     @SerializedName("user_settings")
     private ArrayList<UserSetting> user_settings;
-    @SerializedName("user_privacy")
-    private ArrayList<UserPrivacy> user_privacy;
     @SerializedName("user_notifications")
     private ArrayList<UserNotification> user_notifications;
 
@@ -83,6 +83,14 @@ public class User extends ErrorReturn{
 
     public void setPlan(Plan plan) {
         this.plan = plan;
+    }
+
+    public Privacy getPrivacy() {
+        return privacy;
+    }
+
+    public void setPrivacy(Privacy privacy) {
+        this.privacy = privacy;
     }
 
     public String getFull_name() {
@@ -213,14 +221,6 @@ public class User extends ErrorReturn{
         this.user_settings = user_settings;
     }
 
-    public ArrayList<UserPrivacy> getUser_privacy() {
-        return user_privacy;
-    }
-
-    public void setUser_privacy(ArrayList<UserPrivacy> user_privacy) {
-        this.user_privacy = user_privacy;
-    }
-
     public ArrayList<UserNotification> getUser_notifications() {
         return user_notifications;
     }
@@ -242,6 +242,7 @@ public class User extends ErrorReturn{
         dest.writeParcelable(this.user_type, flags);
         dest.writeParcelable(this.token, flags);
         dest.writeParcelable(this.plan, flags);
+        dest.writeParcelable(this.privacy, flags);
         dest.writeString(this.full_name);
         dest.writeString(this.mail);
         dest.writeString(this.password);
@@ -258,12 +259,10 @@ public class User extends ErrorReturn{
         dest.writeParcelable(this.user_term, flags);
         dest.writeParcelable(this.user_security, flags);
         dest.writeTypedList(this.user_settings);
-        dest.writeTypedList(this.user_privacy);
         dest.writeTypedList(this.user_notifications);
     }
 
     public User() {
-        this.setIs_new(true);
     }
 
     protected User(Parcel in) {
@@ -272,6 +271,7 @@ public class User extends ErrorReturn{
         this.user_type = in.readParcelable(UserType.class.getClassLoader());
         this.token = in.readParcelable(Token.class.getClassLoader());
         this.plan = in.readParcelable(Plan.class.getClassLoader());
+        this.privacy = in.readParcelable(Privacy.class.getClassLoader());
         this.full_name = in.readString();
         this.mail = in.readString();
         this.password = in.readString();
@@ -289,7 +289,6 @@ public class User extends ErrorReturn{
         this.user_term = in.readParcelable(UserTerm.class.getClassLoader());
         this.user_security = in.readParcelable(UserSecurity.class.getClassLoader());
         this.user_settings = in.createTypedArrayList(UserSetting.CREATOR);
-        this.user_privacy = in.createTypedArrayList(UserPrivacy.CREATOR);
         this.user_notifications = in.createTypedArrayList(UserNotification.CREATOR);
     }
 

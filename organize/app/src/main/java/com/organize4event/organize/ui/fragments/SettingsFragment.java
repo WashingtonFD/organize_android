@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.AppApplication;
 import com.organize4event.organize.controllers.PlanControll;
@@ -27,6 +28,7 @@ import com.organize4event.organize.models.User;
 import com.organize4event.organize.models.UserSetting;
 import com.organize4event.organize.ui.activities.AboutActivity;
 import com.organize4event.organize.ui.activities.PlanDetailActivity;
+import com.organize4event.organize.ui.activities.PrivacyActivity;
 import com.organize4event.organize.ui.activities.TermUseActivity;
 import com.organize4event.organize.ui.adapters.PlanAdapter;
 import com.organize4event.organize.ui.adapters.SettingsAdapter;
@@ -48,13 +50,17 @@ public class SettingsFragment extends BaseFragment {
     private SettingsAdapter adapter;
     private int checking = 0;
 
-    @Bind(R.id.rcvListSettings)
-    RecyclerView rcvListSettings;
+    @Bind(R.id.listSettings)
+    RecyclerView listSettings;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         ButterKnife.bind(this, view);
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "SETTINGS");
+        FirebaseAnalytics.getInstance(getActivity()).logEvent(FirebaseAnalytics.Event.VIEW_ITEM, bundle);
 
         context = getActivity();
         firstAccess = AppApplication.getFirstAccess();
@@ -67,9 +73,9 @@ public class SettingsFragment extends BaseFragment {
             loadAdapter();
         }
 
-        rcvListSettings.setLayoutManager(new LinearLayoutManager(context));
-        rcvListSettings.setItemAnimator(new DefaultItemAnimator());
-        rcvListSettings.setAdapter(adapter);
+        listSettings.setLayoutManager(new LinearLayoutManager(context));
+        listSettings.setItemAnimator(new DefaultItemAnimator());
+        listSettings.setAdapter(adapter);
 
         return view;
     }
@@ -93,7 +99,7 @@ public class SettingsFragment extends BaseFragment {
 
     protected void loadAdapter() {
         Collections.sort(userSettings);
-        adapter = new SettingsAdapter(context, userSettings, rcvListSettings, new MultipleRecyclerViewListener() {
+        adapter = new SettingsAdapter(context, userSettings, listSettings, new MultipleRecyclerViewListener() {
             @Override
             public void onClick(int position) {
                 UserSetting userSetting = userSettings.get(position);
@@ -138,7 +144,7 @@ public class SettingsFragment extends BaseFragment {
                 checkingUserSettings(userSettings.get(position), checking);
             }
         });
-        rcvListSettings.setAdapter(adapter);
+        listSettings.setAdapter(adapter);
     }
 
     public void getPlans() {
@@ -172,7 +178,7 @@ public class SettingsFragment extends BaseFragment {
     }
 
     public void startPrivacySettings() {
-        showToastMessage(context, "ABRIR ACTIVITY PRIVACY");
+        startActivity(new Intent(context, PrivacyActivity.class));
     }
 
     public void startDayPayment() {
@@ -185,7 +191,7 @@ public class SettingsFragment extends BaseFragment {
         String message = context.getString(R.string.message_list_plan);
 
         final MaterialDialog dialog = new MaterialDialog.Builder(context).customView(R.layout.custom_dialog_list, false).show();
-        RecyclerView rcvList = (RecyclerView) dialog.getCustomView().findViewById(R.id.rcvList);
+        RecyclerView rcvList = (RecyclerView) dialog.getCustomView().findViewById(R.id.dialogList);
         TextView dialog_title = (TextView) dialog.getCustomView().findViewById(R.id.txtTitle);
         TextView dialog_message = (TextView) dialog.getCustomView().findViewById(R.id.txtMessage);
         Button dialog_positive = (Button) dialog.getCustomView().findViewById(R.id.btnPositive);

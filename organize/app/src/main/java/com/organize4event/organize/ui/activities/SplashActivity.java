@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.provider.Settings;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.controllers.FirstAccessControll;
@@ -38,6 +39,10 @@ public class SplashActivity extends BaseActivity {
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
 
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "SPLASH");
+        FirebaseAnalytics.getInstance(this).logEvent(FirebaseAnalytics.Event.VIEW_ITEM, bundle);
+
         context = SplashActivity.this;
         device_id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         locale = Locale.getDefault().toString();
@@ -56,7 +61,7 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void success(Object object) {
                 firstAccess = (FirstAccess) object;
-                if (!firstAccess.is_new() || firstAccess.getId() > 0){
+                if (firstAccess.getId() > 0){
                     verifyData();
                 }
                 else {
@@ -79,7 +84,6 @@ public class SplashActivity extends BaseActivity {
         firstAccess.setDevice_id(device_id);
         firstAccess.setLocale(locale);
         firstAccess.setInstalation_date(new Date());
-        firstAccess.setIs_new(false);
 
         PreferencesManager.saveFirstAccess(firstAccess);
         startApresentationActivity();

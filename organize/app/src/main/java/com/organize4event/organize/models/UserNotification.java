@@ -1,12 +1,13 @@
 package com.organize4event.organize.models;
 
 import android.os.Parcel;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class UserNotification extends ErrorReturn {
+public class UserNotification extends ErrorReturn implements Comparable<UserNotification>{
     @SerializedName("id")
     private int id;
     @SerializedName("user")
@@ -19,7 +20,6 @@ public class UserNotification extends ErrorReturn {
     private Date notification_date;
     @SerializedName("is_read")
     private boolean is_read;
-
 
     public int getId() {
         return id;
@@ -41,8 +41,8 @@ public class UserNotification extends ErrorReturn {
         return brief_description;
     }
 
-    public void setBrief_description(String brief_descriptiom) {
-        this.brief_description = brief_descriptiom;
+    public void setBrief_description(String brief_description) {
+        this.brief_description = brief_description;
     }
 
     public String getDescription() {
@@ -87,7 +87,6 @@ public class UserNotification extends ErrorReturn {
     }
 
     public UserNotification() {
-        this.setIs_new(true);
     }
 
     protected UserNotification(Parcel in) {
@@ -112,4 +111,17 @@ public class UserNotification extends ErrorReturn {
             return new UserNotification[size];
         }
     };
+
+    @Override
+    public int compareTo(@NonNull UserNotification o) {
+        if (this.getNotification_date().getTime() < o.getNotification_date().getTime()){
+            return 1;
+        }
+        else if (this.getNotification_date().getTime() > o.getNotification_date().getTime()){
+            return -1;
+        }
+        else{
+            return 0;
+        }
+    }
 }

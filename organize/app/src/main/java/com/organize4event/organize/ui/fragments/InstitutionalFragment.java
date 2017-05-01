@@ -14,11 +14,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.AppApplication;
 import com.organize4event.organize.controllers.InstitutionalControll;
 import com.organize4event.organize.controllers.PlanControll;
 import com.organize4event.organize.enuns.ContactTypeEnum;
+import com.organize4event.organize.enuns.DialogTypeEnum;
 import com.organize4event.organize.enuns.PlanEnum;
 import com.organize4event.organize.listeners.ControllResponseListener;
 import com.organize4event.organize.listeners.CustomDialogListener;
@@ -71,13 +73,18 @@ public class InstitutionalFragment extends BaseFragment {
     TextView txtPlanBasic;
     @Bind(R.id.txtPlanPremium)
     TextView txtPlanPremium;
-    @Bind(R.id.rcvListContacts)
-    RecyclerView rcvListContacts;
+    @Bind(R.id.listContacts)
+    RecyclerView listContacts;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_institutional, container, false);
         ButterKnife.bind(this, view);
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "INSTITUTIONAL");
+        FirebaseAnalytics.getInstance(getActivity()).logEvent(FirebaseAnalytics.Event.VIEW_ITEM, bundle);
+
 
         context = getActivity();
         firstAccess = AppApplication.getFirstAccess();
@@ -170,9 +177,9 @@ public class InstitutionalFragment extends BaseFragment {
                     adapter.addSection(value);
                 }
 
-                rcvListContacts.setLayoutManager(new LinearLayoutManager(context));
-                rcvListContacts.setItemAnimator(new DefaultItemAnimator());
-                rcvListContacts.setAdapter(adapter);
+                listContacts.setLayoutManager(new LinearLayoutManager(context));
+                listContacts.setItemAnimator(new DefaultItemAnimator());
+                listContacts.setAdapter(adapter);
                 contentFilter.setVisibility(View.GONE);
                 hideLoading();
             }
@@ -235,7 +242,7 @@ public class InstitutionalFragment extends BaseFragment {
     }
 
     public void callPhone(final Contact contact){
-        showDialogMessage(2, context.getString(R.string.label_call), context.getString(R.string.message_call_phone), new CustomDialogListener() {
+        showDialogMessage(DialogTypeEnum.POSITIVE_AND_NEGATIVE, context.getString(R.string.label_call), context.getString(R.string.message_call_phone), new CustomDialogListener() {
             @Override
             public void positiveOnClick(MaterialDialog dialog) {
                 Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + contact.getContact()));

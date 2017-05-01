@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Email;
@@ -23,6 +24,7 @@ import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.controllers.FirstAccessControll;
 import com.organize4event.organize.controllers.TokenControll;
 import com.organize4event.organize.enuns.AccessPlatformEnum;
+import com.organize4event.organize.enuns.DialogTypeEnum;
 import com.organize4event.organize.enuns.LoginTypeEnum;
 import com.organize4event.organize.listeners.ControllResponseListener;
 import com.organize4event.organize.listeners.CustomDialogListener;
@@ -90,6 +92,11 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "LOGIN");
+        FirebaseAnalytics.getInstance(this).logEvent(FirebaseAnalytics.Event.VIEW_ITEM, bundle);
+
 
         context = LoginActivity.this;
         code_enum_platform = AccessPlatformEnum.ANDROID.getValue();
@@ -172,9 +179,9 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             public void success(Object object) {
                 hideLoading();
                 newUser = (User) object;
-                if (!newUser.is_new()){
+                if (newUser.getId() < 1){
                     containerLoginEmail.setVisibility(View.GONE);
-                    showDialogMessage(1, context.getString(R.string.app_name), newUser.getMessage(), new CustomDialogListener() {
+                    showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), newUser.getMessage(), new CustomDialogListener() {
                         @Override
                         public void positiveOnClick(MaterialDialog dialog) {
                             dialog.dismiss();
