@@ -61,4 +61,11 @@ public class PreferencesManager {
         return preferences.contains("isLogged");
     }
 
+    public static void isLogout(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(AppApplication.getInstance().getApplicationContext());
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.remove("isLogged");
+        editor.commit();
+    }
+
 }

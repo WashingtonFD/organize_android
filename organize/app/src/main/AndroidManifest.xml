@@ -36,7 +36,7 @@
         <activity android:name=".ui.activities.UserRegisterActivity" />
         <activity android:name=".ui.activities.LoginActivity" />
         <activity android:name=".ui.activities.AboutActivity" />
-        <activity android:name=".ui.activities.PrivacyActivity"></activity>
+        <activity android:name=".ui.activities.PrivacyActivity"/>
     </application>
 
 </manifest>
