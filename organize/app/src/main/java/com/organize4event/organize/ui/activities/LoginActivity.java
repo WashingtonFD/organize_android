@@ -179,7 +179,10 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             public void success(Object object) {
                 hideLoading();
                 newUser = (User) object;
-                if (newUser.getId() < 1){
+                if (newUser.getId() > 0){
+                    saveToken();
+                }
+                else{
                     containerLoginEmail.setVisibility(View.GONE);
                     showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), newUser.getMessage(), new CustomDialogListener() {
                         @Override
@@ -193,9 +196,6 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
                         }
                     });
-                }
-                else{
-                    saveToken();
                 }
             }
 
@@ -219,6 +219,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                 user.setToken(token);
                 firstAccess.setUser(user);
                 PreferencesManager.saveFirstAccess(firstAccess);
+                insertNotification(context, user.getId(),context.getString(R.string.notification_login_brief_description), context.getString(R.string.notification_login_description), new Date());
                 if (PreferencesManager.isHideWelcome()){
                     startActivity(new Intent(context, HomeActivity.class));
                     finish();

@@ -4,10 +4,12 @@ package com.organize4event.organize.controllers;
 import android.content.Context;
 
 import com.organize4event.organize.commons.ApiClient;
+import com.organize4event.organize.commons.Constants;
 import com.organize4event.organize.listeners.ControllResponseListener;
 import com.organize4event.organize.models.UserNotification;
 import com.organize4event.organize.services.NotificationService;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import retrofit.Callback;
@@ -35,13 +37,13 @@ public class NotificationControll extends Controll {
         });
     }
 
-    public void saveUserNotification(UserNotification userNotification, int is_read, final ControllResponseListener listener ){
+    public void saveUserNotification(UserNotification userNotification, final ControllResponseListener listener ){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.FULL_DATE_FORMAT);
         NotificationService service = ApiClient.getRetrofit().create(NotificationService.class);
         service.saveUserNotification(userNotification.getUser(),
                                      userNotification.getBrief_description(),
                                      userNotification.getDescription(),
-                                     is_read,
-                                     userNotification.getNotification_date()).enqueue(new Callback<UserNotification>() {
+                                     simpleDateFormat.format(userNotification.getNotification_date())).enqueue(new Callback<UserNotification>() {
             @Override
             public void onResponse(Response<UserNotification> response, Retrofit retrofit) {
                 UserNotification userNotification = (UserNotification) response.body();
