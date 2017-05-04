@@ -12,8 +12,12 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.organize4event.organize.R;
+import com.organize4event.organize.commons.AppApplication;
+import com.organize4event.organize.commons.CircleTransform;
 import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.controllers.FirstAccessControll;
 import com.organize4event.organize.controllers.NotificationControll;
@@ -24,6 +28,8 @@ import com.organize4event.organize.models.UserNotification;
 import com.organize4event.organize.ui.fragments.HomeFragment;
 import com.organize4event.organize.ui.fragments.InstitutionalFragment;
 import com.organize4event.organize.ui.fragments.SettingsFragment;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -48,6 +54,11 @@ public class HomeActivity extends BaseActivity {
     Toolbar toolbar;
     @Bind(R.id.imgNotification)
     ImageView imgNotification;
+    @Bind(R.id.txtUserName)
+    TextView txtUserName;
+    @Bind(R.id.imgUserAvatar)
+    ImageView imgUserAvatar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +104,9 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void success(Object object) {
                 firstAccess = (FirstAccess) object;
-                PreferencesManager.saveFirstAccess(firstAccess);
+                txtUserName.setText(firstAccess.getUser().getFull_name());
+                Glide.with(context).load(firstAccess.getUser().getProfile_picture()).centerCrop().transform(new CircleTransform(context)).crossFade().into(imgUserAvatar);
+                getNotifications();
             }
 
             @Override
@@ -108,6 +121,9 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void success(Object object) {
                 userNotifications = (ArrayList<UserNotification>) object;
+                firstAccess.getUser().setUser_notifications(userNotifications);
+                PreferencesManager.saveFirstAccess(firstAccess);
+                AppApplication.setFirstAccess(firstAccess);
                 assetIconNotification();
             }
 
@@ -150,6 +166,13 @@ public class HomeActivity extends BaseActivity {
         }, delay, interval);
     }
 
+    public void logout(){
+        PreferencesManager.isLogout();
+        firstAccess.getUser().getToken().setKeep_logged(false);
+        starLoginActivity();
+
+    }
+
     @OnClick(R.id.imgNotification)
     public void actionOpenNotifications(){
         Intent intent = new Intent(context, NotificationsActivity.class);
@@ -157,7 +180,7 @@ public class HomeActivity extends BaseActivity {
         startActivity(intent);
     }
 
-    @OnClick({R.id.userContainer, R.id.homeContainer, R.id.eventContainer, R.id.sheduleContainer, R.id.partnerContainer, R.id.paymentContainer, R.id.purchaseContainer, R.id.settingsContainer, R.id.institutionalContainer})
+    @OnClick({R.id.userContainer, R.id.homeContainer, R.id.eventContainer, R.id.sheduleContainer, R.id.partnerContainer, R.id.paymentContainer, R.id.purchaseContainer, R.id.settingsContainer, R.id.institutionalContainer, R.id.btnExit})
     public void actionMenuSwitch(View view){
         switch (view.getId()){
             case R.id.userContainer:
@@ -184,6 +207,9 @@ public class HomeActivity extends BaseActivity {
                 setupToolbar(context.getString(R.string.label_nav_institutional));
                 fragmentClass = InstitutionalFragment.class;
                 break;
+            case R.id.btnExit:
+                logout();
+                break;
             default:
                 setupToolbar(context.getString(R.string.label_nav_home));
                 fragmentClass = HomeFragment.class;
@@ -200,5 +226,12 @@ public class HomeActivity extends BaseActivity {
         }
 
         drawerLayout.closeDrawers();
+    }
+
+    protected void starLoginActivity(){
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
+        startActivity(intent);
+        finish();
     }
 }

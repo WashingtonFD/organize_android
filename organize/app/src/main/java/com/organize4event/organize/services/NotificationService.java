@@ -4,7 +4,6 @@ package com.organize4event.organize.services;
 import com.organize4event.organize.models.UserNotification;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import retrofit.Call;
 import retrofit.http.Field;
@@ -24,8 +23,7 @@ public interface NotificationService {
             @Field("user") int user_id,
             @Field("brief_description") String brief_description,
             @Field("description") String description,
-            @Field("notification_date") int notification_date,
-            @Field("is_read") Date is_read
+            @Field("notification_date") String notification_date
     );
 
     @FormUrlEncoded

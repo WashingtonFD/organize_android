@@ -3,11 +3,14 @@ package com.organize4event.organize.services;
 import com.organize4event.organize.models.User;
 import com.organize4event.organize.models.UserType;
 
+import okhttp3.MultipartBody;
 import retrofit.Call;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
+import retrofit.http.Multipart;
 import retrofit.http.POST;
+import retrofit.http.Part;
 import retrofit.http.Path;
 
 public interface UserService {
@@ -40,4 +43,17 @@ public interface UserService {
     @POST("user/{user_id}")
     Call<User> updateUserPrivacy(@Path("user_id") int user_id,
                              @Field("privacy") int privacy_id);
+
+    @Multipart
+    @POST("user/{user_id}/photo")
+    Call<User> uploadProfilePicture(@Path("user_id") int user_id,
+                                    @Part("profile_picture") MultipartBody.Part file);
+
+    @FormUrlEncoded
+    @POST("user/{user_id}")
+    Call<User> updateProfileFacebook(@Path("user_id") int user_id,
+                                     @Field("full_name") String full_name,
+                                     @Field("mail") String mail,
+                                     @Field("profile_picture") String profile_picture);
+
 }

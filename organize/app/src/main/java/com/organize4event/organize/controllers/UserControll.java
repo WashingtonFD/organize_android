@@ -9,8 +9,12 @@ import com.organize4event.organize.models.User;
 import com.organize4event.organize.models.UserType;
 import com.organize4event.organize.services.UserService;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
@@ -102,6 +106,56 @@ public class UserControll extends Controll {
             @Override
             public void onResponse(Response<User> response, Retrofit retrofit) {
                 User user = (User) response.body();
+                Error error = parserError(user);
+                if (error == null){
+                    listener.success(user);
+                }
+                else{
+                    listener.fail(error);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                listener.fail(new Error(t.getMessage()));
+            }
+        });
+    }
+
+    public void uploadProfilePicture(User user, File profile_picture, final ControllResponseListener listener){
+        UserService service = ApiClient.getRetrofit().create(UserService.class);
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), profile_picture);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("image", profile_picture.getName(), requestFile);
+
+        service.uploadProfilePicture(user.getId(), body).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Response<User> response, Retrofit retrofit) {
+                User user = (User)response.body();
+                Error error = parserError(user);
+                if (error == null){
+                    listener.success(user);
+                }
+                else{
+                    listener.fail(error);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                listener.fail(new Error(t.getMessage()));
+            }
+        });
+    }
+
+    public void updateUserProfilePicture(User user, final ControllResponseListener listener){
+        UserService service = ApiClient.getRetrofit().create(UserService.class);
+        service.updateProfileFacebook(user.getId(),
+                user.getFull_name(),
+                user.getMail(),
+                user.getProfile_picture()).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Response<User> response, Retrofit retrofit) {
+                User user = (User)response.body();
                 Error error = parserError(user);
                 if (error == null){
                     listener.success(user);
