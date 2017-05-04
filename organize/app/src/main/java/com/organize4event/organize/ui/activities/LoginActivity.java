@@ -11,6 +11,15 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
@@ -19,10 +28,12 @@ import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Order;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.organize4event.organize.R;
+import com.organize4event.organize.commons.AppApplication;
 import com.organize4event.organize.commons.CustomValidate;
 import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.controllers.FirstAccessControll;
 import com.organize4event.organize.controllers.TokenControll;
+import com.organize4event.organize.controllers.UserControll;
 import com.organize4event.organize.enuns.AccessPlatformEnum;
 import com.organize4event.organize.enuns.DialogTypeEnum;
 import com.organize4event.organize.enuns.LoginTypeEnum;
@@ -34,8 +45,11 @@ import com.organize4event.organize.models.LoginType;
 import com.organize4event.organize.models.Token;
 import com.organize4event.organize.models.User;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.parceler.Parcels;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -60,6 +74,10 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     private Token token;
     private LoginType loginType;
     private AccessPlatform accessPlatform;
+
+    private CallbackManager callbackManager;
+    private LoginManager loginManager;
+    private AccessToken accessToken;
 
     @Bind(R.id.containerLoginEmail)
     RelativeLayout containerLoginEmail;
@@ -97,7 +115,6 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "LOGIN");
         FirebaseAnalytics.getInstance(this).logEvent(FirebaseAnalytics.Event.VIEW_ITEM, bundle);
 
-
         context = LoginActivity.this;
         code_enum_platform = AccessPlatformEnum.ANDROID.getValue();
 
@@ -116,6 +133,9 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                 startActivity(new Intent(context, WelcomeActivity.class));
             }
         }
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
 
         validator = new Validator(context);
         validator.setValidationListener(this);
@@ -239,8 +259,67 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
     protected void loginFacebook(){
         hideLoading();
-        showToastMessage(context, "Implementar Login com Facebook");
-        //TODO: IMPLEMENTAR LOGIN COM FACEBOOK
+        loginManager = LoginManager.getInstance();
+        loginManager.logInWithReadPermissions(this, Arrays.asList("email", "public_profile"));
+        loginManager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                accessToken = loginResult.getAccessToken();
+                getUserFacebook();
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                returnErrorMessage(new Error(error.getMessage()), context);
+            }
+        });
+    }
+
+    protected void getUserFacebook(){
+        GraphRequest request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
+            @Override
+            public void onCompleted(JSONObject object, GraphResponse response) {
+                try {
+                    String id = object.getString("id");
+                    String picture_profile = "https://graph.facebook.com/"+id+"/picture?height=220&width=220";
+
+                    user.setFull_name(object.getString("name"));
+                    user.setMail(object.getString("email"));
+                    user.setProfile_picture(picture_profile);
+                    new UserControll(context).updateUserProfilePicture(user, new ControllResponseListener() {
+                        @Override
+                        public void success(Object object) {
+                            User newUser = (User) object;
+                            if (newUser.getId() > 0){
+                                firstAccess.setUser(user);
+                                PreferencesManager.saveFirstAccess(firstAccess);
+                                AppApplication.setFirstAccess(firstAccess);
+
+                                saveToken();
+                            }
+                        }
+
+                        @Override
+                        public void fail(Error error) {
+                            returnErrorMessage(error, context);
+                        }
+                    });
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,name,email");
+        request.setParameters(parameters);
+        request.executeAsync();
     }
 
     protected void forgotPassword(){
@@ -304,5 +383,11 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }
