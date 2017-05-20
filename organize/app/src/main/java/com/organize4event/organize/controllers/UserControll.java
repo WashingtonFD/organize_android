@@ -124,10 +124,11 @@ public class UserControll extends Controll {
 
     public void uploadProfilePicture(User user, File profile_picture, final ControllResponseListener listener){
         UserService service = ApiClient.getRetrofit().create(UserService.class);
-        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), profile_picture);
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), profile_picture);
         MultipartBody.Part body = MultipartBody.Part.createFormData("image", profile_picture.getName(), requestFile);
+        RequestBody name = RequestBody.create(MediaType.parse("text/plain"), profile_picture.getName());
 
-        service.uploadProfilePicture(user.getId(), body).enqueue(new Callback<User>() {
+        service.uploadProfilePicture(user.getId(), body, name).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Response<User> response, Retrofit retrofit) {
                 User user = (User)response.body();

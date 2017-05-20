@@ -212,7 +212,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                         }
 
                         @Override
-                        public void negativeOnClidck(MaterialDialog dialog) {
+                        public void negativeOnClick(MaterialDialog dialog) {
 
                         }
                     });

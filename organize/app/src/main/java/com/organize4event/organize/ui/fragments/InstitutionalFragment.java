@@ -251,7 +251,7 @@ public class InstitutionalFragment extends BaseFragment {
             }
 
             @Override
-            public void negativeOnClidck(MaterialDialog dialog) {
+            public void negativeOnClick(MaterialDialog dialog) {
                 dialog.dismiss();
             }
         });

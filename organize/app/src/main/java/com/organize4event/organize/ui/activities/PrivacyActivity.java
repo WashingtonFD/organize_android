@@ -169,7 +169,7 @@ public class PrivacyActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void negativeOnClidck(MaterialDialog dialog) {
+                    public void negativeOnClick(MaterialDialog dialog) {
 
                     }
                 });
@@ -182,7 +182,7 @@ public class PrivacyActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void negativeOnClidck(MaterialDialog dialog) {
+                    public void negativeOnClick(MaterialDialog dialog) {
 
                     }
                 });
@@ -195,7 +195,7 @@ public class PrivacyActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void negativeOnClidck(MaterialDialog dialog) {
+                    public void negativeOnClick(MaterialDialog dialog) {
 
                     }
                 });

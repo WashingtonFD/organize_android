@@ -1,9 +1,13 @@
 package com.organize4event.organize.ui.activities;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
@@ -12,6 +16,7 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.bumptech.glide.Glide;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
@@ -21,6 +26,7 @@ import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Order;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.organize4event.organize.R;
+import com.organize4event.organize.commons.CircleTransform;
 import com.organize4event.organize.commons.Mask;
 import com.organize4event.organize.controllers.FirstAccessControll;
 import com.organize4event.organize.controllers.PrivacyControll;
@@ -43,6 +49,7 @@ import com.organize4event.organize.models.UserType;
 
 import org.parceler.Parcels;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -53,14 +60,19 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
+import pl.aprilapps.easyphotopicker.DefaultCallback;
+import pl.aprilapps.easyphotopicker.EasyImage;
+import pl.tajchert.nammu.Nammu;
+import pl.tajchert.nammu.PermissionCallback;
 
-public class UserRegisterActivity extends BaseActivity implements Validator.ValidationListener{
+public class UserRegisterActivity extends BaseActivity implements Validator.ValidationListener {
     private Context context;
     private String message = "";
     private String title = "";
     private Date birthDate;
     private int term_accept = 0;
     private int checking = 1;
+    private File file;
 
     private User user;
     private FirstAccess firstAccess;
@@ -68,7 +80,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     private UserType userType;
 
     private ArrayList<Privacy> privacies = new ArrayList<>();
-   private ArrayList<Setting> settings = new ArrayList<>();
+    private ArrayList<Setting> settings = new ArrayList<>();
     private ArrayList<UserSetting> userSettings = new ArrayList<>();
     private UserSetting userSetting;
 
@@ -155,11 +167,11 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         selectGender();
     }
 
-    protected void selectGender(){
+    protected void selectGender() {
         rgpListGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                switch (checkedId){
+                switch (checkedId) {
                     case R.id.btnGenderFem:
                         user.setGender("F");
                         break;
@@ -171,13 +183,13 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         });
     }
 
-    protected void getUserType(){
+    protected void getUserType() {
         showLoading();
         final int code_user_type = UserTypeEnum.DEFAULT.getValue();
         new UserControll(context).getUserType(firstAccess.getLocale(), code_user_type, new ControllResponseListener() {
             @Override
             public void success(Object object) {
-                userType = (UserType)object;
+                userType = (UserType) object;
                 getPrivacy();
             }
 
@@ -188,14 +200,14 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         });
     }
 
-    protected void getPrivacy(){
+    protected void getPrivacy() {
         new PrivacyControll(context).getPrivacy(firstAccess.getLocale(), new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 privacies = (ArrayList<Privacy>) object;
-                if (privacies.size() > 0){
-                    for (Privacy privacy : privacies){
-                        if (privacy.getCode_enum() == PrivacyEnum.NO_ONE.getValue()){
+                if (privacies.size() > 0) {
+                    for (Privacy privacy : privacies) {
+                        if (privacy.getCode_enum() == PrivacyEnum.NO_ONE.getValue()) {
                             user.setPrivacy(privacy);
                             prepareUser();
                         }
@@ -210,7 +222,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         });
     }
 
-    protected void prepareUser(){
+    protected void prepareUser() {
         try {
             birthDate = format.parse(txtBirthDate.getText().toString());
         } catch (ParseException e) {
@@ -227,12 +239,12 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         saveUser();
     }
 
-    protected void saveUser(){
+    protected void saveUser() {
         new UserControll(context).saveUser(user, new ControllResponseListener() {
             @Override
             public void success(Object object) {
-                user = (User)object;
-                saveFirstAccess();
+                user = (User) object;
+                uploadPicture();
             }
 
             @Override
@@ -242,7 +254,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         });
     }
 
-    protected  void saveFirstAccess(){
+    protected void saveFirstAccess() {
         firstAccess.setUser(user);
         new FirstAccessControll(context).saveFirstAccess(firstAccess, new ControllResponseListener() {
             @Override
@@ -258,10 +270,10 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
     }
 
-    protected void saveUserTerm(){
+    protected void saveUserTerm() {
         userTerm.setUser(user.getId());
 
-        if (userTerm.isTerm_accept()){
+        if (userTerm.isTerm_accept()) {
             term_accept = 1;
         }
 
@@ -280,13 +292,13 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         });
     }
 
-    protected void getSettings(){
+    protected void getSettings() {
         new SettingsControll(context).getSettings(firstAccess.getLocale(), new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 settings = (ArrayList<Setting>) object;
-                if (settings.size() > 0){
-                    for(Setting setting : settings){
+                if (settings.size() > 0) {
+                    for (Setting setting : settings) {
                         saveUserSetting(setting);
                     }
                 }
@@ -294,12 +306,12 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error,context);
+                returnErrorMessage(error, context);
             }
         });
     }
 
-    public void saveUserSetting(final Setting setting){
+    public void saveUserSetting(final Setting setting) {
 
         userSetting = new UserSetting();
         userSetting.setUser(user.getId());
@@ -312,7 +324,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
                 userSetting = (UserSetting) object;
                 userSettings.add(userSetting);
 
-                if (userSettings.size() == settings.size()){
+                if (userSettings.size() == settings.size()) {
                     hideLoading();
                     starLoginActivity();
                 }
@@ -325,7 +337,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         });
     }
 
-    protected void starLoginActivity(){
+    protected void starLoginActivity() {
         Intent intent = new Intent(context, LoginActivity.class);
         intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
         startActivity(intent);
@@ -333,9 +345,9 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     }
 
     @OnFocusChange({R.id.txtCpf, R.id.txtBirthDate, R.id.txtPassword, R.id.txtPasswordConfirm})
-    public void actionOnFocusChange(View view){
+    public void actionOnFocusChange(View view) {
         title = context.getString(R.string.app_name);
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.txtCpf:
                 message = context.getString(R.string.message_info_cpf);
                 hideOrShowInfoIcon(title, message, txtCpf);
@@ -356,24 +368,95 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     }
 
     @OnClick(R.id.imgAccept)
-    public void actionUserRegister(){
+    public void actionUserRegister() {
         validator.validate();
     }
 
     @OnClick(R.id.contentImage)
-    public void actionUploadImage(){
-        showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, "Inserir imagem", "Fazer o Upload de Imagem", new CustomDialogListener() {
+    public void actionUploadImage() {
+        showDialogMessage(DialogTypeEnum.CAMARA_AND_GALERY, context.getString(R.string.label_upload_picture_title), context.getString(R.string.label_upload_picture), new CustomDialogListener() {
             @Override
             public void positiveOnClick(MaterialDialog dialog) {
                 dialog.dismiss();
+                onPickFromGaleryClicked();
             }
 
             @Override
-            public void negativeOnClidck(MaterialDialog dialog) {
-
+            public void negativeOnClick(MaterialDialog dialog) {
+                dialog.dismiss();
+                onTakePhotoClicked();
             }
         });
-        //TODO: IMPLEMENTAR UPLOAD IMAGEM
+    }
+
+    public void uploadPicture() {
+        if (file != null){
+            new UserControll(context).uploadProfilePicture(user, file, new ControllResponseListener() {
+                @Override
+                public void success(Object object) {
+                    user = (User) object;
+                    saveFirstAccess();
+                }
+
+                @Override
+                public void fail(Error error) {
+                    returnErrorMessage(error, context);
+                }
+            });
+        }
+        else{
+            saveFirstAccess();
+        }
+    }
+
+    public void onPickFromGaleryClicked() {
+        EasyImage.openGallery(this, 0);
+    }
+
+    public void onTakePhotoClicked() {
+        int permissionCheckWriteExternal = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int permissionCheckCamera = ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA);
+        if (permissionCheckWriteExternal == PackageManager.PERMISSION_GRANTED && permissionCheckCamera == PackageManager.PERMISSION_GRANTED) {
+            EasyImage.openCamera(this, 0);
+        } else {
+            String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
+            Nammu.askForPermission((Activity) context, permissions, new PermissionCallback() {
+                @Override
+                public void permissionGranted() {
+                    EasyImage.openCamera((Activity) context, 0);
+                }
+
+                @Override
+                public void permissionRefused() {
+                    showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), context.getString(R.string.info_permission_camara), new CustomDialogListener() {
+                        @Override
+                        public void positiveOnClick(MaterialDialog dialog) {
+                            dialog.dismiss();
+                        }
+
+                        @Override
+                        public void negativeOnClick(MaterialDialog dialog) {
+
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Nammu.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    private void onPhotoReturned(File profileFile) {
+        file = profileFile;
+        Glide.with(context).load(profileFile).centerCrop().transform(new CircleTransform(context)).into(imgProfile);
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
@@ -386,4 +469,40 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         validateError(errors);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        EasyImage.handleActivityResult(requestCode, resultCode, data, (Activity) context, new DefaultCallback() {
+            @Override
+            public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
+                showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), context.getString(R.string.error_photo_loading), new CustomDialogListener() {
+                    @Override
+                    public void positiveOnClick(MaterialDialog dialog) {
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void negativeOnClick(MaterialDialog dialog) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onImagePicked(File imageFile, EasyImage.ImageSource source, int type) {
+                onPhotoReturned(imageFile);
+            }
+
+            @Override
+            public void onCanceled(EasyImage.ImageSource source, int type) {
+                if (source == EasyImage.ImageSource.CAMERA) {
+                    File photoFile = EasyImage.lastlyTakenButCanceledPhoto(context);
+                    if (photoFile != null) {
+                        photoFile.delete();
+                    }
+                }
+            }
+        });
+    }
 }

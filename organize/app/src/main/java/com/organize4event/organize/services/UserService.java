@@ -4,6 +4,7 @@ import com.organize4event.organize.models.User;
 import com.organize4event.organize.models.UserType;
 
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit.Call;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
@@ -47,7 +48,8 @@ public interface UserService {
     @Multipart
     @POST("user/{user_id}/photo")
     Call<User> uploadProfilePicture(@Path("user_id") int user_id,
-                                    @Part("profile_picture") MultipartBody.Part file);
+                                    @Part("profile_picture") MultipartBody.Part image,
+                                    @Part("name")RequestBody name);
 
     @FormUrlEncoded
     @POST("user/{user_id}")

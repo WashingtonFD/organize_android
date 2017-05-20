@@ -72,6 +72,7 @@ public class PlanIdentifierActivity extends BaseActivity {
         plan_switch = PlanEnum.FREE.getValue();
         firstAccess = Parcels.unwrap(getIntent().getExtras().getParcelable("firstAccess"));
         user = firstAccess.getUser();
+        plan = new Plan();
 
         configureToolbar(context, toolbar, context.getString(R.string.label_plan_identifier), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
             @Override
