@@ -12,82 +12,58 @@ import com.organize4event.organize.services.TokenService;
 
 import java.text.SimpleDateFormat;
 
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class TokenControll extends Controll{
+public class TokenControll extends Controll {
     public TokenControll(Context context) {
         super(context);
     }
 
-    public void getLoginType(String locale, int code_enum, final ControllResponseListener listener){
+    public void getLoginType(String locale, int code_enum, final ControllResponseListener listener) {
         TokenService service = ApiClient.getRetrofit().create(TokenService.class);
         service.getLoginType(locale, code_enum).enqueue(new Callback<LoginType>() {
             @Override
-            public void onResponse(Response<LoginType> response, Retrofit retrofit) {
+            public void onResponse(Call<LoginType> call, Response<LoginType> response) {
                 LoginType loginType = (LoginType) response.body();
                 Error error = parserError(loginType);
-                if (error == null){
+                if (error == null) {
                     listener.success(loginType);
-                }
-                else {
+                } else {
                     listener.fail(error);
                 }
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<LoginType> call, Throwable t) {
                 listener.fail(new Error(t.getMessage()));
             }
         });
     }
-//
-//    public void getToken(FirstAccess firstAccess, final ControllResponseListener listener){
-//        TokenService service = ApiClient.getRetrofit().create(TokenService.class);
-//        service.getToken(firstAccess.getId()).enqueue(new Callback<Token>() {
-//            @Override
-//            public void onResponse(Response<Token> response, Retrofit retrofit) {
-//                Token token = (Token) response.body();
-//                Error error = parserError(token);
-//                if (error == null){
-//                    listener.success(token);
-//                }
-//                else {
-//                    listener.fail(error);
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Throwable t) {
-//                listener.fail(new Error(t.getMessage()));
-//            }
-//        });
-//    }
-//
-    public void login(String mail, final String password, final ControllResponseListener listener){
+
+    public void login(String mail, final String password, final ControllResponseListener listener) {
         TokenService service = ApiClient.getRetrofit().create(TokenService.class);
         service.login(mail, password).enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Response<User> response, Retrofit retrofit) {
+            public void onResponse(Call<User> call, Response<User> response) {
                 User user = (User) response.body();
                 Error error = parserError(user);
-                if (error == null){
+                if (error == null) {
                     listener.success(user);
-                }
-                else{
+                } else {
                     listener.fail(error);
                 }
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 listener.fail(new Error(t.getMessage()));
             }
         });
     }
 
-    public void saveToken(Token token, int user_id, int keep_logged, final ControllResponseListener listener){
+    public void saveToken(Token token, int user_id, int keep_logged, final ControllResponseListener listener) {
         SimpleDateFormat fullDateFormat = new SimpleDateFormat(Constants.FULL_DATE_FORMAT);
         TokenService service = ApiClient.getRetrofit().create(TokenService.class);
         service.saveToken(
@@ -97,19 +73,18 @@ public class TokenControll extends Controll{
                 fullDateFormat.format(token.getAccess_date()),
                 keep_logged).enqueue(new Callback<Token>() {
             @Override
-            public void onResponse(Response<Token> response, Retrofit retrofit) {
+            public void onResponse(Call<Token> call, Response<Token> response) {
                 Token token = (Token) response.body();
                 Error error = parserError(token);
-                if(error == null){
+                if (error == null) {
                     listener.success(token);
-                }
-                else {
+                } else {
                     listener.fail(error);
                 }
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<Token> call, Throwable t) {
                 listener.fail(new Error(t.getMessage()));
             }
         });

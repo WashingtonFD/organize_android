@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.content.ContextCompat;
@@ -73,6 +74,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     private int term_accept = 0;
     private int checking = 1;
     private File file;
+    private Uri uri;
 
     private User user;
     private FirstAccess firstAccess;
@@ -244,7 +246,11 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
             @Override
             public void success(Object object) {
                 user = (User) object;
-                uploadPicture();
+                if (file != null) {
+                    uploadPicture();
+                } else {
+                    saveFirstAccess();
+                }
             }
 
             @Override
@@ -390,23 +396,17 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     }
 
     public void uploadPicture() {
-        if (file != null){
-            new UserControll(context).uploadProfilePicture(user, file, new ControllResponseListener() {
-                @Override
-                public void success(Object object) {
-                    user = (User) object;
-                    saveFirstAccess();
-                }
+        new UserControll(context).uploadProfilePicture(user, file, new ControllResponseListener() {
+            @Override
+            public void success(Object object) {
+                saveFirstAccess();
+            }
 
-                @Override
-                public void fail(Error error) {
-                    returnErrorMessage(error, context);
-                }
-            });
-        }
-        else{
-            saveFirstAccess();
-        }
+            @Override
+            public void fail(Error error) {
+                returnErrorMessage(error, context);
+            }
+        });
     }
 
     public void onPickFromGaleryClicked() {
@@ -473,6 +473,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+
         EasyImage.handleActivityResult(requestCode, resultCode, data, (Activity) context, new DefaultCallback() {
             @Override
             public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
@@ -491,6 +492,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
             @Override
             public void onImagePicked(File imageFile, EasyImage.ImageSource source, int type) {
+                file = imageFile;
                 onPhotoReturned(imageFile);
             }
 

@@ -12,12 +12,10 @@ import com.organize4event.organize.services.UserService;
 import java.io.File;
 import java.text.SimpleDateFormat;
 
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class UserControll extends Controll {
     public UserControll(Context context) {
@@ -28,7 +26,7 @@ public class UserControll extends Controll {
         UserService service = ApiClient.getRetrofit().create(UserService.class);
         service.getUserType(locale, code_enum).enqueue(new Callback<UserType>() {
             @Override
-            public void onResponse(Response<UserType> response, Retrofit retrofit) {
+            public void onResponse(Call<UserType> call, Response<UserType> response) {
                 UserType userType = (UserType) response.body();
                 Error error = parserError(userType);
                 if (error == null){
@@ -40,7 +38,7 @@ public class UserControll extends Controll {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<UserType> call, Throwable t) {
                 listener.fail(new Error(t.getMessage()));
             }
         });
@@ -60,7 +58,7 @@ public class UserControll extends Controll {
                 user.getGender()
         ).enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Response<User> response, Retrofit retrofit) {
+            public void onResponse(Call<User> call, Response<User> response) {
                 User user = (User) response.body();
                 Error error = parserError(user);
                 if (error == null){
@@ -72,17 +70,17 @@ public class UserControll extends Controll {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 listener.fail(new Error(t.getMessage()));
             }
         });
-    }
+            }
 
     public void updateUserToken(User user, final ControllResponseListener listener){
         UserService service = ApiClient.getRetrofit().create(UserService.class);
         service.updateUserToken(user.getId(), user.getToken().getId()).enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Response<User> response, Retrofit retrofit) {
+            public void onResponse(Call<User> call, Response<User> response) {
                 User user = (User) response.body();
                 Error error = parserError(user);
                 if (error == null){
@@ -94,7 +92,7 @@ public class UserControll extends Controll {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 listener.fail(new Error(t.getMessage()));
             }
         });
@@ -104,7 +102,7 @@ public class UserControll extends Controll {
         UserService service = ApiClient.getRetrofit().create(UserService.class);
         service.updateUserPrivacy(user.getId(), user.getPrivacy().getId()).enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Response<User> response, Retrofit retrofit) {
+            public void onResponse(Call<User> call, Response<User> response) {
                 User user = (User) response.body();
                 Error error = parserError(user);
                 if (error == null){
@@ -116,36 +114,15 @@ public class UserControll extends Controll {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 listener.fail(new Error(t.getMessage()));
             }
         });
     }
 
-    public void uploadProfilePicture(User user, File profile_picture, final ControllResponseListener listener){
+    public void uploadProfilePicture(User user, File photo, final ControllResponseListener listener){
         UserService service = ApiClient.getRetrofit().create(UserService.class);
-        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), profile_picture);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("image", profile_picture.getName(), requestFile);
-        RequestBody name = RequestBody.create(MediaType.parse("text/plain"), profile_picture.getName());
 
-        service.uploadProfilePicture(user.getId(), body, name).enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Response<User> response, Retrofit retrofit) {
-                User user = (User)response.body();
-                Error error = parserError(user);
-                if (error == null){
-                    listener.success(user);
-                }
-                else{
-                    listener.fail(error);
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                listener.fail(new Error(t.getMessage()));
-            }
-        });
     }
 
     public void updateUserProfilePicture(User user, final ControllResponseListener listener){
@@ -155,7 +132,7 @@ public class UserControll extends Controll {
                 user.getMail(),
                 user.getProfile_picture()).enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Response<User> response, Retrofit retrofit) {
+            public void onResponse(Call<User> call, Response<User> response) {
                 User user = (User)response.body();
                 Error error = parserError(user);
                 if (error == null){
@@ -167,7 +144,7 @@ public class UserControll extends Controll {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 listener.fail(new Error(t.getMessage()));
             }
         });

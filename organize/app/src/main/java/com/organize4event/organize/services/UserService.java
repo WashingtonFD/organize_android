@@ -1,18 +1,20 @@
 package com.organize4event.organize.services;
 
+
+import com.organize4event.organize.models.ErrorReturn;
 import com.organize4event.organize.models.User;
 import com.organize4event.organize.models.UserType;
 
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit.Call;
-import retrofit.http.Field;
-import retrofit.http.FormUrlEncoded;
-import retrofit.http.GET;
-import retrofit.http.Multipart;
-import retrofit.http.POST;
-import retrofit.http.Part;
-import retrofit.http.Path;
+import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
+import retrofit2.http.Multipart;
+import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.Path;
+
 
 public interface UserService {
 
@@ -43,13 +45,12 @@ public interface UserService {
     @FormUrlEncoded
     @POST("user/{user_id}")
     Call<User> updateUserPrivacy(@Path("user_id") int user_id,
-                             @Field("privacy") int privacy_id);
+                                 @Field("privacy") int privacy_id);
 
     @Multipart
     @POST("user/{user_id}/photo")
-    Call<User> uploadProfilePicture(@Path("user_id") int user_id,
-                                    @Part("profile_picture") MultipartBody.Part image,
-                                    @Part("name")RequestBody name);
+    Call<ErrorReturn> uploadProfilePicture(@Path("user_id") int user_id,
+                                           @Part("photo") MultipartBody.Part photo);
 
     @FormUrlEncoded
     @POST("user/{user_id}")
