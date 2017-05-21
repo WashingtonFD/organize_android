@@ -7,7 +7,18 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class User extends ErrorReturn{
+public class User extends ErrorReturn {
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel source) {
+            return new User(source);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
     @SerializedName("id")
     private int id;
     @SerializedName("user_type")
@@ -52,6 +63,36 @@ public class User extends ErrorReturn{
     private ArrayList<UserSetting> user_settings;
     @SerializedName("user_notifications")
     private ArrayList<UserNotification> user_notifications;
+
+    public User() {
+    }
+
+    protected User(Parcel in) {
+        super(in);
+        this.id = in.readInt();
+        this.user_type = in.readParcelable(UserType.class.getClassLoader());
+        this.token = in.readParcelable(Token.class.getClassLoader());
+        this.plan = in.readParcelable(Plan.class.getClassLoader());
+        this.privacy = in.readParcelable(Privacy.class.getClassLoader());
+        this.full_name = in.readString();
+        this.mail = in.readString();
+        this.password = in.readString();
+        this.profile_picture = in.readString();
+        this.cpf = in.readString();
+        this.rg_number = in.readString();
+        this.rg_emitter_uf = in.readString();
+        this.rg_emitter_organ = in.readString();
+        this.rg_emitter_date = in.readString();
+        long tmpBirth_date = in.readLong();
+        this.birth_date = tmpBirth_date == -1 ? null : new Date(tmpBirth_date);
+        this.gender = in.readString();
+        this.responsible_name = in.readString();
+        this.responsible_cpf = in.readString();
+        this.user_term = in.readParcelable(UserTerm.class.getClassLoader());
+        this.user_security = in.readParcelable(UserSecurity.class.getClassLoader());
+        this.user_settings = in.createTypedArrayList(UserSetting.CREATOR);
+        this.user_notifications = in.createTypedArrayList(UserNotification.CREATOR);
+    }
 
     public int getId() {
         return id;
@@ -229,7 +270,6 @@ public class User extends ErrorReturn{
         this.user_notifications = user_notifications;
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -261,46 +301,4 @@ public class User extends ErrorReturn{
         dest.writeTypedList(this.user_settings);
         dest.writeTypedList(this.user_notifications);
     }
-
-    public User() {
-    }
-
-    protected User(Parcel in) {
-        super(in);
-        this.id = in.readInt();
-        this.user_type = in.readParcelable(UserType.class.getClassLoader());
-        this.token = in.readParcelable(Token.class.getClassLoader());
-        this.plan = in.readParcelable(Plan.class.getClassLoader());
-        this.privacy = in.readParcelable(Privacy.class.getClassLoader());
-        this.full_name = in.readString();
-        this.mail = in.readString();
-        this.password = in.readString();
-        this.profile_picture = in.readString();
-        this.cpf = in.readString();
-        this.rg_number = in.readString();
-        this.rg_emitter_uf = in.readString();
-        this.rg_emitter_organ = in.readString();
-        this.rg_emitter_date = in.readString();
-        long tmpBirth_date = in.readLong();
-        this.birth_date = tmpBirth_date == -1 ? null : new Date(tmpBirth_date);
-        this.gender = in.readString();
-        this.responsible_name = in.readString();
-        this.responsible_cpf = in.readString();
-        this.user_term = in.readParcelable(UserTerm.class.getClassLoader());
-        this.user_security = in.readParcelable(UserSecurity.class.getClassLoader());
-        this.user_settings = in.createTypedArrayList(UserSetting.CREATOR);
-        this.user_notifications = in.createTypedArrayList(UserNotification.CREATOR);
-    }
-
-    public static final Creator<User> CREATOR = new Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel source) {
-            return new User(source);
-        }
-
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
 }

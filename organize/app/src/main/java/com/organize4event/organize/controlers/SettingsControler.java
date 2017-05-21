@@ -3,7 +3,7 @@ package com.organize4event.organize.controlers;
 import android.content.Context;
 
 import com.organize4event.organize.commons.ApiClient;
-import com.organize4event.organize.listeners.ControllResponseListener;
+import com.organize4event.organize.listeners.ControlResponseListener;
 import com.organize4event.organize.models.Setting;
 import com.organize4event.organize.models.UserSetting;
 import com.organize4event.organize.services.SettingsService;
@@ -19,7 +19,7 @@ public class SettingsControler extends Controler {
         super(context);
     }
 
-    public void getSettings(String locale, final ControllResponseListener listener) {
+    public void getSettings(String locale, final ControlResponseListener listener) {
         SettingsService service = ApiClient.getRetrofit().create(SettingsService.class);
         service.getSettings(locale).enqueue(new Callback<ArrayList<Setting>>() {
             @Override
@@ -40,7 +40,7 @@ public class SettingsControler extends Controler {
         });
     }
 
-    public void getUserSettings(int user_id, final ControllResponseListener listener) {
+    public void getUserSettings(int user_id, final ControlResponseListener listener) {
         SettingsService service = ApiClient.getRetrofit().create(SettingsService.class);
         service.getUserSettings(user_id).enqueue(new Callback<ArrayList<UserSetting>>() {
             @Override
@@ -61,7 +61,7 @@ public class SettingsControler extends Controler {
         });
     }
 
-    public void saveUserSettings(UserSetting userSetting, int checking, final ControllResponseListener listener) {
+    public void saveUserSettings(UserSetting userSetting, int checking, final ControlResponseListener listener) {
         SettingsService service = ApiClient.getRetrofit().create(SettingsService.class);
         service.saveUserSetting(userSetting.getUser(),
                 userSetting.getSetting().getId(),
@@ -85,7 +85,7 @@ public class SettingsControler extends Controler {
         });
     }
 
-    public void checkingUserSettings(UserSetting userSetting, int checking, final ControllResponseListener listener) {
+    public void checkingUserSettings(UserSetting userSetting, int checking, final ControlResponseListener listener) {
         SettingsService service = ApiClient.getRetrofit().create(SettingsService.class);
         service.checkingUserSetting(userSetting.getId(), checking).enqueue(new Callback<UserSetting>() {
             @Override

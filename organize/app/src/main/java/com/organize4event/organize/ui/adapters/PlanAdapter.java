@@ -53,7 +53,7 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder
         return items.size();
     }
 
-    public class PlanViewHolder extends RecyclerView.ViewHolder{
+    public class PlanViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.rowContent)
         RelativeLayout rowContent;

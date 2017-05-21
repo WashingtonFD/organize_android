@@ -21,11 +21,10 @@ import butterknife.OnClick;
 
 public class ApresentationActivity extends BaseActivity {
 
-    private Context context;
-    private FirstAccess firstAccess;
-
     @Bind(R.id.txtSite)
     TextView txtSite;
+    private Context context;
+    private FirstAccess firstAccess;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +44,8 @@ public class ApresentationActivity extends BaseActivity {
     }
 
     @OnClick({R.id.txtTermUse, R.id.txtSite, R.id.txtIsRegistered})
-    public void actionOnClickView(View view){
-        switch (view.getId()){
+    public void actionOnClickView(View view) {
+        switch (view.getId()) {
             case R.id.txtTermUse:
                 starTermUseActivity();
                 break;
@@ -58,21 +57,21 @@ public class ApresentationActivity extends BaseActivity {
         }
     }
 
-    protected void starTermUseActivity(){
+    protected void starTermUseActivity() {
         Intent intent = new Intent(context, TermUseActivity.class);
         intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
         startActivity(intent);
         finish();
     }
 
-    protected void starLoginActivity(){
+    protected void starLoginActivity() {
         Intent intent = new Intent(context, LoginActivity.class);
         intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
         startActivity(intent);
         finish();
     }
 
-    protected void startSiteActivity(){
+    protected void startSiteActivity() {
         Uri site = Uri.parse("http://organize4event.com/");
         Intent intent = new Intent(Intent.ACTION_VIEW, site);
         startActivity(intent);

@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.organize4event.organize.commons.ApiClient;
 import com.organize4event.organize.commons.Constants;
-import com.organize4event.organize.listeners.ControllResponseListener;
+import com.organize4event.organize.listeners.ControlResponseListener;
 import com.organize4event.organize.models.ErrorReturn;
 import com.organize4event.organize.models.User;
 import com.organize4event.organize.models.UserType;
@@ -26,17 +26,16 @@ public class UserControler extends Controler {
         super(context);
     }
 
-    public void getUserType(String locale, int code_enum, final ControllResponseListener listener){
+    public void getUserType(String locale, int code_enum, final ControlResponseListener listener) {
         UserService service = ApiClient.getRetrofit().create(UserService.class);
         service.getUserType(locale, code_enum).enqueue(new Callback<UserType>() {
             @Override
             public void onResponse(Call<UserType> call, Response<UserType> response) {
                 UserType userType = (UserType) response.body();
                 Error error = parserError(userType);
-                if (error == null){
+                if (error == null) {
                     listener.success(userType);
-                }
-                else{
+                } else {
                     listener.fail(error);
                 }
             }
@@ -48,7 +47,28 @@ public class UserControler extends Controler {
         });
     }
 
-    public void saveUser(User user, final ControllResponseListener listener){
+    public void getUserMail(String mail, final ControlResponseListener listener) {
+        UserService service = ApiClient.getRetrofit().create(UserService.class);
+        service.getUserMail(mail).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                User user = (User) response.body();
+                Error error = parserError(user);
+                if (error == null) {
+                    listener.success(user);
+                } else {
+                    listener.fail(error);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                listener.fail(new Error(t.getMessage()));
+            }
+        });
+    }
+
+    public void saveUser(User user, final ControlResponseListener listener) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.SIMPLE_DATE_FORMAT);
         UserService service = ApiClient.getRetrofit().create(UserService.class);
         service.saveUser(user.getUser_type().getId(),
@@ -65,10 +85,9 @@ public class UserControler extends Controler {
             public void onResponse(Call<User> call, Response<User> response) {
                 User user = (User) response.body();
                 Error error = parserError(user);
-                if (error == null){
+                if (error == null) {
                     listener.success(user);
-                }
-                else{
+                } else {
                     listener.fail(error);
                 }
             }
@@ -78,19 +97,18 @@ public class UserControler extends Controler {
                 listener.fail(new Error(t.getMessage()));
             }
         });
-            }
+    }
 
-    public void updateUserToken(User user, final ControllResponseListener listener){
+    public void updateUserToken(User user, final ControlResponseListener listener) {
         UserService service = ApiClient.getRetrofit().create(UserService.class);
         service.updateUserToken(user.getId(), user.getToken().getId()).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 User user = (User) response.body();
                 Error error = parserError(user);
-                if (error == null){
+                if (error == null) {
                     listener.success(user);
-                }
-                else{
+                } else {
                     listener.fail(error);
                 }
             }
@@ -102,17 +120,16 @@ public class UserControler extends Controler {
         });
     }
 
-    public void updateUserPrivacy(User user, final ControllResponseListener listener){
+    public void updateUserPrivacy(User user, final ControlResponseListener listener) {
         UserService service = ApiClient.getRetrofit().create(UserService.class);
         service.updateUserPrivacy(user.getId(), user.getPrivacy().getId()).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 User user = (User) response.body();
                 Error error = parserError(user);
-                if (error == null){
+                if (error == null) {
                     listener.success(user);
-                }
-                else{
+                } else {
                     listener.fail(error);
                 }
             }
@@ -124,7 +141,7 @@ public class UserControler extends Controler {
         });
     }
 
-    public void uploadProfilePicture(User user, File photo, final ControllResponseListener listener){
+    public void uploadProfilePicture(User user, File photo, final ControlResponseListener listener) {
         UserService service = ApiClient.getRetrofit().create(UserService.class);
         final RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), photo);
         MultipartBody.Part file = MultipartBody.Part.createFormData("photo", photo.getName(), requestBody);
@@ -134,10 +151,9 @@ public class UserControler extends Controler {
             public void onResponse(Call<ErrorReturn> call, Response<ErrorReturn> response) {
                 ErrorReturn errorReturn = (ErrorReturn) response.body();
                 Error error = parserError(errorReturn);
-                if (error == null){
+                if (error == null) {
                     listener.success(errorReturn);
-                }
-                else{
+                } else {
                     listener.fail(error);
                 }
             }
@@ -149,7 +165,7 @@ public class UserControler extends Controler {
         });
     }
 
-    public void updateUserProfilePicture(User user, final ControllResponseListener listener){
+    public void updateUserProfilePicture(User user, final ControlResponseListener listener) {
         UserService service = ApiClient.getRetrofit().create(UserService.class);
         service.updateProfileFacebook(user.getId(),
                 user.getFull_name(),
@@ -157,12 +173,11 @@ public class UserControler extends Controler {
                 user.getProfile_picture()).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                User user = (User)response.body();
+                User user = (User) response.body();
                 Error error = parserError(user);
-                if (error == null){
+                if (error == null) {
                     listener.success(user);
-                }
-                else{
+                } else {
                     listener.fail(error);
                 }
             }

@@ -22,7 +22,7 @@ public class ApiClient {
     private static Retrofit retrofit;
 
     public ApiClient() {
-        GsonBuilder gsonBuilder =  new GsonBuilder();
+        GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Boolean.class, new BooleanTypeAdapter());
         gsonBuilder.registerTypeAdapter(boolean.class, new BooleanTypeAdapter());
         gsonBuilder.setDateFormat(Constants.FULL_DATE_FORMAT);

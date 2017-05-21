@@ -13,12 +13,11 @@ public class Controler {
         this.context = context;
     }
 
-    protected Error parserError(ErrorReturn errorReturn){
+    protected Error parserError(ErrorReturn errorReturn) {
         Error error = null;
-        if (errorReturn == null){
+        if (errorReturn == null) {
             error = new Error(context.getString(R.string.error_message_generic));
-        }
-        else if (errorReturn.isError()){
+        } else if (errorReturn.isError()) {
             error = new Error(errorReturn.getMessage());
         }
         return error;

@@ -1,7 +1,8 @@
 package com.organize4event.organize.listeners;
 
-public interface ControllResponseListener {
+public interface ControlResponseListener {
 
     void success(Object object);
+
     void fail(Error error);
 }

@@ -6,7 +6,18 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class FirstAccess extends ErrorReturn{
+public class FirstAccess extends ErrorReturn {
+    public static final Creator<FirstAccess> CREATOR = new Creator<FirstAccess>() {
+        @Override
+        public FirstAccess createFromParcel(Parcel source) {
+            return new FirstAccess(source);
+        }
+
+        @Override
+        public FirstAccess[] newArray(int size) {
+            return new FirstAccess[size];
+        }
+    };
     @SerializedName("id")
     private int id;
     @SerializedName("user")
@@ -17,6 +28,20 @@ public class FirstAccess extends ErrorReturn{
     private Date instalation_date;
     @SerializedName("locale")
     private String locale;
+
+    public FirstAccess() {
+        this.setIs_new(true);
+    }
+
+    protected FirstAccess(Parcel in) {
+        super(in);
+        this.id = in.readInt();
+        this.user = in.readParcelable(User.class.getClassLoader());
+        this.device_id = in.readString();
+        long tmpInstalation_date = in.readLong();
+        this.instalation_date = tmpInstalation_date == -1 ? null : new Date(tmpInstalation_date);
+        this.locale = in.readString();
+    }
 
     public int getId() {
         return id;
@@ -58,7 +83,6 @@ public class FirstAccess extends ErrorReturn{
         this.locale = locale;
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -73,30 +97,4 @@ public class FirstAccess extends ErrorReturn{
         dest.writeLong(this.instalation_date != null ? this.instalation_date.getTime() : -1);
         dest.writeString(this.locale);
     }
-
-    public FirstAccess() {
-        this.setIs_new(true);
-    }
-
-    protected FirstAccess(Parcel in) {
-        super(in);
-        this.id = in.readInt();
-        this.user = in.readParcelable(User.class.getClassLoader());
-        this.device_id = in.readString();
-        long tmpInstalation_date = in.readLong();
-        this.instalation_date = tmpInstalation_date == -1 ? null : new Date(tmpInstalation_date);
-        this.locale = in.readString();
-    }
-
-    public static final Creator<FirstAccess> CREATOR = new Creator<FirstAccess>() {
-        @Override
-        public FirstAccess createFromParcel(Parcel source) {
-            return new FirstAccess(source);
-        }
-
-        @Override
-        public FirstAccess[] newArray(int size) {
-            return new FirstAccess[size];
-        }
-    };
 }

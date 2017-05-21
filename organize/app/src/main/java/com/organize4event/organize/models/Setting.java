@@ -4,7 +4,18 @@ import android.os.Parcel;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Setting extends ErrorReturn{
+public class Setting extends ErrorReturn {
+    public static final Creator<Setting> CREATOR = new Creator<Setting>() {
+        @Override
+        public Setting createFromParcel(Parcel source) {
+            return new Setting(source);
+        }
+
+        @Override
+        public Setting[] newArray(int size) {
+            return new Setting[size];
+        }
+    };
     @SerializedName("id")
     private int id;
     @SerializedName("locale")
@@ -17,6 +28,20 @@ public class Setting extends ErrorReturn{
     private String description;
     @SerializedName("check_default")
     private boolean check_default;
+
+    public Setting() {
+        this.setIs_new(true);
+    }
+
+    protected Setting(Parcel in) {
+        super(in);
+        this.id = in.readInt();
+        this.locale = in.readString();
+        this.code_enum = in.readInt();
+        this.name = in.readString();
+        this.description = in.readString();
+        this.check_default = in.readByte() != 0;
+    }
 
     public int getId() {
         return id;
@@ -66,7 +91,6 @@ public class Setting extends ErrorReturn{
         this.check_default = check_default;
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -82,30 +106,4 @@ public class Setting extends ErrorReturn{
         dest.writeString(this.description);
         dest.writeByte(this.check_default ? (byte) 1 : (byte) 0);
     }
-
-    public Setting() {
-        this.setIs_new(true);
-    }
-
-    protected Setting(Parcel in) {
-        super(in);
-        this.id = in.readInt();
-        this.locale = in.readString();
-        this.code_enum = in.readInt();
-        this.name = in.readString();
-        this.description = in.readString();
-        this.check_default = in.readByte() != 0;
-    }
-
-    public static final Creator<Setting> CREATOR = new Creator<Setting>() {
-        @Override
-        public Setting createFromParcel(Parcel source) {
-            return new Setting(source);
-        }
-
-        @Override
-        public Setting[] newArray(int size) {
-            return new Setting[size];
-        }
-    };
 }

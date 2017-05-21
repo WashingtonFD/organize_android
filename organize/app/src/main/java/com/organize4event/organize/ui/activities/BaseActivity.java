@@ -28,7 +28,7 @@ import com.organize4event.organize.commons.Constants;
 import com.organize4event.organize.commons.WaitDialog;
 import com.organize4event.organize.controlers.NotificationControler;
 import com.organize4event.organize.enuns.DialogTypeEnum;
-import com.organize4event.organize.listeners.ControllResponseListener;
+import com.organize4event.organize.listeners.ControlResponseListener;
 import com.organize4event.organize.listeners.CustomDialogListener;
 import com.organize4event.organize.listeners.ToolbarListener;
 import com.organize4event.organize.models.UserNotification;
@@ -42,14 +42,13 @@ import java.util.List;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class BaseActivity extends AppCompatActivity {
-    private WaitDialog waitDialog;
-
     SimpleDateFormat simpleDateFormat;
     DatePickerDialog startDatePickerDialog;
     Calendar birthCalendarStart;
     Calendar birthCalendarFinish;
     Calendar startCalendar;
     Calendar finishCalendar;
+    private WaitDialog waitDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -312,7 +311,7 @@ public class BaseActivity extends AppCompatActivity {
         userNotification.setDescription(description + " " + simpleDateFormat.format(notification_date));
         userNotification.setNotification_date(notification_date);
 
-        new NotificationControler(context).saveUserNotification(userNotification, new ControllResponseListener() {
+        new NotificationControler(context).saveUserNotification(userNotification, new ControlResponseListener() {
             @Override
             public void success(Object object) {
             }

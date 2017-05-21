@@ -5,7 +5,7 @@ import android.content.Context;
 
 import com.organize4event.organize.commons.ApiClient;
 import com.organize4event.organize.commons.Constants;
-import com.organize4event.organize.listeners.ControllResponseListener;
+import com.organize4event.organize.listeners.ControlResponseListener;
 import com.organize4event.organize.models.UserNotification;
 import com.organize4event.organize.services.NotificationService;
 
@@ -21,7 +21,7 @@ public class NotificationControler extends Controler {
         super(context);
     }
 
-    public void getUserNotifications(int user_id, final ControllResponseListener listener){
+    public void getUserNotifications(int user_id, final ControlResponseListener listener) {
         NotificationService service = ApiClient.getRetrofit().create(NotificationService.class);
         service.getUserNotifications(user_id).enqueue(new Callback<ArrayList<UserNotification>>() {
             @Override
@@ -37,21 +37,21 @@ public class NotificationControler extends Controler {
         });
     }
 
-    public void saveUserNotification(UserNotification userNotification, final ControllResponseListener listener ){
+    public void saveUserNotification(UserNotification userNotification, final ControlResponseListener listener) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.FULL_DATE_FORMAT);
         NotificationService service = ApiClient.getRetrofit().create(NotificationService.class);
         service.saveUserNotification(userNotification.getUser(),
-                                     userNotification.getBrief_description(),
-                                     userNotification.getDescription(),
-                                     simpleDateFormat.format(userNotification.getNotification_date())).enqueue(new Callback<UserNotification>() {
+                userNotification.getBrief_description(),
+                userNotification.getDescription(),
+                simpleDateFormat.format(userNotification.getNotification_date())).enqueue(new Callback<UserNotification>() {
             @Override
             public void onResponse(Call<UserNotification> call, Response<UserNotification> response) {
                 UserNotification userNotification = (UserNotification) response.body();
                 Error error = parserError(userNotification);
 
-                if(error == null){
+                if (error == null) {
                     listener.success(userNotification);
-                }else {
+                } else {
                     listener.fail(error);
                 }
             }
@@ -63,7 +63,7 @@ public class NotificationControler extends Controler {
         });
     }
 
-    public void readUserNotification(UserNotification userNotification , int is_read , final ControllResponseListener listener){
+    public void readUserNotification(UserNotification userNotification, int is_read, final ControlResponseListener listener) {
         NotificationService service = ApiClient.getRetrofit().create(NotificationService.class);
         service.readUserNotification(userNotification.getId(), is_read).enqueue(new Callback<UserNotification>() {
             @Override
@@ -71,9 +71,9 @@ public class NotificationControler extends Controler {
                 UserNotification userNotification = (UserNotification) response.body();
                 Error error = parserError(userNotification);
 
-                if(error == null){
+                if (error == null) {
                     listener.success(userNotification);
-                }else {
+                } else {
                     listener.fail(error);
                 }
             }

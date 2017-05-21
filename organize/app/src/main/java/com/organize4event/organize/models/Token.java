@@ -6,7 +6,18 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class Token extends ErrorReturn{
+public class Token extends ErrorReturn {
+    public static final Creator<Token> CREATOR = new Creator<Token>() {
+        @Override
+        public Token createFromParcel(Parcel source) {
+            return new Token(source);
+        }
+
+        @Override
+        public Token[] newArray(int size) {
+            return new Token[size];
+        }
+    };
     @SerializedName("id")
     private int id;
     @SerializedName("login_type")
@@ -19,6 +30,21 @@ public class Token extends ErrorReturn{
     private Date access_date;
     @SerializedName("keep_logged")
     private boolean keep_logged;
+
+    public Token() {
+        this.setIs_new(true);
+    }
+
+    protected Token(Parcel in) {
+        super(in);
+        this.id = in.readInt();
+        this.login_type = in.readParcelable(LoginType.class.getClassLoader());
+        this.access_platform = in.readParcelable(AccessPlatform.class.getClassLoader());
+        this.access_token = in.readString();
+        long tmpAccess_date = in.readLong();
+        this.access_date = tmpAccess_date == -1 ? null : new Date(tmpAccess_date);
+        this.keep_logged = in.readByte() != 0;
+    }
 
     public int getId() {
         return id;
@@ -68,7 +94,6 @@ public class Token extends ErrorReturn{
         this.keep_logged = keep_logged;
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -84,31 +109,4 @@ public class Token extends ErrorReturn{
         dest.writeLong(this.access_date != null ? this.access_date.getTime() : -1);
         dest.writeByte(this.keep_logged ? (byte) 1 : (byte) 0);
     }
-
-    public Token() {
-        this.setIs_new(true);
-    }
-
-    protected Token(Parcel in) {
-        super(in);
-        this.id = in.readInt();
-        this.login_type = in.readParcelable(LoginType.class.getClassLoader());
-        this.access_platform = in.readParcelable(AccessPlatform.class.getClassLoader());
-        this.access_token = in.readString();
-        long tmpAccess_date = in.readLong();
-        this.access_date = tmpAccess_date == -1 ? null : new Date(tmpAccess_date);
-        this.keep_logged = in.readByte() != 0;
-    }
-
-    public static final Creator<Token> CREATOR = new Creator<Token>() {
-        @Override
-        public Token createFromParcel(Parcel source) {
-            return new Token(source);
-        }
-
-        @Override
-        public Token[] newArray(int size) {
-            return new Token[size];
-        }
-    };
 }

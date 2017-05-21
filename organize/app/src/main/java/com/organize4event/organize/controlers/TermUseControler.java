@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.organize4event.organize.commons.ApiClient;
 import com.organize4event.organize.commons.Constants;
-import com.organize4event.organize.listeners.ControllResponseListener;
+import com.organize4event.organize.listeners.ControlResponseListener;
 import com.organize4event.organize.models.TermUse;
 import com.organize4event.organize.models.UserTerm;
 import com.organize4event.organize.services.TermUseService;
@@ -20,7 +20,7 @@ public class TermUseControler extends Controler {
         super(context);
     }
 
-    public void getTermUse(final ControllResponseListener listener) {
+    public void getTermUse(final ControlResponseListener listener) {
         TermUseService service = ApiClient.getRetrofit().create(TermUseService.class);
         service.getTermUse().enqueue(new Callback<TermUse>() {
             @Override
@@ -41,7 +41,7 @@ public class TermUseControler extends Controler {
         });
     }
 
-    public void saveUserTerm(UserTerm userTerm, int term_accept, final ControllResponseListener listener) {
+    public void saveUserTerm(UserTerm userTerm, int term_accept, final ControlResponseListener listener) {
         SimpleDateFormat fullDateFormat = new SimpleDateFormat(Constants.FULL_DATE_FORMAT);
         TermUseService service = ApiClient.getRetrofit().create(TermUseService.class);
         service.saveUserTerm(userTerm.getUser(),

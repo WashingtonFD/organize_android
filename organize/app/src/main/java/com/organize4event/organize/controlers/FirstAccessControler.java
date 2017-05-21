@@ -6,7 +6,7 @@ import com.organize4event.organize.commons.ApiClient;
 import com.organize4event.organize.commons.AppApplication;
 import com.organize4event.organize.commons.Constants;
 import com.organize4event.organize.commons.PreferencesManager;
-import com.organize4event.organize.listeners.ControllResponseListener;
+import com.organize4event.organize.listeners.ControlResponseListener;
 import com.organize4event.organize.models.AccessPlatform;
 import com.organize4event.organize.models.FirstAccess;
 import com.organize4event.organize.services.FirstAccessService;
@@ -22,7 +22,7 @@ public class FirstAccessControler extends Controler {
         super(context);
     }
 
-    public void saveFirstAccess(FirstAccess firstAccess, final ControllResponseListener listener) {
+    public void saveFirstAccess(FirstAccess firstAccess, final ControlResponseListener listener) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.FULL_DATE_FORMAT);
         FirstAccessService service = ApiClient.getRetrofit().create(FirstAccessService.class);
         service.saveFirstAccess(
@@ -51,7 +51,7 @@ public class FirstAccessControler extends Controler {
         });
     }
 
-    public void getFirstAccess(String device_id, final ControllResponseListener listener) {
+    public void getFirstAccess(String device_id, final ControlResponseListener listener) {
         FirstAccessService service = ApiClient.getRetrofit().create(FirstAccessService.class);
         service.getFirstAccess(device_id).enqueue(new Callback<FirstAccess>() {
             @Override
@@ -72,7 +72,7 @@ public class FirstAccessControler extends Controler {
         });
     }
 
-    public void getAccessPlatform(String locale, int code_enum, final ControllResponseListener listener) {
+    public void getAccessPlatform(String locale, int code_enum, final ControlResponseListener listener) {
         FirstAccessService service = ApiClient.getRetrofit().create(FirstAccessService.class);
         service.getAccessPlatform(locale, code_enum).enqueue(new Callback<AccessPlatform>() {
             @Override

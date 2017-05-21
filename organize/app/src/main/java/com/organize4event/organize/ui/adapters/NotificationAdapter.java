@@ -47,7 +47,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public void onBindViewHolder(final NotificationViewHolder holder, final int position) {
         UserNotification userNotification = items.get(position);
 
-        if (userNotification.is_read()){
+        if (userNotification.is_read()) {
             holder.rowContent.setBackgroundColor(context.getResources().getColor(R.color.colorTransparent));
             holder.txtNotificationBriefDescription.setTextColor(context.getResources().getColor(R.color.colorHintDefault));
             holder.txtNotificationDescription.setTextColor(context.getResources().getColor(R.color.colorHintDefault));
@@ -65,6 +65,31 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    public void isExpand(final NotificationViewHolder holder, final int position) {
+        final boolean isExpanded = position == expandedPosition;
+        holder.txtNotificationDescription.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        holder.itemView.setActivated(isExpanded);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onClick(position);
+                expandedPosition = isExpanded ? -1 : position;
+                TransitionManager.beginDelayedTransition(recyclerView);
+                refreshPositionLayout(position);
+            }
+        });
+    }
+
+    public void refreshPositionLayout(int position) {
+        UserNotification userNotification = items.get(position);
+        userNotification.setIs_read(true);
+        notifyItemChanged(position);
+    }
+
+    public void refreshAllLayout() {
+        notifyDataSetChanged();
     }
 
     public class NotificationViewHolder extends RecyclerView.ViewHolder {
@@ -88,30 +113,5 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             ButterKnife.bind(this, itemView);
 
         }
-    }
-
-    public void isExpand(final NotificationViewHolder holder, final int position) {
-        final boolean isExpanded = position == expandedPosition;
-        holder.txtNotificationDescription.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
-        holder.itemView.setActivated(isExpanded);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onClick(position);
-                expandedPosition = isExpanded ? -1 : position;
-                TransitionManager.beginDelayedTransition(recyclerView);
-                refreshPositionLayout(position);
-            }
-        });
-    }
-
-    public void refreshPositionLayout(int position){
-        UserNotification userNotification = items.get(position);
-        userNotification.setIs_read(true);
-        notifyItemChanged(position);
-    }
-
-    public void refreshAllLayout(){
-        notifyDataSetChanged();
     }
 }

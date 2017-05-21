@@ -7,6 +7,17 @@ import com.google.gson.annotations.SerializedName;
 
 public class UserType extends ErrorReturn {
 
+    public static final Parcelable.Creator<UserType> CREATOR = new Parcelable.Creator<UserType>() {
+        @Override
+        public UserType createFromParcel(Parcel source) {
+            return new UserType(source);
+        }
+
+        @Override
+        public UserType[] newArray(int size) {
+            return new UserType[size];
+        }
+    };
     @SerializedName("id")
     private int id;
     @SerializedName("locale")
@@ -15,6 +26,17 @@ public class UserType extends ErrorReturn {
     private int code_enum;
     @SerializedName("name")
     private String name;
+
+    public UserType() {
+        this.setIs_new(true);
+    }
+
+    protected UserType(Parcel in) {
+        this.id = in.readInt();
+        this.locale = in.readString();
+        this.code_enum = in.readInt();
+        this.name = in.readString();
+    }
 
     public int getId() {
         return id;
@@ -48,7 +70,6 @@ public class UserType extends ErrorReturn {
         this.name = name;
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -61,27 +82,4 @@ public class UserType extends ErrorReturn {
         dest.writeInt(this.code_enum);
         dest.writeString(this.name);
     }
-
-    public UserType() {
-        this.setIs_new(true);
-    }
-
-    protected UserType(Parcel in) {
-        this.id = in.readInt();
-        this.locale = in.readString();
-        this.code_enum = in.readInt();
-        this.name = in.readString();
-    }
-
-    public static final Parcelable.Creator<UserType> CREATOR = new Parcelable.Creator<UserType>() {
-        @Override
-        public UserType createFromParcel(Parcel source) {
-            return new UserType(source);
-        }
-
-        @Override
-        public UserType[] newArray(int size) {
-            return new UserType[size];
-        }
-    };
 }

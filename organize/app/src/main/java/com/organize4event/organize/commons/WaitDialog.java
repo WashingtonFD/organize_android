@@ -13,21 +13,21 @@ import com.organize4event.organize.ui.fragments.BaseFragmentDialog;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class WaitDialog extends BaseFragmentDialog{
+public class WaitDialog extends BaseFragmentDialog {
     private static final String MESSAGE = "message";
 
     @Bind(R.id.dwMessage)
     TextView dwMessage;
 
-    public WaitDialog(){
+    public WaitDialog() {
         super();
     }
 
-    public static WaitDialog newInstance(){
+    public static WaitDialog newInstance() {
         return new WaitDialog();
     }
 
-    public static WaitDialog newInstance(String message){
+    public static WaitDialog newInstance(String message) {
         WaitDialog fragment = new WaitDialog();
         Bundle args = new Bundle();
         args.putString(MESSAGE, message);
@@ -36,20 +36,19 @@ public class WaitDialog extends BaseFragmentDialog{
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_wait, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if(getArguments() != null && !TextUtils.isEmpty(getArguments().getString(MESSAGE))){
+        if (getArguments() != null && !TextUtils.isEmpty(getArguments().getString(MESSAGE))) {
             dwMessage.setText(MESSAGE);
-        }
-        else{
+        } else {
             dwMessage.setText(R.string.info_loading);
         }
     }

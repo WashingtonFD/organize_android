@@ -6,8 +6,19 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class Plan extends ErrorReturn{
+public class Plan extends ErrorReturn {
 
+    public static final Creator<Plan> CREATOR = new Creator<Plan>() {
+        @Override
+        public Plan createFromParcel(Parcel source) {
+            return new Plan(source);
+        }
+
+        @Override
+        public Plan[] newArray(int size) {
+            return new Plan[size];
+        }
+    };
     @SerializedName("id")
     private int id;
     @SerializedName("locale")
@@ -26,6 +37,23 @@ public class Plan extends ErrorReturn{
     private ArrayList<PlanAdvantage> advantages;
     @SerializedName("price")
     private ArrayList<PlanPrice> price;
+
+    public Plan() {
+        this.setIs_new(true);
+    }
+
+    protected Plan(Parcel in) {
+        super(in);
+        this.id = in.readInt();
+        this.locale = in.readString();
+        this.code_enum = in.readInt();
+        this.name = in.readString();
+        this.description = in.readString();
+        this.security_code = in.readString();
+        this.is_active = in.readByte() != 0;
+        this.advantages = in.createTypedArrayList(PlanAdvantage.CREATOR);
+        this.price = in.createTypedArrayList(PlanPrice.CREATOR);
+    }
 
     public int getId() {
         return id;
@@ -99,7 +127,6 @@ public class Plan extends ErrorReturn{
         this.price = price;
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -118,33 +145,4 @@ public class Plan extends ErrorReturn{
         dest.writeTypedList(this.advantages);
         dest.writeTypedList(this.price);
     }
-
-    public Plan() {
-        this.setIs_new(true);
-    }
-
-    protected Plan(Parcel in) {
-        super(in);
-        this.id = in.readInt();
-        this.locale = in.readString();
-        this.code_enum = in.readInt();
-        this.name = in.readString();
-        this.description = in.readString();
-        this.security_code = in.readString();
-        this.is_active = in.readByte() != 0;
-        this.advantages = in.createTypedArrayList(PlanAdvantage.CREATOR);
-        this.price = in.createTypedArrayList(PlanPrice.CREATOR);
-    }
-
-    public static final Creator<Plan> CREATOR = new Creator<Plan>() {
-        @Override
-        public Plan createFromParcel(Parcel source) {
-            return new Plan(source);
-        }
-
-        @Override
-        public Plan[] newArray(int size) {
-            return new Plan[size];
-        }
-    };
 }

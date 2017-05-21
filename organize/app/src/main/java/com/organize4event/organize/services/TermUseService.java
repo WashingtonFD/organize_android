@@ -16,7 +16,7 @@ public interface TermUseService {
 
     @FormUrlEncoded
     @POST("user_term/accept")
-    Call<UserTerm>saveUserTerm(
+    Call<UserTerm> saveUserTerm(
             @Field("user_id") int user_id,
             @Field("term_id") int term_id,
             @Field("term_accept") int term_accept,

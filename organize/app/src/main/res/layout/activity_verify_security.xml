@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.organize4event.organize.ui.activities.VerifySecurityActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            tools:ignore="MissingPrefix">
+
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:id="@+id/contentFields"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/appBarLayout"
+        android:layout_marginTop="@dimen/margin_large"
+        android:padding="@dimen/padding_default">
+
+        <RelativeLayout
+            android:id="@+id/contentSelector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/selectSecurityQuestion"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/heigth_default"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:background="@drawable/bg_field_select"
+                android:editable="false"
+                android:hint="@string/label_select_security_question"
+                android:padding="@dimen/padding_text_fields"
+                android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                android:textColor="@color/colorTextDefault"
+                android:textColorHint="@color/colorHintDefault"
+                android:textSize="@dimen/text_size_small" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                android:tint="@color/colorSecondaryText" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/contentAnswer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contentSelector"
+            android:layout_marginTop="@dimen/margin_default"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_answer"
+                android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                android:textColor="@color/colorTextDefault"
+                android:textSize="@dimen/text_size_small" />
+
+            <EditText
+                android:id="@+id/txtAnswer"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/heigth_default"
+                android:hint="@string/placeholder_answer"
+                android:inputType="textAutoComplete|textCapWords"
+                android:maxLength="254"
+                android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                android:textColor="@color/colorTextDefault"
+                android:textColorHint="@color/colorHintDefault"
+                android:textSize="@dimen/text_size_default" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnSend"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/heigth_button"
+            android:layout_below="@+id/contentAnswer"
+            android:layout_marginTop="@dimen/margin_large"
+            android:background="@drawable/selector_button"
+            android:enabled="false"
+            android:padding="@dimen/padding_buttons"
+            android:text="@string/label_send"
+            android:textAllCaps="false"
+            android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
+            android:textColor="@color/colorDestakText"
+            android:textSize="@dimen/text_button_default" />
+
+        <TextView
+            android:id="@+id/txtIsNotSecurityData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnSend"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:text="@string/content_is_not_security_data"
+            android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/text_size_default" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

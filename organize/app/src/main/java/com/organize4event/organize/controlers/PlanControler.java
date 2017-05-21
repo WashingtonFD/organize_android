@@ -3,7 +3,7 @@ package com.organize4event.organize.controlers;
 import android.content.Context;
 
 import com.organize4event.organize.commons.ApiClient;
-import com.organize4event.organize.listeners.ControllResponseListener;
+import com.organize4event.organize.listeners.ControlResponseListener;
 import com.organize4event.organize.models.Plan;
 import com.organize4event.organize.services.PlanService;
 
@@ -18,7 +18,7 @@ public class PlanControler extends Controler {
         super(context);
     }
 
-    public void getPlan(String locale, final ControllResponseListener listener) {
+    public void getPlan(String locale, final ControlResponseListener listener) {
         PlanService service = ApiClient.getRetrofit().create(PlanService.class);
         service.getPlan(locale).enqueue(new Callback<ArrayList<Plan>>() {
             @Override
@@ -39,7 +39,7 @@ public class PlanControler extends Controler {
         });
     }
 
-    public void getPlanId(String locale, int code_enum, final ControllResponseListener listener) {
+    public void getPlanId(String locale, int code_enum, final ControlResponseListener listener) {
         PlanService service = ApiClient.getRetrofit().create(PlanService.class);
         service.getPLanId(locale, code_enum).enqueue(new Callback<Plan>() {
             @Override

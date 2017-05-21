@@ -17,7 +17,7 @@ import com.organize4event.organize.controlers.PrivacyControler;
 import com.organize4event.organize.controlers.UserControler;
 import com.organize4event.organize.enuns.DialogTypeEnum;
 import com.organize4event.organize.enuns.PrivacyEnum;
-import com.organize4event.organize.listeners.ControllResponseListener;
+import com.organize4event.organize.listeners.ControlResponseListener;
 import com.organize4event.organize.listeners.CustomDialogListener;
 import com.organize4event.organize.listeners.ToolbarListener;
 import com.organize4event.organize.models.FirstAccess;
@@ -32,12 +32,6 @@ import butterknife.OnClick;
 
 public class PrivacyActivity extends BaseActivity {
 
-    private Context context;
-    private FirstAccess firstAccess;
-    private User user;
-    private ArrayList<Privacy> privacies = new ArrayList<>();
-
-
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.rgpListPrivacy)
@@ -48,7 +42,10 @@ public class PrivacyActivity extends BaseActivity {
     RadioButton btnJustFriends;
     @Bind(R.id.btnNoOne)
     RadioButton btnNoOne;
-
+    private Context context;
+    private FirstAccess firstAccess;
+    private User user;
+    private ArrayList<Privacy> privacies = new ArrayList<>();
     private String infoAll, infoFriends, infoNone = "";
 
     @Override
@@ -74,13 +71,11 @@ public class PrivacyActivity extends BaseActivity {
 
         getPrivacy();
 
-        if (user.getPrivacy().getCode_enum() == PrivacyEnum.ALL.getValue()){
+        if (user.getPrivacy().getCode_enum() == PrivacyEnum.ALL.getValue()) {
             btnAll.setChecked(true);
-        }
-        else if (user.getPrivacy().getCode_enum() == PrivacyEnum.JUST_FRIENDS.getValue()){
+        } else if (user.getPrivacy().getCode_enum() == PrivacyEnum.JUST_FRIENDS.getValue()) {
             btnJustFriends.setChecked(true);
-        }
-        else{
+        } else {
             btnNoOne.setChecked(true);
         }
 
@@ -88,7 +83,7 @@ public class PrivacyActivity extends BaseActivity {
     }
 
     protected void getPrivacy() {
-        new PrivacyControler(context).getPrivacy(firstAccess.getLocale(), new ControllResponseListener() {
+        new PrivacyControler(context).getPrivacy(firstAccess.getLocale(), new ControlResponseListener() {
             @Override
             public void success(Object object) {
                 privacies = (ArrayList<Privacy>) object;
@@ -143,7 +138,7 @@ public class PrivacyActivity extends BaseActivity {
     }
 
     protected void saveUserPrivacy() {
-        new UserControler(context).updateUserPrivacy(user, new ControllResponseListener() {
+        new UserControler(context).updateUserPrivacy(user, new ControlResponseListener() {
             @Override
             public void success(Object object) {
                 User user = (User) object;

@@ -40,7 +40,7 @@ import com.organize4event.organize.controlers.UserControler;
 import com.organize4event.organize.enuns.DialogTypeEnum;
 import com.organize4event.organize.enuns.PrivacyEnum;
 import com.organize4event.organize.enuns.UserTypeEnum;
-import com.organize4event.organize.listeners.ControllResponseListener;
+import com.organize4event.organize.listeners.ControlResponseListener;
 import com.organize4event.organize.listeners.CustomDialogListener;
 import com.organize4event.organize.listeners.ToolbarListener;
 import com.organize4event.organize.models.FirstAccess;
@@ -73,6 +73,45 @@ import pl.tajchert.nammu.Nammu;
 import pl.tajchert.nammu.PermissionCallback;
 
 public class UserRegisterActivity extends BaseActivity implements Validator.ValidationListener {
+    Validator validator;
+    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.contentImage)
+    RelativeLayout contentImage;
+    @Bind(R.id.imgProfile)
+    ImageView imgProfile;
+    @Bind(R.id.rgpListGender)
+    RadioGroup rgpListGender;
+    @Order(1)
+    @NotEmpty(trim = true, sequence = 1, messageResId = R.string.validate_required_field)
+    @Bind(R.id.txtFullName)
+    EditText txtFullName;
+    //TODO: CRIAR VALIDAÇÃO DE CPF
+    @Order(2)
+    @NotEmpty(trim = true, sequence = 1, messageResId = R.string.validate_required_field)
+    @Bind(R.id.txtCpf)
+    EditText txtCpf;
+    @Order(3)
+    @NotEmpty(trim = true, sequence = 1, messageResId = R.string.validate_required_field)
+    @Email(sequence = 2, messageResId = R.string.validate_mail)
+    @Bind(R.id.txtMail)
+    EditText txtMail;
+    // TODO: CRIAR VALIDAÇÃO DE DATA
+    @Order(4)
+    @NotEmpty(trim = true, sequence = 1, messageResId = R.string.validate_required_field)
+    @Bind(R.id.txtBirthDate)
+    EditText txtBirthDate;
+    @Order(5)
+    @NotEmpty(trim = true, sequence = 1, messageResId = R.string.validate_required_field)
+    @Password(min = 6, sequence = 2, scheme = Password.Scheme.ALPHA_NUMERIC, messageResId = R.string.validate_password)
+    @Bind(R.id.txtPassword)
+    EditText txtPassword;
+    @Order(6)
+    @NotEmpty(trim = true, sequence = 1, messageResId = R.string.validate_required_field)
+    @ConfirmPassword(sequence = 2, messageResId = R.string.validate_password_confirm)
+    @Bind(R.id.txtPasswordConfirm)
+    EditText txtPasswordConfirm;
     private Context context;
     private String message = "";
     private String title = "";
@@ -81,66 +120,14 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     private int checking = 1;
     private File file;
     private Uri uri;
-
     private User user;
     private FirstAccess firstAccess;
     private UserTerm userTerm;
     private UserType userType;
-
     private ArrayList<Privacy> privacies = new ArrayList<>();
     private ArrayList<Setting> settings = new ArrayList<>();
     private ArrayList<UserSetting> userSettings = new ArrayList<>();
     private UserSetting userSetting;
-
-    Validator validator;
-    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-
-    @Bind(R.id.contentImage)
-    RelativeLayout contentImage;
-
-    @Bind(R.id.imgProfile)
-    ImageView imgProfile;
-
-    @Bind(R.id.rgpListGender)
-    RadioGroup rgpListGender;
-
-    @Order(1)
-    @NotEmpty(trim = true, sequence = 1, messageResId = R.string.validate_required_field)
-    @Bind(R.id.txtFullName)
-    EditText txtFullName;
-
-    //TODO: CRIAR VALIDAÇÃO DE CPF
-    @Order(2)
-    @NotEmpty(trim = true, sequence = 1, messageResId = R.string.validate_required_field)
-    @Bind(R.id.txtCpf)
-    EditText txtCpf;
-
-    @Order(3)
-    @NotEmpty(trim = true, sequence = 1, messageResId = R.string.validate_required_field)
-    @Email(sequence = 2, messageResId = R.string.validate_mail)
-    @Bind(R.id.txtMail)
-    EditText txtMail;
-
-    // TODO: CRIAR VALIDAÇÃO DE DATA
-    @Order(4)
-    @NotEmpty(trim = true, sequence = 1, messageResId = R.string.validate_required_field)
-    @Bind(R.id.txtBirthDate)
-    EditText txtBirthDate;
-
-    @Order(5)
-    @NotEmpty(trim = true, sequence = 1, messageResId = R.string.validate_required_field)
-    @Password(min = 6, sequence = 2, scheme = Password.Scheme.ALPHA_NUMERIC, messageResId = R.string.validate_password)
-    @Bind(R.id.txtPassword)
-    EditText txtPassword;
-
-    @Order(6)
-    @NotEmpty(trim = true, sequence = 1, messageResId = R.string.validate_required_field)
-    @ConfirmPassword(sequence = 2, messageResId = R.string.validate_password_confirm)
-    @Bind(R.id.txtPasswordConfirm)
-    EditText txtPasswordConfirm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -194,7 +181,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     protected void getUserType() {
         showLoading();
         final int code_user_type = UserTypeEnum.DEFAULT.getValue();
-        new UserControler(context).getUserType(firstAccess.getLocale(), code_user_type, new ControllResponseListener() {
+        new UserControler(context).getUserType(firstAccess.getLocale(), code_user_type, new ControlResponseListener() {
             @Override
             public void success(Object object) {
                 userType = (UserType) object;
@@ -209,7 +196,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     }
 
     protected void getPrivacy() {
-        new PrivacyControler(context).getPrivacy(firstAccess.getLocale(), new ControllResponseListener() {
+        new PrivacyControler(context).getPrivacy(firstAccess.getLocale(), new ControlResponseListener() {
             @Override
             public void success(Object object) {
                 privacies = (ArrayList<Privacy>) object;
@@ -248,7 +235,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     }
 
     protected void saveUser() {
-        new UserControler(context).saveUser(user, new ControllResponseListener() {
+        new UserControler(context).saveUser(user, new ControlResponseListener() {
             @Override
             public void success(Object object) {
                 user = (User) object;
@@ -268,7 +255,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
     protected void saveFirstAccess() {
         firstAccess.setUser(user);
-        new FirstAccessControler(context).saveFirstAccess(firstAccess, new ControllResponseListener() {
+        new FirstAccessControler(context).saveFirstAccess(firstAccess, new ControlResponseListener() {
             @Override
             public void success(Object object) {
                 saveUserTerm();
@@ -289,7 +276,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
             term_accept = 1;
         }
 
-        new TermUseControler(context).saveUserTerm(userTerm, term_accept, new ControllResponseListener() {
+        new TermUseControler(context).saveUserTerm(userTerm, term_accept, new ControlResponseListener() {
             @Override
             public void success(Object object) {
                 userTerm = (UserTerm) object;
@@ -305,7 +292,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     }
 
     protected void getSettings() {
-        new SettingsControler(context).getSettings(firstAccess.getLocale(), new ControllResponseListener() {
+        new SettingsControler(context).getSettings(firstAccess.getLocale(), new ControlResponseListener() {
             @Override
             public void success(Object object) {
                 settings = (ArrayList<Setting>) object;
@@ -330,7 +317,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         userSetting.setSetting(setting);
         userSetting.setChecking(setting.isCheck_default());
 
-        new SettingsControler(context).saveUserSettings(userSetting, checking, new ControllResponseListener() {
+        new SettingsControler(context).saveUserSettings(userSetting, checking, new ControlResponseListener() {
             @Override
             public void success(Object object) {
                 userSetting = (UserSetting) object;
@@ -403,7 +390,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
     public void uploadPicture() {
         File photo = resizeImage(file);
-        new UserControler(context).uploadProfilePicture(user, photo, new ControllResponseListener() {
+        new UserControler(context).uploadProfilePicture(user, photo, new ControlResponseListener() {
             @Override
             public void success(Object object) {
                 saveFirstAccess();
@@ -416,13 +403,13 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         });
     }
 
-    public File resizeImage(File file){
+    public File resizeImage(File file) {
         Bitmap bFile = BitmapFactory.decodeFile(file.getPath());
         int width = bFile.getWidth();
         int height = bFile.getHeight();
 
-        float newWidth = ((float) 300)/width;
-        float newHeigth = ((float) 300)/height;
+        float newWidth = ((float) 300) / width;
+        float newHeigth = ((float) 300) / height;
 
         Matrix matrix = new Matrix();
         matrix.postScale(newWidth, newHeigth);

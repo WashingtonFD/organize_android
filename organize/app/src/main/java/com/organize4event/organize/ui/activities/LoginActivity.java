@@ -37,13 +37,14 @@ import com.organize4event.organize.controlers.UserControler;
 import com.organize4event.organize.enuns.AccessPlatformEnum;
 import com.organize4event.organize.enuns.DialogTypeEnum;
 import com.organize4event.organize.enuns.LoginTypeEnum;
-import com.organize4event.organize.listeners.ControllResponseListener;
+import com.organize4event.organize.listeners.ControlResponseListener;
 import com.organize4event.organize.listeners.CustomDialogListener;
 import com.organize4event.organize.models.AccessPlatform;
 import com.organize4event.organize.models.FirstAccess;
 import com.organize4event.organize.models.LoginType;
 import com.organize4event.organize.models.Token;
 import com.organize4event.organize.models.User;
+import com.organize4event.organize.models.UserSecurity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,50 +59,41 @@ import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-public class LoginActivity extends BaseActivity implements Validator.ValidationListener{
+public class LoginActivity extends BaseActivity implements Validator.ValidationListener {
+    @Bind(R.id.containerLoginEmail)
+    RelativeLayout containerLoginEmail;
+    @Bind(R.id.containerForgotPassword)
+    RelativeLayout containerForgotPassword;
+    @Order(1)
+    @NotEmpty(trim = true, sequence = 1, messageResId = R.string.validate_required_field)
+    @Email(sequence = 2, messageResId = R.string.validate_mail)
+    @Bind(R.id.txtMail)
+    EditText txtMail;
+    @Order(2)
+    @NotEmpty(trim = true, sequence = 1, messageResId = R.string.validate_required_field)
+    @Password(min = 6, sequence = 2, scheme = Password.Scheme.ALPHA_NUMERIC, messageResId = R.string.validate_password)
+    @Bind(R.id.txtPassword)
+    EditText txtPassword;
+    @Bind(R.id.txtMailForgotPassword)
+    EditText txtMailForgotPassword;
+    @Bind(R.id.cbxKeepLogged)
+    CheckBox cbxKeepLogged;
     private Context context;
     private int code_enum;
     private int code_enum_platform;
     private boolean keep_logged = false;
     private int keep_logged_int = 0;
-
     private Validator validator;
     private CustomValidate customValidate;
-
     private User user;
     private User newUser;
     private FirstAccess firstAccess;
     private Token token;
     private LoginType loginType;
     private AccessPlatform accessPlatform;
-
     private CallbackManager callbackManager;
     private LoginManager loginManager;
     private AccessToken accessToken;
-
-    @Bind(R.id.containerLoginEmail)
-    RelativeLayout containerLoginEmail;
-
-    @Bind(R.id.containerForgotPassword)
-    RelativeLayout containerForgotPassword;
-
-    @Order(1)
-    @NotEmpty(trim = true, sequence = 1, messageResId = R.string.validate_required_field)
-    @Email(sequence = 2, messageResId = R.string.validate_mail)
-    @Bind(R.id.txtMail)
-    EditText txtMail;
-
-    @Order(2)
-    @NotEmpty(trim = true, sequence = 1, messageResId = R.string.validate_required_field)
-    @Password(min = 6, sequence = 2, scheme = Password.Scheme.ALPHA_NUMERIC, messageResId = R.string.validate_password)
-    @Bind(R.id.txtPassword)
-    EditText txtPassword;
-
-    @Bind(R.id.txtMailForgotPassword)
-    EditText txtMailForgotPassword;
-
-    @Bind(R.id.cbxKeepLogged)
-    CheckBox cbxKeepLogged;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,14 +114,12 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         user = firstAccess.getUser();
         token = user.getToken();
 
-        if (token == null){
+        if (token == null) {
             token = new Token();
-        }
-        else if(token.isKeep_logged()){
-            if (PreferencesManager.isHideWelcome()){
+        } else if (token.isKeep_logged()) {
+            if (PreferencesManager.isHideWelcome()) {
                 startActivity(new Intent(context, HomeActivity.class));
-            }
-            else{
+            } else {
                 startActivity(new Intent(context, WelcomeActivity.class));
             }
         }
@@ -142,8 +132,8 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     }
 
     @OnClick({R.id.btnLoginEmail, R.id.btnLoginFacebook, R.id.txtForgotPassword})
-    public void actionOnClickLogin(View view){
-        switch (view.getId()){
+    public void actionOnClickLogin(View view) {
+        switch (view.getId()) {
             case R.id.btnLoginEmail:
                 code_enum = LoginTypeEnum.EMAIL.getValue();
                 getAccessPlatform();
@@ -159,16 +149,16 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     }
 
     @OnCheckedChanged(R.id.cbxKeepLogged)
-    public void actionKeepLogged(){
+    public void actionKeepLogged() {
         keep_logged = cbxKeepLogged.isChecked();
-        if (keep_logged){
+        if (keep_logged) {
             keep_logged_int = 1;
         }
     }
 
     @OnClick({R.id.btnLogin, R.id.btnCancel, R.id.btnForgotPasswordSend, R.id.btnForgotPasswordCancel, R.id.txtIsNotRegistered})
-    public void actionButtonClick(View view){
-        switch (view.getId()){
+    public void actionButtonClick(View view) {
+        switch (view.getId()) {
             case R.id.btnLogin:
                 validator.validate();
                 break;
@@ -187,22 +177,21 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         }
     }
 
-    protected void loginEmail(){
+    protected void loginEmail() {
         hideLoading();
         containerLoginEmail.setVisibility(View.VISIBLE);
     }
 
-    protected void login(){
+    protected void login() {
         showLoading();
-        new TokenControler(context).login(txtMail.getText().toString(), txtPassword.getText().toString(), new ControllResponseListener() {
+        new TokenControler(context).login(txtMail.getText().toString(), txtPassword.getText().toString(), new ControlResponseListener() {
             @Override
             public void success(Object object) {
                 hideLoading();
                 newUser = (User) object;
-                if (newUser.getId() > 0){
+                if (newUser.getId() > 0) {
                     saveToken();
-                }
-                else{
+                } else {
                     containerLoginEmail.setVisibility(View.GONE);
                     showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), newUser.getMessage(), new CustomDialogListener() {
                         @Override
@@ -227,24 +216,23 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         });
     }
 
-    protected void saveToken(){
+    protected void saveToken() {
         token.setLogin_type(loginType);
         token.setAccess_platform(accessPlatform);
         token.setAccess_date(new Date());
         token.setKeep_logged(keep_logged);
-        new TokenControler(context).saveToken(token, user.getId(), keep_logged_int, new ControllResponseListener() {
+        new TokenControler(context).saveToken(token, user.getId(), keep_logged_int, new ControlResponseListener() {
             @Override
             public void success(Object object) {
                 token = (Token) object;
                 user.setToken(token);
                 firstAccess.setUser(user);
                 PreferencesManager.saveFirstAccess(firstAccess);
-                insertNotification(context, user.getId(),context.getString(R.string.notification_login_brief_description), context.getString(R.string.notification_login_description), new Date());
-                if (PreferencesManager.isHideWelcome()){
+                insertNotification(context, user.getId(), context.getString(R.string.notification_login_brief_description), context.getString(R.string.notification_login_description), new Date());
+                if (PreferencesManager.isHideWelcome()) {
                     startActivity(new Intent(context, HomeActivity.class));
                     finish();
-                }
-                else{
+                } else {
                     starWelcomeActivity();
                 }
             }
@@ -257,7 +245,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         });
     }
 
-    protected void loginFacebook(){
+    protected void loginFacebook() {
         hideLoading();
         loginManager = LoginManager.getInstance();
         loginManager.logInWithReadPermissions(this, Arrays.asList("email", "public_profile"));
@@ -280,22 +268,22 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         });
     }
 
-    protected void getUserFacebook(){
+    protected void getUserFacebook() {
         GraphRequest request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
                 try {
                     String id = object.getString("id");
-                    String picture_profile = "https://graph.facebook.com/"+id+"/picture?height=220&width=220";
+                    String picture_profile = "https://graph.facebook.com/" + id + "/picture?height=220&width=220";
 
                     user.setFull_name(object.getString("name"));
                     user.setMail(object.getString("email"));
                     user.setProfile_picture(picture_profile);
-                    new UserControler(context).updateUserProfilePicture(user, new ControllResponseListener() {
+                    new UserControler(context).updateUserProfilePicture(user, new ControlResponseListener() {
                         @Override
                         public void success(Object object) {
                             User newUser = (User) object;
-                            if (newUser.getId() > 0){
+                            if (newUser.getId() > 0) {
                                 firstAccess.setUser(user);
                                 PreferencesManager.saveFirstAccess(firstAccess);
                                 AppApplication.setFirstAccess(firstAccess);
@@ -322,19 +310,47 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         request.executeAsync();
     }
 
-    protected void forgotPassword(){
+    protected void forgotPassword() {
         customValidate = new CustomValidate();
-        if(!customValidate.validadeEmail(txtMailForgotPassword.getText().toString())){
+        if (!customValidate.validadeEmail(txtMailForgotPassword.getText().toString())) {
             txtMailForgotPassword.setError(context.getString(R.string.validate_mail));
-        }
-        else{
-            //TODO: IMPLEMENTAR ROTA DE ALTERAR SENHA POR E-MAIL
+        } else {
+            showLoading();
+            new UserControler(context).getUserMail(txtMailForgotPassword.getText().toString().trim(), new ControlResponseListener() {
+                @Override
+                public void success(Object object) {
+                    hideLoading();
+                    User findUser = (User) object;
+                    UserSecurity security = findUser.getUser_security();
+                    if (security == null) {
+                        showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), context.getString(R.string.message_error_recovery_password), new CustomDialogListener() {
+                            @Override
+                            public void positiveOnClick(MaterialDialog dialog) {
+                                dialog.dismiss();
+                            }
+
+                            @Override
+                            public void negativeOnClick(MaterialDialog dialog) {
+
+                            }
+                        });
+                    } else {
+                        containerForgotPassword.setVisibility(View.GONE);
+                        starVerifySecurityActivity(findUser);
+                    }
+                }
+
+                @Override
+                public void fail(Error error) {
+                    returnErrorMessage(error, context);
+                }
+            });
         }
     }
 
-    protected void getAccessPlatform(){
+    protected void getAccessPlatform() {
         showLoading();
-        new FirstAccessControler(context).getAccessPlatform(firstAccess.getLocale(), code_enum_platform, new ControllResponseListener() {
+        new FirstAccessControler(context).getAccessPlatform(firstAccess.getLocale(), code_enum_platform, new ControlResponseListener() {
             @Override
             public void success(Object object) {
                 accessPlatform = (AccessPlatform) object;
@@ -348,15 +364,14 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         });
     }
 
-    protected void getLoginType(){
-        new TokenControler(context).getLoginType(firstAccess.getLocale(), code_enum, new ControllResponseListener() {
+    protected void getLoginType() {
+        new TokenControler(context).getLoginType(firstAccess.getLocale(), code_enum, new ControlResponseListener() {
             @Override
             public void success(Object object) {
                 loginType = (LoginType) object;
-                if (loginType.getCode_enum() == LoginTypeEnum.EMAIL.getValue()){
+                if (loginType.getCode_enum() == LoginTypeEnum.EMAIL.getValue()) {
                     loginEmail();
-                }
-                else if (loginType.getCode_enum() == LoginTypeEnum.FACEBOOK.getValue()){
+                } else if (loginType.getCode_enum() == LoginTypeEnum.FACEBOOK.getValue()) {
                     loginFacebook();
                 }
             }
@@ -378,9 +393,16 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         validateError(errors);
     }
 
-    protected void starWelcomeActivity(){
+    protected void starWelcomeActivity() {
         Intent intent = new Intent(context, WelcomeActivity.class);
         intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
+        startActivity(intent);
+        finish();
+    }
+
+    protected void starVerifySecurityActivity(User findUser) {
+        Intent intent = new Intent(context, VerifySecurityActivity.class);
+        intent.putExtra("user", Parcels.wrap(FirstAccess.class, findUser));
         startActivity(intent);
         finish();
     }

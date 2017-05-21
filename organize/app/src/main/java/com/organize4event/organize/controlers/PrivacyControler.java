@@ -3,7 +3,7 @@ package com.organize4event.organize.controlers;
 import android.content.Context;
 
 import com.organize4event.organize.commons.ApiClient;
-import com.organize4event.organize.listeners.ControllResponseListener;
+import com.organize4event.organize.listeners.ControlResponseListener;
 import com.organize4event.organize.models.Privacy;
 import com.organize4event.organize.services.PrivacyService;
 
@@ -18,7 +18,7 @@ public class PrivacyControler extends Controler {
         super(context);
     }
 
-    public void getPrivacy(String locale, final ControllResponseListener listener) {
+    public void getPrivacy(String locale, final ControlResponseListener listener) {
         PrivacyService service = ApiClient.getRetrofit().create(PrivacyService.class);
         service.getPrivacy(locale).enqueue(new Callback<ArrayList<Privacy>>() {
             @Override

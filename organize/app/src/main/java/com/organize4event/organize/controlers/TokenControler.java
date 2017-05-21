@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.organize4event.organize.commons.ApiClient;
 import com.organize4event.organize.commons.Constants;
-import com.organize4event.organize.listeners.ControllResponseListener;
+import com.organize4event.organize.listeners.ControlResponseListener;
 import com.organize4event.organize.models.LoginType;
 import com.organize4event.organize.models.Token;
 import com.organize4event.organize.models.User;
@@ -21,7 +21,7 @@ public class TokenControler extends Controler {
         super(context);
     }
 
-    public void getLoginType(String locale, int code_enum, final ControllResponseListener listener) {
+    public void getLoginType(String locale, int code_enum, final ControlResponseListener listener) {
         TokenService service = ApiClient.getRetrofit().create(TokenService.class);
         service.getLoginType(locale, code_enum).enqueue(new Callback<LoginType>() {
             @Override
@@ -42,7 +42,7 @@ public class TokenControler extends Controler {
         });
     }
 
-    public void login(String mail, final String password, final ControllResponseListener listener) {
+    public void login(String mail, final String password, final ControlResponseListener listener) {
         TokenService service = ApiClient.getRetrofit().create(TokenService.class);
         service.login(mail, password).enqueue(new Callback<User>() {
             @Override
@@ -63,7 +63,7 @@ public class TokenControler extends Controler {
         });
     }
 
-    public void saveToken(Token token, int user_id, int keep_logged, final ControllResponseListener listener) {
+    public void saveToken(Token token, int user_id, int keep_logged, final ControlResponseListener listener) {
         SimpleDateFormat fullDateFormat = new SimpleDateFormat(Constants.FULL_DATE_FORMAT);
         TokenService service = ApiClient.getRetrofit().create(TokenService.class);
         service.saveToken(

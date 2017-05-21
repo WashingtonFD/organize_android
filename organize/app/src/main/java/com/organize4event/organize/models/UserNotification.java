@@ -7,7 +7,18 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class UserNotification extends ErrorReturn implements Comparable<UserNotification>{
+public class UserNotification extends ErrorReturn implements Comparable<UserNotification> {
+    public static final Creator<UserNotification> CREATOR = new Creator<UserNotification>() {
+        @Override
+        public UserNotification createFromParcel(Parcel source) {
+            return new UserNotification(source);
+        }
+
+        @Override
+        public UserNotification[] newArray(int size) {
+            return new UserNotification[size];
+        }
+    };
     @SerializedName("id")
     private int id;
     @SerializedName("user")
@@ -20,6 +31,20 @@ public class UserNotification extends ErrorReturn implements Comparable<UserNoti
     private Date notification_date;
     @SerializedName("is_read")
     private boolean is_read;
+
+    public UserNotification() {
+    }
+
+    protected UserNotification(Parcel in) {
+        super(in);
+        this.id = in.readInt();
+        this.user = in.readInt();
+        this.brief_description = in.readString();
+        this.description = in.readString();
+        long tmpNotification_date = in.readLong();
+        this.notification_date = tmpNotification_date == -1 ? null : new Date(tmpNotification_date);
+        this.is_read = in.readByte() != 0;
+    }
 
     public int getId() {
         return id;
@@ -69,7 +94,6 @@ public class UserNotification extends ErrorReturn implements Comparable<UserNoti
         this.is_read = is_read;
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -86,41 +110,13 @@ public class UserNotification extends ErrorReturn implements Comparable<UserNoti
         dest.writeByte(this.is_read ? (byte) 1 : (byte) 0);
     }
 
-    public UserNotification() {
-    }
-
-    protected UserNotification(Parcel in) {
-        super(in);
-        this.id = in.readInt();
-        this.user = in.readInt();
-        this.brief_description = in.readString();
-        this.description = in.readString();
-        long tmpNotification_date = in.readLong();
-        this.notification_date = tmpNotification_date == -1 ? null : new Date(tmpNotification_date);
-        this.is_read = in.readByte() != 0;
-    }
-
-    public static final Creator<UserNotification> CREATOR = new Creator<UserNotification>() {
-        @Override
-        public UserNotification createFromParcel(Parcel source) {
-            return new UserNotification(source);
-        }
-
-        @Override
-        public UserNotification[] newArray(int size) {
-            return new UserNotification[size];
-        }
-    };
-
     @Override
     public int compareTo(@NonNull UserNotification o) {
-        if (this.getNotification_date().getTime() < o.getNotification_date().getTime()){
+        if (this.getNotification_date().getTime() < o.getNotification_date().getTime()) {
             return 1;
-        }
-        else if (this.getNotification_date().getTime() > o.getNotification_date().getTime()){
+        } else if (this.getNotification_date().getTime() > o.getNotification_date().getTime()) {
             return -1;
-        }
-        else{
+        } else {
             return 0;
         }
     }

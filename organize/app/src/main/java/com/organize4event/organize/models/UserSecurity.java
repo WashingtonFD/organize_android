@@ -6,7 +6,18 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class UserSecurity extends ErrorReturn{
+public class UserSecurity extends ErrorReturn {
+    public static final Creator<UserSecurity> CREATOR = new Creator<UserSecurity>() {
+        @Override
+        public UserSecurity createFromParcel(Parcel source) {
+            return new UserSecurity(source);
+        }
+
+        @Override
+        public UserSecurity[] newArray(int size) {
+            return new UserSecurity[size];
+        }
+    };
     @SerializedName("id")
     private int id;
     @SerializedName("user")
@@ -21,6 +32,21 @@ public class UserSecurity extends ErrorReturn{
     private Date last_update_date;
     @SerializedName("last_update_identifier")
     private String last_update_identifier;
+
+    public UserSecurity() {
+    }
+
+    protected UserSecurity(Parcel in) {
+        super(in);
+        this.id = in.readInt();
+        this.user = in.readInt();
+        this.security_question = in.readParcelable(SecurityQuestion.class.getClassLoader());
+        this.access_platform = in.readParcelable(AccessPlatform.class.getClassLoader());
+        this.security_answer = in.readString();
+        long tmpLast_update_date = in.readLong();
+        this.last_update_date = tmpLast_update_date == -1 ? null : new Date(tmpLast_update_date);
+        this.last_update_identifier = in.readString();
+    }
 
     public int getId() {
         return id;
@@ -78,7 +104,6 @@ public class UserSecurity extends ErrorReturn{
         this.last_update_identifier = last_update_identifier;
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -95,31 +120,4 @@ public class UserSecurity extends ErrorReturn{
         dest.writeLong(this.last_update_date != null ? this.last_update_date.getTime() : -1);
         dest.writeString(this.last_update_identifier);
     }
-
-    public UserSecurity() {
-    }
-
-    protected UserSecurity(Parcel in) {
-        super(in);
-        this.id = in.readInt();
-        this.user = in.readInt();
-        this.security_question = in.readParcelable(SecurityQuestion.class.getClassLoader());
-        this.access_platform = in.readParcelable(AccessPlatform.class.getClassLoader());
-        this.security_answer = in.readString();
-        long tmpLast_update_date = in.readLong();
-        this.last_update_date = tmpLast_update_date == -1 ? null : new Date(tmpLast_update_date);
-        this.last_update_identifier = in.readString();
-    }
-
-    public static final Creator<UserSecurity> CREATOR = new Creator<UserSecurity>() {
-        @Override
-        public UserSecurity createFromParcel(Parcel source) {
-            return new UserSecurity(source);
-        }
-
-        @Override
-        public UserSecurity[] newArray(int size) {
-            return new UserSecurity[size];
-        }
-    };
 }

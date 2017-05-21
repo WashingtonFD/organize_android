@@ -11,7 +11,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.controlers.TermUseControler;
-import com.organize4event.organize.listeners.ControllResponseListener;
+import com.organize4event.organize.listeners.ControlResponseListener;
 import com.organize4event.organize.listeners.ToolbarListener;
 import com.organize4event.organize.models.FirstAccess;
 import com.organize4event.organize.models.TermUse;
@@ -27,23 +27,19 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class TermUseActivity extends BaseActivity {
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.txtTitle)
+    TextView txtTitle;
+    @Bind(R.id.txtContent)
+    TextView txtContent;
+    @Bind(R.id.imgAccept)
+    ImageView imgAccept;
     private Context context;
     private TermUse termUse;
     private User user;
     private FirstAccess firstAccess;
     private UserTerm userTerm;
-
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-
-    @Bind(R.id.txtTitle)
-    TextView txtTitle;
-
-    @Bind(R.id.txtContent)
-    TextView txtContent;
-
-    @Bind(R.id.imgAccept)
-    ImageView imgAccept;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,13 +65,13 @@ public class TermUseActivity extends BaseActivity {
         getTermUse();
     }
 
-    protected void getTermUse(){
+    protected void getTermUse() {
         showLoading();
-        new TermUseControler(context).getTermUse(new ControllResponseListener() {
+        new TermUseControler(context).getTermUse(new ControlResponseListener() {
             @Override
             public void success(Object object) {
                 hideLoading();
-                termUse = (TermUse)object;
+                termUse = (TermUse) object;
                 txtTitle.setText(termUse.getTitle());
                 txtContent.setText(termUse.getContent());
             }
@@ -88,7 +84,7 @@ public class TermUseActivity extends BaseActivity {
     }
 
     @OnClick(R.id.imgAccept)
-    public void acceptTermAction(){
+    public void acceptTermAction() {
         userTerm = new UserTerm();
         userTerm.setTerm(termUse);
         userTerm.setTerm_accept(true);
@@ -101,7 +97,7 @@ public class TermUseActivity extends BaseActivity {
         startPlanIdentifierActivity();
     }
 
-    protected void startPlanIdentifierActivity(){
+    protected void startPlanIdentifierActivity() {
         Intent intent = new Intent(context, PlanIdentifierActivity.class);
         intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
         startActivity(intent);

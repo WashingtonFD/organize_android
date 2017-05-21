@@ -18,6 +18,18 @@ public class ErrorReturn implements Parcelable {
     @SerializedName("is_new")
     private boolean is_new = false;
 
+    public ErrorReturn() {
+        this.setIs_new(false);
+    }
+
+    protected ErrorReturn(Parcel in) {
+        this.error = in.readByte() != 0;
+        this.code = in.readInt();
+        this.message = in.readString();
+        this.exception = in.readString();
+        this.is_new = in.readByte() != 0;
+    }
+
     public boolean isError() {
         return error;
     }
@@ -58,7 +70,6 @@ public class ErrorReturn implements Parcelable {
         this.is_new = is_new;
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -71,18 +82,6 @@ public class ErrorReturn implements Parcelable {
         dest.writeString(this.message);
         dest.writeString(this.exception);
         dest.writeByte(this.is_new ? (byte) 1 : (byte) 0);
-    }
-
-    public ErrorReturn() {
-        this.setIs_new(false);
-    }
-
-    protected ErrorReturn(Parcel in) {
-        this.error = in.readByte() != 0;
-        this.code = in.readInt();
-        this.message = in.readString();
-        this.exception = in.readString();
-        this.is_new = in.readByte() != 0;
     }
 
 }

@@ -12,10 +12,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class AboutActivity extends BaseActivity {
-    private Context context;
-
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

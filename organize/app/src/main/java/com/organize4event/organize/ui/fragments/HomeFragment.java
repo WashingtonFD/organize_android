@@ -11,11 +11,11 @@ import com.organize4event.organize.R;
 
 import butterknife.ButterKnife;
 
-public class HomeFragment extends BaseFragment{
+public class HomeFragment extends BaseFragment {
     private Context context;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
@@ -31,7 +31,7 @@ public class HomeFragment extends BaseFragment{
         return view;
     }
 
-    public void getData(){
+    public void getData() {
 
     }
 }

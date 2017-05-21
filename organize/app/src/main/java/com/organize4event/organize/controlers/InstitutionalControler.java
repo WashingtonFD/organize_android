@@ -3,7 +3,7 @@ package com.organize4event.organize.controlers;
 import android.content.Context;
 
 import com.organize4event.organize.commons.ApiClient;
-import com.organize4event.organize.listeners.ControllResponseListener;
+import com.organize4event.organize.listeners.ControlResponseListener;
 import com.organize4event.organize.models.Contact;
 import com.organize4event.organize.models.ContactType;
 import com.organize4event.organize.models.Institutional;
@@ -20,7 +20,7 @@ public class InstitutionalControler extends Controler {
         super(context);
     }
 
-    public void getInstitutional(String locale, final ControllResponseListener listener) {
+    public void getInstitutional(String locale, final ControlResponseListener listener) {
         InstitutionalService service = ApiClient.getRetrofit().create(InstitutionalService.class);
         service.getInstitutional(locale).enqueue(new Callback<Institutional>() {
             @Override
@@ -41,7 +41,7 @@ public class InstitutionalControler extends Controler {
         });
     }
 
-    public void getContactType(String locale, final ControllResponseListener listener) {
+    public void getContactType(String locale, final ControlResponseListener listener) {
         InstitutionalService service = ApiClient.getRetrofit().create(InstitutionalService.class);
         service.getContactType(locale).enqueue(new Callback<ArrayList<ContactType>>() {
             @Override
@@ -62,7 +62,7 @@ public class InstitutionalControler extends Controler {
         });
     }
 
-    public void getContact(String locale, final ControllResponseListener listener) {
+    public void getContact(String locale, final ControlResponseListener listener) {
         InstitutionalService service = ApiClient.getRetrofit().create(InstitutionalService.class);
         service.getContact(locale).enqueue(new Callback<ArrayList<Contact>>() {
             @Override

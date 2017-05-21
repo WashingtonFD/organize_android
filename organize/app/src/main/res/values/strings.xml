@@ -3,6 +3,7 @@
     <string name="facebook_app_id">1888152091466735</string>
 
     <string name="content_is_not_registered">Não possuo cadastro</string>
+    <string name="content_is_not_security_data">Não lembro meus dados de segurança</string>
     <string name="content_is_registered">Já tenho um cadastro</string>
     <string name="content_presentation">Morbi a metus. Phasellus enim erat, vestibulum vel, aliquam a, posuere eu, velit. Nullam sapien sem, ornare ac, nonummy non, lobortis a, enim. Nunc tincidunt ante vitae massa. Duis ante</string>
     <string name="content_term_use">Acesse o TERMO DE USO E PRIVACIDADE do sistema.</string>
@@ -86,6 +87,11 @@
     <string name="label_vision">Visão</string>
     <string name="label_welcome_fem">Bem vinda</string>
     <string name="label_welcome_masc">Bem vindo</string>
+    <string name="label_select_security_question">Selecione sua pergunta de segurança</string>
+    <string name="label_answer">Resposta Segura</string>
+    <string name="label_verify_security">Verificação de segurança</string>
+    <string name="label_security_questions">Perguntas de Segurança</string>
+
 
     <string name="message_call_phone">Deseja realizar uma ligação? Isto acarretará em gastos de consumo de acordo com seu plano em sua operadora.</string>
     <string name="message_confirmation_forgot_password">E-mail de recuperação de senha enviado com sucesso.</string>
@@ -96,6 +102,7 @@
     <string name="message_info_password">Entre 6 a 10 caracteres alfanuméricos.</string>
     <string name="message_list_plan">Sobre qual plano deseja informações?</string>
     <string name="message_whatsapp">É necessário ter o Whatsapp instalado para executar essa requisição.</string>
+    <string name="message_error_recovery_password">Não foi possível verificar seus dados, por favor entre em contato com o suporte Organize4Event para mais informações. \n E-mail: suporte@organize4event.com \n Telefone: (31) 9xxxx-xxxx</string>
 
     <string name="notification_login_brief_description">Acesso ao sistema</string>
     <string name="notification_login_description">Sistema acessado pela plataforma ANDROID em: </string>
@@ -107,6 +114,7 @@
     <string name="placeholder_password_confirm">Confirme sua senha.</string>
     <string name="placeholder_password">Insira a sua senha.</string>
     <string name="placeholder_validate_code">Insira o código de validação.</string>
+    <string name="placeholder_answer">Insira sua resposta segura.</string>
 
     <string name="validate_date">Data inválida.</string>
     <string name="validate_mail">E-mail inválido.</string>

@@ -22,7 +22,7 @@ import com.organize4event.organize.controlers.PlanControler;
 import com.organize4event.organize.enuns.ContactTypeEnum;
 import com.organize4event.organize.enuns.DialogTypeEnum;
 import com.organize4event.organize.enuns.PlanEnum;
-import com.organize4event.organize.listeners.ControllResponseListener;
+import com.organize4event.organize.listeners.ControlResponseListener;
 import com.organize4event.organize.listeners.CustomDialogListener;
 import com.organize4event.organize.listeners.SectionListener;
 import com.organize4event.organize.models.Contact;
@@ -44,13 +44,6 @@ import butterknife.OnClick;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 
 public class InstitutionalFragment extends BaseFragment {
-    private Context context;
-    private FirstAccess firstAccess;
-    private ArrayList<Plan> plans;
-    private ArrayList<Contact> contacts;
-    private Institutional institutional;
-    private SectionedRecyclerViewAdapter adapter;
-
     @Bind(R.id.contentFilter)
     RelativeLayout contentFilter;
     @Bind(R.id.txtDescription)
@@ -75,9 +68,15 @@ public class InstitutionalFragment extends BaseFragment {
     TextView txtPlanPremium;
     @Bind(R.id.listContacts)
     RecyclerView listContacts;
+    private Context context;
+    private FirstAccess firstAccess;
+    private ArrayList<Plan> plans;
+    private ArrayList<Contact> contacts;
+    private Institutional institutional;
+    private SectionedRecyclerViewAdapter adapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_institutional, container, false);
         ButterKnife.bind(this, view);
 
@@ -93,9 +92,9 @@ public class InstitutionalFragment extends BaseFragment {
         return view;
     }
 
-    public void getInstitutional(){
+    public void getInstitutional() {
         showLoading();
-        new InstitutionalControler(context).getInstitutional(firstAccess.getLocale(), new ControllResponseListener() {
+        new InstitutionalControler(context).getInstitutional(firstAccess.getLocale(), new ControlResponseListener() {
             @Override
             public void success(Object object) {
                 institutional = (Institutional) object;
@@ -114,21 +113,19 @@ public class InstitutionalFragment extends BaseFragment {
         });
     }
 
-    public void getPlans(){
-        new PlanControler(context).getPlan(firstAccess.getLocale(), new ControllResponseListener() {
+    public void getPlans() {
+        new PlanControler(context).getPlan(firstAccess.getLocale(), new ControlResponseListener() {
             @Override
             public void success(Object object) {
                 plans = (ArrayList<Plan>) object;
-                for (Plan plan : plans){
-                    if (plan.getCode_enum() == PlanEnum.FREE.getValue()){
+                for (Plan plan : plans) {
+                    if (plan.getCode_enum() == PlanEnum.FREE.getValue()) {
                         txtFree.setText(plan.getName());
                         txtPlanFree.setText(plan.getDescription());
-                    }
-                    else if (plan.getCode_enum() == PlanEnum.BASIC.getValue()){
+                    } else if (plan.getCode_enum() == PlanEnum.BASIC.getValue()) {
                         txtBasic.setText(plan.getName());
                         txtPlanBasic.setText(plan.getDescription());
-                    }
-                    else{
+                    } else {
                         txtPremium.setText(plan.getName());
                         txtPlanPremium.setText(plan.getDescription());
                     }
@@ -144,20 +141,19 @@ public class InstitutionalFragment extends BaseFragment {
         });
     }
 
-    public void getContacts(){
-        new InstitutionalControler(context).getContact(firstAccess.getLocale(), new ControllResponseListener() {
+    public void getContacts() {
+        new InstitutionalControler(context).getContact(firstAccess.getLocale(), new ControlResponseListener() {
             @Override
             public void success(Object object) {
                 contacts = (ArrayList<Contact>) object;
                 adapter = new SectionedRecyclerViewAdapter();
                 TreeMap<String, ContactSection> sections = new TreeMap<String, ContactSection>();
-                for(Contact contact : contacts){
+                for (Contact contact : contacts) {
                     ContactSection contactSection;
                     String key = contact.getContact_type().getName();
-                    if (sections.containsKey(key)){
+                    if (sections.containsKey(key)) {
                         contactSection = sections.get(key);
-                    }
-                    else {
+                    } else {
                         contactSection = new ContactSection(context, new SectionListener() {
                             @Override
                             public void onClick(Object object) {
@@ -166,13 +162,13 @@ public class InstitutionalFragment extends BaseFragment {
                             }
                         });
                     }
-                    if (contact.is_active()){
+                    if (contact.is_active()) {
                         contactSection.addItem(contact);
                         sections.put(key, contactSection);
                     }
                 }
 
-                for (Map.Entry<String, ContactSection> entry : sections.entrySet()){
+                for (Map.Entry<String, ContactSection> entry : sections.entrySet()) {
                     ContactSection value = entry.getValue();
                     adapter.addSection(value);
                 }
@@ -191,9 +187,9 @@ public class InstitutionalFragment extends BaseFragment {
         });
     }
 
-    public void getPlanId(int code_enum){
+    public void getPlanId(int code_enum) {
         showLoading();
-        new PlanControler(context).getPlanId(firstAccess.getLocale(), code_enum, new ControllResponseListener() {
+        new PlanControler(context).getPlanId(firstAccess.getLocale(), code_enum, new ControlResponseListener() {
             @Override
             public void success(Object object) {
                 hideLoading();
@@ -210,9 +206,9 @@ public class InstitutionalFragment extends BaseFragment {
         });
     }
 
-    public void startContact(Contact contact){
-        ContactTypeEnum contact_type = ContactTypeEnum.values()[contact.getContact_type().getCode_enum()-1];
-        switch (contact_type){
+    public void startContact(Contact contact) {
+        ContactTypeEnum contact_type = ContactTypeEnum.values()[contact.getContact_type().getCode_enum() - 1];
+        switch (contact_type) {
             case EMAIL:
                 sendEmail(contact);
                 break;
@@ -231,17 +227,17 @@ public class InstitutionalFragment extends BaseFragment {
         }
     }
 
-    public void sendEmail(Contact contact){
+    public void sendEmail(Contact contact) {
         Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
         emailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         emailIntent.setType("vnd.android.cursor.item/email");
-        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] {contact.getContact()});
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{contact.getContact()});
         emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, context.getString(R.string.label_subject));
         emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "");
         startActivity(Intent.createChooser(emailIntent, context.getString(R.string.label_send_mail)));
     }
 
-    public void callPhone(final Contact contact){
+    public void callPhone(final Contact contact) {
         showDialogMessage(DialogTypeEnum.POSITIVE_AND_NEGATIVE, context.getString(R.string.label_call), context.getString(R.string.message_call_phone), new CustomDialogListener() {
             @Override
             public void positiveOnClick(MaterialDialog dialog) {
@@ -257,7 +253,7 @@ public class InstitutionalFragment extends BaseFragment {
         });
     }
 
-    public void sendWhasappMessage(Contact contact){
+    public void sendWhasappMessage(Contact contact) {
         Uri uri = Uri.parse("smsto:" + contact.getContact());
         Intent sendIntent = new Intent(Intent.ACTION_SENDTO, uri);
         sendIntent.setPackage("com.whatsapp");
@@ -265,19 +261,19 @@ public class InstitutionalFragment extends BaseFragment {
         //TODO: MELHORAR ISTO - WHATSAPP
     }
 
-    public void openPageFacebook(Context context){
+    public void openPageFacebook(Context context) {
         try {
             context.getPackageManager().getPackageInfo("com.facebook.katana", 0);
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/1881281328782009")));
         } catch (Exception e) {
-            startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.facebook.com/organize4event")));
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/organize4event")));
         }
     }
 
     @OnClick({R.id.txtFree, R.id.txtBasic, R.id.txtPremium, R.id.txtSite})
-    public void actionStartPlanDetail(View view){
+    public void actionStartPlanDetail(View view) {
         Plan plan = plans.get(0);
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.txtFree:
                 getPlanId(PlanEnum.FREE.getValue());
                 break;
