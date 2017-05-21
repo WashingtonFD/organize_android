@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.PreferencesManager;
-import com.organize4event.organize.controllers.FirstAccessControler;
+import com.organize4event.organize.controlers.FirstAccessControler;
 import com.organize4event.organize.listeners.ControllResponseListener;
 import com.organize4event.organize.models.FirstAccess;
 import com.organize4event.organize.models.User;

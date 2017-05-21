@@ -14,7 +14,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.CustomValidate;
 import com.organize4event.organize.commons.PreferencesManager;
-import com.organize4event.organize.controllers.PlanControler;
+import com.organize4event.organize.controlers.PlanControler;
 import com.organize4event.organize.enuns.PlanEnum;
 import com.organize4event.organize.listeners.ControllResponseListener;
 import com.organize4event.organize.listeners.ToolbarListener;

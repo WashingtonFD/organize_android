@@ -26,7 +26,7 @@ import com.mobsandgeeks.saripaar.ValidationError;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.Constants;
 import com.organize4event.organize.commons.WaitDialog;
-import com.organize4event.organize.controllers.NotificationControler;
+import com.organize4event.organize.controlers.NotificationControler;
 import com.organize4event.organize.enuns.DialogTypeEnum;
 import com.organize4event.organize.listeners.ControllResponseListener;
 import com.organize4event.organize.listeners.CustomDialogListener;

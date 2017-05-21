@@ -1,4 +1,4 @@
-package com.organize4event.organize.controllers;
+package com.organize4event.organize.controlers;
 
 import android.content.Context;
 

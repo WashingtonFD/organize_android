@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.organize4event.organize.R;
-import com.organize4event.organize.controllers.NotificationControler;
+import com.organize4event.organize.controlers.NotificationControler;
 import com.organize4event.organize.listeners.ControllResponseListener;
 import com.organize4event.organize.listeners.RecyclerViewListener;
 import com.organize4event.organize.listeners.ToolbarListener;

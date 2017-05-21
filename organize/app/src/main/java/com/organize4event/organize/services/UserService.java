@@ -24,6 +24,12 @@ public interface UserService {
             @Path("code_enum") int code_enum);
 
     @FormUrlEncoded
+    @POST("user/mail")
+    Call<User> getUserMail(
+            @Field("mail") String mail
+    );
+
+    @FormUrlEncoded
     @POST("user/save")
     Call<User> saveUser(
             @Field("user_type") int user_type_id,
