@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.PreferencesManager;
-import com.organize4event.organize.controllers.FirstAccessControll;
+import com.organize4event.organize.controllers.FirstAccessControler;
 import com.organize4event.organize.listeners.ControllResponseListener;
 import com.organize4event.organize.models.FirstAccess;
 import com.organize4event.organize.models.User;
@@ -57,7 +57,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     protected void getFirstAccess(){
-        new FirstAccessControll(context).getFirstAccess(device_id, new ControllResponseListener() {
+        new FirstAccessControler(context).getFirstAccess(device_id, new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 firstAccess = (FirstAccess) object;

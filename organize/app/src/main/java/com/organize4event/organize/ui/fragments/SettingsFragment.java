@@ -16,8 +16,8 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.AppApplication;
-import com.organize4event.organize.controllers.PlanControll;
-import com.organize4event.organize.controllers.SettingsControll;
+import com.organize4event.organize.controllers.PlanControler;
+import com.organize4event.organize.controllers.SettingsControler;
 import com.organize4event.organize.enuns.SettingsEnum;
 import com.organize4event.organize.listeners.ControllResponseListener;
 import com.organize4event.organize.listeners.MultipleRecyclerViewListener;
@@ -82,7 +82,7 @@ public class SettingsFragment extends BaseFragment {
 
     protected void getData() {
         showLoading();
-        new SettingsControll(context).getUserSettings(user.getId(), new ControllResponseListener() {
+        new SettingsControler(context).getUserSettings(user.getId(), new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 hideLoading();
@@ -148,7 +148,7 @@ public class SettingsFragment extends BaseFragment {
     }
 
     public void getPlans() {
-        new PlanControll(context).getPlan(firstAccess.getLocale(), new ControllResponseListener() {
+        new PlanControler(context).getPlan(firstAccess.getLocale(), new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 plans = (ArrayList<Plan>) object;
@@ -164,7 +164,7 @@ public class SettingsFragment extends BaseFragment {
     }
 
     public void checkingUserSettings(final UserSetting userSetting, int checking) {
-        new SettingsControll(context).checkingUserSettings(userSetting, checking, new ControllResponseListener() {
+        new SettingsControler(context).checkingUserSettings(userSetting, checking, new ControllResponseListener() {
             @Override
             public void success(Object object) {
 

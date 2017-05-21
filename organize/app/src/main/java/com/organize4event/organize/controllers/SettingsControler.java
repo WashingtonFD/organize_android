@@ -14,8 +14,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SettingsControll extends Controll {
-    public SettingsControll(Context context) {
+public class SettingsControler extends Controler {
+    public SettingsControler(Context context) {
         super(context);
     }
 

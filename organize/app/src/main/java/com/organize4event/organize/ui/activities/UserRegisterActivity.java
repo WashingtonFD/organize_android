@@ -29,11 +29,11 @@ import com.mobsandgeeks.saripaar.annotation.Password;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.CircleTransform;
 import com.organize4event.organize.commons.Mask;
-import com.organize4event.organize.controllers.FirstAccessControll;
-import com.organize4event.organize.controllers.PrivacyControll;
-import com.organize4event.organize.controllers.SettingsControll;
-import com.organize4event.organize.controllers.TermUseControll;
-import com.organize4event.organize.controllers.UserControll;
+import com.organize4event.organize.controllers.FirstAccessControler;
+import com.organize4event.organize.controllers.PrivacyControler;
+import com.organize4event.organize.controllers.SettingsControler;
+import com.organize4event.organize.controllers.TermUseControler;
+import com.organize4event.organize.controllers.UserControler;
 import com.organize4event.organize.enuns.DialogTypeEnum;
 import com.organize4event.organize.enuns.PrivacyEnum;
 import com.organize4event.organize.enuns.UserTypeEnum;
@@ -188,7 +188,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     protected void getUserType() {
         showLoading();
         final int code_user_type = UserTypeEnum.DEFAULT.getValue();
-        new UserControll(context).getUserType(firstAccess.getLocale(), code_user_type, new ControllResponseListener() {
+        new UserControler(context).getUserType(firstAccess.getLocale(), code_user_type, new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 userType = (UserType) object;
@@ -203,7 +203,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     }
 
     protected void getPrivacy() {
-        new PrivacyControll(context).getPrivacy(firstAccess.getLocale(), new ControllResponseListener() {
+        new PrivacyControler(context).getPrivacy(firstAccess.getLocale(), new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 privacies = (ArrayList<Privacy>) object;
@@ -242,7 +242,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     }
 
     protected void saveUser() {
-        new UserControll(context).saveUser(user, new ControllResponseListener() {
+        new UserControler(context).saveUser(user, new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 user = (User) object;
@@ -262,7 +262,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
     protected void saveFirstAccess() {
         firstAccess.setUser(user);
-        new FirstAccessControll(context).saveFirstAccess(firstAccess, new ControllResponseListener() {
+        new FirstAccessControler(context).saveFirstAccess(firstAccess, new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 saveUserTerm();
@@ -283,7 +283,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
             term_accept = 1;
         }
 
-        new TermUseControll(context).saveUserTerm(userTerm, term_accept, new ControllResponseListener() {
+        new TermUseControler(context).saveUserTerm(userTerm, term_accept, new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 userTerm = (UserTerm) object;
@@ -299,7 +299,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     }
 
     protected void getSettings() {
-        new SettingsControll(context).getSettings(firstAccess.getLocale(), new ControllResponseListener() {
+        new SettingsControler(context).getSettings(firstAccess.getLocale(), new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 settings = (ArrayList<Setting>) object;
@@ -324,7 +324,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         userSetting.setSetting(setting);
         userSetting.setChecking(setting.isCheck_default());
 
-        new SettingsControll(context).saveUserSettings(userSetting, checking, new ControllResponseListener() {
+        new SettingsControler(context).saveUserSettings(userSetting, checking, new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 userSetting = (UserSetting) object;
@@ -396,7 +396,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     }
 
     public void uploadPicture() {
-        new UserControll(context).uploadProfilePicture(user, file, new ControllResponseListener() {
+        new UserControler(context).uploadProfilePicture(user, file, new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 saveFirstAccess();
@@ -472,8 +472,6 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-
         EasyImage.handleActivityResult(requestCode, resultCode, data, (Activity) context, new DefaultCallback() {
             @Override
             public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {

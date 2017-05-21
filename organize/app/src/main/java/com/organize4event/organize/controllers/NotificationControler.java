@@ -16,8 +16,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NotificationControll extends Controll {
-    public NotificationControll(Context context) {
+public class NotificationControler extends Controler {
+    public NotificationControler(Context context) {
         super(context);
     }
 

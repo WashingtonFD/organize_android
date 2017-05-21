@@ -19,8 +19,8 @@ import com.organize4event.organize.R;
 import com.organize4event.organize.commons.AppApplication;
 import com.organize4event.organize.commons.CircleTransform;
 import com.organize4event.organize.commons.PreferencesManager;
-import com.organize4event.organize.controllers.FirstAccessControll;
-import com.organize4event.organize.controllers.NotificationControll;
+import com.organize4event.organize.controllers.FirstAccessControler;
+import com.organize4event.organize.controllers.NotificationControler;
 import com.organize4event.organize.listeners.ControllResponseListener;
 import com.organize4event.organize.listeners.ToolbarListener;
 import com.organize4event.organize.models.FirstAccess;
@@ -100,7 +100,7 @@ public class HomeActivity extends BaseActivity {
     }
 
     protected void getData(){
-        new FirstAccessControll(context).getFirstAccess(device_id, new ControllResponseListener() {
+        new FirstAccessControler(context).getFirstAccess(device_id, new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 firstAccess = (FirstAccess) object;
@@ -117,7 +117,7 @@ public class HomeActivity extends BaseActivity {
     }
 
     protected void getNotifications(){
-        new NotificationControll(context).getUserNotifications(firstAccess.getUser().getId(), new ControllResponseListener() {
+        new NotificationControler(context).getUserNotifications(firstAccess.getUser().getId(), new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 userNotifications = (ArrayList<UserNotification>) object;

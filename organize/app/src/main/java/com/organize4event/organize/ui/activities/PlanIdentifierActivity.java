@@ -14,7 +14,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.CustomValidate;
 import com.organize4event.organize.commons.PreferencesManager;
-import com.organize4event.organize.controllers.PlanControll;
+import com.organize4event.organize.controllers.PlanControler;
 import com.organize4event.organize.enuns.PlanEnum;
 import com.organize4event.organize.listeners.ControllResponseListener;
 import com.organize4event.organize.listeners.ToolbarListener;
@@ -111,7 +111,7 @@ public class PlanIdentifierActivity extends BaseActivity {
     }
 
     protected void getPlan(){
-        new PlanControll(context).getPlan(firstAccess.getLocale(), new ControllResponseListener() {
+        new PlanControler(context).getPlan(firstAccess.getLocale(), new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 plans = (ArrayList<Plan>) object;

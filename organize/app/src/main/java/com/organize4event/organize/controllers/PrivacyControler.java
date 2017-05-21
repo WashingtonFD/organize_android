@@ -13,8 +13,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PrivacyControll extends Controll {
-    public PrivacyControll(Context context) {
+public class PrivacyControler extends Controler {
+    public PrivacyControler(Context context) {
         super(context);
     }
 

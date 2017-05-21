@@ -13,8 +13,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PlanControll extends Controll {
-    public PlanControll(Context context) {
+public class PlanControler extends Controler {
+    public PlanControler(Context context) {
         super(context);
     }
 

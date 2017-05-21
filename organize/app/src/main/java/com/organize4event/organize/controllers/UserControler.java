@@ -17,8 +17,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class UserControll extends Controll {
-    public UserControll(Context context) {
+public class UserControler extends Controler {
+    public UserControler(Context context) {
         super(context);
     }
 

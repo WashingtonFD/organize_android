@@ -17,8 +17,8 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.AppApplication;
-import com.organize4event.organize.controllers.InstitutionalControll;
-import com.organize4event.organize.controllers.PlanControll;
+import com.organize4event.organize.controllers.InstitutionalControler;
+import com.organize4event.organize.controllers.PlanControler;
 import com.organize4event.organize.enuns.ContactTypeEnum;
 import com.organize4event.organize.enuns.DialogTypeEnum;
 import com.organize4event.organize.enuns.PlanEnum;
@@ -95,7 +95,7 @@ public class InstitutionalFragment extends BaseFragment {
 
     public void getInstitutional(){
         showLoading();
-        new InstitutionalControll(context).getInstitutional(firstAccess.getLocale(), new ControllResponseListener() {
+        new InstitutionalControler(context).getInstitutional(firstAccess.getLocale(), new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 institutional = (Institutional) object;
@@ -115,7 +115,7 @@ public class InstitutionalFragment extends BaseFragment {
     }
 
     public void getPlans(){
-        new PlanControll(context).getPlan(firstAccess.getLocale(), new ControllResponseListener() {
+        new PlanControler(context).getPlan(firstAccess.getLocale(), new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 plans = (ArrayList<Plan>) object;
@@ -145,7 +145,7 @@ public class InstitutionalFragment extends BaseFragment {
     }
 
     public void getContacts(){
-        new InstitutionalControll(context).getContact(firstAccess.getLocale(), new ControllResponseListener() {
+        new InstitutionalControler(context).getContact(firstAccess.getLocale(), new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 contacts = (ArrayList<Contact>) object;
@@ -193,7 +193,7 @@ public class InstitutionalFragment extends BaseFragment {
 
     public void getPlanId(int code_enum){
         showLoading();
-        new PlanControll(context).getPlanId(firstAccess.getLocale(), code_enum, new ControllResponseListener() {
+        new PlanControler(context).getPlanId(firstAccess.getLocale(), code_enum, new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 hideLoading();

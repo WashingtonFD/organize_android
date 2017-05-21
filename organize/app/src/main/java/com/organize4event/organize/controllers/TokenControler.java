@@ -16,8 +16,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TokenControll extends Controll {
-    public TokenControll(Context context) {
+public class TokenControler extends Controler {
+    public TokenControler(Context context) {
         super(context);
     }
 

@@ -15,8 +15,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class InstitutionalControll extends Controll {
-    public InstitutionalControll(Context context) {
+public class InstitutionalControler extends Controler {
+    public InstitutionalControler(Context context) {
         super(context);
     }
 

@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.organize4event.organize.R;
-import com.organize4event.organize.controllers.NotificationControll;
+import com.organize4event.organize.controllers.NotificationControler;
 import com.organize4event.organize.listeners.ControllResponseListener;
 import com.organize4event.organize.listeners.RecyclerViewListener;
 import com.organize4event.organize.listeners.ToolbarListener;
@@ -86,7 +86,7 @@ public class NotificationsActivity extends BaseActivity {
     }
 
     public void readUserNotification(final UserNotification userNotification, int is_read, final boolean clearAll) {
-        new NotificationControll(context).readUserNotification(userNotification, is_read, new ControllResponseListener() {
+        new NotificationControler(context).readUserNotification(userNotification, is_read, new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 if (clearAll){

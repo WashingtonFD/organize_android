@@ -13,8 +13,8 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.AppApplication;
 import com.organize4event.organize.commons.PreferencesManager;
-import com.organize4event.organize.controllers.PrivacyControll;
-import com.organize4event.organize.controllers.UserControll;
+import com.organize4event.organize.controllers.PrivacyControler;
+import com.organize4event.organize.controllers.UserControler;
 import com.organize4event.organize.enuns.DialogTypeEnum;
 import com.organize4event.organize.enuns.PrivacyEnum;
 import com.organize4event.organize.listeners.ControllResponseListener;
@@ -88,7 +88,7 @@ public class PrivacyActivity extends BaseActivity {
     }
 
     protected void getPrivacy() {
-        new PrivacyControll(context).getPrivacy(firstAccess.getLocale(), new ControllResponseListener() {
+        new PrivacyControler(context).getPrivacy(firstAccess.getLocale(), new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 privacies = (ArrayList<Privacy>) object;
@@ -143,7 +143,7 @@ public class PrivacyActivity extends BaseActivity {
     }
 
     protected void saveUserPrivacy() {
-        new UserControll(context).updateUserPrivacy(user, new ControllResponseListener() {
+        new UserControler(context).updateUserPrivacy(user, new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 User user = (User) object;

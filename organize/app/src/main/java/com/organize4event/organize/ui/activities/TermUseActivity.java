@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.PreferencesManager;
-import com.organize4event.organize.controllers.TermUseControll;
+import com.organize4event.organize.controllers.TermUseControler;
 import com.organize4event.organize.listeners.ControllResponseListener;
 import com.organize4event.organize.listeners.ToolbarListener;
 import com.organize4event.organize.models.FirstAccess;
@@ -71,7 +71,7 @@ public class TermUseActivity extends BaseActivity {
 
     protected void getTermUse(){
         showLoading();
-        new TermUseControll(context).getTermUse(new ControllResponseListener() {
+        new TermUseControler(context).getTermUse(new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 hideLoading();

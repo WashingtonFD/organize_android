@@ -26,7 +26,7 @@ import com.mobsandgeeks.saripaar.ValidationError;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.Constants;
 import com.organize4event.organize.commons.WaitDialog;
-import com.organize4event.organize.controllers.NotificationControll;
+import com.organize4event.organize.controllers.NotificationControler;
 import com.organize4event.organize.enuns.DialogTypeEnum;
 import com.organize4event.organize.listeners.ControllResponseListener;
 import com.organize4event.organize.listeners.CustomDialogListener;
@@ -312,7 +312,7 @@ public class BaseActivity extends AppCompatActivity {
         userNotification.setDescription(description + " " + simpleDateFormat.format(notification_date));
         userNotification.setNotification_date(notification_date);
 
-        new NotificationControll(context).saveUserNotification(userNotification, new ControllResponseListener() {
+        new NotificationControler(context).saveUserNotification(userNotification, new ControllResponseListener() {
             @Override
             public void success(Object object) {
             }

@@ -5,11 +5,11 @@ import android.content.Context;
 import com.organize4event.organize.R;
 import com.organize4event.organize.models.ErrorReturn;
 
-public class Controll {
+public class Controler {
 
     Context context;
 
-    public Controll(Context context) {
+    public Controler(Context context) {
         this.context = context;
     }
 

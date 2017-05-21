@@ -31,9 +31,9 @@ import com.organize4event.organize.R;
 import com.organize4event.organize.commons.AppApplication;
 import com.organize4event.organize.commons.CustomValidate;
 import com.organize4event.organize.commons.PreferencesManager;
-import com.organize4event.organize.controllers.FirstAccessControll;
-import com.organize4event.organize.controllers.TokenControll;
-import com.organize4event.organize.controllers.UserControll;
+import com.organize4event.organize.controllers.FirstAccessControler;
+import com.organize4event.organize.controllers.TokenControler;
+import com.organize4event.organize.controllers.UserControler;
 import com.organize4event.organize.enuns.AccessPlatformEnum;
 import com.organize4event.organize.enuns.DialogTypeEnum;
 import com.organize4event.organize.enuns.LoginTypeEnum;
@@ -194,7 +194,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
     protected void login(){
         showLoading();
-        new TokenControll(context).login(txtMail.getText().toString(), txtPassword.getText().toString(), new ControllResponseListener() {
+        new TokenControler(context).login(txtMail.getText().toString(), txtPassword.getText().toString(), new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 hideLoading();
@@ -232,7 +232,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         token.setAccess_platform(accessPlatform);
         token.setAccess_date(new Date());
         token.setKeep_logged(keep_logged);
-        new TokenControll(context).saveToken(token, user.getId(), keep_logged_int, new ControllResponseListener() {
+        new TokenControler(context).saveToken(token, user.getId(), keep_logged_int, new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 token = (Token) object;
@@ -291,7 +291,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                     user.setFull_name(object.getString("name"));
                     user.setMail(object.getString("email"));
                     user.setProfile_picture(picture_profile);
-                    new UserControll(context).updateUserProfilePicture(user, new ControllResponseListener() {
+                    new UserControler(context).updateUserProfilePicture(user, new ControllResponseListener() {
                         @Override
                         public void success(Object object) {
                             User newUser = (User) object;
@@ -334,7 +334,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
     protected void getAccessPlatform(){
         showLoading();
-        new FirstAccessControll(context).getAccessPlatform(firstAccess.getLocale(), code_enum_platform, new ControllResponseListener() {
+        new FirstAccessControler(context).getAccessPlatform(firstAccess.getLocale(), code_enum_platform, new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 accessPlatform = (AccessPlatform) object;
@@ -349,7 +349,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     }
 
     protected void getLoginType(){
-        new TokenControll(context).getLoginType(firstAccess.getLocale(), code_enum, new ControllResponseListener() {
+        new TokenControler(context).getLoginType(firstAccess.getLocale(), code_enum, new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 loginType = (LoginType) object;
