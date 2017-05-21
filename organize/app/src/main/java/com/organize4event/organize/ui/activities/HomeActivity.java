@@ -21,9 +21,11 @@ import com.organize4event.organize.commons.CircleTransform;
 import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.controlers.FirstAccessControler;
 import com.organize4event.organize.controlers.NotificationControler;
+import com.organize4event.organize.controlers.TokenControler;
 import com.organize4event.organize.listeners.ControlResponseListener;
 import com.organize4event.organize.listeners.ToolbarListener;
 import com.organize4event.organize.models.FirstAccess;
+import com.organize4event.organize.models.Token;
 import com.organize4event.organize.models.UserNotification;
 import com.organize4event.organize.ui.fragments.HomeFragment;
 import com.organize4event.organize.ui.fragments.InstitutionalFragment;
@@ -32,6 +34,7 @@ import com.organize4event.organize.ui.fragments.SettingsFragment;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -56,6 +59,7 @@ public class HomeActivity extends BaseActivity {
     private Context context;
     private String device_id;
     private FirstAccess firstAccess;
+    private Token token;
     private ArrayList<UserNotification> userNotifications = new ArrayList<>();
 
     @Override
@@ -101,6 +105,7 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void success(Object object) {
                 firstAccess = (FirstAccess) object;
+                token = firstAccess.getUser().getToken();
                 txtUserName.setText(firstAccess.getUser().getFull_name());
                 Glide.with(context).load(firstAccess.getUser().getProfile_picture()).centerCrop().transform(new CircleTransform(context)).crossFade().into(imgUserAvatar);
                 getNotifications();
@@ -163,10 +168,29 @@ public class HomeActivity extends BaseActivity {
     }
 
     public void logout() {
-        PreferencesManager.isLogout();
-        firstAccess.getUser().getToken().setKeep_logged(false);
-        starLoginActivity();
+        saveToken();
+    }
 
+    protected void saveToken() {
+        Token newToken = new Token();
+        newToken.setLogin_type(token.getLogin_type());
+        newToken.setAccess_platform(token.getAccess_platform());
+        newToken.setAccess_date(new Date());
+        newToken.setKeep_logged(false);
+        new TokenControler(context).saveToken(newToken, firstAccess.getUser().getId(), 0, new ControlResponseListener() {
+            @Override
+            public void success(Object object) {
+                token = (Token) object;
+                firstAccess.getUser().setToken(token);
+                PreferencesManager.saveFirstAccess(firstAccess);
+                starLoginActivity();
+            }
+
+            @Override
+            public void fail(Error error) {
+                returnErrorMessage(error, context);
+            }
+        });
     }
 
     @OnClick(R.id.imgNotification)

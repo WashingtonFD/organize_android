@@ -172,7 +172,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                 containerForgotPassword.setVisibility(View.GONE);
                 break;
             case R.id.txtIsNotRegistered:
-                startActivity(new Intent(context, ApresentationActivity.class));
+                starApresentationActivity();
                 break;
         }
     }
@@ -395,6 +395,13 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
     protected void starWelcomeActivity() {
         Intent intent = new Intent(context, WelcomeActivity.class);
+        intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
+        startActivity(intent);
+        finish();
+    }
+
+    protected void starApresentationActivity() {
+        Intent intent = new Intent(context, ApresentationActivity.class);
         intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
         startActivity(intent);
         finish();
