@@ -100,7 +100,7 @@ public class SplashActivity extends BaseActivity {
         else if(user.getUser_type() == null){
             startUserRegisterActivity();
         }
-        else if (user.getToken() == null || !user.getToken().isKeep_logged()){
+        else if (user.getToken() == null || !user.getToken().isKeep_logged() || !PreferencesManager.isLogged()){
             starLoginActivity();
         }
         else if (PreferencesManager.isHideWelcome()){
