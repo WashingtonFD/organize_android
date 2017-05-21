@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.organize4event.organize.R;
 import com.organize4event.organize.controlers.UserSecurityControler;
 import com.organize4event.organize.enuns.DialogTypeEnum;
@@ -45,6 +46,10 @@ public class VerifySecurityActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify_security);
         ButterKnife.bind(this);
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "VERIFY SECURITY");
+        FirebaseAnalytics.getInstance(this).logEvent(FirebaseAnalytics.Event.VIEW_ITEM, bundle);
 
         context = VerifySecurityActivity.this;
         user = Parcels.unwrap(getIntent().getExtras().getParcelable("user"));
@@ -87,7 +92,7 @@ public class VerifySecurityActivity extends BaseActivity {
     }
 
     @OnClick(R.id.btnSend)
-    public void actionSend(){
+    public void actionSend() {
         String mail = user.getMail();
         int user_security_id = securityQuestionSelected.getId();
         String user_answer = txtAnswer.getText().toString();
@@ -96,8 +101,8 @@ public class VerifySecurityActivity extends BaseActivity {
         new UserSecurityControler(context).sendMail(mail, user_security_id, user_answer, new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                ErrorReturn errorReturn = (ErrorReturn)object;
-                if (errorReturn.getCode() == 0){
+                ErrorReturn errorReturn = (ErrorReturn) object;
+                if (errorReturn.getCode() == 0) {
                     showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), context.getString(R.string.message_success_recovery_password), new CustomDialogListener() {
                         @Override
                         public void positiveOnClick(MaterialDialog dialog) {
@@ -110,8 +115,7 @@ public class VerifySecurityActivity extends BaseActivity {
 
                         }
                     });
-                }
-                else{
+                } else {
                     showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), errorReturn.getException(), new CustomDialogListener() {
                         @Override
                         public void positiveOnClick(MaterialDialog dialog) {
@@ -135,7 +139,7 @@ public class VerifySecurityActivity extends BaseActivity {
     }
 
     @OnClick(R.id.txtIsNotSecurityData)
-    public void actionIsNotSecurityData(){
+    public void actionIsNotSecurityData() {
         showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), context.getString(R.string.message_not_security_data), new CustomDialogListener() {
             @Override
             public void positiveOnClick(MaterialDialog dialog) {
@@ -153,7 +157,8 @@ public class VerifySecurityActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == RESULT_CODE_SELECT_SECURITYQUESTION) {
-            securityQuestionSelected = Parcels.unwrap(data.getExtras().getParcelable("securityQuestion"));;
+            securityQuestionSelected = Parcels.unwrap(data.getExtras().getParcelable("securityQuestion"));
+            ;
             selectSecurityQuestion.setText(securityQuestionSelected.getSecurity_question());
         }
     }

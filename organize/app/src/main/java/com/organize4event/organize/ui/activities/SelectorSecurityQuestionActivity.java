@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.organize4event.organize.R;
 import com.organize4event.organize.controlers.UserSecurityControler;
 import com.organize4event.organize.listeners.ControlResponseListener;
@@ -40,6 +41,10 @@ public class SelectorSecurityQuestionActivity extends BaseActivity {
         setContentView(R.layout.activity_selector_security_question);
         ButterKnife.bind(this);
 
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "SECURITY QUESTION LIST");
+        FirebaseAnalytics.getInstance(this).logEvent(FirebaseAnalytics.Event.VIEW_ITEM, bundle);
+
         context = SelectorSecurityQuestionActivity.this;
         user_id = getIntent().getExtras().getInt("user_id");
         securityQuestionSelected = Parcels.unwrap(getIntent().getExtras().getParcelable("securityQuestion"));
@@ -56,7 +61,7 @@ public class SelectorSecurityQuestionActivity extends BaseActivity {
         getData();
     }
 
-    public void getData() {
+    protected void getData() {
         new UserSecurityControler(context).getSecurityQuestions(user_id, new ControlResponseListener() {
             @Override
             public void success(Object object) {

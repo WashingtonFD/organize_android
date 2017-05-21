@@ -41,17 +41,16 @@ public class UserSecurityControler extends Controler {
         });
     }
 
-    public void sendMail(String mail, int user_security_id, String user_answer, final ControlResponseListener listener){
+    public void sendMail(String mail, int user_security_id, String user_answer, final ControlResponseListener listener) {
         UserSecurityService service = ApiClient.getRetrofit().create(UserSecurityService.class);
         service.sendMail(mail, user_security_id, user_answer).enqueue(new Callback<ErrorReturn>() {
             @Override
             public void onResponse(Call<ErrorReturn> call, Response<ErrorReturn> response) {
                 ErrorReturn errorReturn = (ErrorReturn) response.body();
                 Error error = parserError(errorReturn);
-                if (error == null){
+                if (error == null) {
                     listener.success(errorReturn);
-                }
-                else{
+                } else {
                     listener.fail(error);
                 }
             }
