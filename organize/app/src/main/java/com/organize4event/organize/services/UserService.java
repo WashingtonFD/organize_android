@@ -50,7 +50,7 @@ public interface UserService {
     @Multipart
     @POST("user/{user_id}/photo")
     Call<ErrorReturn> uploadPhoto(@Path("user_id") int user_id,
-                                  @Part("photo") MultipartBody.Part photo);
+                                  @Part MultipartBody.Part photo);
 
     @FormUrlEncoded
     @POST("user/{user_id}")

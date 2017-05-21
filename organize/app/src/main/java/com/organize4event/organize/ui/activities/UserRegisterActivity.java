@@ -5,6 +5,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -50,7 +53,10 @@ import com.organize4event.organize.models.UserType;
 
 import org.parceler.Parcels;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -396,7 +402,8 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     }
 
     public void uploadPicture() {
-        new UserControler(context).uploadProfilePicture(user, file, new ControllResponseListener() {
+        File photo = resizeImage(file);
+        new UserControler(context).uploadProfilePicture(user, photo, new ControllResponseListener() {
             @Override
             public void success(Object object) {
                 saveFirstAccess();
@@ -407,6 +414,37 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
                 returnErrorMessage(error, context);
             }
         });
+    }
+
+    public File resizeImage(File file){
+        Bitmap bFile = BitmapFactory.decodeFile(file.getPath());
+        int width = bFile.getWidth();
+        int height = bFile.getHeight();
+
+        float newWidth = ((float) 300)/width;
+        float newHeigth = ((float) 300)/height;
+
+        Matrix matrix = new Matrix();
+        matrix.postScale(newWidth, newHeigth);
+        Bitmap resizedBitmap = Bitmap.createBitmap(bFile, 0, 0, width, height, matrix, false);
+
+        File resizedFile = new File(context.getCacheDir(), "photoProfile");
+        try {
+            resizedFile.createNewFile();
+
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            resizedBitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+            byte[] bitmapdata = byteArrayOutputStream.toByteArray();
+
+            FileOutputStream fileOutputStream = new FileOutputStream(resizedFile);
+            fileOutputStream.write(bitmapdata);
+            fileOutputStream.flush();
+            fileOutputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return resizedFile;
     }
 
     public void onPickFromGaleryClicked() {

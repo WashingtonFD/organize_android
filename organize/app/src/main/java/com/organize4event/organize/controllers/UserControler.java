@@ -5,6 +5,7 @@ import android.content.Context;
 import com.organize4event.organize.commons.ApiClient;
 import com.organize4event.organize.commons.Constants;
 import com.organize4event.organize.listeners.ControllResponseListener;
+import com.organize4event.organize.models.ErrorReturn;
 import com.organize4event.organize.models.User;
 import com.organize4event.organize.models.UserType;
 import com.organize4event.organize.services.UserService;
@@ -12,6 +13,9 @@ import com.organize4event.organize.services.UserService;
 import java.io.File;
 import java.text.SimpleDateFormat;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -122,7 +126,27 @@ public class UserControler extends Controler {
 
     public void uploadProfilePicture(User user, File photo, final ControllResponseListener listener){
         UserService service = ApiClient.getRetrofit().create(UserService.class);
+        final RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), photo);
+        MultipartBody.Part file = MultipartBody.Part.createFormData("photo", photo.getName(), requestBody);
 
+        service.uploadPhoto(user.getId(), file).enqueue(new Callback<ErrorReturn>() {
+            @Override
+            public void onResponse(Call<ErrorReturn> call, Response<ErrorReturn> response) {
+                ErrorReturn errorReturn = (ErrorReturn) response.body();
+                Error error = parserError(errorReturn);
+                if (error == null){
+                    listener.success(errorReturn);
+                }
+                else{
+                    listener.fail(error);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ErrorReturn> call, Throwable t) {
+                listener.fail(new Error(t.getMessage()));
+            }
+        });
     }
 
     public void updateUserProfilePicture(User user, final ControllResponseListener listener){
