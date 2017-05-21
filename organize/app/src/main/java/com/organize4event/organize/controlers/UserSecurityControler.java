@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.organize4event.organize.commons.ApiClient;
 import com.organize4event.organize.listeners.ControlResponseListener;
+import com.organize4event.organize.models.ErrorReturn;
 import com.organize4event.organize.models.SecurityQuestion;
 import com.organize4event.organize.services.UserSecurityService;
 
@@ -35,6 +36,28 @@ public class UserSecurityControler extends Controler {
 
             @Override
             public void onFailure(Call<ArrayList<SecurityQuestion>> call, Throwable t) {
+                listener.fail(new Error(t.getMessage()));
+            }
+        });
+    }
+
+    public void sendMail(String mail, int user_security_id, String user_answer, final ControlResponseListener listener){
+        UserSecurityService service = ApiClient.getRetrofit().create(UserSecurityService.class);
+        service.sendMail(mail, user_security_id, user_answer).enqueue(new Callback<ErrorReturn>() {
+            @Override
+            public void onResponse(Call<ErrorReturn> call, Response<ErrorReturn> response) {
+                ErrorReturn errorReturn = (ErrorReturn) response.body();
+                Error error = parserError(errorReturn);
+                if (error == null){
+                    listener.success(errorReturn);
+                }
+                else{
+                    listener.fail(error);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ErrorReturn> call, Throwable t) {
                 listener.fail(new Error(t.getMessage()));
             }
         });

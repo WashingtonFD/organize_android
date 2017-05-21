@@ -32,10 +32,22 @@
         android:layout_marginTop="@dimen/margin_large"
         android:padding="@dimen/padding_default">
 
+        <TextView
+            android:id="@+id/labelSecurityQuestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_select_security_question"
+            android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+            android:textColor="@color/colorTextDefault"
+            android:textSize="@dimen/text_size_small" />
+
         <RelativeLayout
             android:id="@+id/contentSelector"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/labelSecurityQuestion"
+            android:layout_marginTop="@dimen/margin_small"
+            >
 
             <EditText
                 android:id="@+id/selectSecurityQuestion"

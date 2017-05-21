@@ -9,11 +9,16 @@ import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.organize4event.organize.R;
+import com.organize4event.organize.controlers.UserSecurityControler;
+import com.organize4event.organize.enuns.DialogTypeEnum;
+import com.organize4event.organize.listeners.ControlResponseListener;
+import com.organize4event.organize.listeners.CustomDialogListener;
 import com.organize4event.organize.listeners.ToolbarListener;
+import com.organize4event.organize.models.ErrorReturn;
 import com.organize4event.organize.models.SecurityQuestion;
 import com.organize4event.organize.models.User;
-import com.organize4event.organize.models.UserSecurity;
 
 import org.parceler.Parcels;
 
@@ -33,7 +38,6 @@ public class VerifySecurityActivity extends BaseActivity {
     Button btnSend;
     private Context context;
     private User user;
-    private UserSecurity userSecurity;
     private SecurityQuestion securityQuestionSelected;
 
     @Override
@@ -44,7 +48,6 @@ public class VerifySecurityActivity extends BaseActivity {
 
         context = VerifySecurityActivity.this;
         user = Parcels.unwrap(getIntent().getExtras().getParcelable("user"));
-        userSecurity = user.getUser_security();
 
         configureToolbar(context, toolbar, context.getString(R.string.label_verify_security), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
             @Override
@@ -83,10 +86,74 @@ public class VerifySecurityActivity extends BaseActivity {
         startActivityForResult(intent, RESULT_CODE_SELECT_SECURITYQUESTION);
     }
 
+    @OnClick(R.id.btnSend)
+    public void actionSend(){
+        String mail = user.getMail();
+        int user_security_id = securityQuestionSelected.getId();
+        String user_answer = txtAnswer.getText().toString();
+
+        showLoading();
+        new UserSecurityControler(context).sendMail(mail, user_security_id, user_answer, new ControlResponseListener() {
+            @Override
+            public void success(Object object) {
+                ErrorReturn errorReturn = (ErrorReturn)object;
+                if (errorReturn.getCode() == 0){
+                    showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), context.getString(R.string.message_success_recovery_password), new CustomDialogListener() {
+                        @Override
+                        public void positiveOnClick(MaterialDialog dialog) {
+                            dialog.dismiss();
+                            finish();
+                        }
+
+                        @Override
+                        public void negativeOnClick(MaterialDialog dialog) {
+
+                        }
+                    });
+                }
+                else{
+                    showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), errorReturn.getException(), new CustomDialogListener() {
+                        @Override
+                        public void positiveOnClick(MaterialDialog dialog) {
+                            dialog.dismiss();
+                            finish();
+                        }
+
+                        @Override
+                        public void negativeOnClick(MaterialDialog dialog) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void fail(Error error) {
+                returnErrorMessage(error, context);
+            }
+        });
+    }
+
+    @OnClick(R.id.txtIsNotSecurityData)
+    public void actionIsNotSecurityData(){
+        showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), context.getString(R.string.message_not_security_data), new CustomDialogListener() {
+            @Override
+            public void positiveOnClick(MaterialDialog dialog) {
+                dialog.dismiss();
+                finish();
+            }
+
+            @Override
+            public void negativeOnClick(MaterialDialog dialog) {
+
+            }
+        });
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == RESULT_CODE_SELECT_SECURITYQUESTION) {
-            securityQuestionSelected = (SecurityQuestion) data.getParcelableExtra("securityQuestion");
+            securityQuestionSelected = Parcels.unwrap(data.getExtras().getParcelable("securityQuestion"));;
             selectSecurityQuestion.setText(securityQuestionSelected.getSecurity_question());
         }
     }

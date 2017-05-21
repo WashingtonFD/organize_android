@@ -34,7 +34,7 @@ public class SelectorSecurityQuestionAdapter extends RecyclerView.Adapter<Select
 
     @Override
     public ListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_plan, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_selector, parent, false);
         ListViewHolder viewHolder = new ListViewHolder(view);
         return viewHolder;
     }

@@ -102,7 +102,9 @@
     <string name="message_info_password">Entre 6 a 10 caracteres alfanuméricos.</string>
     <string name="message_list_plan">Sobre qual plano deseja informações?</string>
     <string name="message_whatsapp">É necessário ter o Whatsapp instalado para executar essa requisição.</string>
-    <string name="message_error_recovery_password">Não foi possível verificar seus dados, por favor entre em contato com o suporte Organize4Event para mais informações. \n E-mail: suporte@organize4event.com \n Telefone: (31) 9xxxx-xxxx</string>
+    <string name="message_error_recovery_password">Não foi possível verificar seus dados, por favor entre em contato com o suporte Organize4Event para mais informações. \n\n<b>E-mail:</b> suporte@organize4event.com \n\n<b>Telefone:</b> (31) 9xxxx-xxxx</string>
+    <string name="message_not_security_data">Entre em contato com o suporte Organize4Event para informações sobre seu cadastro. \n\n<b>E-mail:</b> suporte@organize4event.com \n\n<b>Telefone:</b> (31) 9xxxx-xxxx</string>
+    <string name="message_success_recovery_password">Uma mensagem com as instruções para recuperação de sua senha foi enviado a você. Por favor verifique seu e-mail.</string>
 
     <string name="notification_login_brief_description">Acesso ao sistema</string>
     <string name="notification_login_description">Sistema acessado pela plataforma ANDROID em: </string>
