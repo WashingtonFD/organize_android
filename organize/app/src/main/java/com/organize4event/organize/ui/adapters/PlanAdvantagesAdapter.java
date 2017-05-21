@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class PlanAdvantagesAdapter extends RecyclerView.Adapter<PlanAdvantagesAdapter.PlanAdvantagesViewHolder>{
+public class PlanAdvantagesAdapter extends RecyclerView.Adapter<PlanAdvantagesAdapter.PlanAdvantagesViewHolder> {
     private Context context;
     private ArrayList<PlanAdvantage> items;
 
@@ -42,7 +42,7 @@ public class PlanAdvantagesAdapter extends RecyclerView.Adapter<PlanAdvantagesAd
         return items.size();
     }
 
-    public class PlanAdvantagesViewHolder extends RecyclerView.ViewHolder{
+    public class PlanAdvantagesViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.txtAdvantege)
         TextView txtAdvantege;

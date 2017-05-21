@@ -4,7 +4,18 @@ import android.os.Parcel;
 
 import com.google.gson.annotations.SerializedName;
 
-public class PlanAdvantage extends ErrorReturn{
+public class PlanAdvantage extends ErrorReturn {
+    public static final Creator<PlanAdvantage> CREATOR = new Creator<PlanAdvantage>() {
+        @Override
+        public PlanAdvantage createFromParcel(Parcel source) {
+            return new PlanAdvantage(source);
+        }
+
+        @Override
+        public PlanAdvantage[] newArray(int size) {
+            return new PlanAdvantage[size];
+        }
+    };
     @SerializedName("id")
     private int id;
     @SerializedName("locale")
@@ -15,6 +26,19 @@ public class PlanAdvantage extends ErrorReturn{
     private int plan;
     @SerializedName("advantage")
     private String advantage;
+
+    public PlanAdvantage() {
+        this.setIs_new(true);
+    }
+
+    protected PlanAdvantage(Parcel in) {
+        super(in);
+        this.id = in.readInt();
+        this.locale = in.readString();
+        this.code_enum = in.readInt();
+        this.plan = in.readInt();
+        this.advantage = in.readString();
+    }
 
     public int getId() {
         return id;
@@ -56,7 +80,6 @@ public class PlanAdvantage extends ErrorReturn{
         this.advantage = advantage;
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -71,29 +94,4 @@ public class PlanAdvantage extends ErrorReturn{
         dest.writeInt(this.plan);
         dest.writeString(this.advantage);
     }
-
-    public PlanAdvantage() {
-        this.setIs_new(true);
-    }
-
-    protected PlanAdvantage(Parcel in) {
-        super(in);
-        this.id = in.readInt();
-        this.locale = in.readString();
-        this.code_enum = in.readInt();
-        this.plan = in.readInt();
-        this.advantage = in.readString();
-    }
-
-    public static final Creator<PlanAdvantage> CREATOR = new Creator<PlanAdvantage>() {
-        @Override
-        public PlanAdvantage createFromParcel(Parcel source) {
-            return new PlanAdvantage(source);
-        }
-
-        @Override
-        public PlanAdvantage[] newArray(int size) {
-            return new PlanAdvantage[size];
-        }
-    };
 }

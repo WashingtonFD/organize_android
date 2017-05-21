@@ -9,9 +9,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.organize4event.organize.R;
-import com.organize4event.organize.controllers.NotificationControll;
-import com.organize4event.organize.listeners.ControllResponseListener;
+import com.organize4event.organize.controlers.NotificationControler;
+import com.organize4event.organize.listeners.ControlResponseListener;
 import com.organize4event.organize.listeners.RecyclerViewListener;
 import com.organize4event.organize.listeners.ToolbarListener;
 import com.organize4event.organize.models.UserNotification;
@@ -25,28 +26,28 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class NotificationsActivity extends BaseActivity {
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.contentNoData)
+    RelativeLayout contentNoData;
+    @Bind(R.id.containerContent)
+    RelativeLayout containerContent;
+    @Bind(R.id.listNotification)
+    RecyclerView listNotification;
     private Context context;
     private ArrayList<UserNotification> userNotifications;
     private NotificationAdapter adapter;
     private int is_read = 0;
-
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-
-    @Bind(R.id.contentNoData)
-    RelativeLayout contentNoData;
-
-    @Bind(R.id.containerContent)
-    RelativeLayout containerContent;
-
-    @Bind(R.id.listNotification)
-    RecyclerView listNotification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
         ButterKnife.bind(this);
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "NOTIFICATION");
+        FirebaseAnalytics.getInstance(this).logEvent(FirebaseAnalytics.Event.VIEW_ITEM, bundle);
 
         context = NotificationsActivity.this;
         userNotifications = getIntent().getParcelableArrayListExtra("userNotifications");
@@ -61,12 +62,11 @@ public class NotificationsActivity extends BaseActivity {
         listNotification.setLayoutManager(new LinearLayoutManager(context));
         listNotification.setItemAnimator(new DefaultItemAnimator());
 
-        if (userNotifications.size() > 0){
+        if (userNotifications.size() > 0) {
             containerContent.setVisibility(View.VISIBLE);
             contentNoData.setVisibility(View.GONE);
             loadAdapter();
-        }
-        else{
+        } else {
             containerContent.setVisibility(View.GONE);
             contentNoData.setVisibility(View.VISIBLE);
         }
@@ -86,10 +86,10 @@ public class NotificationsActivity extends BaseActivity {
     }
 
     public void readUserNotification(final UserNotification userNotification, int is_read, final boolean clearAll) {
-        new NotificationControll(context).readUserNotification(userNotification, is_read, new ControllResponseListener() {
+        new NotificationControler(context).readUserNotification(userNotification, is_read, new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                if (clearAll){
+                if (clearAll) {
                     adapter.refreshAllLayout();
                 }
 

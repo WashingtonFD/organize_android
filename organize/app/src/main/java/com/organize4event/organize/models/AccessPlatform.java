@@ -4,7 +4,18 @@ import android.os.Parcel;
 
 import com.google.gson.annotations.SerializedName;
 
-public class AccessPlatform extends ErrorReturn{
+public class AccessPlatform extends ErrorReturn {
+    public static final Creator<AccessPlatform> CREATOR = new Creator<AccessPlatform>() {
+        @Override
+        public AccessPlatform createFromParcel(Parcel source) {
+            return new AccessPlatform(source);
+        }
+
+        @Override
+        public AccessPlatform[] newArray(int size) {
+            return new AccessPlatform[size];
+        }
+    };
     @SerializedName("id")
     private int id;
     @SerializedName("locale")
@@ -13,6 +24,18 @@ public class AccessPlatform extends ErrorReturn{
     private int code_enum;
     @SerializedName("name")
     private String name;
+
+    public AccessPlatform() {
+        this.setIs_new(true);
+    }
+
+    protected AccessPlatform(Parcel in) {
+        super(in);
+        this.id = in.readInt();
+        this.locale = in.readString();
+        this.code_enum = in.readInt();
+        this.name = in.readString();
+    }
 
     public int getId() {
         return id;
@@ -46,7 +69,6 @@ public class AccessPlatform extends ErrorReturn{
         this.name = name;
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -60,28 +82,4 @@ public class AccessPlatform extends ErrorReturn{
         dest.writeInt(this.code_enum);
         dest.writeString(this.name);
     }
-
-    public AccessPlatform() {
-        this.setIs_new(true);
-    }
-
-    protected AccessPlatform(Parcel in) {
-        super(in);
-        this.id = in.readInt();
-        this.locale = in.readString();
-        this.code_enum = in.readInt();
-        this.name = in.readString();
-    }
-
-    public static final Creator<AccessPlatform> CREATOR = new Creator<AccessPlatform>() {
-        @Override
-        public AccessPlatform createFromParcel(Parcel source) {
-            return new AccessPlatform(source);
-        }
-
-        @Override
-        public AccessPlatform[] newArray(int size) {
-            return new AccessPlatform[size];
-        }
-    };
 }

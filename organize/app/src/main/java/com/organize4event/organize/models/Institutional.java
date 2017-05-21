@@ -5,6 +5,17 @@ import android.os.Parcel;
 import com.google.gson.annotations.SerializedName;
 
 public class Institutional extends ErrorReturn {
+    public static final Creator<Institutional> CREATOR = new Creator<Institutional>() {
+        @Override
+        public Institutional createFromParcel(Parcel source) {
+            return new Institutional(source);
+        }
+
+        @Override
+        public Institutional[] newArray(int size) {
+            return new Institutional[size];
+        }
+    };
     @SerializedName("id")
     private int id;
     @SerializedName("locale")
@@ -23,6 +34,23 @@ public class Institutional extends ErrorReturn {
     private String values;
     @SerializedName("is_active")
     private boolean is_active;
+
+    public Institutional() {
+        this.setIs_new(true);
+    }
+
+    protected Institutional(Parcel in) {
+        super(in);
+        this.id = in.readInt();
+        this.locale = in.readString();
+        this.code_enum = in.readInt();
+        this.site_url = in.readString();
+        this.description = in.readString();
+        this.mission = in.readString();
+        this.vision = in.readString();
+        this.values = in.readString();
+        this.is_active = in.readByte() != 0;
+    }
 
     public int getId() {
         return id;
@@ -96,7 +124,6 @@ public class Institutional extends ErrorReturn {
         this.is_active = is_active;
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -115,33 +142,4 @@ public class Institutional extends ErrorReturn {
         dest.writeString(this.values);
         dest.writeByte(this.is_active ? (byte) 1 : (byte) 0);
     }
-
-    public Institutional() {
-        this.setIs_new(true);
-    }
-
-    protected Institutional(Parcel in) {
-        super(in);
-        this.id = in.readInt();
-        this.locale = in.readString();
-        this.code_enum = in.readInt();
-        this.site_url = in.readString();
-        this.description = in.readString();
-        this.mission = in.readString();
-        this.vision = in.readString();
-        this.values = in.readString();
-        this.is_active = in.readByte() != 0;
-    }
-
-    public static final Creator<Institutional> CREATOR = new Creator<Institutional>() {
-        @Override
-        public Institutional createFromParcel(Parcel source) {
-            return new Institutional(source);
-        }
-
-        @Override
-        public Institutional[] newArray(int size) {
-            return new Institutional[size];
-        }
-    };
 }

@@ -6,7 +6,18 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class UserTerm extends ErrorReturn{
+public class UserTerm extends ErrorReturn {
+    public static final Creator<UserTerm> CREATOR = new Creator<UserTerm>() {
+        @Override
+        public UserTerm createFromParcel(Parcel source) {
+            return new UserTerm(source);
+        }
+
+        @Override
+        public UserTerm[] newArray(int size) {
+            return new UserTerm[size];
+        }
+    };
     @SerializedName("id")
     private int id;
     @SerializedName("user")
@@ -17,6 +28,20 @@ public class UserTerm extends ErrorReturn{
     private boolean term_accept;
     @SerializedName("term_accept_date")
     private Date term_accept_date;
+
+    public UserTerm() {
+        this.setIs_new(true);
+    }
+
+    protected UserTerm(Parcel in) {
+        super(in);
+        this.id = in.readInt();
+        this.user = in.readInt();
+        this.term = in.readParcelable(TermUse.class.getClassLoader());
+        this.term_accept = in.readByte() != 0;
+        long tmpTerm_accept_date = in.readLong();
+        this.term_accept_date = tmpTerm_accept_date == -1 ? null : new Date(tmpTerm_accept_date);
+    }
 
     public int getId() {
         return id;
@@ -58,7 +83,6 @@ public class UserTerm extends ErrorReturn{
         this.term_accept_date = term_accept_date;
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -73,30 +97,4 @@ public class UserTerm extends ErrorReturn{
         dest.writeByte(this.term_accept ? (byte) 1 : (byte) 0);
         dest.writeLong(this.term_accept_date != null ? this.term_accept_date.getTime() : -1);
     }
-
-    public UserTerm() {
-        this.setIs_new(true);
-    }
-
-    protected UserTerm(Parcel in) {
-        super(in);
-        this.id = in.readInt();
-        this.user = in.readInt();
-        this.term = in.readParcelable(TermUse.class.getClassLoader());
-        this.term_accept = in.readByte() != 0;
-        long tmpTerm_accept_date = in.readLong();
-        this.term_accept_date = tmpTerm_accept_date == -1 ? null : new Date(tmpTerm_accept_date);
-    }
-
-    public static final Creator<UserTerm> CREATOR = new Creator<UserTerm>() {
-        @Override
-        public UserTerm createFromParcel(Parcel source) {
-            return new UserTerm(source);
-        }
-
-        @Override
-        public UserTerm[] newArray(int size) {
-            return new UserTerm[size];
-        }
-    };
 }

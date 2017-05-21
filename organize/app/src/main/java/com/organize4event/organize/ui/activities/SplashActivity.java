@@ -10,8 +10,8 @@ import android.widget.TextView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.PreferencesManager;
-import com.organize4event.organize.controllers.FirstAccessControll;
-import com.organize4event.organize.listeners.ControllResponseListener;
+import com.organize4event.organize.controlers.FirstAccessControler;
+import com.organize4event.organize.listeners.ControlResponseListener;
 import com.organize4event.organize.models.FirstAccess;
 import com.organize4event.organize.models.User;
 
@@ -56,15 +56,14 @@ public class SplashActivity extends BaseActivity {
         }, 5000);
     }
 
-    protected void getFirstAccess(){
-        new FirstAccessControll(context).getFirstAccess(device_id, new ControllResponseListener() {
+    protected void getFirstAccess() {
+        new FirstAccessControler(context).getFirstAccess(device_id, new ControlResponseListener() {
             @Override
             public void success(Object object) {
                 firstAccess = (FirstAccess) object;
-                if (firstAccess.getId() > 0){
+                if (firstAccess.getId() > 0) {
                     verifyData();
-                }
-                else {
+                } else {
                     setFirstAccess();
                 }
             }
@@ -78,7 +77,7 @@ public class SplashActivity extends BaseActivity {
 
     //TODO: ATUALIZAR LOCALE
 
-    protected void setFirstAccess(){
+    protected void setFirstAccess() {
         user = new User();
         firstAccess.setUser(user);
         firstAccess.setDevice_id(device_id);
@@ -89,64 +88,59 @@ public class SplashActivity extends BaseActivity {
         startApresentationActivity();
     }
 
-    protected void verifyData(){
+    protected void verifyData() {
         user = firstAccess.getUser();
-        if (user.getUser_term() == null || !user.getUser_term().isTerm_accept()){
+        if (user.getUser_term() == null || !user.getUser_term().isTerm_accept()) {
             startApresentationActivity();
-        }
-        else if(user.getPlan() == null){
+        } else if (user.getPlan() == null) {
             startPlanIdentifierActivity();
-        }
-        else if(user.getUser_type() == null){
+        } else if (user.getUser_type() == null) {
             startUserRegisterActivity();
-        }
-        else if (user.getToken() == null || !user.getToken().isKeep_logged()){
+        } else if (user.getToken() == null || !user.getToken().isKeep_logged() || !PreferencesManager.isLogged()) {
             starLoginActivity();
-        }
-        else if (PreferencesManager.isHideWelcome()){
+        } else if (PreferencesManager.isHideWelcome()) {
             starHomeActivity();
-        }
-        else{
+        } else {
             starWelcomeActivity();
         }
     }
 
-    protected void startApresentationActivity(){
+    protected void startApresentationActivity() {
         Intent intent = new Intent(context, ApresentationActivity.class);
         intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
         startActivity(intent);
         finish();
     }
 
-    protected void startPlanIdentifierActivity(){
+    protected void startPlanIdentifierActivity() {
         Intent intent = new Intent(context, PlanIdentifierActivity.class);
         intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
         startActivity(intent);
         finish();
     }
 
-    protected void startUserRegisterActivity(){
+    protected void startUserRegisterActivity() {
         Intent intent = new Intent(context, UserRegisterActivity.class);
         intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
         startActivity(intent);
         finish();
     }
 
-    protected void starLoginActivity(){
+    protected void starLoginActivity() {
         Intent intent = new Intent(context, LoginActivity.class);
         intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
         startActivity(intent);
         finish();
     }
 
-    protected void starWelcomeActivity(){
+    protected void starWelcomeActivity() {
         Intent intent = new Intent(context, WelcomeActivity.class);
         intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
         startActivity(intent);
         finish();
     }
 
-    protected void starHomeActivity(){
+    protected void starHomeActivity() {
         Intent intent = new Intent(context, HomeActivity.class);
         startActivity(intent);
         finish();

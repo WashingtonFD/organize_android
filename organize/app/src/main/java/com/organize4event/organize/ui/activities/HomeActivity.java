@@ -19,11 +19,13 @@ import com.organize4event.organize.R;
 import com.organize4event.organize.commons.AppApplication;
 import com.organize4event.organize.commons.CircleTransform;
 import com.organize4event.organize.commons.PreferencesManager;
-import com.organize4event.organize.controllers.FirstAccessControll;
-import com.organize4event.organize.controllers.NotificationControll;
-import com.organize4event.organize.listeners.ControllResponseListener;
+import com.organize4event.organize.controlers.FirstAccessControler;
+import com.organize4event.organize.controlers.NotificationControler;
+import com.organize4event.organize.controlers.TokenControler;
+import com.organize4event.organize.listeners.ControlResponseListener;
 import com.organize4event.organize.listeners.ToolbarListener;
 import com.organize4event.organize.models.FirstAccess;
+import com.organize4event.organize.models.Token;
 import com.organize4event.organize.models.UserNotification;
 import com.organize4event.organize.ui.fragments.HomeFragment;
 import com.organize4event.organize.ui.fragments.InstitutionalFragment;
@@ -32,6 +34,7 @@ import com.organize4event.organize.ui.fragments.SettingsFragment;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -42,12 +45,7 @@ import butterknife.OnClick;
 import static com.organize4event.organize.R.id.containerContent;
 
 public class HomeActivity extends BaseActivity {
-    private Context context;
-    private String device_id;
-    private FirstAccess firstAccess;
-    private ArrayList<UserNotification> userNotifications = new ArrayList<>();
     Class fragmentClass;
-
     @Bind(R.id.drawerLayout)
     DrawerLayout drawerLayout;
     @Bind(R.id.toolbar)
@@ -58,7 +56,11 @@ public class HomeActivity extends BaseActivity {
     TextView txtUserName;
     @Bind(R.id.imgUserAvatar)
     ImageView imgUserAvatar;
-
+    private Context context;
+    private String device_id;
+    private FirstAccess firstAccess;
+    private Token token;
+    private ArrayList<UserNotification> userNotifications = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,18 +72,17 @@ public class HomeActivity extends BaseActivity {
         device_id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
         setupToolbar(context.getString(R.string.label_nav_home));
-        if (!PreferencesManager.isLogged()){
+        if (!PreferencesManager.isLogged()) {
             PreferencesManager.setIsLogged();
         }
 
         fragmentClass = HomeFragment.class;
-        try{
+        try {
             Log.v("instance HOME", "Home fragment instance");
             Fragment fragment = (Fragment) fragmentClass.newInstance();
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(containerContent, fragment).commit();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             Log.v("instance HOME ERROR", "Home fragment instance error");
             e.printStackTrace();
         }
@@ -90,7 +91,7 @@ public class HomeActivity extends BaseActivity {
 //        verifyData();
     }
 
-    protected void setupToolbar(String title){
+    protected void setupToolbar(String title) {
         configureToolbar(context, toolbar, title, context.getResources().getDrawable(R.drawable.ic_menu_black_24dp), true, new ToolbarListener() {
             @Override
             public void onClick() {
@@ -99,11 +100,12 @@ public class HomeActivity extends BaseActivity {
         });
     }
 
-    protected void getData(){
-        new FirstAccessControll(context).getFirstAccess(device_id, new ControllResponseListener() {
+    protected void getData() {
+        new FirstAccessControler(context).getFirstAccess(device_id, new ControlResponseListener() {
             @Override
             public void success(Object object) {
                 firstAccess = (FirstAccess) object;
+                token = firstAccess.getUser().getToken();
                 txtUserName.setText(firstAccess.getUser().getFull_name());
                 Glide.with(context).load(firstAccess.getUser().getProfile_picture()).centerCrop().transform(new CircleTransform(context)).crossFade().into(imgUserAvatar);
                 getNotifications();
@@ -116,8 +118,8 @@ public class HomeActivity extends BaseActivity {
         });
     }
 
-    protected void getNotifications(){
-        new NotificationControll(context).getUserNotifications(firstAccess.getUser().getId(), new ControllResponseListener() {
+    protected void getNotifications() {
+        new NotificationControler(context).getUserNotifications(firstAccess.getUser().getId(), new ControlResponseListener() {
             @Override
             public void success(Object object) {
                 userNotifications = (ArrayList<UserNotification>) object;
@@ -134,27 +136,26 @@ public class HomeActivity extends BaseActivity {
         });
     }
 
-    public void assetIconNotification(){
+    public void assetIconNotification() {
         int count = 0;
-        if (userNotifications.size() > 0){
-            for (UserNotification userNotification : userNotifications){
-                if (!userNotification.is_read()){
-                    count ++;
+        if (userNotifications.size() > 0) {
+            for (UserNotification userNotification : userNotifications) {
+                if (!userNotification.is_read()) {
+                    count++;
                 }
             }
         }
 
-        if (count > 0){
+        if (count > 0) {
             imgNotification.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_notifications_black_24dp_on));
             imgNotification.setColorFilter(context.getResources().getColor(R.color.colorTransparent));
-        }
-        else{
+        } else {
             imgNotification.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_notifications_black_24dp));
             imgNotification.setColorFilter(context.getResources().getColor(R.color.colorDestakText));
         }
     }
 
-    protected void verifyData(){
+    protected void verifyData() {
         int delay = 5000;
         int interval = 10000;
         Timer timer = new Timer();
@@ -166,23 +167,42 @@ public class HomeActivity extends BaseActivity {
         }, delay, interval);
     }
 
-    public void logout(){
-        PreferencesManager.isLogout();
-        firstAccess.getUser().getToken().setKeep_logged(false);
-        starLoginActivity();
+    public void logout() {
+        saveToken();
+    }
 
+    protected void saveToken() {
+        Token newToken = new Token();
+        newToken.setLogin_type(token.getLogin_type());
+        newToken.setAccess_platform(token.getAccess_platform());
+        newToken.setAccess_date(new Date());
+        newToken.setKeep_logged(false);
+        new TokenControler(context).saveToken(newToken, firstAccess.getUser().getId(), 0, new ControlResponseListener() {
+            @Override
+            public void success(Object object) {
+                token = (Token) object;
+                firstAccess.getUser().setToken(token);
+                PreferencesManager.saveFirstAccess(firstAccess);
+                starLoginActivity();
+            }
+
+            @Override
+            public void fail(Error error) {
+                returnErrorMessage(error, context);
+            }
+        });
     }
 
     @OnClick(R.id.imgNotification)
-    public void actionOpenNotifications(){
+    public void actionOpenNotifications() {
         Intent intent = new Intent(context, NotificationsActivity.class);
         intent.putParcelableArrayListExtra("userNotifications", userNotifications);
         startActivity(intent);
     }
 
     @OnClick({R.id.userContainer, R.id.homeContainer, R.id.eventContainer, R.id.sheduleContainer, R.id.partnerContainer, R.id.paymentContainer, R.id.purchaseContainer, R.id.settingsContainer, R.id.institutionalContainer, R.id.btnExit})
-    public void actionMenuSwitch(View view){
-        switch (view.getId()){
+    public void actionMenuSwitch(View view) {
+        switch (view.getId()) {
             case R.id.userContainer:
                 break;
             case R.id.homeContainer:
@@ -228,7 +248,7 @@ public class HomeActivity extends BaseActivity {
         drawerLayout.closeDrawers();
     }
 
-    protected void starLoginActivity(){
+    protected void starLoginActivity() {
         Intent intent = new Intent(context, LoginActivity.class);
         intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
         startActivity(intent);

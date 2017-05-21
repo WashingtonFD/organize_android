@@ -16,7 +16,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
 
-public class ContactSection extends StatelessSection{
+public class ContactSection extends StatelessSection {
 
     private Context context;
     private ArrayList<Contact> items = new ArrayList<>();
@@ -55,18 +55,22 @@ public class ContactSection extends StatelessSection{
     }
 
     @Override
-    public RecyclerView.ViewHolder getHeaderViewHolder(View view){
+    public RecyclerView.ViewHolder getHeaderViewHolder(View view) {
         return new ContactViewHolderSection(view);
     }
 
     @Override
-    public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder){
+    public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder) {
         ContactViewHolderSection itemViewHolderSection = (ContactViewHolderSection) holder;
         Contact contact = items.get(0);
         itemViewHolderSection.txtType.setText(contact.getContact_type().getName());
     }
 
-    public static class ContactViewHolderSection extends RecyclerView.ViewHolder{
+    public void addItem(Contact contact) {
+        this.items.add(contact);
+    }
+
+    public static class ContactViewHolderSection extends RecyclerView.ViewHolder {
 
         @Bind(R.id.txtType)
         TextView txtType;
@@ -77,7 +81,7 @@ public class ContactSection extends StatelessSection{
         }
     }
 
-    public static class ContactViewHolder extends RecyclerView.ViewHolder{
+    public static class ContactViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.rowContent)
         RelativeLayout rowContent;
@@ -92,9 +96,5 @@ public class ContactSection extends StatelessSection{
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
-    }
-
-    public void addItem(Contact contact){
-        this.items.add(contact);
     }
 }

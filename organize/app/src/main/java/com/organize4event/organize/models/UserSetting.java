@@ -5,7 +5,18 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
-public class UserSetting extends ErrorReturn implements Comparable<UserSetting>{
+public class UserSetting extends ErrorReturn implements Comparable<UserSetting> {
+    public static final Creator<UserSetting> CREATOR = new Creator<UserSetting>() {
+        @Override
+        public UserSetting createFromParcel(Parcel source) {
+            return new UserSetting(source);
+        }
+
+        @Override
+        public UserSetting[] newArray(int size) {
+            return new UserSetting[size];
+        }
+    };
     @SerializedName("id")
     private int id;
     @SerializedName("user")
@@ -16,6 +27,18 @@ public class UserSetting extends ErrorReturn implements Comparable<UserSetting>{
     private boolean checking;
     @SerializedName("value")
     private int value;
+
+    public UserSetting() {
+    }
+
+    protected UserSetting(Parcel in) {
+        super(in);
+        this.id = in.readInt();
+        this.user = in.readInt();
+        this.setting = in.readParcelable(Setting.class.getClassLoader());
+        this.checking = in.readByte() != 0;
+        this.value = in.readInt();
+    }
 
     public int getId() {
         return id;
@@ -57,14 +80,12 @@ public class UserSetting extends ErrorReturn implements Comparable<UserSetting>{
         this.value = value;
     }
 
-
-
     @Override
     public int compareTo(@NonNull UserSetting o) {
-        if (this.getSetting().getCode_enum() > o.getSetting().getCode_enum()){
+        if (this.getSetting().getCode_enum() > o.getSetting().getCode_enum()) {
             return 1;
         }
-        if (this.getSetting().getCode_enum() < o.getSetting().getCode_enum()){
+        if (this.getSetting().getCode_enum() < o.getSetting().getCode_enum()) {
             return -1;
         }
         return 0;
@@ -84,28 +105,4 @@ public class UserSetting extends ErrorReturn implements Comparable<UserSetting>{
         dest.writeByte(this.checking ? (byte) 1 : (byte) 0);
         dest.writeInt(this.value);
     }
-
-    public UserSetting() {
-    }
-
-    protected UserSetting(Parcel in) {
-        super(in);
-        this.id = in.readInt();
-        this.user = in.readInt();
-        this.setting = in.readParcelable(Setting.class.getClassLoader());
-        this.checking = in.readByte() != 0;
-        this.value = in.readInt();
-    }
-
-    public static final Creator<UserSetting> CREATOR = new Creator<UserSetting>() {
-        @Override
-        public UserSetting createFromParcel(Parcel source) {
-            return new UserSetting(source);
-        }
-
-        @Override
-        public UserSetting[] newArray(int size) {
-            return new UserSetting[size];
-        }
-    };
 }

@@ -14,9 +14,9 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.CustomValidate;
 import com.organize4event.organize.commons.PreferencesManager;
-import com.organize4event.organize.controllers.PlanControll;
+import com.organize4event.organize.controlers.PlanControler;
 import com.organize4event.organize.enuns.PlanEnum;
-import com.organize4event.organize.listeners.ControllResponseListener;
+import com.organize4event.organize.listeners.ControlResponseListener;
 import com.organize4event.organize.listeners.ToolbarListener;
 import com.organize4event.organize.models.FirstAccess;
 import com.organize4event.organize.models.Plan;
@@ -32,30 +32,23 @@ import butterknife.OnClick;
 import butterknife.OnFocusChange;
 
 public class PlanIdentifierActivity extends BaseActivity {
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.rgpListPlans)
+    RadioGroup rgpListPlans;
+    @Bind(R.id.containerValidateCode)
+    RelativeLayout containerValidateCode;
+    @Bind(R.id.txtValidateCode)
+    EditText txtValidateCode;
     private Context context;
     private int plan_switch;
     private String title = "";
     private String message = "";
-
     private User user;
     private FirstAccess firstAccess;
     private ArrayList<Plan> plans = new ArrayList<>();
     private Plan plan;
-
     private CustomValidate customValidate;
-
-
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-
-    @Bind(R.id.rgpListPlans)
-    RadioGroup rgpListPlans;
-
-    @Bind(R.id.containerValidateCode)
-    RelativeLayout containerValidateCode;
-
-    @Bind(R.id.txtValidateCode)
-    EditText txtValidateCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +65,7 @@ public class PlanIdentifierActivity extends BaseActivity {
         plan_switch = PlanEnum.FREE.getValue();
         firstAccess = Parcels.unwrap(getIntent().getExtras().getParcelable("firstAccess"));
         user = firstAccess.getUser();
+        plan = new Plan();
 
         configureToolbar(context, toolbar, context.getString(R.string.label_plan_identifier), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
             @Override
@@ -84,11 +78,11 @@ public class PlanIdentifierActivity extends BaseActivity {
         selectPlan();
     }
 
-    protected void selectPlan(){
+    protected void selectPlan() {
         rgpListPlans.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                switch (checkedId){
+                switch (checkedId) {
                     case R.id.btnPlanFree:
                         plan_switch = PlanEnum.FREE.getValue();
                         containerValidateCode.setVisibility(View.GONE);
@@ -109,8 +103,8 @@ public class PlanIdentifierActivity extends BaseActivity {
         });
     }
 
-    protected void getPlan(){
-        new PlanControll(context).getPlan(firstAccess.getLocale(), new ControllResponseListener() {
+    protected void getPlan() {
+        new PlanControler(context).getPlan(firstAccess.getLocale(), new ControlResponseListener() {
             @Override
             public void success(Object object) {
                 plans = (ArrayList<Plan>) object;
@@ -124,10 +118,10 @@ public class PlanIdentifierActivity extends BaseActivity {
         });
     }
 
-    protected void setPlan(){
-        if (plans.size() > 0){
-            for(int i = 0; i < plans.size(); i++){
-                if (plans.get(i).getCode_enum() == plan_switch){
+    protected void setPlan() {
+        if (plans.size() > 0) {
+            for (int i = 0; i < plans.size(); i++) {
+                if (plans.get(i).getCode_enum() == plan_switch) {
                     plan = plans.get(i);
                     break;
                 }
@@ -136,7 +130,7 @@ public class PlanIdentifierActivity extends BaseActivity {
     }
 
     @OnFocusChange(R.id.txtValidateCode)
-    public void actionOnFocus(){
+    public void actionOnFocus() {
         title = context.getString(R.string.app_name);
         message = context.getString(R.string.message_info_code_plan);
         hideOrShowInfoIcon(title, message, txtValidateCode);
@@ -144,14 +138,14 @@ public class PlanIdentifierActivity extends BaseActivity {
 
 
     @OnClick(R.id.imgAccept)
-    public void actionSavePlan(){
+    public void actionSavePlan() {
         customValidate = new CustomValidate();
         boolean validate = true;
-        if (plan.getCode_enum() != PlanEnum.FREE.getValue()){
+        if (plan.getCode_enum() != PlanEnum.FREE.getValue()) {
             validate = customValidate.validateCodePlan(txtValidateCode, plan);
         }
 
-        if (validate){
+        if (validate) {
             user.setPlan(plan);
             firstAccess.setUser(user);
             PreferencesManager.saveFirstAccess(firstAccess);
@@ -160,7 +154,7 @@ public class PlanIdentifierActivity extends BaseActivity {
         }
     }
 
-    protected void startUserRegisterActivity(){
+    protected void startUserRegisterActivity() {
         Intent intent = new Intent(context, UserRegisterActivity.class);
         intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
         startActivity(intent);

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.SettingsViewHolder>{
+public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.SettingsViewHolder> {
 
     private Context context;
     private ArrayList<UserSetting> items;
@@ -58,8 +58,8 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.Settin
         settingsEnums.add(SettingsEnum.TUTORIAL);
         settingsEnums.add(SettingsEnum.ABOUT);
 
-        for (SettingsEnum settingsEnum : settingsEnums){
-            if (settingsEnum.getValue() == userSetting.getSetting().getCode_enum()){
+        for (SettingsEnum settingsEnum : settingsEnums) {
+            if (settingsEnum.getValue() == userSetting.getSetting().getCode_enum()) {
                 holder.swtChecking.setVisibility(View.GONE);
                 holder.rowContent.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -74,8 +74,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.Settin
                         return true;
                     }
                 });
-            }
-            else{
+            } else {
                 isExpand(holder, position);
             }
         }
@@ -93,7 +92,21 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.Settin
         return items.size();
     }
 
-    public class SettingsViewHolder extends RecyclerView.ViewHolder{
+    public void isExpand(final SettingsViewHolder holder, final int position) {
+        final boolean isExpanded = position == expandedPosition;
+        holder.txtSettingDescription.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        holder.itemView.setActivated(isExpanded);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expandedPosition = isExpanded ? -1 : position;
+                TransitionManager.beginDelayedTransition(recyclerView);
+                notifyItemChanged(position);
+            }
+        });
+    }
+
+    public class SettingsViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.rowContent)
         RelativeLayout rowContent;
@@ -111,19 +124,5 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.Settin
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
-    }
-
-    public void isExpand(final SettingsViewHolder holder, final int position){
-        final boolean isExpanded = position==expandedPosition;
-        holder.txtSettingDescription.setVisibility(isExpanded?View.VISIBLE:View.GONE);
-        holder.itemView.setActivated(isExpanded);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                expandedPosition = isExpanded ? -1:position;
-                TransitionManager.beginDelayedTransition(recyclerView);
-                notifyItemChanged(position);
-            }
-        });
     }
 }

@@ -16,10 +16,10 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.AppApplication;
-import com.organize4event.organize.controllers.PlanControll;
-import com.organize4event.organize.controllers.SettingsControll;
+import com.organize4event.organize.controlers.PlanControler;
+import com.organize4event.organize.controlers.SettingsControler;
 import com.organize4event.organize.enuns.SettingsEnum;
-import com.organize4event.organize.listeners.ControllResponseListener;
+import com.organize4event.organize.listeners.ControlResponseListener;
 import com.organize4event.organize.listeners.MultipleRecyclerViewListener;
 import com.organize4event.organize.listeners.RecyclerViewListener;
 import com.organize4event.organize.models.FirstAccess;
@@ -42,6 +42,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class SettingsFragment extends BaseFragment {
+    @Bind(R.id.listSettings)
+    RecyclerView listSettings;
     private Context context;
     private FirstAccess firstAccess;
     private User user;
@@ -49,9 +51,6 @@ public class SettingsFragment extends BaseFragment {
     private ArrayList<Plan> plans;
     private SettingsAdapter adapter;
     private int checking = 0;
-
-    @Bind(R.id.listSettings)
-    RecyclerView listSettings;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -82,7 +81,7 @@ public class SettingsFragment extends BaseFragment {
 
     protected void getData() {
         showLoading();
-        new SettingsControll(context).getUserSettings(user.getId(), new ControllResponseListener() {
+        new SettingsControler(context).getUserSettings(user.getId(), new ControlResponseListener() {
             @Override
             public void success(Object object) {
                 hideLoading();
@@ -148,7 +147,7 @@ public class SettingsFragment extends BaseFragment {
     }
 
     public void getPlans() {
-        new PlanControll(context).getPlan(firstAccess.getLocale(), new ControllResponseListener() {
+        new PlanControler(context).getPlan(firstAccess.getLocale(), new ControlResponseListener() {
             @Override
             public void success(Object object) {
                 plans = (ArrayList<Plan>) object;
@@ -164,7 +163,7 @@ public class SettingsFragment extends BaseFragment {
     }
 
     public void checkingUserSettings(final UserSetting userSetting, int checking) {
-        new SettingsControll(context).checkingUserSettings(userSetting, checking, new ControllResponseListener() {
+        new SettingsControler(context).checkingUserSettings(userSetting, checking, new ControlResponseListener() {
             @Override
             public void success(Object object) {
 

@@ -26,9 +26,9 @@ import com.mobsandgeeks.saripaar.ValidationError;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.Constants;
 import com.organize4event.organize.commons.WaitDialog;
-import com.organize4event.organize.controllers.NotificationControll;
+import com.organize4event.organize.controlers.NotificationControler;
 import com.organize4event.organize.enuns.DialogTypeEnum;
-import com.organize4event.organize.listeners.ControllResponseListener;
+import com.organize4event.organize.listeners.ControlResponseListener;
 import com.organize4event.organize.listeners.CustomDialogListener;
 import com.organize4event.organize.listeners.ToolbarListener;
 import com.organize4event.organize.models.UserNotification;
@@ -41,49 +41,47 @@ import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class BaseActivity  extends AppCompatActivity{
-    private WaitDialog waitDialog;
-
+public class BaseActivity extends AppCompatActivity {
     SimpleDateFormat simpleDateFormat;
     DatePickerDialog startDatePickerDialog;
     Calendar birthCalendarStart;
     Calendar birthCalendarFinish;
     Calendar startCalendar;
     Calendar finishCalendar;
+    private WaitDialog waitDialog;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
     @Override
-    protected void attachBaseContext(Context context){
+    protected void attachBaseContext(Context context) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(context));
     }
 
-    public void showLoading(){
+    public void showLoading() {
         hideLoading();
 
-        if(waitDialog == null){
+        if (waitDialog == null) {
             waitDialog = WaitDialog.newInstance();
             waitDialog.show(getFragmentManager(), waitDialog.getTag());
         }
     }
 
-    public void hideLoading(){
+    public void hideLoading() {
 
-        if (waitDialog != null){
-            try{
+        if (waitDialog != null) {
+            try {
                 waitDialog.dismissAllowingStateLoss();
                 waitDialog = null;
-            }
-            catch (Exception ex){
+            } catch (Exception ex) {
                 Log.v("Error: ", ex.getMessage());
             }
         }
     }
 
-    public void configureToolbar(Context context, Toolbar toolbar, String title, Drawable icon, boolean isHomeAsUpEnabled, final ToolbarListener listener){
+    public void configureToolbar(Context context, Toolbar toolbar, String title, Drawable icon, boolean isHomeAsUpEnabled, final ToolbarListener listener) {
         toolbar.setTitle(title);
         toolbar.setTitleTextColor(context.getResources().getColor(R.color.colorDestakText));
         icon.setColorFilter(context.getResources().getColor(R.color.colorDestakText), PorterDuff.Mode.SRC_IN);
@@ -91,7 +89,7 @@ public class BaseActivity  extends AppCompatActivity{
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
 
-        if (actionBar != null){
+        if (actionBar != null) {
             if (isHomeAsUpEnabled) {
                 actionBar.setHomeAsUpIndicator(icon);
                 actionBar.setDisplayHomeAsUpEnabled(true);
@@ -106,21 +104,21 @@ public class BaseActivity  extends AppCompatActivity{
         }
     }
 
-    public void hideKeyboard(Context context, View view){
+    public void hideKeyboard(Context context, View view) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    public boolean isOline(Context context){
+    public boolean isOline(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-        if(networkInfo != null && networkInfo.isConnectedOrConnecting()){
+        if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
             return true;
         }
         return false;
     }
 
-    public void showDialogMessage(DialogTypeEnum type, String title, String message, final CustomDialogListener listener){
+    public void showDialogMessage(DialogTypeEnum type, String title, String message, final CustomDialogListener listener) {
         final MaterialDialog dialog = new MaterialDialog.Builder(this).customView(R.layout.custom_dialog, false).show();
 
         TextView dialog_title = (TextView) dialog.getCustomView().findViewById(R.id.txtTitle);
@@ -132,14 +130,20 @@ public class BaseActivity  extends AppCompatActivity{
         dialog_title.setText(title);
         dialog_message.setText(message);
 
-        if(type != DialogTypeEnum.JUSTPOSITIVE){
+        if (type == DialogTypeEnum.POSITIVE_AND_NEGATIVE) {
             dialog_negative.setVisibility(View.VISIBLE);
             divider.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else if (type == DialogTypeEnum.CAMARA_AND_GALERY) {
+            dialog_positive.setText(getString(R.string.label_galery));
+            dialog_negative.setText(getString(R.string.label_camara));
+            dialog_negative.setAlpha(1);
+            dialog_negative.setVisibility(View.VISIBLE);
+            divider.setVisibility(View.VISIBLE);
+        } else {
             dialog_negative.setVisibility(View.GONE);
             divider.setVisibility(View.GONE);
         }
+
 
         dialog_positive.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,16 +155,16 @@ public class BaseActivity  extends AppCompatActivity{
         dialog_negative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.negativeOnClidck(dialog);
+                listener.negativeOnClick(dialog);
             }
         });
     }
 
-    public void showToastMessage(Context context, String message){
+    public void showToastMessage(Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 
-    public void selectDate(Context context, final EditText editText, int mode){
+    public void selectDate(Context context, final EditText editText, int mode) {
         simpleDateFormat = new SimpleDateFormat(context.getString(R.string.date_format));
 
         birthCalendarStart = GregorianCalendar.getInstance();
@@ -174,16 +178,14 @@ public class BaseActivity  extends AppCompatActivity{
         birthCalendarStart.add(Calendar.YEAR, -100);
         birthCalendarFinish.add(Calendar.YEAR, -10);
 
-        switch (mode){
+        switch (mode) {
             case 1:
                 startDatePickerDialog.getDatePicker().setMinDate(birthCalendarStart.getTimeInMillis());
                 startDatePickerDialog.getDatePicker().setMaxDate(birthCalendarFinish.getTimeInMillis());
 
-                startDatePickerDialog.setButton(DatePickerDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener()
-                {
+                startDatePickerDialog.setButton(DatePickerDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
+                    public void onClick(DialogInterface dialog, int which) {
                         startCalendar.set(startDatePickerDialog.getDatePicker().getYear(), startDatePickerDialog.getDatePicker().getMonth(), startDatePickerDialog.getDatePicker().getDayOfMonth());
                         editText.setText(simpleDateFormat.format(startCalendar.getTime()));
                     }
@@ -193,11 +195,9 @@ public class BaseActivity  extends AppCompatActivity{
                 break;
 
             case 2:
-                startDatePickerDialog.setButton(DatePickerDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener()
-                {
+                startDatePickerDialog.setButton(DatePickerDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
+                    public void onClick(DialogInterface dialog, int which) {
                         startCalendar.set(startDatePickerDialog.getDatePicker().getYear(), startDatePickerDialog.getDatePicker().getMonth(), startDatePickerDialog.getDatePicker().getDayOfMonth());
                         editText.setText(simpleDateFormat.format(startCalendar.getTime()));
                     }
@@ -211,11 +211,9 @@ public class BaseActivity  extends AppCompatActivity{
                 startDatePickerDialog.getDatePicker().setMinDate(startCalendar.getTimeInMillis());
                 startDatePickerDialog.getDatePicker().setMaxDate(finishCalendar.getTimeInMillis());
 
-                startDatePickerDialog.setButton(DatePickerDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener()
-                {
+                startDatePickerDialog.setButton(DatePickerDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
+                    public void onClick(DialogInterface dialog, int which) {
                         startCalendar.set(startDatePickerDialog.getDatePicker().getYear(), startDatePickerDialog.getDatePicker().getMonth(), startDatePickerDialog.getDatePicker().getDayOfMonth());
                         editText.setText(simpleDateFormat.format(startCalendar.getTime()));
                     }
@@ -227,9 +225,9 @@ public class BaseActivity  extends AppCompatActivity{
         }
     }
 
-    public void returnErrorMessage(Error error, Context context){
+    public void returnErrorMessage(Error error, Context context) {
         hideLoading();
-        if(isOline(context)){
+        if (isOline(context)) {
             showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.error_title), error.getMessage(), new CustomDialogListener() {
                 @Override
                 public void positiveOnClick(MaterialDialog dialog) {
@@ -237,12 +235,11 @@ public class BaseActivity  extends AppCompatActivity{
                 }
 
                 @Override
-                public void negativeOnClidck(MaterialDialog dialog) {
+                public void negativeOnClick(MaterialDialog dialog) {
 
                 }
             });
-        }
-        else {
+        } else {
             showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.error_title), context.getString(R.string.error_message_conect), new CustomDialogListener() {
                 @Override
                 public void positiveOnClick(MaterialDialog dialog) {
@@ -250,32 +247,31 @@ public class BaseActivity  extends AppCompatActivity{
                 }
 
                 @Override
-                public void negativeOnClidck(MaterialDialog dialog) {
+                public void negativeOnClick(MaterialDialog dialog) {
 
                 }
             });
         }
     }
 
-    public void validateError(List<ValidationError> errors){
+    public void validateError(List<ValidationError> errors) {
         ValidationError currentError = errors.get(0);
-        EditText editTextError = (EditText)currentError.getView();
+        EditText editTextError = (EditText) currentError.getView();
         editTextError.requestFocus();
         editTextError.setError(currentError.getCollatedErrorMessage(this));
     }
 
-    public void hideOrShowInfoIcon(String title, String message, EditText editText){
-        if (editText.hasFocus()){
+    public void hideOrShowInfoIcon(String title, String message, EditText editText) {
+        if (editText.hasFocus()) {
             editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_info_black_24dp_tint, 0);
             instanceInfo(title, message, editText);
-        }
-        else{
+        } else {
             editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_transparent_small, 0);
         }
     }
 
-    public void instanceInfo(final String title, final String message, final EditText editText){
-        if (editText.hasFocus()){
+    public void instanceInfo(final String title, final String message, final EditText editText) {
+        if (editText.hasFocus()) {
             editText.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -284,8 +280,8 @@ public class BaseActivity  extends AppCompatActivity{
                     final int DRAWABLE_RIGHT = 2;
                     final int DRAWABLE_BOTTOM = 3;
 
-                    if(event.getAction() == MotionEvent.ACTION_UP) {
-                        if(event.getRawX() >= (editText.getRight() - editText.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        if (event.getRawX() >= (editText.getRight() - editText.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
                             showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, title, message, new CustomDialogListener() {
                                 @Override
                                 public void positiveOnClick(MaterialDialog dialog) {
@@ -293,7 +289,7 @@ public class BaseActivity  extends AppCompatActivity{
                                 }
 
                                 @Override
-                                public void negativeOnClidck(MaterialDialog dialog) {
+                                public void negativeOnClick(MaterialDialog dialog) {
 
                                 }
                             });
@@ -306,7 +302,7 @@ public class BaseActivity  extends AppCompatActivity{
         }
     }
 
-    public void insertNotification(final Context context, int user_id, String brief_description, String description, Date notification_date){
+    public void insertNotification(final Context context, int user_id, String brief_description, String description, Date notification_date) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.FULL_DATE_FORMAT);
 
         UserNotification userNotification = new UserNotification();
@@ -315,9 +311,10 @@ public class BaseActivity  extends AppCompatActivity{
         userNotification.setDescription(description + " " + simpleDateFormat.format(notification_date));
         userNotification.setNotification_date(notification_date);
 
-        new NotificationControll(context).saveUserNotification(userNotification, new ControllResponseListener() {
+        new NotificationControler(context).saveUserNotification(userNotification, new ControlResponseListener() {
             @Override
-            public void success(Object object) {}
+            public void success(Object object) {
+            }
 
             @Override
             public void fail(Error error) {

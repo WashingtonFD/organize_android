@@ -4,7 +4,18 @@ import android.os.Parcel;
 
 import com.google.gson.annotations.SerializedName;
 
-public class SecurityQuestion extends ErrorReturn{
+public class SecurityQuestion extends ErrorReturn {
+    public static final Creator<SecurityQuestion> CREATOR = new Creator<SecurityQuestion>() {
+        @Override
+        public SecurityQuestion createFromParcel(Parcel source) {
+            return new SecurityQuestion(source);
+        }
+
+        @Override
+        public SecurityQuestion[] newArray(int size) {
+            return new SecurityQuestion[size];
+        }
+    };
     @SerializedName("id")
     private int id;
     @SerializedName("user")
@@ -15,6 +26,19 @@ public class SecurityQuestion extends ErrorReturn{
     private String security_question;
     @SerializedName("private_use")
     private boolean private_use;
+
+    public SecurityQuestion() {
+        this.setIs_new(true);
+    }
+
+    protected SecurityQuestion(Parcel in) {
+        super(in);
+        this.id = in.readInt();
+        this.user = in.readInt();
+        this.locale = in.readString();
+        this.security_question = in.readString();
+        this.private_use = in.readByte() != 0;
+    }
 
     public int getId() {
         return id;
@@ -56,7 +80,6 @@ public class SecurityQuestion extends ErrorReturn{
         this.private_use = private_use;
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -71,29 +94,4 @@ public class SecurityQuestion extends ErrorReturn{
         dest.writeString(this.security_question);
         dest.writeByte(this.private_use ? (byte) 1 : (byte) 0);
     }
-
-    public SecurityQuestion() {
-        this.setIs_new(true);
-    }
-
-    protected SecurityQuestion(Parcel in) {
-        super(in);
-        this.id = in.readInt();
-        this.user = in.readInt();
-        this.locale = in.readString();
-        this.security_question = in.readString();
-        this.private_use = in.readByte() != 0;
-    }
-
-    public static final Creator<SecurityQuestion> CREATOR = new Creator<SecurityQuestion>() {
-        @Override
-        public SecurityQuestion createFromParcel(Parcel source) {
-            return new SecurityQuestion(source);
-        }
-
-        @Override
-        public SecurityQuestion[] newArray(int size) {
-            return new SecurityQuestion[size];
-        }
-    };
 }

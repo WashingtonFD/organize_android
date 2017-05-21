@@ -1,6 +1,6 @@
 package com.organize4event.organize.enuns;
 
-public enum  PrivacyEnum {
+public enum PrivacyEnum {
 
     ALL(1),
     JUST_FRIENDS(2),

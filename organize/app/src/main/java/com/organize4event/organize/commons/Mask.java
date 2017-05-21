@@ -5,11 +5,11 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 
 public abstract class Mask {
-    public static String CPF_MASK       = "###.###.###-##";
-    public static String CPHONE_MASK    = "(##) #### ####";
+    public static String CPF_MASK = "###.###.###-##";
+    public static String CPHONE_MASK = "(##) #### ####";
     public static String CELLPHONE_MASK = "(##) #### #####";
-    public static String ZIPCODE_MASK   = "#####-###";
-    public static String DATE_MASK      = "##/##/####";
+    public static String ZIPCODE_MASK = "#####-###";
+    public static String DATE_MASK = "##/##/####";
 
 
     public static String unmask(String s) {
@@ -99,9 +99,11 @@ public abstract class Mask {
                 ediTxt.setSelection(mascara.length());
             }
 
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         };
     }
 }

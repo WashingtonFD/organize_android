@@ -12,7 +12,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class SendMail extends AsyncTask<String, Void, Void>{
+public class SendMail extends AsyncTask<String, Void, Void> {
 
     private String receiver;
     private String title;
@@ -25,14 +25,12 @@ public class SendMail extends AsyncTask<String, Void, Void>{
     }
 
     @Override
-    protected void onPreExecute()
-    {
+    protected void onPreExecute() {
         super.onPreExecute();
     }
 
     @Override
-    protected void onPostExecute(Void aVoid)
-    {
+    protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
     }
 

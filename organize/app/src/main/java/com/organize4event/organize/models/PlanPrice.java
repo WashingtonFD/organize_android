@@ -4,7 +4,18 @@ import android.os.Parcel;
 
 import com.google.gson.annotations.SerializedName;
 
-public class PlanPrice extends ErrorReturn{
+public class PlanPrice extends ErrorReturn {
+    public static final Creator<PlanPrice> CREATOR = new Creator<PlanPrice>() {
+        @Override
+        public PlanPrice createFromParcel(Parcel source) {
+            return new PlanPrice(source);
+        }
+
+        @Override
+        public PlanPrice[] newArray(int size) {
+            return new PlanPrice[size];
+        }
+    };
     @SerializedName("id")
     private int id;
     @SerializedName("locale")
@@ -17,6 +28,20 @@ public class PlanPrice extends ErrorReturn{
     private double price;
     @SerializedName("is_active")
     private boolean is_active;
+
+    public PlanPrice() {
+        this.setIs_new(true);
+    }
+
+    protected PlanPrice(Parcel in) {
+        super(in);
+        this.id = in.readInt();
+        this.locale = in.readString();
+        this.code_enum = in.readInt();
+        this.plan = in.readInt();
+        this.price = in.readDouble();
+        this.is_active = in.readByte() != 0;
+    }
 
     public int getId() {
         return id;
@@ -66,7 +91,6 @@ public class PlanPrice extends ErrorReturn{
         this.is_active = is_active;
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -82,30 +106,4 @@ public class PlanPrice extends ErrorReturn{
         dest.writeDouble(this.price);
         dest.writeByte(this.is_active ? (byte) 1 : (byte) 0);
     }
-
-    public PlanPrice() {
-        this.setIs_new(true);
-    }
-
-    protected PlanPrice(Parcel in) {
-        super(in);
-        this.id = in.readInt();
-        this.locale = in.readString();
-        this.code_enum = in.readInt();
-        this.plan = in.readInt();
-        this.price = in.readDouble();
-        this.is_active = in.readByte() != 0;
-    }
-
-    public static final Creator<PlanPrice> CREATOR = new Creator<PlanPrice>() {
-        @Override
-        public PlanPrice createFromParcel(Parcel source) {
-            return new PlanPrice(source);
-        }
-
-        @Override
-        public PlanPrice[] newArray(int size) {
-            return new PlanPrice[size];
-        }
-    };
 }

@@ -7,7 +7,18 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 
 
-public class TermUse extends ErrorReturn{
+public class TermUse extends ErrorReturn {
+    public static final Creator<TermUse> CREATOR = new Creator<TermUse>() {
+        @Override
+        public TermUse createFromParcel(Parcel source) {
+            return new TermUse(source);
+        }
+
+        @Override
+        public TermUse[] newArray(int size) {
+            return new TermUse[size];
+        }
+    };
     @SerializedName("id")
     private int id;
     @SerializedName("locale")
@@ -22,6 +33,22 @@ public class TermUse extends ErrorReturn{
     private Date publication_date;
     @SerializedName("is_active")
     private boolean is_active;
+
+    public TermUse() {
+        this.setIs_new(true);
+    }
+
+    protected TermUse(Parcel in) {
+        super(in);
+        this.id = in.readInt();
+        this.locale = in.readString();
+        this.version_name = in.readString();
+        this.title = in.readString();
+        this.content = in.readString();
+        long tmpPublication_date = in.readLong();
+        this.publication_date = tmpPublication_date == -1 ? null : new Date(tmpPublication_date);
+        this.is_active = in.readByte() != 0;
+    }
 
     public int getId() {
         return id;
@@ -79,7 +106,6 @@ public class TermUse extends ErrorReturn{
         this.is_active = is_active;
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -96,32 +122,4 @@ public class TermUse extends ErrorReturn{
         dest.writeLong(this.publication_date != null ? this.publication_date.getTime() : -1);
         dest.writeByte(this.is_active ? (byte) 1 : (byte) 0);
     }
-
-    public TermUse() {
-        this.setIs_new(true);
-    }
-
-    protected TermUse(Parcel in) {
-        super(in);
-        this.id = in.readInt();
-        this.locale = in.readString();
-        this.version_name = in.readString();
-        this.title = in.readString();
-        this.content = in.readString();
-        long tmpPublication_date = in.readLong();
-        this.publication_date = tmpPublication_date == -1 ? null : new Date(tmpPublication_date);
-        this.is_active = in.readByte() != 0;
-    }
-
-    public static final Creator<TermUse> CREATOR = new Creator<TermUse>() {
-        @Override
-        public TermUse createFromParcel(Parcel source) {
-            return new TermUse(source);
-        }
-
-        @Override
-        public TermUse[] newArray(int size) {
-            return new TermUse[size];
-        }
-    };
 }

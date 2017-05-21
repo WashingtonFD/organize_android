@@ -25,13 +25,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class PlanDetailActivity extends BaseActivity {
-    private Context context;
-    private Plan plan;
-    private PlanAdvantagesAdapter adapter;
-
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-
     @Bind(R.id.txtPrice)
     TextView txtprice;
     @Bind(R.id.txtPeriod)
@@ -40,6 +35,9 @@ public class PlanDetailActivity extends BaseActivity {
     TextView txtDescription;
     @Bind(R.id.listAdvantages)
     RecyclerView listAdvantages;
+    private Context context;
+    private Plan plan;
+    private PlanAdvantagesAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +63,10 @@ public class PlanDetailActivity extends BaseActivity {
         adapter = new PlanAdvantagesAdapter(context, plan.getAdvantages());
         txtDescription.setText(plan.getDescription());
 
-        if (plan.getCode_enum() == PlanEnum.FREE.getValue()){
+        if (plan.getCode_enum() == PlanEnum.FREE.getValue()) {
             txtPeriod.setVisibility(View.GONE);
             txtprice.setText(context.getString(R.string.message_free));
-        }
-        else{
+        } else {
             txtPeriod.setVisibility(View.VISIBLE);
             for (PlanPrice planPrice : plan.getPrice()) {
                 if (planPrice.is_active()) {

@@ -4,8 +4,19 @@ import android.os.Parcel;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ContactType extends ErrorReturn{
+public class ContactType extends ErrorReturn {
 
+    public static final Creator<ContactType> CREATOR = new Creator<ContactType>() {
+        @Override
+        public ContactType createFromParcel(Parcel source) {
+            return new ContactType(source);
+        }
+
+        @Override
+        public ContactType[] newArray(int size) {
+            return new ContactType[size];
+        }
+    };
     @SerializedName("id")
     private int id;
     @SerializedName("locale")
@@ -14,6 +25,18 @@ public class ContactType extends ErrorReturn{
     private int code_enum;
     @SerializedName("name")
     private String name;
+
+    public ContactType() {
+        this.setIs_new(true);
+    }
+
+    protected ContactType(Parcel in) {
+        super(in);
+        this.id = in.readInt();
+        this.locale = in.readString();
+        this.code_enum = in.readInt();
+        this.name = in.readString();
+    }
 
     public int getId() {
         return id;
@@ -47,7 +70,6 @@ public class ContactType extends ErrorReturn{
         this.name = name;
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -61,28 +83,4 @@ public class ContactType extends ErrorReturn{
         dest.writeInt(this.code_enum);
         dest.writeString(this.name);
     }
-
-    public ContactType() {
-        this.setIs_new(true);
-    }
-
-    protected ContactType(Parcel in) {
-        super(in);
-        this.id = in.readInt();
-        this.locale = in.readString();
-        this.code_enum = in.readInt();
-        this.name = in.readString();
-    }
-
-    public static final Creator<ContactType> CREATOR = new Creator<ContactType>() {
-        @Override
-        public ContactType createFromParcel(Parcel source) {
-            return new ContactType(source);
-        }
-
-        @Override
-        public ContactType[] newArray(int size) {
-            return new ContactType[size];
-        }
-    };
 }

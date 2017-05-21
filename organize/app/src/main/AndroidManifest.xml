@@ -22,8 +22,9 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            tools:replace="android:value"
-            android:value="@string/facebook_app_id" />
+            android:value="@string/facebook_app_id"
+            tools:replace="android:value" />
+
         <activity android:name=".ui.activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,7 +42,9 @@
         <activity android:name=".ui.activities.UserRegisterActivity" />
         <activity android:name=".ui.activities.LoginActivity" />
         <activity android:name=".ui.activities.AboutActivity" />
-        <activity android:name=".ui.activities.PrivacyActivity"/>
+        <activity android:name=".ui.activities.PrivacyActivity" />
+        <activity android:name=".ui.activities.VerifySecurityActivity"/>
+        <activity android:name=".ui.activities.SelectorSecurityQuestionActivity"/>
     </application>
 
 </manifest>

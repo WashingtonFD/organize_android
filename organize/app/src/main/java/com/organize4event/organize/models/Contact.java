@@ -4,8 +4,19 @@ import android.os.Parcel;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Contact extends ErrorReturn{
+public class Contact extends ErrorReturn {
 
+    public static final Creator<Contact> CREATOR = new Creator<Contact>() {
+        @Override
+        public Contact createFromParcel(Parcel source) {
+            return new Contact(source);
+        }
+
+        @Override
+        public Contact[] newArray(int size) {
+            return new Contact[size];
+        }
+    };
     @SerializedName("id")
     private int id;
     @SerializedName("locale")
@@ -20,6 +31,21 @@ public class Contact extends ErrorReturn{
     private String contact;
     @SerializedName("is_active")
     private boolean is_active;
+
+    public Contact() {
+        this.setIs_new(true);
+    }
+
+    protected Contact(Parcel in) {
+        super(in);
+        this.id = in.readInt();
+        this.locale = in.readString();
+        this.code_enum = in.readInt();
+        this.description = in.readString();
+        this.contact_type = in.readParcelable(ContactType.class.getClassLoader());
+        this.contact = in.readString();
+        this.is_active = in.readByte() != 0;
+    }
 
     public int getId() {
         return id;
@@ -77,7 +103,6 @@ public class Contact extends ErrorReturn{
         this.is_active = is_active;
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -94,31 +119,4 @@ public class Contact extends ErrorReturn{
         dest.writeString(this.contact);
         dest.writeByte(this.is_active ? (byte) 1 : (byte) 0);
     }
-
-    public Contact() {
-        this.setIs_new(true);
-    }
-
-    protected Contact(Parcel in) {
-        super(in);
-        this.id = in.readInt();
-        this.locale = in.readString();
-        this.code_enum = in.readInt();
-        this.description = in.readString();
-        this.contact_type = in.readParcelable(ContactType.class.getClassLoader());
-        this.contact = in.readString();
-        this.is_active = in.readByte() != 0;
-    }
-
-    public static final Creator<Contact> CREATOR = new Creator<Contact>() {
-        @Override
-        public Contact createFromParcel(Parcel source) {
-            return new Contact(source);
-        }
-
-        @Override
-        public Contact[] newArray(int size) {
-            return new Contact[size];
-        }
-    };
 }
