@@ -2,6 +2,7 @@
     <string name="app_name">Organize</string>
     <string name="facebook_app_id">1888152091466735</string>
     <string name="google_key_api">AIzaSyD5SaYL196-cr2KrTcZv7SAIpSajWdcM18</string>
+    <string name="banner_admob">ca-app-pub-2820342401435245~3271113410</string>
 
     <string name="content_is_not_registered">Não possuo cadastro</string>
     <string name="content_is_not_security_data">Não lembro meus dados de segurança</string>
