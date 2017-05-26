@@ -4,6 +4,7 @@ import android.app.Application;
 import android.support.multidex.MultiDex;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.crash.FirebaseCrash;
 import com.organize4event.organize.R;
 import com.organize4event.organize.models.FirstAccess;
 
@@ -45,5 +46,6 @@ public class AppApplication extends Application {
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder().setDefaultFontPath("fonts/GothamRounded-Light.otf").setFontAttrId(R.attr.fontPath).build());
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        FirebaseCrash.report(new Exception("Fatal error"));
     }
 }
