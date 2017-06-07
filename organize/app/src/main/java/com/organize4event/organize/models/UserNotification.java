@@ -1,14 +1,16 @@
 package com.organize4event.organize.models;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class UserNotification extends ErrorReturn implements Comparable<UserNotification> {
-    public static final Creator<UserNotification> CREATOR = new Creator<UserNotification>() {
+public class UserNotification implements Comparable<UserNotification>, Parcelable {
+
+    public static final Parcelable.Creator<UserNotification> CREATOR = new Parcelable.Creator<UserNotification>() {
         @Override
         public UserNotification createFromParcel(Parcel source) {
             return new UserNotification(source);
@@ -36,7 +38,6 @@ public class UserNotification extends ErrorReturn implements Comparable<UserNoti
     }
 
     protected UserNotification(Parcel in) {
-        super(in);
         this.id = in.readInt();
         this.user = in.readInt();
         this.brief_description = in.readString();
@@ -95,22 +96,6 @@ public class UserNotification extends ErrorReturn implements Comparable<UserNoti
     }
 
     @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
-        dest.writeInt(this.id);
-        dest.writeInt(this.user);
-        dest.writeString(this.brief_description);
-        dest.writeString(this.description);
-        dest.writeLong(this.notification_date != null ? this.notification_date.getTime() : -1);
-        dest.writeByte(this.is_read ? (byte) 1 : (byte) 0);
-    }
-
-    @Override
     public int compareTo(@NonNull UserNotification o) {
         if (this.getNotification_date().getTime() < o.getNotification_date().getTime()) {
             return 1;
@@ -119,5 +104,20 @@ public class UserNotification extends ErrorReturn implements Comparable<UserNoti
         } else {
             return 0;
         }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeInt(this.user);
+        dest.writeString(this.brief_description);
+        dest.writeString(this.description);
+        dest.writeLong(this.notification_date != null ? this.notification_date.getTime() : -1);
+        dest.writeByte(this.is_read ? (byte) 1 : (byte) 0);
     }
 }

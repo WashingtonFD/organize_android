@@ -1,7 +1,6 @@
 package com.organize4event.organize.services;
 
 
-import com.organize4event.organize.models.ErrorReturn;
 import com.organize4event.organize.models.SecurityQuestion;
 
 import java.util.ArrayList;

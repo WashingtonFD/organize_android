@@ -1,12 +1,13 @@
 package com.organize4event.organize.models;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class LoginType extends ErrorReturn {
+public class LoginType implements Parcelable {
 
-    public static final Creator<LoginType> CREATOR = new Creator<LoginType>() {
+    public static final Parcelable.Creator<LoginType> CREATOR = new Parcelable.Creator<LoginType>() {
         @Override
         public LoginType createFromParcel(Parcel source) {
             return new LoginType(source);
@@ -27,11 +28,9 @@ public class LoginType extends ErrorReturn {
     private String name;
 
     public LoginType() {
-        this.setIs_new(true);
     }
 
     protected LoginType(Parcel in) {
-        super(in);
         this.id = in.readInt();
         this.locale = in.readString();
         this.code_enum = in.readInt();
@@ -39,6 +38,7 @@ public class LoginType extends ErrorReturn {
     }
 
     public int getId() {
+
         return id;
     }
 
@@ -77,7 +77,6 @@ public class LoginType extends ErrorReturn {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
         dest.writeInt(this.id);
         dest.writeString(this.locale);
         dest.writeInt(this.code_enum);

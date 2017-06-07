@@ -1,11 +1,13 @@
 package com.organize4event.organize.models;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class PlanAdvantage extends ErrorReturn {
-    public static final Creator<PlanAdvantage> CREATOR = new Creator<PlanAdvantage>() {
+public class PlanAdvantage implements Parcelable {
+
+    public static final Parcelable.Creator<PlanAdvantage> CREATOR = new Parcelable.Creator<PlanAdvantage>() {
         @Override
         public PlanAdvantage createFromParcel(Parcel source) {
             return new PlanAdvantage(source);
@@ -28,11 +30,9 @@ public class PlanAdvantage extends ErrorReturn {
     private String advantage;
 
     public PlanAdvantage() {
-        this.setIs_new(true);
     }
 
     protected PlanAdvantage(Parcel in) {
-        super(in);
         this.id = in.readInt();
         this.locale = in.readString();
         this.code_enum = in.readInt();
@@ -87,7 +87,6 @@ public class PlanAdvantage extends ErrorReturn {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
         dest.writeInt(this.id);
         dest.writeString(this.locale);
         dest.writeInt(this.code_enum);

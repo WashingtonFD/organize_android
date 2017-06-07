@@ -1,7 +1,6 @@
 package com.organize4event.organize.services;
 
 
-import com.organize4event.organize.models.ErrorReturn;
 import com.organize4event.organize.models.User;
 import com.organize4event.organize.models.UserType;
 

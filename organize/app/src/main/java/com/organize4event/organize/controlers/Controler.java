@@ -3,7 +3,6 @@ package com.organize4event.organize.controlers;
 import android.content.Context;
 
 import com.organize4event.organize.R;
-import com.organize4event.organize.models.ErrorReturn;
 
 public class Controler {
 

@@ -5,7 +5,6 @@ import android.content.Context;
 import com.organize4event.organize.commons.ApiClient;
 import com.organize4event.organize.commons.Constants;
 import com.organize4event.organize.listeners.ControlResponseListener;
-import com.organize4event.organize.models.ErrorReturn;
 import com.organize4event.organize.models.User;
 import com.organize4event.organize.models.UserType;
 import com.organize4event.organize.services.UserService;

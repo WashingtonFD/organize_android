@@ -1,14 +1,16 @@
 package com.organize4event.organize.models;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class User extends ErrorReturn {
-    public static final Creator<User> CREATOR = new Creator<User>() {
+public class User implements Parcelable {
+
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
         @Override
         public User createFromParcel(Parcel source) {
             return new User(source);
@@ -60,6 +62,7 @@ public class User extends ErrorReturn {
     @SerializedName("user_security")
     private UserSecurity user_security;
     @SerializedName("user_settings")
+
     private ArrayList<UserSetting> user_settings;
     @SerializedName("user_notifications")
     private ArrayList<UserNotification> user_notifications;
@@ -68,7 +71,6 @@ public class User extends ErrorReturn {
     }
 
     protected User(Parcel in) {
-        super(in);
         this.id = in.readInt();
         this.user_type = in.readParcelable(UserType.class.getClassLoader());
         this.token = in.readParcelable(Token.class.getClassLoader());
@@ -90,8 +92,10 @@ public class User extends ErrorReturn {
         this.responsible_cpf = in.readString();
         this.user_term = in.readParcelable(UserTerm.class.getClassLoader());
         this.user_security = in.readParcelable(UserSecurity.class.getClassLoader());
-        this.user_settings = in.createTypedArrayList(UserSetting.CREATOR);
-        this.user_notifications = in.createTypedArrayList(UserNotification.CREATOR);
+        this.user_settings = new ArrayList<UserSetting>();
+        in.readList(this.user_settings, UserSetting.class.getClassLoader());
+        this.user_notifications = new ArrayList<UserNotification>();
+        in.readList(this.user_notifications, UserNotification.class.getClassLoader());
     }
 
     public int getId() {
@@ -277,7 +281,6 @@ public class User extends ErrorReturn {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
         dest.writeInt(this.id);
         dest.writeParcelable(this.user_type, flags);
         dest.writeParcelable(this.token, flags);
@@ -298,7 +301,7 @@ public class User extends ErrorReturn {
         dest.writeString(this.responsible_cpf);
         dest.writeParcelable(this.user_term, flags);
         dest.writeParcelable(this.user_security, flags);
-        dest.writeTypedList(this.user_settings);
-        dest.writeTypedList(this.user_notifications);
+        dest.writeList(this.user_settings);
+        dest.writeList(this.user_notifications);
     }
 }

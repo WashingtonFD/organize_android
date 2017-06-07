@@ -1,12 +1,13 @@
 package com.organize4event.organize.models;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class Plan extends ErrorReturn {
+public class Plan implements Parcelable {
 
     public static final Creator<Plan> CREATOR = new Creator<Plan>() {
         @Override
@@ -31,26 +32,21 @@ public class Plan extends ErrorReturn {
     private String description;
     @SerializedName("security_code")
     private String security_code;
-    @SerializedName("is_active")
-    private boolean is_active;
     @SerializedName("advantages")
     private ArrayList<PlanAdvantage> advantages;
     @SerializedName("price")
     private ArrayList<PlanPrice> price;
 
     public Plan() {
-        this.setIs_new(true);
     }
 
     protected Plan(Parcel in) {
-        super(in);
         this.id = in.readInt();
         this.locale = in.readString();
         this.code_enum = in.readInt();
         this.name = in.readString();
         this.description = in.readString();
         this.security_code = in.readString();
-        this.is_active = in.readByte() != 0;
         this.advantages = in.createTypedArrayList(PlanAdvantage.CREATOR);
         this.price = in.createTypedArrayList(PlanPrice.CREATOR);
     }
@@ -103,14 +99,6 @@ public class Plan extends ErrorReturn {
         this.security_code = security_code;
     }
 
-    public boolean is_active() {
-        return is_active;
-    }
-
-    public void setIs_active(boolean is_active) {
-        this.is_active = is_active;
-    }
-
     public ArrayList<PlanAdvantage> getAdvantages() {
         return advantages;
     }
@@ -134,14 +122,12 @@ public class Plan extends ErrorReturn {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
         dest.writeInt(this.id);
         dest.writeString(this.locale);
         dest.writeInt(this.code_enum);
         dest.writeString(this.name);
         dest.writeString(this.description);
         dest.writeString(this.security_code);
-        dest.writeByte(this.is_active ? (byte) 1 : (byte) 0);
         dest.writeTypedList(this.advantages);
         dest.writeTypedList(this.price);
     }
