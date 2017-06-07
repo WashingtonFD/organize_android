@@ -1,8 +1,7 @@
 package com.organize4event.organize.services;
 
 
-import com.organize4event.organize.models.User;
-import com.organize4event.organize.models.UserType;
+import com.google.gson.JsonObject;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -18,19 +17,19 @@ import retrofit2.http.Path;
 public interface UserService {
 
     @GET("user_type/{locale}/{code_enum}")
-    Call<UserType> getUserType(
+    Call<JsonObject> getUserType(
             @Path("locale") String locale,
             @Path("code_enum") int code_enum);
 
     @FormUrlEncoded
     @POST("user/mail")
-    Call<User> getUserMail(
+    Call<JsonObject> getUserMail(
             @Field("mail") String mail
     );
 
     @FormUrlEncoded
     @POST("user/save")
-    Call<User> saveUser(
+    Call<JsonObject> saveUser(
             @Field("user_type") int user_type_id,
             @Field("plan") int plan_id,
             @Field("privacy") int privacy_id,
@@ -44,24 +43,24 @@ public interface UserService {
 
     @FormUrlEncoded
     @POST("user/{user_id}")
-    Call<User> updateUserToken(@Path("user_id") int user_id,
-                               @Field("token") int token_id);
+    Call<JsonObject> updateUserToken(@Path("user_id") int user_id,
+                                     @Field("token") int token_id);
 
     @FormUrlEncoded
     @POST("user/{user_id}")
-    Call<User> updateUserPrivacy(@Path("user_id") int user_id,
-                                 @Field("privacy") int privacy_id);
+    Call<JsonObject> updateUserPrivacy(@Path("user_id") int user_id,
+                                       @Field("privacy") int privacy_id);
 
     @Multipart
     @POST("user/{user_id}/photo")
-    Call<ErrorReturn> uploadPhoto(@Path("user_id") int user_id,
-                                  @Part MultipartBody.Part photo);
+    Call<JsonObject> uploadPhoto(@Path("user_id") int user_id,
+                                 @Part MultipartBody.Part photo);
 
     @FormUrlEncoded
     @POST("user/{user_id}")
-    Call<User> updateProfileFacebook(@Path("user_id") int user_id,
-                                     @Field("full_name") String full_name,
-                                     @Field("mail") String mail,
-                                     @Field("profile_picture") String profile_picture);
+    Call<JsonObject> updateProfileFacebook(@Path("user_id") int user_id,
+                                           @Field("full_name") String full_name,
+                                           @Field("mail") String mail,
+                                           @Field("profile_picture") String profile_picture);
 
 }

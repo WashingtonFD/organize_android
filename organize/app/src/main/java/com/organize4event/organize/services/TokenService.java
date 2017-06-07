@@ -1,8 +1,6 @@
 package com.organize4event.organize.services;
 
-import com.organize4event.organize.models.LoginType;
-import com.organize4event.organize.models.Token;
-import com.organize4event.organize.models.User;
+import com.google.gson.JsonObject;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -15,20 +13,20 @@ import retrofit2.http.Path;
 public interface TokenService {
 
     @GET("login_type/{locale}/{code_enum}")
-    Call<LoginType> getLoginType(
+    Call<JsonObject> getLoginType(
             @Path("locale") String locale,
             @Path("code_enum") int code_enum);
 
     @FormUrlEncoded
     @POST("login")
-    Call<User> login(
+    Call<JsonObject> login(
             @Field("mail") String mail,
             @Field("password") String password
     );
 
     @FormUrlEncoded
     @POST("token/save")
-    Call<Token> saveToken(
+    Call<JsonObject> saveToken(
             @Field("user_id") int user_id,
             @Field("login_type") int login_type_id,
             @Field("access_platform") int access_platform_id,

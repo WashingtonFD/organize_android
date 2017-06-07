@@ -1,7 +1,6 @@
 package com.organize4event.organize.services;
 
-import com.organize4event.organize.models.AccessPlatform;
-import com.organize4event.organize.models.FirstAccess;
+import com.google.gson.JsonObject;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -13,11 +12,11 @@ import retrofit2.http.Path;
 
 public interface FirstAccessService {
     @GET("first_access/{device_id}")
-    Call<FirstAccess> getFirstAccess(@Path("device_id") String device_id);
+    Call<JsonObject> getFirstAccess(@Path("device_id") String device_id);
 
     @FormUrlEncoded
     @POST("first_access/save")
-    Call<FirstAccess> saveFirstAccess(
+    Call<JsonObject> saveFirstAccess(
             @Field("user_id") int user_id,
             @Field("device_id") String device_id,
             @Field("locale") String locale,
@@ -25,7 +24,7 @@ public interface FirstAccessService {
     );
 
     @GET("access_platform/{locale}/{code_enum}")
-    Call<AccessPlatform> getAccessPlatform(
+    Call<JsonObject> getAccessPlatform(
             @Path("locale") String locale,
             @Path("code_enum") int code_enum);
 }

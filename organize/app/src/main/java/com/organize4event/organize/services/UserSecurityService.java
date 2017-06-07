@@ -1,9 +1,7 @@
 package com.organize4event.organize.services;
 
 
-import com.organize4event.organize.models.SecurityQuestion;
-
-import java.util.ArrayList;
+import com.google.gson.JsonObject;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -15,13 +13,13 @@ import retrofit2.http.Path;
 public interface UserSecurityService {
 
     @GET("security_questions/{user_id}")
-    Call<ArrayList<SecurityQuestion>> getSecurityQuestions(
+    Call<JsonObject> getSecurityQuestions(
             @Path("user_id") int user_id
     );
 
     @FormUrlEncoded
     @POST("password_recovery")
-    Call<ErrorReturn> sendMail(@Field("mail") String mail,
-                               @Field("user_security_id") int user_security_id,
-                               @Field("user_anwser") String user_anwser);
+    Call<JsonObject> sendMail(@Field("mail") String mail,
+                              @Field("user_security_id") int user_security_id,
+                              @Field("user_anwser") String user_anwser);
 }
