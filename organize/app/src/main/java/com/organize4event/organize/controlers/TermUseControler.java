@@ -2,6 +2,8 @@ package com.organize4event.organize.controlers;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.organize4event.organize.commons.ApiClient;
 import com.organize4event.organize.commons.Constants;
 import com.organize4event.organize.listeners.ControlResponseListener;
@@ -22,12 +24,14 @@ public class TermUseControler extends Controler {
 
     public void getTermUse(final ControlResponseListener listener) {
         TermUseService service = ApiClient.getRetrofit().create(TermUseService.class);
-        service.getTermUse().enqueue(new Callback<TermUse>() {
+        service.getTermUse().enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<TermUse> call, Response<TermUse> response) {
-                TermUse termUse = (TermUse) response.body();
-                Error error = parserError(termUse);
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonObject jsonObject = response.body();
+                Error error = parserError(jsonObject);
                 if (error == null) {
+                    JsonObject object = jsonObject.get("data").getAsJsonObject();
+                    TermUse termUse = new Gson().fromJson(object, TermUse.class);
                     listener.success(termUse);
                 } else {
                     listener.fail(error);
@@ -35,7 +39,7 @@ public class TermUseControler extends Controler {
             }
 
             @Override
-            public void onFailure(Call<TermUse> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 listener.fail(new Error(t.getMessage()));
             }
         });
@@ -47,12 +51,14 @@ public class TermUseControler extends Controler {
         service.saveUserTerm(userTerm.getUser(),
                 userTerm.getTerm().getId(),
                 term_accept,
-                fullDateFormat.format(userTerm.getTerm_accept_date())).enqueue(new Callback<UserTerm>() {
+                fullDateFormat.format(userTerm.getTerm_accept_date())).enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<UserTerm> call, Response<UserTerm> response) {
-                UserTerm userTerm = (UserTerm) response.body();
-                Error error = parserError(userTerm);
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonObject jsonObject = response.body();
+                Error error = parserError(jsonObject);
                 if (error == null) {
+                    JsonObject object = jsonObject.get("data").getAsJsonObject();
+                    UserTerm userTerm = new Gson().fromJson(object, UserTerm.class);
                     listener.success(userTerm);
                 } else {
                     listener.fail(error);
@@ -60,7 +66,7 @@ public class TermUseControler extends Controler {
             }
 
             @Override
-            public void onFailure(Call<UserTerm> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 listener.fail(new Error(t.getMessage()));
             }
         });

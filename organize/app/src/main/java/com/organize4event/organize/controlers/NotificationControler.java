@@ -3,6 +3,10 @@ package com.organize4event.organize.controlers;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.organize4event.organize.commons.ApiClient;
 import com.organize4event.organize.commons.Constants;
 import com.organize4event.organize.listeners.ControlResponseListener;
@@ -10,7 +14,7 @@ import com.organize4event.organize.models.UserNotification;
 import com.organize4event.organize.services.NotificationService;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,15 +27,23 @@ public class NotificationControler extends Controler {
 
     public void getUserNotifications(int user_id, final ControlResponseListener listener) {
         NotificationService service = ApiClient.getRetrofit().create(NotificationService.class);
-        service.getUserNotifications(user_id).enqueue(new Callback<ArrayList<UserNotification>>() {
+        service.getUserNotifications(user_id).enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<ArrayList<UserNotification>> call, Response<ArrayList<UserNotification>> response) {
-                ArrayList<UserNotification> userNotifications = (ArrayList<UserNotification>) response.body();
-                listener.success(userNotifications);
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonObject jsonObject = response.body();
+                Error error = parserError(jsonObject);
+                if (error == null) {
+                    JsonArray array = jsonObject.get("data").getAsJsonArray();
+                    List<UserNotification> userNotifications = (List<UserNotification>) new Gson().fromJson(array, new TypeToken<List<UserNotification>>() {
+                    }.getType());
+                    listener.success(userNotifications);
+                } else {
+                    listener.fail(error);
+                }
             }
 
             @Override
-            public void onFailure(Call<ArrayList<UserNotification>> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 listener.fail(new Error(t.getMessage()));
             }
         });
@@ -43,13 +55,14 @@ public class NotificationControler extends Controler {
         service.saveUserNotification(userNotification.getUser(),
                 userNotification.getBrief_description(),
                 userNotification.getDescription(),
-                simpleDateFormat.format(userNotification.getNotification_date())).enqueue(new Callback<UserNotification>() {
+                simpleDateFormat.format(userNotification.getNotification_date())).enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<UserNotification> call, Response<UserNotification> response) {
-                UserNotification userNotification = (UserNotification) response.body();
-                Error error = parserError(userNotification);
-
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonObject jsonObject = response.body();
+                Error error = parserError(jsonObject);
                 if (error == null) {
+                    JsonObject object = jsonObject.get("data").getAsJsonObject();
+                    UserNotification userNotification = new Gson().fromJson(object, UserNotification.class);
                     listener.success(userNotification);
                 } else {
                     listener.fail(error);
@@ -57,7 +70,7 @@ public class NotificationControler extends Controler {
             }
 
             @Override
-            public void onFailure(Call<UserNotification> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 listener.fail(new Error(t.getMessage()));
             }
         });
@@ -65,13 +78,14 @@ public class NotificationControler extends Controler {
 
     public void readUserNotification(UserNotification userNotification, int is_read, final ControlResponseListener listener) {
         NotificationService service = ApiClient.getRetrofit().create(NotificationService.class);
-        service.readUserNotification(userNotification.getId(), is_read).enqueue(new Callback<UserNotification>() {
+        service.readUserNotification(userNotification.getId(), is_read).enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<UserNotification> call, Response<UserNotification> response) {
-                UserNotification userNotification = (UserNotification) response.body();
-                Error error = parserError(userNotification);
-
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonObject jsonObject = response.body();
+                Error error = parserError(jsonObject);
                 if (error == null) {
+                    JsonObject object = jsonObject.get("data").getAsJsonObject();
+                    UserNotification userNotification = new Gson().fromJson(object, UserNotification.class);
                     listener.success(userNotification);
                 } else {
                     listener.fail(error);
@@ -79,7 +93,7 @@ public class NotificationControler extends Controler {
             }
 
             @Override
-            public void onFailure(Call<UserNotification> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 listener.fail(new Error(t.getMessage()));
             }
         });

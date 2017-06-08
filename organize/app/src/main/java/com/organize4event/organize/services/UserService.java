@@ -44,11 +44,6 @@ public interface UserService {
 
     @FormUrlEncoded
     @POST("user/{user_id}")
-    Call<JsonObject> updateUserToken(@Path("user_id") int user_id,
-                                     @Field("token") int token_id);
-
-    @FormUrlEncoded
-    @POST("user/{user_id}")
     Call<JsonObject> updateUserPrivacy(@Path("user_id") int user_id,
                                        @Query("token") String token,
                                        @Field("privacy") int privacy_id);
