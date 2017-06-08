@@ -162,10 +162,8 @@ public class InstitutionalFragment extends BaseFragment {
                             }
                         });
                     }
-                    if (contact.is_active()) {
-                        contactSection.addItem(contact);
-                        sections.put(key, contactSection);
-                    }
+                    contactSection.addItem(contact);
+                    sections.put(key, contactSection);
                 }
 
                 for (Map.Entry<String, ContactSection> entry : sections.entrySet()) {

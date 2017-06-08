@@ -3,7 +3,6 @@ package com.organize4event.organize.controlers;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -34,7 +33,7 @@ public class NotificationControler extends Controler {
                 Error error = parserError(jsonObject);
                 if (error == null) {
                     JsonArray array = jsonObject.get("data").getAsJsonArray();
-                    List<UserNotification> userNotifications = (List<UserNotification>) new Gson().fromJson(array, new TypeToken<List<UserNotification>>() {
+                    List<UserNotification> userNotifications = (List<UserNotification>) createGson().fromJson(array, new TypeToken<List<UserNotification>>() {
                     }.getType());
                     listener.success(userNotifications);
                 } else {
@@ -62,7 +61,7 @@ public class NotificationControler extends Controler {
                 Error error = parserError(jsonObject);
                 if (error == null) {
                     JsonObject object = jsonObject.get("data").getAsJsonObject();
-                    UserNotification userNotification = new Gson().fromJson(object, UserNotification.class);
+                    UserNotification userNotification = createGson().fromJson(object, UserNotification.class);
                     listener.success(userNotification);
                 } else {
                     listener.fail(error);
@@ -85,7 +84,7 @@ public class NotificationControler extends Controler {
                 Error error = parserError(jsonObject);
                 if (error == null) {
                     JsonObject object = jsonObject.get("data").getAsJsonObject();
-                    UserNotification userNotification = new Gson().fromJson(object, UserNotification.class);
+                    UserNotification userNotification = createGson().fromJson(object, UserNotification.class);
                     listener.success(userNotification);
                 } else {
                     listener.fail(error);

@@ -189,29 +189,24 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             public void success(Object object) {
                 hideLoading();
                 newUser = (User) object;
-                if (newUser.getId() > 0) {
-                    saveToken();
-                } else {
-                    containerLoginEmail.setVisibility(View.GONE);
-                    showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), newUser.getMessage(), new CustomDialogListener() {
-                        @Override
-                        public void positiveOnClick(MaterialDialog dialog) {
-                            dialog.dismiss();
-                            containerLoginEmail.setVisibility(View.VISIBLE);
-                        }
-
-                        @Override
-                        public void negativeOnClick(MaterialDialog dialog) {
-
-                        }
-                    });
-                }
+                saveToken();
             }
 
             @Override
             public void fail(Error error) {
                 containerLoginEmail.setVisibility(View.GONE);
-                returnErrorMessage(error, context);
+                showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), error.getMessage(), new CustomDialogListener() {
+                    @Override
+                    public void positiveOnClick(MaterialDialog dialog) {
+                        dialog.dismiss();
+                        containerLoginEmail.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void negativeOnClick(MaterialDialog dialog) {
+
+                    }
+                });
             }
         });
     }

@@ -2,7 +2,6 @@ package com.organize4event.organize.controlers;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -31,7 +30,7 @@ public class PrivacyControler extends Controler {
                 Error error = parserError(jsonObject);
                 if (error == null) {
                     JsonArray array = jsonObject.get("data").getAsJsonArray();
-                    List<Privacy> privacies = (List<Privacy>) new Gson().fromJson(array, new TypeToken<List<Privacy>>() {
+                    List<Privacy> privacies = (List<Privacy>) createGson().fromJson(array, new TypeToken<List<Privacy>>() {
                     }.getType());
                     listener.success(privacies);
                 } else {

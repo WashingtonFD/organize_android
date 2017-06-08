@@ -11,6 +11,7 @@ import android.widget.EditText;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.gson.JsonObject;
 import com.organize4event.organize.R;
 import com.organize4event.organize.controlers.UserSecurityControler;
 import com.organize4event.organize.enuns.DialogTypeEnum;
@@ -100,8 +101,8 @@ public class VerifySecurityActivity extends BaseActivity {
         new UserSecurityControler(context).sendMail(mail, user_security_id, user_answer, new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                ErrorReturn errorReturn = (ErrorReturn) object;
-                if (errorReturn.getCode() == 0) {
+                JsonObject response = (JsonObject) object;
+                if (!response.get("has_error").getAsBoolean()){
                     showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), context.getString(R.string.message_success_recovery_password), new CustomDialogListener() {
                         @Override
                         public void positiveOnClick(MaterialDialog dialog) {
@@ -114,8 +115,9 @@ public class VerifySecurityActivity extends BaseActivity {
 
                         }
                     });
-                } else {
-                    showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), errorReturn.getException(), new CustomDialogListener() {
+                }
+                else{
+                    showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), response.get("exception").getAsString(), new CustomDialogListener() {
                         @Override
                         public void positiveOnClick(MaterialDialog dialog) {
                             dialog.dismiss();

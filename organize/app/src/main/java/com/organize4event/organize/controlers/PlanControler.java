@@ -2,7 +2,6 @@ package com.organize4event.organize.controlers;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -31,7 +30,7 @@ public class PlanControler extends Controler {
                 Error error = parserError(jsonObject);
                 if (error == null) {
                     JsonArray array = jsonObject.get("data").getAsJsonArray();
-                    List<Plan> plans = (List<Plan>) new Gson().fromJson(array, new TypeToken<List<Plan>>() {
+                    List<Plan> plans = (List<Plan>) createGson().fromJson(array, new TypeToken<List<Plan>>() {
                     }.getType());
                     listener.success(plans);
                 } else {
@@ -55,7 +54,7 @@ public class PlanControler extends Controler {
                 Error error = parserError(jsonObject);
                 if (error == null) {
                     JsonObject object = jsonObject.get("data").getAsJsonObject();
-                    Plan plan = new Gson().fromJson(object, Plan.class);
+                    Plan plan = createGson().fromJson(object, Plan.class);
                     listener.success(plan);
                 } else {
                     listener.fail(error);

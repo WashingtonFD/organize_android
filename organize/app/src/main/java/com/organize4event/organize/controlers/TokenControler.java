@@ -2,7 +2,6 @@ package com.organize4event.organize.controlers;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.organize4event.organize.commons.ApiClient;
 import com.organize4event.organize.commons.Constants;
@@ -32,7 +31,7 @@ public class TokenControler extends Controler {
                 Error error = parserError(jsonObject);
                 if (error == null) {
                     JsonObject object = jsonObject.get("data").getAsJsonObject();
-                    LoginType loginType = new Gson().fromJson(object, LoginType.class);
+                    LoginType loginType = createGson().fromJson(object, LoginType.class);
                     listener.success(loginType);
                 } else {
                     listener.fail(error);
@@ -55,7 +54,7 @@ public class TokenControler extends Controler {
                 Error error = parserError(jsonObject);
                 if (error == null) {
                     JsonObject object = jsonObject.get("data").getAsJsonObject();
-                    User user = new Gson().fromJson(object, User.class);
+                    User user = createGson().fromJson(object, User.class);
                     listener.success(user);
                 } else {
                     listener.fail(error);
@@ -84,7 +83,7 @@ public class TokenControler extends Controler {
                 Error error = parserError(jsonObject);
                 if (error == null) {
                     JsonObject object = jsonObject.get("data").getAsJsonObject();
-                    Token token = new Gson().fromJson(object, Token.class);
+                    Token token = createGson().fromJson(object, Token.class);
                     listener.success(token);
                 } else {
                     listener.fail(error);

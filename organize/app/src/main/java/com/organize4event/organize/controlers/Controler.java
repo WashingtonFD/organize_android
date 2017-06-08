@@ -2,8 +2,11 @@ package com.organize4event.organize.controlers;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.organize4event.organize.R;
+import com.organize4event.organize.commons.Constants;
 
 public class Controler {
 
@@ -21,5 +24,10 @@ public class Controler {
             error = new Error(jsonObject.get("message").getAsString());
         }
         return error;
+    }
+
+    protected Gson createGson(){
+        Gson gson  = new GsonBuilder().setDateFormat(Constants.FULL_DATE_FORMAT).create();
+        return gson;
     }
 }

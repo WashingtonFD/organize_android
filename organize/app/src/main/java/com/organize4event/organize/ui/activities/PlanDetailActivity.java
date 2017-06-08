@@ -69,10 +69,7 @@ public class PlanDetailActivity extends BaseActivity {
         } else {
             txtPeriod.setVisibility(View.VISIBLE);
             for (PlanPrice planPrice : plan.getPrice()) {
-                if (planPrice.is_active()) {
-                    txtprice.setText(String.format(Locale.getDefault(), "%.2f", planPrice.getPrice()));
-                    break;
-                }
+                txtprice.setText(String.format(Locale.getDefault(), "%.2f", planPrice.getPrice()));
             }
         }
 

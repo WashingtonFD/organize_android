@@ -88,10 +88,12 @@ public class SplashActivity extends BaseActivity {
         new FirstAccessControler(context).getFirstAccess(device_id, new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                firstAccess = (FirstAccess) object;
-                if (firstAccess.getId() > 0) {
+                if (object != null){
+                    firstAccess = (FirstAccess) object;
                     verifyData();
-                } else {
+                }
+                else{
+                    firstAccess = new FirstAccess();
                     setFirstAccess();
                 }
             }

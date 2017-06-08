@@ -2,7 +2,6 @@ package com.organize4event.organize.controlers;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.organize4event.organize.commons.ApiClient;
 import com.organize4event.organize.commons.AppApplication;
@@ -38,11 +37,16 @@ public class FirstAccessControler extends Controler {
                 JsonObject jsonObject = response.body();
                 Error error = parserError(jsonObject);
                 if (error == null) {
-                    JsonObject object = jsonObject.get("data").getAsJsonObject();
-                    FirstAccess firstAccess = new Gson().fromJson(object, FirstAccess.class);
-                    PreferencesManager.saveFirstAccess(firstAccess);
-                    AppApplication.setFirstAccess(firstAccess);
-                    listener.success(firstAccess);
+                    if (jsonObject.get("data").isJsonNull()){
+                        listener.success(null);
+                    }
+                    else{
+                        JsonObject object = jsonObject.get("data").getAsJsonObject();
+                        FirstAccess firstAccess = createGson().fromJson(object, FirstAccess.class);
+                        PreferencesManager.saveFirstAccess(firstAccess);
+                        AppApplication.setFirstAccess(firstAccess);
+                        listener.success(firstAccess);
+                    }
                 } else {
                     listener.fail(error);
                 }
@@ -63,9 +67,14 @@ public class FirstAccessControler extends Controler {
                 JsonObject jsonObject = response.body();
                 Error error = parserError(jsonObject);
                 if (error == null) {
-                    JsonObject object = jsonObject.get("data").getAsJsonObject();
-                    FirstAccess firstAccess = new Gson().fromJson(object, FirstAccess.class);
-                    listener.success(firstAccess);
+                    if (jsonObject.get("data").isJsonNull()){
+                        listener.success(null);
+                    }
+                    else{
+                        JsonObject object = jsonObject.get("data").getAsJsonObject();
+                        FirstAccess firstAccess = createGson().fromJson(object, FirstAccess.class);
+                        listener.success(firstAccess);
+                    }
                 } else {
                     listener.fail(error);
                 }
@@ -86,9 +95,15 @@ public class FirstAccessControler extends Controler {
                 JsonObject jsonObject = response.body();
                 Error error = parserError(jsonObject);
                 if (error == null) {
-                    JsonObject object = jsonObject.get("data").getAsJsonObject();
-                    AccessPlatform accessPlatform = new Gson().fromJson(object, AccessPlatform.class);
-                    listener.success(accessPlatform);
+                    if (jsonObject.get("data").isJsonNull()){
+                        listener.success(null);
+                    }
+                    else{
+                        JsonObject object = jsonObject.get("data").getAsJsonObject();
+                        AccessPlatform accessPlatform = createGson().fromJson(object, AccessPlatform.class);
+                        listener.success(accessPlatform);
+                    }
+
                 } else {
                     listener.fail(error);
                 }

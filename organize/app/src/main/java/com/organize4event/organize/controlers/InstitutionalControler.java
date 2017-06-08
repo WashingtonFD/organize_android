@@ -2,7 +2,6 @@ package com.organize4event.organize.controlers;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -31,18 +30,19 @@ public class InstitutionalControler extends Controler {
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonObject jsonObject = response.body();
                 Error error = parserError(jsonObject);
-                if (error == null) {
+                if (error == null){
                     JsonObject object = jsonObject.get("data").getAsJsonObject();
-                    Institutional institutional = new Gson().fromJson(object, Institutional.class);
+                    Institutional institutional = createGson().fromJson(object, Institutional.class);
                     listener.success(institutional);
-                } else {
+                }
+                else {
                     listener.fail(error);
                 }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                listener.fail(new Error(t.getMessage()));
+listener.fail(new Error(t.getMessage()));
             }
         });
     }
@@ -56,17 +56,17 @@ public class InstitutionalControler extends Controler {
                 Error error = parserError(jsonObject);
                 if (error == null) {
                     JsonArray array = jsonObject.get("data").getAsJsonArray();
-                    List<ContactType> contactTypes = (List<ContactType>) new Gson().fromJson(array, new TypeToken<List<ContactType>>() {
-                    }.getType());
+                    List<ContactType> contactTypes = (List<ContactType>) createGson().fromJson(array, new TypeToken<List<ContactType>>(){}.getType());
                     listener.success(contactTypes);
-                } else {
+                }
+                else {
                     listener.fail(error);
                 }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                listener.fail(new Error(t.getMessage()));
+listener.fail(new Error(t.getMessage()));
             }
         });
     }
@@ -80,10 +80,10 @@ public class InstitutionalControler extends Controler {
                 Error error = parserError(jsonObject);
                 if (error == null) {
                     JsonArray array = jsonObject.get("data").getAsJsonArray();
-                    List<Contact> contacts = (List<Contact>) new Gson().fromJson(array, new TypeToken<List<Contact>>() {
-                    }.getType());
+                    List<Contact> contacts = (List<Contact>) createGson().fromJson(array, new TypeToken<List<Contact>>(){}.getType());
                     listener.success(contacts);
-                } else {
+                }
+                else {
                     listener.fail(error);
                 }
 

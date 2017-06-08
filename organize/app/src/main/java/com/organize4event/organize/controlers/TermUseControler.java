@@ -2,7 +2,6 @@ package com.organize4event.organize.controlers;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.organize4event.organize.commons.ApiClient;
 import com.organize4event.organize.commons.Constants;
@@ -31,7 +30,7 @@ public class TermUseControler extends Controler {
                 Error error = parserError(jsonObject);
                 if (error == null) {
                     JsonObject object = jsonObject.get("data").getAsJsonObject();
-                    TermUse termUse = new Gson().fromJson(object, TermUse.class);
+                    TermUse termUse = createGson().fromJson(object, TermUse.class);
                     listener.success(termUse);
                 } else {
                     listener.fail(error);
@@ -58,7 +57,7 @@ public class TermUseControler extends Controler {
                 Error error = parserError(jsonObject);
                 if (error == null) {
                     JsonObject object = jsonObject.get("data").getAsJsonObject();
-                    UserTerm userTerm = new Gson().fromJson(object, UserTerm.class);
+                    UserTerm userTerm = createGson().fromJson(object, UserTerm.class);
                     listener.success(userTerm);
                 } else {
                     listener.fail(error);

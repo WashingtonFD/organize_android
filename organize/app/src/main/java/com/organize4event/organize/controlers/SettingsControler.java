@@ -2,7 +2,6 @@ package com.organize4event.organize.controlers;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -32,7 +31,7 @@ public class SettingsControler extends Controler {
                 Error error = parserError(jsonObject);
                 if (error == null) {
                     JsonArray array = jsonObject.get("data").getAsJsonArray();
-                    List<Setting> settings = (List<Setting>) new Gson().fromJson(array, new TypeToken<List<Setting>>() {
+                    List<Setting> settings = (List<Setting>) createGson().fromJson(array, new TypeToken<List<Setting>>() {
                     }.getType());
                     listener.success(settings);
                 } else {
@@ -56,7 +55,7 @@ public class SettingsControler extends Controler {
                 Error error = parserError(jsonObject);
                 if (error == null) {
                     JsonArray array = jsonObject.get("data").getAsJsonArray();
-                    List<UserSetting> userSettings = (List<UserSetting>) new Gson().fromJson(array, new TypeToken<List<UserSetting>>() {
+                    List<UserSetting> userSettings = (List<UserSetting>) createGson().fromJson(array, new TypeToken<List<UserSetting>>() {
                     }.getType());
                     listener.success(userSettings);
                 } else {
@@ -83,7 +82,7 @@ public class SettingsControler extends Controler {
                 Error error = parserError(jsonObject);
                 if (error == null) {
                     JsonObject object = jsonObject.get("data").getAsJsonObject();
-                    UserSetting userSetting = new Gson().fromJson(object, UserSetting.class);
+                    UserSetting userSetting = createGson().fromJson(object, UserSetting.class);
                     listener.success(userSetting);
                 } else {
                     listener.fail(error);
@@ -106,7 +105,7 @@ public class SettingsControler extends Controler {
                 Error error = parserError(jsonObject);
                 if (error == null) {
                     JsonObject object = jsonObject.get("data").getAsJsonObject();
-                    UserSetting userSetting = new Gson().fromJson(object, UserSetting.class);
+                    UserSetting userSetting = createGson().fromJson(object, UserSetting.class);
                     listener.success(userSetting);
                 } else {
                     listener.fail(error);
