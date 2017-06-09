@@ -102,7 +102,7 @@ public class VerifySecurityActivity extends BaseActivity {
             @Override
             public void success(Object object) {
                 JsonObject response = (JsonObject) object;
-                if (!response.get("has_error").getAsBoolean()){
+                if (!response.get("has_error").getAsBoolean()) {
                     showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), context.getString(R.string.message_success_recovery_password), new CustomDialogListener() {
                         @Override
                         public void positiveOnClick(MaterialDialog dialog) {
@@ -115,8 +115,7 @@ public class VerifySecurityActivity extends BaseActivity {
 
                         }
                     });
-                }
-                else{
+                } else {
                     showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), response.get("exception").getAsString(), new CustomDialogListener() {
                         @Override
                         public void positiveOnClick(MaterialDialog dialog) {

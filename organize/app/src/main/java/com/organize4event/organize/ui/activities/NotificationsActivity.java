@@ -92,8 +92,6 @@ public class NotificationsActivity extends BaseActivity {
                 if (clearAll) {
                     adapter.refreshAllLayout();
                 }
-
-
             }
 
             @Override

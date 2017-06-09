@@ -32,10 +32,14 @@ public class NotificationControler extends Controler {
                 JsonObject jsonObject = response.body();
                 Error error = parserError(jsonObject);
                 if (error == null) {
-                    JsonArray array = jsonObject.get("data").getAsJsonArray();
-                    List<UserNotification> userNotifications = (List<UserNotification>) createGson().fromJson(array, new TypeToken<List<UserNotification>>() {
-                    }.getType());
-                    listener.success(userNotifications);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonArray array = jsonObject.get("data").getAsJsonArray();
+                        List<UserNotification> userNotifications = (List<UserNotification>) createGson().fromJson(array, new TypeToken<List<UserNotification>>() {
+                        }.getType());
+                        listener.success(userNotifications);
+                    }
                 } else {
                     listener.fail(error);
                 }
@@ -60,9 +64,13 @@ public class NotificationControler extends Controler {
                 JsonObject jsonObject = response.body();
                 Error error = parserError(jsonObject);
                 if (error == null) {
-                    JsonObject object = jsonObject.get("data").getAsJsonObject();
-                    UserNotification userNotification = createGson().fromJson(object, UserNotification.class);
-                    listener.success(userNotification);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonObject object = jsonObject.get("data").getAsJsonObject();
+                        UserNotification userNotification = createGson().fromJson(object, UserNotification.class);
+                        listener.success(userNotification);
+                    }
                 } else {
                     listener.fail(error);
                 }
@@ -83,9 +91,13 @@ public class NotificationControler extends Controler {
                 JsonObject jsonObject = response.body();
                 Error error = parserError(jsonObject);
                 if (error == null) {
-                    JsonObject object = jsonObject.get("data").getAsJsonObject();
-                    UserNotification userNotification = createGson().fromJson(object, UserNotification.class);
-                    listener.success(userNotification);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonObject object = jsonObject.get("data").getAsJsonObject();
+                        UserNotification userNotification = createGson().fromJson(object, UserNotification.class);
+                        listener.success(userNotification);
+                    }
                 } else {
                     listener.fail(error);
                 }

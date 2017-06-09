@@ -34,9 +34,13 @@ public class UserControler extends Controler {
                 JsonObject jsonObject = response.body();
                 Error error = parserError(jsonObject);
                 if (error == null) {
-                    JsonObject object = jsonObject.get("data").getAsJsonObject();
-                    UserType userType = createGson().fromJson(object, UserType.class);
-                    listener.success(userType);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonObject object = jsonObject.get("data").getAsJsonObject();
+                        UserType userType = createGson().fromJson(object, UserType.class);
+                        listener.success(userType);
+                    }
                 } else {
                     listener.fail(error);
                 }
@@ -57,9 +61,13 @@ public class UserControler extends Controler {
                 JsonObject jsonObject = response.body();
                 Error error = parserError(jsonObject);
                 if (error == null) {
-                    JsonObject object = jsonObject.get("data").getAsJsonObject();
-                    User user = createGson().fromJson(object, User.class);
-                    listener.success(user);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonObject object = jsonObject.get("data").getAsJsonObject();
+                        User user = createGson().fromJson(object, User.class);
+                        listener.success(user);
+                    }
                 } else {
                     listener.fail(error);
                 }
@@ -90,9 +98,13 @@ public class UserControler extends Controler {
                 JsonObject jsonObject = response.body();
                 Error error = parserError(jsonObject);
                 if (error == null) {
-                    JsonObject object = jsonObject.get("data").getAsJsonObject();
-                    User user = createGson().fromJson(object, User.class);
-                    listener.success(user);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonObject object = jsonObject.get("data").getAsJsonObject();
+                        User user = createGson().fromJson(object, User.class);
+                        listener.success(user);
+                    }
                 } else {
                     listener.fail(error);
                 }
@@ -113,9 +125,13 @@ public class UserControler extends Controler {
                 JsonObject jsonObject = response.body();
                 Error error = parserError(jsonObject);
                 if (error == null) {
-                    JsonObject object = jsonObject.get("data").getAsJsonObject();
-                    User user = createGson().fromJson(object, User.class);
-                    listener.success(user);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonObject object = jsonObject.get("data").getAsJsonObject();
+                        User user = createGson().fromJson(object, User.class);
+                        listener.success(user);
+                    }
                 } else {
                     listener.fail(error);
                 }
@@ -163,9 +179,13 @@ public class UserControler extends Controler {
                 JsonObject jsonObject = response.body();
                 Error error = parserError(jsonObject);
                 if (error == null) {
-                    JsonObject object = jsonObject.get("data").getAsJsonObject();
-                    User user = createGson().fromJson(object, User.class);
-                    listener.success(user);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonObject object = jsonObject.get("data").getAsJsonObject();
+                        User user = createGson().fromJson(object, User.class);
+                        listener.success(user);
+                    }
                 } else {
                     listener.fail(error);
                 }

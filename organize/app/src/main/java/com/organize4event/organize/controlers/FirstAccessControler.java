@@ -37,10 +37,9 @@ public class FirstAccessControler extends Controler {
                 JsonObject jsonObject = response.body();
                 Error error = parserError(jsonObject);
                 if (error == null) {
-                    if (jsonObject.get("data").isJsonNull()){
+                    if (jsonObject.get("data").isJsonNull()) {
                         listener.success(null);
-                    }
-                    else{
+                    } else {
                         JsonObject object = jsonObject.get("data").getAsJsonObject();
                         FirstAccess firstAccess = createGson().fromJson(object, FirstAccess.class);
                         PreferencesManager.saveFirstAccess(firstAccess);
@@ -67,10 +66,9 @@ public class FirstAccessControler extends Controler {
                 JsonObject jsonObject = response.body();
                 Error error = parserError(jsonObject);
                 if (error == null) {
-                    if (jsonObject.get("data").isJsonNull()){
+                    if (jsonObject.get("data").isJsonNull()) {
                         listener.success(null);
-                    }
-                    else{
+                    } else {
                         JsonObject object = jsonObject.get("data").getAsJsonObject();
                         FirstAccess firstAccess = createGson().fromJson(object, FirstAccess.class);
                         listener.success(firstAccess);
@@ -95,10 +93,9 @@ public class FirstAccessControler extends Controler {
                 JsonObject jsonObject = response.body();
                 Error error = parserError(jsonObject);
                 if (error == null) {
-                    if (jsonObject.get("data").isJsonNull()){
+                    if (jsonObject.get("data").isJsonNull()) {
                         listener.success(null);
-                    }
-                    else{
+                    } else {
                         JsonObject object = jsonObject.get("data").getAsJsonObject();
                         AccessPlatform accessPlatform = createGson().fromJson(object, AccessPlatform.class);
                         listener.success(accessPlatform);

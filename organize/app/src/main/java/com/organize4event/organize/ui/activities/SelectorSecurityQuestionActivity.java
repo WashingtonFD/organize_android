@@ -65,18 +65,21 @@ public class SelectorSecurityQuestionActivity extends BaseActivity {
         new UserSecurityControler(context).getSecurityQuestions(user_id, new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                securityQuestions = (ArrayList<SecurityQuestion>) object;
-                adapter = new SelectorSecurityQuestionAdapter(context, securityQuestions, securityQuestionSelected, new RecyclerViewListener() {
-                    @Override
-                    public void onClick(int position) {
-                        Intent intent = new Intent();
-                        securityQuestionSelected = securityQuestions.get(position);
-                        intent.putExtra("securityQuestion", Parcels.wrap(SecurityQuestion.class, securityQuestionSelected));
-                        setResult(RESULT_OK, intent);
-                        finish();
-                    }
-                });
-                listSecurityQuestion.setAdapter(adapter);
+                if (object != null) {
+                    securityQuestions = (ArrayList<SecurityQuestion>) object;
+                    adapter = new SelectorSecurityQuestionAdapter(context, securityQuestions, securityQuestionSelected, new RecyclerViewListener() {
+                        @Override
+                        public void onClick(int position) {
+                            Intent intent = new Intent();
+                            securityQuestionSelected = securityQuestions.get(position);
+                            intent.putExtra("securityQuestion", Parcels.wrap(SecurityQuestion.class, securityQuestionSelected));
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        }
+                    });
+                    listSecurityQuestion.setAdapter(adapter);
+
+                }
             }
 
             @Override

@@ -107,8 +107,10 @@ public class PlanIdentifierActivity extends BaseActivity {
         new PlanControler(context).getPlan(firstAccess.getLocale(), new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                plans = (ArrayList<Plan>) object;
-                setPlan();
+                if (object != null) {
+                    plans = (ArrayList<Plan>) object;
+                    setPlan();
+                }
             }
 
             @Override

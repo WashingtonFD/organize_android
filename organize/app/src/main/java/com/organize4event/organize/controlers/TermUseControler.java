@@ -29,9 +29,13 @@ public class TermUseControler extends Controler {
                 JsonObject jsonObject = response.body();
                 Error error = parserError(jsonObject);
                 if (error == null) {
-                    JsonObject object = jsonObject.get("data").getAsJsonObject();
-                    TermUse termUse = createGson().fromJson(object, TermUse.class);
-                    listener.success(termUse);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonObject object = jsonObject.get("data").getAsJsonObject();
+                        TermUse termUse = createGson().fromJson(object, TermUse.class);
+                        listener.success(termUse);
+                    }
                 } else {
                     listener.fail(error);
                 }
@@ -56,9 +60,13 @@ public class TermUseControler extends Controler {
                 JsonObject jsonObject = response.body();
                 Error error = parserError(jsonObject);
                 if (error == null) {
-                    JsonObject object = jsonObject.get("data").getAsJsonObject();
-                    UserTerm userTerm = createGson().fromJson(object, UserTerm.class);
-                    listener.success(userTerm);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonObject object = jsonObject.get("data").getAsJsonObject();
+                        UserTerm userTerm = createGson().fromJson(object, UserTerm.class);
+                        listener.success(userTerm);
+                    }
                 } else {
                     listener.fail(error);
                 }

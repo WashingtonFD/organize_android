@@ -53,9 +53,13 @@ public class TokenControler extends Controler {
                 JsonObject jsonObject = response.body();
                 Error error = parserError(jsonObject);
                 if (error == null) {
-                    JsonObject object = jsonObject.get("data").getAsJsonObject();
-                    User user = createGson().fromJson(object, User.class);
-                    listener.success(user);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonObject object = jsonObject.get("data").getAsJsonObject();
+                        User user = createGson().fromJson(object, User.class);
+                        listener.success(user);
+                    }
                 } else {
                     listener.fail(error);
                 }
@@ -82,9 +86,13 @@ public class TokenControler extends Controler {
                 JsonObject jsonObject = response.body();
                 Error error = parserError(jsonObject);
                 if (error == null) {
-                    JsonObject object = jsonObject.get("data").getAsJsonObject();
-                    Token token = createGson().fromJson(object, Token.class);
-                    listener.success(token);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonObject object = jsonObject.get("data").getAsJsonObject();
+                        Token token = createGson().fromJson(object, Token.class);
+                        listener.success(token);
+                    }
                 } else {
                     listener.fail(error);
                 }

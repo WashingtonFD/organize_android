@@ -30,10 +30,14 @@ public class UserSecurityControler extends Controler {
                 JsonObject jsonObject = response.body();
                 Error error = parserError(jsonObject);
                 if (error == null) {
-                    JsonArray array = jsonObject.get("data").getAsJsonArray();
-                    List<SecurityQuestion> securityQuestions = (List<SecurityQuestion>) createGson().fromJson(array, new TypeToken<List<SecurityQuestion>>() {
-                    }.getType());
-                    listener.success(securityQuestions);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonArray array = jsonObject.get("data").getAsJsonArray();
+                        List<SecurityQuestion> securityQuestions = (List<SecurityQuestion>) createGson().fromJson(array, new TypeToken<List<SecurityQuestion>>() {
+                        }.getType());
+                        listener.success(securityQuestions);
+                    }
                 } else {
                     listener.fail(error);
                 }

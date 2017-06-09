@@ -26,8 +26,8 @@ public class Controler {
         return error;
     }
 
-    protected Gson createGson(){
-        Gson gson  = new GsonBuilder().setDateFormat(Constants.FULL_DATE_FORMAT).create();
+    protected Gson createGson() {
+        Gson gson = new GsonBuilder().setDateFormat(Constants.FULL_DATE_FORMAT).create();
         return gson;
     }
 }

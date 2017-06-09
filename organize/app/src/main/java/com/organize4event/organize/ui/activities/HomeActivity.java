@@ -104,11 +104,14 @@ public class HomeActivity extends BaseActivity {
         new FirstAccessControler(context).getFirstAccess(device_id, new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                firstAccess = (FirstAccess) object;
-                token = firstAccess.getUser().getToken();
-                txtUserName.setText(firstAccess.getUser().getFull_name());
-                Glide.with(context).load(firstAccess.getUser().getProfile_picture()).centerCrop().transform(new CircleTransform(context)).crossFade().into(imgUserAvatar);
-                getNotifications();
+                if (object != null) {
+                    firstAccess = (FirstAccess) object;
+                    token = firstAccess.getUser().getToken();
+                    txtUserName.setText(firstAccess.getUser().getFull_name());
+                    Glide.with(context).load(firstAccess.getUser().getProfile_picture()).centerCrop().transform(new CircleTransform(context)).crossFade().into(imgUserAvatar);
+                    getNotifications();
+
+                }
             }
 
             @Override
@@ -122,11 +125,13 @@ public class HomeActivity extends BaseActivity {
         new NotificationControler(context).getUserNotifications(firstAccess.getUser().getId(), new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                userNotifications = (ArrayList<UserNotification>) object;
-                firstAccess.getUser().setUser_notifications(userNotifications);
-                PreferencesManager.saveFirstAccess(firstAccess);
-                AppApplication.setFirstAccess(firstAccess);
-                assetIconNotification();
+                if (object != null) {
+                    userNotifications = (ArrayList<UserNotification>) object;
+                    firstAccess.getUser().setUser_notifications(userNotifications);
+                    PreferencesManager.saveFirstAccess(firstAccess);
+                    AppApplication.setFirstAccess(firstAccess);
+                    assetIconNotification();
+                }
             }
 
             @Override
@@ -180,10 +185,12 @@ public class HomeActivity extends BaseActivity {
         new TokenControler(context).saveToken(newToken, firstAccess.getUser().getId(), 0, new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                token = (Token) object;
-                firstAccess.getUser().setToken(token);
-                PreferencesManager.saveFirstAccess(firstAccess);
-                starLoginActivity();
+                if (object != null) {
+                    token = (Token) object;
+                    firstAccess.getUser().setToken(token);
+                    PreferencesManager.saveFirstAccess(firstAccess);
+                    starLoginActivity();
+                }
             }
 
             @Override

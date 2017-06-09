@@ -86,14 +86,16 @@ public class PrivacyActivity extends BaseActivity {
         new PrivacyControler(context).getPrivacy(firstAccess.getLocale(), new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                privacies = (ArrayList<Privacy>) object;
-                for (Privacy privacy : privacies) {
-                    if (privacy.getCode_enum() == PrivacyEnum.ALL.getValue()) {
-                        infoAll = privacy.getDescription();
-                    } else if (privacy.getCode_enum() == PrivacyEnum.JUST_FRIENDS.getValue()) {
-                        infoFriends = privacy.getDescription();
-                    } else {
-                        infoNone = privacy.getDescription();
+                if (object != null) {
+                    privacies = (ArrayList<Privacy>) object;
+                    for (Privacy privacy : privacies) {
+                        if (privacy.getCode_enum() == PrivacyEnum.ALL.getValue()) {
+                            infoAll = privacy.getDescription();
+                        } else if (privacy.getCode_enum() == PrivacyEnum.JUST_FRIENDS.getValue()) {
+                            infoFriends = privacy.getDescription();
+                        } else {
+                            infoNone = privacy.getDescription();
+                        }
                     }
                 }
             }
@@ -141,9 +143,11 @@ public class PrivacyActivity extends BaseActivity {
         new UserControler(context).updateUserPrivacy(user, new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                User user = (User) object;
-                firstAccess.setUser(user);
-                PreferencesManager.saveFirstAccess(firstAccess);
+                if (object != null) {
+                    User user = (User) object;
+                    firstAccess.setUser(user);
+                    PreferencesManager.saveFirstAccess(firstAccess);
+                }
             }
 
             @Override

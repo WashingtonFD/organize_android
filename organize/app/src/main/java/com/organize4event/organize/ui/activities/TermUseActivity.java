@@ -70,10 +70,12 @@ public class TermUseActivity extends BaseActivity {
         new TermUseControler(context).getTermUse(new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                hideLoading();
-                termUse = (TermUse) object;
-                txtTitle.setText(termUse.getTitle());
-                txtContent.setText(termUse.getContent());
+                if (object != null) {
+                    hideLoading();
+                    termUse = (TermUse) object;
+                    txtTitle.setText(termUse.getTitle());
+                    txtContent.setText(termUse.getContent());
+                }
             }
 
             @Override

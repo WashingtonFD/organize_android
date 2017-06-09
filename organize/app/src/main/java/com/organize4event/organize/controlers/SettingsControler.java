@@ -30,10 +30,14 @@ public class SettingsControler extends Controler {
                 JsonObject jsonObject = response.body();
                 Error error = parserError(jsonObject);
                 if (error == null) {
-                    JsonArray array = jsonObject.get("data").getAsJsonArray();
-                    List<Setting> settings = (List<Setting>) createGson().fromJson(array, new TypeToken<List<Setting>>() {
-                    }.getType());
-                    listener.success(settings);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonArray array = jsonObject.get("data").getAsJsonArray();
+                        List<Setting> settings = (List<Setting>) createGson().fromJson(array, new TypeToken<List<Setting>>() {
+                        }.getType());
+                        listener.success(settings);
+                    }
                 } else {
                     listener.fail(error);
                 }
@@ -54,10 +58,14 @@ public class SettingsControler extends Controler {
                 JsonObject jsonObject = response.body();
                 Error error = parserError(jsonObject);
                 if (error == null) {
-                    JsonArray array = jsonObject.get("data").getAsJsonArray();
-                    List<UserSetting> userSettings = (List<UserSetting>) createGson().fromJson(array, new TypeToken<List<UserSetting>>() {
-                    }.getType());
-                    listener.success(userSettings);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonArray array = jsonObject.get("data").getAsJsonArray();
+                        List<UserSetting> userSettings = (List<UserSetting>) createGson().fromJson(array, new TypeToken<List<UserSetting>>() {
+                        }.getType());
+                        listener.success(userSettings);
+                    }
                 } else {
                     listener.fail(error);
                 }
@@ -81,9 +89,13 @@ public class SettingsControler extends Controler {
                 JsonObject jsonObject = response.body();
                 Error error = parserError(jsonObject);
                 if (error == null) {
-                    JsonObject object = jsonObject.get("data").getAsJsonObject();
-                    UserSetting userSetting = createGson().fromJson(object, UserSetting.class);
-                    listener.success(userSetting);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonObject object = jsonObject.get("data").getAsJsonObject();
+                        UserSetting userSetting = createGson().fromJson(object, UserSetting.class);
+                        listener.success(userSetting);
+                    }
                 } else {
                     listener.fail(error);
                 }
@@ -104,9 +116,13 @@ public class SettingsControler extends Controler {
                 JsonObject jsonObject = response.body();
                 Error error = parserError(jsonObject);
                 if (error == null) {
-                    JsonObject object = jsonObject.get("data").getAsJsonObject();
-                    UserSetting userSetting = createGson().fromJson(object, UserSetting.class);
-                    listener.success(userSetting);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonObject object = jsonObject.get("data").getAsJsonObject();
+                        UserSetting userSetting = createGson().fromJson(object, UserSetting.class);
+                        listener.success(userSetting);
+                    }
                 } else {
                     listener.fail(error);
                 }

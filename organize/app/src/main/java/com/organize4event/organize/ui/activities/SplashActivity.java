@@ -65,7 +65,7 @@ public class SplashActivity extends BaseActivity {
         }, 5000);
     }
 
-    protected void generateFacebookHashKey(){
+    protected void generateFacebookHashKey() {
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
                     getPackageName(),
@@ -75,11 +75,9 @@ public class SplashActivity extends BaseActivity {
                 md.update(signature.toByteArray());
                 Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
             }
-        }
-        catch (PackageManager.NameNotFoundException e) {
+        } catch (PackageManager.NameNotFoundException e) {
 
-        }
-        catch (NoSuchAlgorithmException e) {
+        } catch (NoSuchAlgorithmException e) {
 
         }
     }
@@ -88,11 +86,10 @@ public class SplashActivity extends BaseActivity {
         new FirstAccessControler(context).getFirstAccess(device_id, new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                if (object != null){
+                if (object != null) {
                     firstAccess = (FirstAccess) object;
                     verifyData();
-                }
-                else{
+                } else {
                     firstAccess = new FirstAccess();
                     setFirstAccess();
                 }

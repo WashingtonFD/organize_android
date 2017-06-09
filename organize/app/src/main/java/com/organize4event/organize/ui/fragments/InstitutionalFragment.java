@@ -97,13 +97,15 @@ public class InstitutionalFragment extends BaseFragment {
         new InstitutionalControler(context).getInstitutional(firstAccess.getLocale(), new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                institutional = (Institutional) object;
-                txtDescription.setText(institutional.getDescription());
-                txtMission.setText(institutional.getMission());
-                txtVision.setText(institutional.getVision());
-                txtValues.setText(institutional.getValues());
+if (object != null){
+    institutional = (Institutional) object;
+    txtDescription.setText(institutional.getDescription());
+    txtMission.setText(institutional.getMission());
+    txtVision.setText(institutional.getVision());
+    txtValues.setText(institutional.getValues());
 
-                getPlans();
+    getPlans();
+}
             }
 
             @Override
@@ -117,21 +119,23 @@ public class InstitutionalFragment extends BaseFragment {
         new PlanControler(context).getPlan(firstAccess.getLocale(), new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                plans = (ArrayList<Plan>) object;
-                for (Plan plan : plans) {
-                    if (plan.getCode_enum() == PlanEnum.FREE.getValue()) {
-                        txtFree.setText(plan.getName());
-                        txtPlanFree.setText(plan.getDescription());
-                    } else if (plan.getCode_enum() == PlanEnum.BASIC.getValue()) {
-                        txtBasic.setText(plan.getName());
-                        txtPlanBasic.setText(plan.getDescription());
-                    } else {
-                        txtPremium.setText(plan.getName());
-                        txtPlanPremium.setText(plan.getDescription());
+                if (object != null){
+                    plans = (ArrayList<Plan>) object;
+                    for (Plan plan : plans) {
+                        if (plan.getCode_enum() == PlanEnum.FREE.getValue()) {
+                            txtFree.setText(plan.getName());
+                            txtPlanFree.setText(plan.getDescription());
+                        } else if (plan.getCode_enum() == PlanEnum.BASIC.getValue()) {
+                            txtBasic.setText(plan.getName());
+                            txtPlanBasic.setText(plan.getDescription());
+                        } else {
+                            txtPremium.setText(plan.getName());
+                            txtPlanPremium.setText(plan.getDescription());
+                        }
                     }
-                }
 
-                getContacts();
+                    getContacts();
+                }
             }
 
             @Override
@@ -145,37 +149,40 @@ public class InstitutionalFragment extends BaseFragment {
         new InstitutionalControler(context).getContact(firstAccess.getLocale(), new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                contacts = (ArrayList<Contact>) object;
-                adapter = new SectionedRecyclerViewAdapter();
-                TreeMap<String, ContactSection> sections = new TreeMap<String, ContactSection>();
-                for (Contact contact : contacts) {
-                    ContactSection contactSection;
-                    String key = contact.getContact_type().getName();
-                    if (sections.containsKey(key)) {
-                        contactSection = sections.get(key);
-                    } else {
-                        contactSection = new ContactSection(context, new SectionListener() {
-                            @Override
-                            public void onClick(Object object) {
-                                Contact cont = (Contact) object;
-                                startContact(cont);
-                            }
-                        });
+                if (object != null){
+                    contacts = (ArrayList<Contact>) object;
+                    adapter = new SectionedRecyclerViewAdapter();
+                    TreeMap<String, ContactSection> sections = new TreeMap<String, ContactSection>();
+                    for (Contact contact : contacts) {
+                        ContactSection contactSection;
+                        String key = contact.getContact_type().getName();
+                        if (sections.containsKey(key)) {
+                            contactSection = sections.get(key);
+                        } else {
+                            contactSection = new ContactSection(context, new SectionListener() {
+                                @Override
+                                public void onClick(Object object) {
+                                    Contact cont = (Contact) object;
+                                    startContact(cont);
+                                }
+                            });
+                        }
+                        contactSection.addItem(contact);
+                        sections.put(key, contactSection);
                     }
-                    contactSection.addItem(contact);
-                    sections.put(key, contactSection);
-                }
 
-                for (Map.Entry<String, ContactSection> entry : sections.entrySet()) {
-                    ContactSection value = entry.getValue();
-                    adapter.addSection(value);
-                }
+                    for (Map.Entry<String, ContactSection> entry : sections.entrySet()) {
+                        ContactSection value = entry.getValue();
+                        adapter.addSection(value);
+                    }
 
-                listContacts.setLayoutManager(new LinearLayoutManager(context));
-                listContacts.setItemAnimator(new DefaultItemAnimator());
-                listContacts.setAdapter(adapter);
-                contentFilter.setVisibility(View.GONE);
-                hideLoading();
+                    listContacts.setLayoutManager(new LinearLayoutManager(context));
+                    listContacts.setItemAnimator(new DefaultItemAnimator());
+                    listContacts.setAdapter(adapter);
+                    contentFilter.setVisibility(View.GONE);
+                    hideLoading();
+
+                }
             }
 
             @Override
@@ -190,11 +197,13 @@ public class InstitutionalFragment extends BaseFragment {
         new PlanControler(context).getPlanId(firstAccess.getLocale(), code_enum, new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                hideLoading();
-                Plan plan = (Plan) object;
-                Intent intent = new Intent(context, PlanDetailActivity.class);
-                intent.putExtra("plan", Parcels.wrap(Plan.class, plan));
-                startActivity(intent);
+                if (object != null){
+                    hideLoading();
+                    Plan plan = (Plan) object;
+                    Intent intent = new Intent(context, PlanDetailActivity.class);
+                    intent.putExtra("plan", Parcels.wrap(Plan.class, plan));
+                    startActivity(intent);
+                }
             }
 
             @Override

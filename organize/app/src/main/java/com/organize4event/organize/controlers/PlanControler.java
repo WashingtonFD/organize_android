@@ -29,10 +29,14 @@ public class PlanControler extends Controler {
                 JsonObject jsonObject = response.body();
                 Error error = parserError(jsonObject);
                 if (error == null) {
-                    JsonArray array = jsonObject.get("data").getAsJsonArray();
-                    List<Plan> plans = (List<Plan>) createGson().fromJson(array, new TypeToken<List<Plan>>() {
-                    }.getType());
-                    listener.success(plans);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonArray array = jsonObject.get("data").getAsJsonArray();
+                        List<Plan> plans = (List<Plan>) createGson().fromJson(array, new TypeToken<List<Plan>>() {
+                        }.getType());
+                        listener.success(plans);
+                    }
                 } else {
                     listener.fail(error);
                 }
@@ -53,9 +57,13 @@ public class PlanControler extends Controler {
                 JsonObject jsonObject = response.body();
                 Error error = parserError(jsonObject);
                 if (error == null) {
-                    JsonObject object = jsonObject.get("data").getAsJsonObject();
-                    Plan plan = createGson().fromJson(object, Plan.class);
-                    listener.success(plan);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonObject object = jsonObject.get("data").getAsJsonObject();
+                        Plan plan = createGson().fromJson(object, Plan.class);
+                        listener.success(plan);
+                    }
                 } else {
                     listener.fail(error);
                 }

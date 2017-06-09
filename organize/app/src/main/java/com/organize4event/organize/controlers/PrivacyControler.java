@@ -29,10 +29,14 @@ public class PrivacyControler extends Controler {
                 JsonObject jsonObject = response.body();
                 Error error = parserError(jsonObject);
                 if (error == null) {
-                    JsonArray array = jsonObject.get("data").getAsJsonArray();
-                    List<Privacy> privacies = (List<Privacy>) createGson().fromJson(array, new TypeToken<List<Privacy>>() {
-                    }.getType());
-                    listener.success(privacies);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonArray array = jsonObject.get("data").getAsJsonArray();
+                        List<Privacy> privacies = (List<Privacy>) createGson().fromJson(array, new TypeToken<List<Privacy>>() {
+                        }.getType());
+                        listener.success(privacies);
+                    }
                 } else {
                     listener.fail(error);
                 }
