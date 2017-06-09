@@ -21,21 +21,23 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             tools:ignore="MissingPrefix">
 
-            <ImageView
-                android:id="@+id/imgNew"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginRight="22dp"
-                android:src="@drawable/ic_add"
-                android:tint="@color/colorDestakText" />
-
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/listSecurityQuestion"
+    <RelativeLayout
+        android:id="@+id/conteinerContent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/appBarLayout" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/appBarLayout"
+        android:padding="@dimen/padding_default"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="10 - NOVA PERGUNTA DE SEGURANÇA - ELCIO"
+            />
+
+    </RelativeLayout>
 </RelativeLayout>

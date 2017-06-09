@@ -100,6 +100,13 @@
     <string name="label_menu_academic">Dados Acadêmicos</string>
     <string name="label_menu_social_network">Redes Sociais</string>
     <string name="label_menu_security">Segurança do Perfil</string>
+    <string name="label_institution">Instituições</string>
+    <string name="label_course">Cursos</string>
+    <string name="label_class">Turmas</string>
+    <string name="label_new_institution">Nova Instituição</string>
+    <string name="label_new_course">Novo Curso</string>
+    <string name="label_new_class">Nova Turma</string>
+    <string name="label_new_security_question">Nova Pergunta</string>
 
     <string name="message_call_phone">Deseja realizar uma ligação? Isto acarretará em gastos de consumo de acordo com seu plano em sua operadora.</string>
     <string name="message_confirmation_forgot_password">E-mail de recuperação de senha enviado com sucesso.</string>

@@ -53,6 +53,13 @@
         <activity android:name=".ui.activities.UserAddressActivity"/>
         <activity android:name=".ui.activities.UserContactActivity"/>
         <activity android:name=".ui.activities.UserSecurityActivity"/>
+        <activity android:name=".ui.activities.AddClassActivity"/>
+        <activity android:name=".ui.activities.AddCourseActivity"/>
+        <activity android:name=".ui.activities.AddInstitutionActivity"/>
+        <activity android:name=".ui.activities.AddSecurityQuestionActivity"/>
+        <activity android:name=".ui.activities.SelectorClassActivity"/>
+        <activity android:name=".ui.activities.SelectorCourseActivity"/>
+        <activity android:name=".ui.activities.SelectorInstitutionActivity"/>
 
     </application>
 

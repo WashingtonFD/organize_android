@@ -78,7 +78,6 @@ public class SelectorSecurityQuestionActivity extends BaseActivity {
                         }
                     });
                     listSecurityQuestion.setAdapter(adapter);
-
                 }
             }
 
