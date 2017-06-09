@@ -1,11 +1,13 @@
 package com.organize4event.organize.models;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Privacy extends ErrorReturn {
-    public static final Creator<Privacy> CREATOR = new Creator<Privacy>() {
+public class Privacy implements Parcelable {
+
+    public static final Parcelable.Creator<Privacy> CREATOR = new Parcelable.Creator<Privacy>() {
         @Override
         public Privacy createFromParcel(Parcel source) {
             return new Privacy(source);
@@ -30,11 +32,9 @@ public class Privacy extends ErrorReturn {
     private boolean check_default;
 
     public Privacy() {
-        this.setIs_new(true);
     }
 
     protected Privacy(Parcel in) {
-        super(in);
         this.id = in.readInt();
         this.locale = in.readString();
         this.code_enum = in.readInt();
@@ -98,7 +98,6 @@ public class Privacy extends ErrorReturn {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
         dest.writeInt(this.id);
         dest.writeString(this.locale);
         dest.writeInt(this.code_enum);

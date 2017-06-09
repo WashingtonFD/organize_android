@@ -146,7 +146,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         userTerm = user.getUser_term();
 
 
-        configureToolbar(context, toolbar, context.getString(R.string.label_register_user), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
+        configureToolbar(context, toolbar, context.getString(R.string.label_register_user), context.getResources().getDrawable(R.drawable.ic_arrow_back), true, new ToolbarListener() {
             @Override
             public void onClick() {
                 finish();
@@ -184,8 +184,10 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         new UserControler(context).getUserType(firstAccess.getLocale(), code_user_type, new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                userType = (UserType) object;
-                getPrivacy();
+                if (object != null) {
+                    userType = (UserType) object;
+                    getPrivacy();
+                }
             }
 
             @Override
@@ -199,12 +201,14 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         new PrivacyControler(context).getPrivacy(firstAccess.getLocale(), new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                privacies = (ArrayList<Privacy>) object;
-                if (privacies.size() > 0) {
-                    for (Privacy privacy : privacies) {
-                        if (privacy.getCode_enum() == PrivacyEnum.NO_ONE.getValue()) {
-                            user.setPrivacy(privacy);
-                            prepareUser();
+                if (object != null) {
+                    privacies = (ArrayList<Privacy>) object;
+                    if (privacies.size() > 0) {
+                        for (Privacy privacy : privacies) {
+                            if (privacy.getCode_enum() == PrivacyEnum.NO_ONE.getValue()) {
+                                user.setPrivacy(privacy);
+                                prepareUser();
+                            }
                         }
                     }
                 }
@@ -238,11 +242,13 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         new UserControler(context).saveUser(user, new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                user = (User) object;
-                if (file != null) {
-                    uploadPicture();
-                } else {
-                    saveFirstAccess();
+                if (object != null) {
+                    user = (User) object;
+                    if (file != null) {
+                        uploadPicture();
+                    } else {
+                        saveFirstAccess();
+                    }
                 }
             }
 
@@ -258,7 +264,9 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         new FirstAccessControler(context).saveFirstAccess(firstAccess, new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                saveUserTerm();
+                if (object != null) {
+                    saveUserTerm();
+                }
             }
 
             @Override
@@ -279,8 +287,10 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         new TermUseControler(context).saveUserTerm(userTerm, term_accept, new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                userTerm = (UserTerm) object;
-                getSettings();
+                if (object != null) {
+                    userTerm = (UserTerm) object;
+                    getSettings();
+                }
             }
 
             @Override
@@ -295,10 +305,12 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         new SettingsControler(context).getSettings(firstAccess.getLocale(), new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                settings = (ArrayList<Setting>) object;
-                if (settings.size() > 0) {
-                    for (Setting setting : settings) {
-                        saveUserSetting(setting);
+                if (object != null) {
+                    settings = (ArrayList<Setting>) object;
+                    if (settings.size() > 0) {
+                        for (Setting setting : settings) {
+                            saveUserSetting(setting);
+                        }
                     }
                 }
             }
@@ -320,12 +332,14 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         new SettingsControler(context).saveUserSettings(userSetting, checking, new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                userSetting = (UserSetting) object;
-                userSettings.add(userSetting);
+                if (object != null) {
+                    userSetting = (UserSetting) object;
+                    userSettings.add(userSetting);
 
-                if (userSettings.size() == settings.size()) {
-                    hideLoading();
-                    starLoginActivity();
+                    if (userSettings.size() == settings.size()) {
+                        hideLoading();
+                        starLoginActivity();
+                    }
                 }
             }
 

@@ -78,7 +78,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="@dimen/padding_default"
-                    android:src="@drawable/ic_exit_to_app_black_24dp"
+                    android:src="@drawable/ic_exit_to_app"
                     android:tint="@color/colorWhite" />
 
             </RelativeLayout>
@@ -95,7 +95,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="22dp"
-                    android:src="@drawable/ic_menu_black_24dp"
+                    android:src="@drawable/ic_menu"
                     android:tint="@color/colorWhite"
 
                     />
@@ -123,7 +123,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="22dp"
-                    android:src="@drawable/ic_event_black_24dp"
+                    android:src="@drawable/ic_event"
                     android:tint="@color/colorWhite" />
 
                 <TextView
@@ -148,7 +148,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="22dp"
-                    android:src="@drawable/ic_assignment_turned_in_black_24dp"
+                    android:src="@drawable/ic_assignment_turned_in"
                     android:tint="@color/colorWhite" />
 
                 <TextView
@@ -173,7 +173,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="22dp"
-                    android:src="@drawable/ic_people_black_24dp"
+                    android:src="@drawable/ic_people"
                     android:tint="@color/colorWhite" />
 
                 <TextView
@@ -198,7 +198,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="22dp"
-                    android:src="@drawable/ic_payment_black_24dp"
+                    android:src="@drawable/ic_payment"
                     android:tint="@color/colorWhite" />
 
                 <TextView
@@ -223,7 +223,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="22dp"
-                    android:src="@drawable/ic_add_shopping_cart_black_24dp"
+                    android:src="@drawable/ic_add_shopping_cart"
                     android:tint="@color/colorWhite" />
 
                 <TextView
@@ -248,7 +248,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="22dp"
-                    android:src="@drawable/ic_settings_black_24dp"
+                    android:src="@drawable/ic_settings"
                     android:tint="@color/colorWhite" />
 
                 <TextView
@@ -273,7 +273,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="22dp"
-                    android:src="@drawable/ic_info_black_24dp"
+                    android:src="@drawable/ic_info"
                     android:tint="@color/colorWhite" />
 
                 <TextView

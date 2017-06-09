@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class UserType extends ErrorReturn {
+public class UserType implements Parcelable {
 
     public static final Parcelable.Creator<UserType> CREATOR = new Parcelable.Creator<UserType>() {
         @Override
@@ -28,7 +28,6 @@ public class UserType extends ErrorReturn {
     private String name;
 
     public UserType() {
-        this.setIs_new(true);
     }
 
     protected UserType(Parcel in) {

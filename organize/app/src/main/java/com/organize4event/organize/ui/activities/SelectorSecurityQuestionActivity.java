@@ -48,7 +48,7 @@ public class SelectorSecurityQuestionActivity extends BaseActivity {
         context = SelectorSecurityQuestionActivity.this;
         user_id = getIntent().getExtras().getInt("user_id");
         securityQuestionSelected = Parcels.unwrap(getIntent().getExtras().getParcelable("securityQuestion"));
-        configureToolbar(context, toolbar, context.getString(R.string.label_security_questions), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
+        configureToolbar(context, toolbar, context.getString(R.string.label_security_questions), context.getResources().getDrawable(R.drawable.ic_arrow_back), true, new ToolbarListener() {
             @Override
             public void onClick() {
                 finish();
@@ -65,18 +65,20 @@ public class SelectorSecurityQuestionActivity extends BaseActivity {
         new UserSecurityControler(context).getSecurityQuestions(user_id, new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                securityQuestions = (ArrayList<SecurityQuestion>) object;
-                adapter = new SelectorSecurityQuestionAdapter(context, securityQuestions, securityQuestionSelected, new RecyclerViewListener() {
-                    @Override
-                    public void onClick(int position) {
-                        Intent intent = new Intent();
-                        securityQuestionSelected = securityQuestions.get(position);
-                        intent.putExtra("securityQuestion", Parcels.wrap(SecurityQuestion.class, securityQuestionSelected));
-                        setResult(RESULT_OK, intent);
-                        finish();
-                    }
-                });
-                listSecurityQuestion.setAdapter(adapter);
+                if (object != null) {
+                    securityQuestions = (ArrayList<SecurityQuestion>) object;
+                    adapter = new SelectorSecurityQuestionAdapter(context, securityQuestions, securityQuestionSelected, new RecyclerViewListener() {
+                        @Override
+                        public void onClick(int position) {
+                            Intent intent = new Intent();
+                            securityQuestionSelected = securityQuestions.get(position);
+                            intent.putExtra("securityQuestion", Parcels.wrap(SecurityQuestion.class, securityQuestionSelected));
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        }
+                    });
+                    listSecurityQuestion.setAdapter(adapter);
+                }
             }
 
             @Override

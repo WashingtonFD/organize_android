@@ -1,13 +1,15 @@
 package com.organize4event.organize.models;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class UserTerm extends ErrorReturn {
-    public static final Creator<UserTerm> CREATOR = new Creator<UserTerm>() {
+public class UserTerm implements Parcelable {
+
+    public static final Parcelable.Creator<UserTerm> CREATOR = new Parcelable.Creator<UserTerm>() {
         @Override
         public UserTerm createFromParcel(Parcel source) {
             return new UserTerm(source);
@@ -30,11 +32,9 @@ public class UserTerm extends ErrorReturn {
     private Date term_accept_date;
 
     public UserTerm() {
-        this.setIs_new(true);
     }
 
     protected UserTerm(Parcel in) {
-        super(in);
         this.id = in.readInt();
         this.user = in.readInt();
         this.term = in.readParcelable(TermUse.class.getClassLoader());
@@ -90,7 +90,6 @@ public class UserTerm extends ErrorReturn {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
         dest.writeInt(this.id);
         dest.writeInt(this.user);
         dest.writeParcelable(this.term, flags);

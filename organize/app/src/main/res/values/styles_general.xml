@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme.OverflowPopupMenu" parent="Widget.AppCompat.Light.PopupMenu.Overflow">
+        <item name="android:popupBackground">@color/colorPrimary</item>
+    </style>
+
+    <style name="ActionButton.Overflow.Icon" parent="android:style/Widget.Holo.Light.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_more_vert</item>
+        <item name="android:tint">@color/colorDestakText</item>
+    </style>
+</resources>

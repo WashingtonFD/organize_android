@@ -1,7 +1,6 @@
 package com.organize4event.organize.services;
 
-import com.organize4event.organize.models.TermUse;
-import com.organize4event.organize.models.UserTerm;
+import com.google.gson.JsonObject;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -12,11 +11,11 @@ import retrofit2.http.POST;
 
 public interface TermUseService {
     @GET("term")
-    Call<TermUse> getTermUse();
+    Call<JsonObject> getTermUse();
 
     @FormUrlEncoded
     @POST("user_term/accept")
-    Call<UserTerm> saveUserTerm(
+    Call<JsonObject> saveUserTerm(
             @Field("user_id") int user_id,
             @Field("term_id") int term_id,
             @Field("term_accept") int term_accept,

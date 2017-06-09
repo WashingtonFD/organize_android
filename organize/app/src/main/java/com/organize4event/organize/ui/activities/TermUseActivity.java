@@ -56,7 +56,7 @@ public class TermUseActivity extends BaseActivity {
         firstAccess = Parcels.unwrap(getIntent().getExtras().getParcelable("firstAccess"));
         user = firstAccess.getUser();
 
-        configureToolbar(context, toolbar, context.getString(R.string.label_term_use), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
+        configureToolbar(context, toolbar, context.getString(R.string.label_term_use), context.getResources().getDrawable(R.drawable.ic_arrow_back), true, new ToolbarListener() {
             @Override
             public void onClick() {
                 finish();
@@ -70,10 +70,12 @@ public class TermUseActivity extends BaseActivity {
         new TermUseControler(context).getTermUse(new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                hideLoading();
-                termUse = (TermUse) object;
-                txtTitle.setText(termUse.getTitle());
-                txtContent.setText(termUse.getContent());
+                if (object != null) {
+                    hideLoading();
+                    termUse = (TermUse) object;
+                    txtTitle.setText(termUse.getTitle());
+                    txtContent.setText(termUse.getContent());
+                }
             }
 
             @Override

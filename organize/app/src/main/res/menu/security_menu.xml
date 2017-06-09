@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_edit"
+        android:title="@string/label_menu_edit"
+        android:icon="@drawable/ic_edit"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_address"
+        android:title="@string/label_menu_address"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_contact"
+        android:title="@string/label_menu_contact"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_academic"
+        android:title="@string/label_menu_academic"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_social_network"
+        android:title="@string/label_menu_social_network"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_personal_data"
+        android:title="@string/label_menu_personal_data"
+        app:showAsAction="never" />
+</menu>

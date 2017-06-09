@@ -2,8 +2,9 @@ package com.organize4event.organize.controlers;
 
 import android.content.Context;
 
+import com.google.gson.JsonObject;
 import com.organize4event.organize.R;
-import com.organize4event.organize.models.ErrorReturn;
+
 
 public class Controler {
 
@@ -13,12 +14,12 @@ public class Controler {
         this.context = context;
     }
 
-    protected Error parserError(ErrorReturn errorReturn) {
+    protected Error parserError(JsonObject jsonObject) {
         Error error = null;
-        if (errorReturn == null) {
+        if (jsonObject == null) {
             error = new Error(context.getString(R.string.error_message_generic));
-        } else if (errorReturn.isError()) {
-            error = new Error(errorReturn.getMessage());
+        } else if (jsonObject.get("has_error").getAsBoolean()) {
+            error = new Error(jsonObject.get("message").getAsString());
         }
         return error;
     }

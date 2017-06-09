@@ -2,10 +2,10 @@ package com.organize4event.organize.controlers;
 
 import android.content.Context;
 
+import com.google.gson.JsonObject;
 import com.organize4event.organize.commons.ApiClient;
 import com.organize4event.organize.commons.Constants;
 import com.organize4event.organize.listeners.ControlResponseListener;
-import com.organize4event.organize.models.ErrorReturn;
 import com.organize4event.organize.models.User;
 import com.organize4event.organize.models.UserType;
 import com.organize4event.organize.services.UserService;
@@ -28,20 +28,26 @@ public class UserControler extends Controler {
 
     public void getUserType(String locale, int code_enum, final ControlResponseListener listener) {
         UserService service = ApiClient.getRetrofit().create(UserService.class);
-        service.getUserType(locale, code_enum).enqueue(new Callback<UserType>() {
+        service.getUserType(locale, code_enum).enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<UserType> call, Response<UserType> response) {
-                UserType userType = (UserType) response.body();
-                Error error = parserError(userType);
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonObject jsonObject = response.body();
+                Error error = parserError(jsonObject);
                 if (error == null) {
-                    listener.success(userType);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonObject object = jsonObject.get("data").getAsJsonObject();
+                        UserType userType = ApiClient.createGson().fromJson(object, UserType.class);
+                        listener.success(userType);
+                    }
                 } else {
                     listener.fail(error);
                 }
             }
 
             @Override
-            public void onFailure(Call<UserType> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 listener.fail(new Error(t.getMessage()));
             }
         });
@@ -49,20 +55,26 @@ public class UserControler extends Controler {
 
     public void getUserMail(String mail, final ControlResponseListener listener) {
         UserService service = ApiClient.getRetrofit().create(UserService.class);
-        service.getUserMail(mail).enqueue(new Callback<User>() {
+        service.getUserMail(mail).enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                User user = (User) response.body();
-                Error error = parserError(user);
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonObject jsonObject = response.body();
+                Error error = parserError(jsonObject);
                 if (error == null) {
-                    listener.success(user);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonObject object = jsonObject.get("data").getAsJsonObject();
+                        User user = ApiClient.createGson().fromJson(object, User.class);
+                        listener.success(user);
+                    }
                 } else {
                     listener.fail(error);
                 }
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 listener.fail(new Error(t.getMessage()));
             }
         });
@@ -80,41 +92,26 @@ public class UserControler extends Controler {
                 user.getCpf(),
                 simpleDateFormat.format(user.getBirth_date()),
                 user.getGender()
-        ).enqueue(new Callback<User>() {
+        ).enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                User user = (User) response.body();
-                Error error = parserError(user);
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonObject jsonObject = response.body();
+                Error error = parserError(jsonObject);
                 if (error == null) {
-                    listener.success(user);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonObject object = jsonObject.get("data").getAsJsonObject();
+                        User user = ApiClient.createGson().fromJson(object, User.class);
+                        listener.success(user);
+                    }
                 } else {
                     listener.fail(error);
                 }
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                listener.fail(new Error(t.getMessage()));
-            }
-        });
-    }
-
-    public void updateUserToken(User user, final ControlResponseListener listener) {
-        UserService service = ApiClient.getRetrofit().create(UserService.class);
-        service.updateUserToken(user.getId(), user.getToken().getId()).enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                User user = (User) response.body();
-                Error error = parserError(user);
-                if (error == null) {
-                    listener.success(user);
-                } else {
-                    listener.fail(error);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 listener.fail(new Error(t.getMessage()));
             }
         });
@@ -122,20 +119,26 @@ public class UserControler extends Controler {
 
     public void updateUserPrivacy(User user, final ControlResponseListener listener) {
         UserService service = ApiClient.getRetrofit().create(UserService.class);
-        service.updateUserPrivacy(user.getId(), user.getPrivacy().getId()).enqueue(new Callback<User>() {
+        service.updateUserPrivacy(user.getId(), user.getToken().getAccess_token(), user.getPrivacy().getId()).enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                User user = (User) response.body();
-                Error error = parserError(user);
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonObject jsonObject = response.body();
+                Error error = parserError(jsonObject);
                 if (error == null) {
-                    listener.success(user);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonObject object = jsonObject.get("data").getAsJsonObject();
+                        User user = ApiClient.createGson().fromJson(object, User.class);
+                        listener.success(user);
+                    }
                 } else {
                     listener.fail(error);
                 }
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 listener.fail(new Error(t.getMessage()));
             }
         });
@@ -146,20 +149,20 @@ public class UserControler extends Controler {
         final RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), photo);
         MultipartBody.Part file = MultipartBody.Part.createFormData("photo", photo.getName(), requestBody);
 
-        service.uploadPhoto(user.getId(), file).enqueue(new Callback<ErrorReturn>() {
+        service.uploadPhoto(user.getId(), file).enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<ErrorReturn> call, Response<ErrorReturn> response) {
-                ErrorReturn errorReturn = (ErrorReturn) response.body();
-                Error error = parserError(errorReturn);
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonObject jsonObject = response.body();
+                Error error = parserError(jsonObject);
                 if (error == null) {
-                    listener.success(errorReturn);
+                    listener.success(jsonObject);
                 } else {
                     listener.fail(error);
                 }
             }
 
             @Override
-            public void onFailure(Call<ErrorReturn> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 listener.fail(new Error(t.getMessage()));
             }
         });
@@ -170,20 +173,26 @@ public class UserControler extends Controler {
         service.updateProfileFacebook(user.getId(),
                 user.getFull_name(),
                 user.getMail(),
-                user.getProfile_picture()).enqueue(new Callback<User>() {
+                user.getProfile_picture()).enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                User user = (User) response.body();
-                Error error = parserError(user);
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonObject jsonObject = response.body();
+                Error error = parserError(jsonObject);
                 if (error == null) {
-                    listener.success(user);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonObject object = jsonObject.get("data").getAsJsonObject();
+                        User user = ApiClient.createGson().fromJson(object, User.class);
+                        listener.success(user);
+                    }
                 } else {
                     listener.fail(error);
                 }
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 listener.fail(new Error(t.getMessage()));
             }
         });

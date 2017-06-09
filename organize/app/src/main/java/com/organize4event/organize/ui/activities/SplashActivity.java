@@ -6,7 +6,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.Settings;
 import android.util.Base64;
 import android.util.Log;
@@ -31,7 +30,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class SplashActivity extends BaseActivity {
-    Handler handler;
     @Bind(R.id.txtLoading)
     TextView txtLoading;
     private Context context;
@@ -56,16 +54,10 @@ public class SplashActivity extends BaseActivity {
         device_id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         locale = Locale.getDefault().toString();
 
-        handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                getFirstAccess();
-            }
-        }, 5000);
+        getFirstAccess();
     }
 
-    protected void generateFacebookHashKey(){
+    protected void generateFacebookHashKey() {
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
                     getPackageName(),
@@ -75,11 +67,9 @@ public class SplashActivity extends BaseActivity {
                 md.update(signature.toByteArray());
                 Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
             }
-        }
-        catch (PackageManager.NameNotFoundException e) {
+        } catch (PackageManager.NameNotFoundException e) {
 
-        }
-        catch (NoSuchAlgorithmException e) {
+        } catch (NoSuchAlgorithmException e) {
 
         }
     }
@@ -88,10 +78,11 @@ public class SplashActivity extends BaseActivity {
         new FirstAccessControler(context).getFirstAccess(device_id, new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                firstAccess = (FirstAccess) object;
-                if (firstAccess.getId() > 0) {
+                if (object != null) {
+                    firstAccess = (FirstAccess) object;
                     verifyData();
                 } else {
+                    firstAccess = new FirstAccess();
                     setFirstAccess();
                 }
             }

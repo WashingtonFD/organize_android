@@ -53,7 +53,7 @@ public class PlanDetailActivity extends BaseActivity {
         context = PlanDetailActivity.this;
         plan = Parcels.unwrap(getIntent().getExtras().getParcelable("plan"));
 
-        configureToolbar(context, toolbar, context.getString(R.string.label_plan) + " " + plan.getName(), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
+        configureToolbar(context, toolbar, context.getString(R.string.label_plan) + " " + plan.getName(), context.getResources().getDrawable(R.drawable.ic_arrow_back), true, new ToolbarListener() {
             @Override
             public void onClick() {
                 finish();
@@ -69,10 +69,7 @@ public class PlanDetailActivity extends BaseActivity {
         } else {
             txtPeriod.setVisibility(View.VISIBLE);
             for (PlanPrice planPrice : plan.getPrice()) {
-                if (planPrice.is_active()) {
-                    txtprice.setText(String.format(Locale.getDefault(), "%.2f", planPrice.getPrice()));
-                    break;
-                }
+                txtprice.setText(String.format(Locale.getDefault(), "%.2f", planPrice.getPrice()));
             }
         }
 

@@ -1,10 +1,12 @@
 package com.organize4event.organize.models;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class PlanPrice extends ErrorReturn {
+public class PlanPrice implements Parcelable {
+
     public static final Creator<PlanPrice> CREATOR = new Creator<PlanPrice>() {
         @Override
         public PlanPrice createFromParcel(Parcel source) {
@@ -26,21 +28,16 @@ public class PlanPrice extends ErrorReturn {
     private int plan;
     @SerializedName("price")
     private double price;
-    @SerializedName("is_active")
-    private boolean is_active;
 
     public PlanPrice() {
-        this.setIs_new(true);
     }
 
     protected PlanPrice(Parcel in) {
-        super(in);
         this.id = in.readInt();
         this.locale = in.readString();
         this.code_enum = in.readInt();
         this.plan = in.readInt();
         this.price = in.readDouble();
-        this.is_active = in.readByte() != 0;
     }
 
     public int getId() {
@@ -83,14 +80,6 @@ public class PlanPrice extends ErrorReturn {
         this.price = price;
     }
 
-    public boolean is_active() {
-        return is_active;
-    }
-
-    public void setIs_active(boolean is_active) {
-        this.is_active = is_active;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -98,12 +87,10 @@ public class PlanPrice extends ErrorReturn {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
         dest.writeInt(this.id);
         dest.writeString(this.locale);
         dest.writeInt(this.code_enum);
         dest.writeInt(this.plan);
         dest.writeDouble(this.price);
-        dest.writeByte(this.is_active ? (byte) 1 : (byte) 0);
     }
 }

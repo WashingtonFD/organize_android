@@ -84,9 +84,11 @@ public class SettingsFragment extends BaseFragment {
         new SettingsControler(context).getUserSettings(user.getId(), new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                hideLoading();
-                userSettings = (ArrayList<UserSetting>) object;
-                loadAdapter();
+               if (object != null){
+                   hideLoading();
+                   userSettings = (ArrayList<UserSetting>) object;
+                   loadAdapter();
+               }
             }
 
             @Override
@@ -150,8 +152,10 @@ public class SettingsFragment extends BaseFragment {
         new PlanControler(context).getPlan(firstAccess.getLocale(), new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                plans = (ArrayList<Plan>) object;
-                startOurPlans(plans);
+                if (object != null){
+                    plans = (ArrayList<Plan>) object;
+                    startOurPlans(plans);
+                }
             }
 
             @Override

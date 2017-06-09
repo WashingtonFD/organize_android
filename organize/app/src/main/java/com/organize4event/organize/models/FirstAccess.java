@@ -1,13 +1,15 @@
 package com.organize4event.organize.models;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class FirstAccess extends ErrorReturn {
-    public static final Creator<FirstAccess> CREATOR = new Creator<FirstAccess>() {
+public class FirstAccess implements Parcelable {
+
+    public static final Parcelable.Creator<FirstAccess> CREATOR = new Parcelable.Creator<FirstAccess>() {
         @Override
         public FirstAccess createFromParcel(Parcel source) {
             return new FirstAccess(source);
@@ -30,11 +32,9 @@ public class FirstAccess extends ErrorReturn {
     private String locale;
 
     public FirstAccess() {
-        this.setIs_new(true);
     }
 
     protected FirstAccess(Parcel in) {
-        super(in);
         this.id = in.readInt();
         this.user = in.readParcelable(User.class.getClassLoader());
         this.device_id = in.readString();
@@ -90,7 +90,6 @@ public class FirstAccess extends ErrorReturn {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
         dest.writeInt(this.id);
         dest.writeParcelable(this.user, flags);
         dest.writeString(this.device_id);

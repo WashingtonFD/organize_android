@@ -1,11 +1,13 @@
 package com.organize4event.organize.models;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class AccessPlatform extends ErrorReturn {
-    public static final Creator<AccessPlatform> CREATOR = new Creator<AccessPlatform>() {
+public class AccessPlatform implements Parcelable {
+
+    public static final Parcelable.Creator<AccessPlatform> CREATOR = new Parcelable.Creator<AccessPlatform>() {
         @Override
         public AccessPlatform createFromParcel(Parcel source) {
             return new AccessPlatform(source);
@@ -26,11 +28,9 @@ public class AccessPlatform extends ErrorReturn {
     private String name;
 
     public AccessPlatform() {
-        this.setIs_new(true);
     }
 
     protected AccessPlatform(Parcel in) {
-        super(in);
         this.id = in.readInt();
         this.locale = in.readString();
         this.code_enum = in.readInt();
@@ -76,7 +76,6 @@ public class AccessPlatform extends ErrorReturn {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
         dest.writeInt(this.id);
         dest.writeString(this.locale);
         dest.writeInt(this.code_enum);

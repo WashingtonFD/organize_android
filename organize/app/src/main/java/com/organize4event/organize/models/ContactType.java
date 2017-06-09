@@ -1,12 +1,13 @@
 package com.organize4event.organize.models;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ContactType extends ErrorReturn {
+public class ContactType implements Parcelable {
 
-    public static final Creator<ContactType> CREATOR = new Creator<ContactType>() {
+    public static final Parcelable.Creator<ContactType> CREATOR = new Parcelable.Creator<ContactType>() {
         @Override
         public ContactType createFromParcel(Parcel source) {
             return new ContactType(source);
@@ -27,11 +28,9 @@ public class ContactType extends ErrorReturn {
     private String name;
 
     public ContactType() {
-        this.setIs_new(true);
     }
 
     protected ContactType(Parcel in) {
-        super(in);
         this.id = in.readInt();
         this.locale = in.readString();
         this.code_enum = in.readInt();
@@ -77,7 +76,6 @@ public class ContactType extends ErrorReturn {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
         dest.writeInt(this.id);
         dest.writeString(this.locale);
         dest.writeInt(this.code_enum);

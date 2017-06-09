@@ -263,7 +263,7 @@ public class BaseActivity extends AppCompatActivity {
 
     public void hideOrShowInfoIcon(String title, String message, EditText editText) {
         if (editText.hasFocus()) {
-            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_info_black_24dp_tint, 0);
+            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_info_tint, 0);
             instanceInfo(title, message, editText);
         } else {
             editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_transparent_small, 0);

@@ -1,11 +1,13 @@
 package com.organize4event.organize.models;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Institutional extends ErrorReturn {
-    public static final Creator<Institutional> CREATOR = new Creator<Institutional>() {
+public class Institutional implements Parcelable {
+
+    public static final Parcelable.Creator<Institutional> CREATOR = new Parcelable.Creator<Institutional>() {
         @Override
         public Institutional createFromParcel(Parcel source) {
             return new Institutional(source);
@@ -36,11 +38,9 @@ public class Institutional extends ErrorReturn {
     private boolean is_active;
 
     public Institutional() {
-        this.setIs_new(true);
     }
 
     protected Institutional(Parcel in) {
-        super(in);
         this.id = in.readInt();
         this.locale = in.readString();
         this.code_enum = in.readInt();
@@ -131,7 +131,6 @@ public class Institutional extends ErrorReturn {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
         dest.writeInt(this.id);
         dest.writeString(this.locale);
         dest.writeInt(this.code_enum);

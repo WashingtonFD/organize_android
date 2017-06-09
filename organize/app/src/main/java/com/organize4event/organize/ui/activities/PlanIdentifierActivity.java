@@ -67,7 +67,7 @@ public class PlanIdentifierActivity extends BaseActivity {
         user = firstAccess.getUser();
         plan = new Plan();
 
-        configureToolbar(context, toolbar, context.getString(R.string.label_plan_identifier), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
+        configureToolbar(context, toolbar, context.getString(R.string.label_plan_identifier), context.getResources().getDrawable(R.drawable.ic_arrow_back), true, new ToolbarListener() {
             @Override
             public void onClick() {
                 finish();
@@ -107,8 +107,10 @@ public class PlanIdentifierActivity extends BaseActivity {
         new PlanControler(context).getPlan(firstAccess.getLocale(), new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                plans = (ArrayList<Plan>) object;
-                setPlan();
+                if (object != null) {
+                    plans = (ArrayList<Plan>) object;
+                    setPlan();
+                }
             }
 
             @Override

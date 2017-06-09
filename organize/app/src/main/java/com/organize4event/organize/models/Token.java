@@ -1,13 +1,14 @@
 package com.organize4event.organize.models;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class Token extends ErrorReturn {
-    public static final Creator<Token> CREATOR = new Creator<Token>() {
+public class Token implements Parcelable {
+    public static final Parcelable.Creator<Token> CREATOR = new Parcelable.Creator<Token>() {
         @Override
         public Token createFromParcel(Parcel source) {
             return new Token(source);
@@ -32,11 +33,9 @@ public class Token extends ErrorReturn {
     private boolean keep_logged;
 
     public Token() {
-        this.setIs_new(true);
     }
 
     protected Token(Parcel in) {
-        super(in);
         this.id = in.readInt();
         this.login_type = in.readParcelable(LoginType.class.getClassLoader());
         this.access_platform = in.readParcelable(AccessPlatform.class.getClassLoader());
@@ -101,7 +100,6 @@ public class Token extends ErrorReturn {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
         dest.writeInt(this.id);
         dest.writeParcelable(this.login_type, flags);
         dest.writeParcelable(this.access_platform, flags);

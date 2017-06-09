@@ -1,12 +1,13 @@
 package com.organize4event.organize.models;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Contact extends ErrorReturn {
+public class Contact implements Parcelable {
 
-    public static final Creator<Contact> CREATOR = new Creator<Contact>() {
+    public static final Parcelable.Creator<Contact> CREATOR = new Parcelable.Creator<Contact>() {
         @Override
         public Contact createFromParcel(Parcel source) {
             return new Contact(source);
@@ -29,22 +30,17 @@ public class Contact extends ErrorReturn {
     private ContactType contact_type;
     @SerializedName("contact")
     private String contact;
-    @SerializedName("is_active")
-    private boolean is_active;
 
     public Contact() {
-        this.setIs_new(true);
     }
 
     protected Contact(Parcel in) {
-        super(in);
         this.id = in.readInt();
         this.locale = in.readString();
         this.code_enum = in.readInt();
         this.description = in.readString();
         this.contact_type = in.readParcelable(ContactType.class.getClassLoader());
         this.contact = in.readString();
-        this.is_active = in.readByte() != 0;
     }
 
     public int getId() {
@@ -95,14 +91,6 @@ public class Contact extends ErrorReturn {
         this.contact = contact;
     }
 
-    public boolean is_active() {
-        return is_active;
-    }
-
-    public void setIs_active(boolean is_active) {
-        this.is_active = is_active;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -110,13 +98,11 @@ public class Contact extends ErrorReturn {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
         dest.writeInt(this.id);
         dest.writeString(this.locale);
         dest.writeInt(this.code_enum);
         dest.writeString(this.description);
         dest.writeParcelable(this.contact_type, flags);
         dest.writeString(this.contact);
-        dest.writeByte(this.is_active ? (byte) 1 : (byte) 0);
     }
 }

@@ -1,12 +1,14 @@
 package com.organize4event.organize.models;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
-public class UserSetting extends ErrorReturn implements Comparable<UserSetting> {
-    public static final Creator<UserSetting> CREATOR = new Creator<UserSetting>() {
+public class UserSetting implements Comparable<UserSetting>, Parcelable {
+
+    public static final Parcelable.Creator<UserSetting> CREATOR = new Parcelable.Creator<UserSetting>() {
         @Override
         public UserSetting createFromParcel(Parcel source) {
             return new UserSetting(source);
@@ -32,7 +34,6 @@ public class UserSetting extends ErrorReturn implements Comparable<UserSetting> 
     }
 
     protected UserSetting(Parcel in) {
-        super(in);
         this.id = in.readInt();
         this.user = in.readInt();
         this.setting = in.readParcelable(Setting.class.getClassLoader());
@@ -98,7 +99,6 @@ public class UserSetting extends ErrorReturn implements Comparable<UserSetting> 
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
         dest.writeInt(this.id);
         dest.writeInt(this.user);
         dest.writeParcelable(this.setting, flags);

@@ -11,13 +11,13 @@ import android.widget.EditText;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.gson.JsonObject;
 import com.organize4event.organize.R;
 import com.organize4event.organize.controlers.UserSecurityControler;
 import com.organize4event.organize.enuns.DialogTypeEnum;
 import com.organize4event.organize.listeners.ControlResponseListener;
 import com.organize4event.organize.listeners.CustomDialogListener;
 import com.organize4event.organize.listeners.ToolbarListener;
-import com.organize4event.organize.models.ErrorReturn;
 import com.organize4event.organize.models.SecurityQuestion;
 import com.organize4event.organize.models.User;
 
@@ -54,7 +54,7 @@ public class VerifySecurityActivity extends BaseActivity {
         context = VerifySecurityActivity.this;
         user = Parcels.unwrap(getIntent().getExtras().getParcelable("user"));
 
-        configureToolbar(context, toolbar, context.getString(R.string.label_verify_security), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
+        configureToolbar(context, toolbar, context.getString(R.string.label_verify_security), context.getResources().getDrawable(R.drawable.ic_arrow_back), true, new ToolbarListener() {
             @Override
             public void onClick() {
                 finish();
@@ -101,8 +101,8 @@ public class VerifySecurityActivity extends BaseActivity {
         new UserSecurityControler(context).sendMail(mail, user_security_id, user_answer, new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                ErrorReturn errorReturn = (ErrorReturn) object;
-                if (errorReturn.getCode() == 0) {
+                JsonObject response = (JsonObject) object;
+                if (!response.get("has_error").getAsBoolean()) {
                     showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), context.getString(R.string.message_success_recovery_password), new CustomDialogListener() {
                         @Override
                         public void positiveOnClick(MaterialDialog dialog) {
@@ -116,7 +116,7 @@ public class VerifySecurityActivity extends BaseActivity {
                         }
                     });
                 } else {
-                    showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), errorReturn.getException(), new CustomDialogListener() {
+                    showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), response.get("exception").getAsString(), new CustomDialogListener() {
                         @Override
                         public void positiveOnClick(MaterialDialog dialog) {
                             dialog.dismiss();

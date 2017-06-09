@@ -52,7 +52,7 @@ public class NotificationsActivity extends BaseActivity {
         context = NotificationsActivity.this;
         userNotifications = getIntent().getParcelableArrayListExtra("userNotifications");
 
-        configureToolbar(context, toolbar, context.getString(R.string.label_notifications), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
+        configureToolbar(context, toolbar, context.getString(R.string.label_notifications), context.getResources().getDrawable(R.drawable.ic_arrow_back), true, new ToolbarListener() {
             @Override
             public void onClick() {
                 finish();
@@ -92,8 +92,6 @@ public class NotificationsActivity extends BaseActivity {
                 if (clearAll) {
                     adapter.refreshAllLayout();
                 }
-
-
             }
 
             @Override

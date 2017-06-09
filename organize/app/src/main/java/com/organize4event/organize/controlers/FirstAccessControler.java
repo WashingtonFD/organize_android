@@ -2,6 +2,7 @@ package com.organize4event.organize.controlers;
 
 import android.content.Context;
 
+import com.google.gson.JsonObject;
 import com.organize4event.organize.commons.ApiClient;
 import com.organize4event.organize.commons.AppApplication;
 import com.organize4event.organize.commons.Constants;
@@ -30,22 +31,28 @@ public class FirstAccessControler extends Controler {
                 firstAccess.getDevice_id(),
                 firstAccess.getLocale(),
                 simpleDateFormat.format(firstAccess.getInstalation_date())
-        ).enqueue(new Callback<FirstAccess>() {
+        ).enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<FirstAccess> call, Response<FirstAccess> response) {
-                FirstAccess firstAccess = (FirstAccess) response.body();
-                Error error = parserError(firstAccess);
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonObject jsonObject = response.body();
+                Error error = parserError(jsonObject);
                 if (error == null) {
-                    PreferencesManager.saveFirstAccess(firstAccess);
-                    AppApplication.setFirstAccess(firstAccess);
-                    listener.success(firstAccess);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonObject object = jsonObject.get("data").getAsJsonObject();
+                        FirstAccess firstAccess = ApiClient.createGson().fromJson(object, FirstAccess.class);
+                        PreferencesManager.saveFirstAccess(firstAccess);
+                        AppApplication.setFirstAccess(firstAccess);
+                        listener.success(firstAccess);
+                    }
                 } else {
                     listener.fail(error);
                 }
             }
 
             @Override
-            public void onFailure(Call<FirstAccess> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 listener.fail(new Error(t.getMessage()));
             }
         });
@@ -53,20 +60,26 @@ public class FirstAccessControler extends Controler {
 
     public void getFirstAccess(String device_id, final ControlResponseListener listener) {
         FirstAccessService service = ApiClient.getRetrofit().create(FirstAccessService.class);
-        service.getFirstAccess(device_id).enqueue(new Callback<FirstAccess>() {
+        service.getFirstAccess(device_id).enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<FirstAccess> call, Response<FirstAccess> response) {
-                FirstAccess firstAccess = (FirstAccess) response.body();
-                Error error = parserError(firstAccess);
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonObject jsonObject = response.body();
+                Error error = parserError(jsonObject);
                 if (error == null) {
-                    listener.success(firstAccess);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonObject object = jsonObject.get("data").getAsJsonObject();
+                        FirstAccess firstAccess = ApiClient.createGson().fromJson(object, FirstAccess.class);
+                        listener.success(firstAccess);
+                    }
                 } else {
                     listener.fail(error);
                 }
             }
 
             @Override
-            public void onFailure(Call<FirstAccess> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 listener.fail(new Error(t.getMessage()));
             }
         });
@@ -74,20 +87,27 @@ public class FirstAccessControler extends Controler {
 
     public void getAccessPlatform(String locale, int code_enum, final ControlResponseListener listener) {
         FirstAccessService service = ApiClient.getRetrofit().create(FirstAccessService.class);
-        service.getAccessPlatform(locale, code_enum).enqueue(new Callback<AccessPlatform>() {
+        service.getAccessPlatform(locale, code_enum).enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<AccessPlatform> call, Response<AccessPlatform> response) {
-                AccessPlatform accessPlatform = response.body();
-                Error error = parserError(accessPlatform);
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonObject jsonObject = response.body();
+                Error error = parserError(jsonObject);
                 if (error == null) {
-                    listener.success(accessPlatform);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonObject object = jsonObject.get("data").getAsJsonObject();
+                        AccessPlatform accessPlatform = ApiClient.createGson().fromJson(object, AccessPlatform.class);
+                        listener.success(accessPlatform);
+                    }
+
                 } else {
                     listener.fail(error);
                 }
             }
 
             @Override
-            public void onFailure(Call<AccessPlatform> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 listener.fail(new Error(t.getMessage()));
             }
         });

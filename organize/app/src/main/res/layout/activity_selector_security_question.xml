@@ -22,12 +22,12 @@
             tools:ignore="MissingPrefix">
 
             <ImageView
-                android:id="@+id/imgAccept"
+                android:id="@+id/imgNew"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_marginRight="22dp"
-                android:src="@drawable/ic_add_black_24dp"
+                android:src="@drawable/ic_add"
                 android:tint="@color/colorDestakText" />
 
         </android.support.v7.widget.Toolbar>

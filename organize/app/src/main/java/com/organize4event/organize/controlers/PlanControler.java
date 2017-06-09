@@ -2,12 +2,15 @@ package com.organize4event.organize.controlers;
 
 import android.content.Context;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.organize4event.organize.commons.ApiClient;
 import com.organize4event.organize.listeners.ControlResponseListener;
 import com.organize4event.organize.models.Plan;
 import com.organize4event.organize.services.PlanService;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -20,20 +23,27 @@ public class PlanControler extends Controler {
 
     public void getPlan(String locale, final ControlResponseListener listener) {
         PlanService service = ApiClient.getRetrofit().create(PlanService.class);
-        service.getPlan(locale).enqueue(new Callback<ArrayList<Plan>>() {
+        service.getPlan(locale).enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<ArrayList<Plan>> call, Response<ArrayList<Plan>> response) {
-                ArrayList<Plan> plans = (ArrayList<Plan>) response.body();
-                Error error = parserError(plans.get(0));
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonObject jsonObject = response.body();
+                Error error = parserError(jsonObject);
                 if (error == null) {
-                    listener.success(plans);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonArray array = jsonObject.get("data").getAsJsonArray();
+                        List<Plan> plans = (List<Plan>) ApiClient.createGson().fromJson(array, new TypeToken<List<Plan>>() {
+                        }.getType());
+                        listener.success(plans);
+                    }
                 } else {
                     listener.fail(error);
                 }
             }
 
             @Override
-            public void onFailure(Call<ArrayList<Plan>> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 listener.fail(new Error(t.getMessage()));
             }
         });
@@ -41,20 +51,26 @@ public class PlanControler extends Controler {
 
     public void getPlanId(String locale, int code_enum, final ControlResponseListener listener) {
         PlanService service = ApiClient.getRetrofit().create(PlanService.class);
-        service.getPLanId(locale, code_enum).enqueue(new Callback<Plan>() {
+        service.getPLanId(locale, code_enum).enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<Plan> call, Response<Plan> response) {
-                Plan plan = (Plan) response.body();
-                Error error = parserError(plan);
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonObject jsonObject = response.body();
+                Error error = parserError(jsonObject);
                 if (error == null) {
-                    listener.success(plan);
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonObject object = jsonObject.get("data").getAsJsonObject();
+                        Plan plan = ApiClient.createGson().fromJson(object, Plan.class);
+                        listener.success(plan);
+                    }
                 } else {
                     listener.fail(error);
                 }
             }
 
             @Override
-            public void onFailure(Call<Plan> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 listener.fail(new Error(t.getMessage()));
             }
         });

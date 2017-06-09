@@ -86,7 +86,6 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     private Validator validator;
     private CustomValidate customValidate;
     private User user;
-    private User newUser;
     private FirstAccess firstAccess;
     private Token token;
     private LoginType loginType;
@@ -187,31 +186,28 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         new TokenControler(context).login(txtMail.getText().toString(), txtPassword.getText().toString(), new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                hideLoading();
-                newUser = (User) object;
-                if (newUser.getId() > 0) {
+                if (object != null) {
+                    hideLoading();
+                    user = (User) object;
                     saveToken();
-                } else {
-                    containerLoginEmail.setVisibility(View.GONE);
-                    showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), newUser.getMessage(), new CustomDialogListener() {
-                        @Override
-                        public void positiveOnClick(MaterialDialog dialog) {
-                            dialog.dismiss();
-                            containerLoginEmail.setVisibility(View.VISIBLE);
-                        }
-
-                        @Override
-                        public void negativeOnClick(MaterialDialog dialog) {
-
-                        }
-                    });
                 }
             }
 
             @Override
             public void fail(Error error) {
                 containerLoginEmail.setVisibility(View.GONE);
-                returnErrorMessage(error, context);
+                showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), error.getMessage(), new CustomDialogListener() {
+                    @Override
+                    public void positiveOnClick(MaterialDialog dialog) {
+                        dialog.dismiss();
+                        containerLoginEmail.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void negativeOnClick(MaterialDialog dialog) {
+
+                    }
+                });
             }
         });
     }
@@ -224,16 +220,18 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         new TokenControler(context).saveToken(token, user.getId(), keep_logged_int, new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                token = (Token) object;
-                user.setToken(token);
-                firstAccess.setUser(user);
-                PreferencesManager.saveFirstAccess(firstAccess);
-                insertNotification(context, user.getId(), context.getString(R.string.notification_login_brief_description), context.getString(R.string.notification_login_description), new Date());
-                if (PreferencesManager.isHideWelcome()) {
-                    startActivity(new Intent(context, HomeActivity.class));
-                    finish();
-                } else {
-                    starWelcomeActivity();
+                if (object != null) {
+                    token = (Token) object;
+                    user.setToken(token);
+                    firstAccess.setUser(user);
+                    PreferencesManager.saveFirstAccess(firstAccess);
+                    insertNotification(context, user.getId(), context.getString(R.string.notification_login_brief_description), context.getString(R.string.notification_login_description), new Date());
+                    if (PreferencesManager.isHideWelcome()) {
+                        startActivity(new Intent(context, HomeActivity.class));
+                        finish();
+                    } else {
+                        starWelcomeActivity();
+                    }
                 }
             }
 
@@ -282,13 +280,15 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                     new UserControler(context).updateUserProfilePicture(user, new ControlResponseListener() {
                         @Override
                         public void success(Object object) {
-                            User newUser = (User) object;
-                            if (newUser.getId() > 0) {
-                                firstAccess.setUser(user);
-                                PreferencesManager.saveFirstAccess(firstAccess);
-                                AppApplication.setFirstAccess(firstAccess);
+                            if (object != null) {
+                                User newUser = (User) object;
+                                if (newUser.getId() > 0) {
+                                    firstAccess.setUser(user);
+                                    PreferencesManager.saveFirstAccess(firstAccess);
+                                    AppApplication.setFirstAccess(firstAccess);
 
-                                saveToken();
+                                    saveToken();
+                                }
                             }
                         }
 
@@ -319,24 +319,26 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             new UserControler(context).getUserMail(txtMailForgotPassword.getText().toString().trim(), new ControlResponseListener() {
                 @Override
                 public void success(Object object) {
-                    hideLoading();
-                    User findUser = (User) object;
-                    UserSecurity security = findUser.getUser_security();
-                    if (security == null) {
-                        showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), context.getString(R.string.message_error_recovery_password), new CustomDialogListener() {
-                            @Override
-                            public void positiveOnClick(MaterialDialog dialog) {
-                                dialog.dismiss();
-                            }
+                    if (object != null) {
+                        hideLoading();
+                        User findUser = (User) object;
+                        UserSecurity security = findUser.getUser_security();
+                        if (security == null) {
+                            showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), context.getString(R.string.message_error_recovery_password), new CustomDialogListener() {
+                                @Override
+                                public void positiveOnClick(MaterialDialog dialog) {
+                                    dialog.dismiss();
+                                }
 
-                            @Override
-                            public void negativeOnClick(MaterialDialog dialog) {
+                                @Override
+                                public void negativeOnClick(MaterialDialog dialog) {
 
-                            }
-                        });
-                    } else {
-                        containerForgotPassword.setVisibility(View.GONE);
-                        starVerifySecurityActivity(findUser);
+                                }
+                            });
+                        } else {
+                            containerForgotPassword.setVisibility(View.GONE);
+                            starVerifySecurityActivity(findUser);
+                        }
                     }
                 }
 
@@ -353,8 +355,10 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         new FirstAccessControler(context).getAccessPlatform(firstAccess.getLocale(), code_enum_platform, new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                accessPlatform = (AccessPlatform) object;
-                getLoginType();
+                if (object != null) {
+                    accessPlatform = (AccessPlatform) object;
+                    getLoginType();
+                }
             }
 
             @Override
@@ -368,11 +372,13 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         new TokenControler(context).getLoginType(firstAccess.getLocale(), code_enum, new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                loginType = (LoginType) object;
-                if (loginType.getCode_enum() == LoginTypeEnum.EMAIL.getValue()) {
-                    loginEmail();
-                } else if (loginType.getCode_enum() == LoginTypeEnum.FACEBOOK.getValue()) {
-                    loginFacebook();
+                if (object != null) {
+                    loginType = (LoginType) object;
+                    if (loginType.getCode_enum() == LoginTypeEnum.EMAIL.getValue()) {
+                        loginEmail();
+                    } else if (loginType.getCode_enum() == LoginTypeEnum.FACEBOOK.getValue()) {
+                        loginFacebook();
+                    }
                 }
             }
 

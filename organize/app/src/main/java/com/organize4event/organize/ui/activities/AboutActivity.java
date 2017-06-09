@@ -29,7 +29,7 @@ public class AboutActivity extends BaseActivity {
 
         context = AboutActivity.this;
 
-        configureToolbar(context, toolbar, context.getString(R.string.label_about), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
+        configureToolbar(context, toolbar, context.getString(R.string.label_about), context.getResources().getDrawable(R.drawable.ic_arrow_back), true, new ToolbarListener() {
             @Override
             public void onClick() {
                 finish();

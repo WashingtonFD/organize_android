@@ -2,6 +2,7 @@ package com.organize4event.organize.ui.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,6 +33,7 @@ import com.organize4event.organize.models.Token;
 import com.organize4event.organize.models.UserNotification;
 import com.organize4event.organize.ui.fragments.HomeFragment;
 import com.organize4event.organize.ui.fragments.InstitutionalFragment;
+import com.organize4event.organize.ui.fragments.PersonalDataFragment;
 import com.organize4event.organize.ui.fragments.SettingsFragment;
 
 import org.parceler.Parcels;
@@ -57,6 +62,7 @@ public class HomeActivity extends BaseActivity {
     @Bind(R.id.imgUserAvatar)
     ImageView imgUserAvatar;
     private Context context;
+    private boolean showMenu = false;
     private String device_id;
     private FirstAccess firstAccess;
     private Token token;
@@ -92,7 +98,7 @@ public class HomeActivity extends BaseActivity {
     }
 
     protected void setupToolbar(String title) {
-        configureToolbar(context, toolbar, title, context.getResources().getDrawable(R.drawable.ic_menu_black_24dp), true, new ToolbarListener() {
+        configureToolbar(context, toolbar, title, context.getResources().getDrawable(R.drawable.ic_menu), true, new ToolbarListener() {
             @Override
             public void onClick() {
                 drawerLayout.openDrawer(Gravity.LEFT);
@@ -104,11 +110,14 @@ public class HomeActivity extends BaseActivity {
         new FirstAccessControler(context).getFirstAccess(device_id, new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                firstAccess = (FirstAccess) object;
-                token = firstAccess.getUser().getToken();
-                txtUserName.setText(firstAccess.getUser().getFull_name());
-                Glide.with(context).load(firstAccess.getUser().getProfile_picture()).centerCrop().transform(new CircleTransform(context)).crossFade().into(imgUserAvatar);
-                getNotifications();
+                if (object != null) {
+                    firstAccess = (FirstAccess) object;
+                    token = firstAccess.getUser().getToken();
+                    txtUserName.setText(firstAccess.getUser().getFull_name());
+                    Glide.with(context).load(firstAccess.getUser().getProfile_picture()).centerCrop().transform(new CircleTransform(context)).crossFade().into(imgUserAvatar);
+                    getNotifications();
+
+                }
             }
 
             @Override
@@ -122,11 +131,13 @@ public class HomeActivity extends BaseActivity {
         new NotificationControler(context).getUserNotifications(firstAccess.getUser().getId(), new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                userNotifications = (ArrayList<UserNotification>) object;
-                firstAccess.getUser().setUser_notifications(userNotifications);
-                PreferencesManager.saveFirstAccess(firstAccess);
-                AppApplication.setFirstAccess(firstAccess);
-                assetIconNotification();
+                if (object != null) {
+                    userNotifications = (ArrayList<UserNotification>) object;
+                    firstAccess.getUser().setUser_notifications(userNotifications);
+                    PreferencesManager.saveFirstAccess(firstAccess);
+                    AppApplication.setFirstAccess(firstAccess);
+                    assetIconNotification();
+                }
             }
 
             @Override
@@ -147,10 +158,10 @@ public class HomeActivity extends BaseActivity {
         }
 
         if (count > 0) {
-            imgNotification.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_notifications_black_24dp_on));
+            imgNotification.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_notifications_on));
             imgNotification.setColorFilter(context.getResources().getColor(R.color.colorTransparent));
         } else {
-            imgNotification.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_notifications_black_24dp));
+            imgNotification.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_notifications));
             imgNotification.setColorFilter(context.getResources().getColor(R.color.colorDestakText));
         }
     }
@@ -180,10 +191,12 @@ public class HomeActivity extends BaseActivity {
         new TokenControler(context).saveToken(newToken, firstAccess.getUser().getId(), 0, new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                token = (Token) object;
-                firstAccess.getUser().setToken(token);
-                PreferencesManager.saveFirstAccess(firstAccess);
-                starLoginActivity();
+                if (object != null) {
+                    token = (Token) object;
+                    firstAccess.getUser().setToken(token);
+                    PreferencesManager.saveFirstAccess(firstAccess);
+                    starLoginActivity();
+                }
             }
 
             @Override
@@ -204,10 +217,10 @@ public class HomeActivity extends BaseActivity {
     public void actionMenuSwitch(View view) {
         switch (view.getId()) {
             case R.id.userContainer:
+                instanceViewFragment(PersonalDataFragment.class, context.getString(R.string.label_nav_user), false, true);
                 break;
             case R.id.homeContainer:
-                setupToolbar(context.getString(R.string.label_nav_home));
-                fragmentClass = HomeFragment.class;
+                instanceViewFragment(HomeFragment.class, context.getString(R.string.label_nav_home), true, false);
                 break;
             case R.id.eventContainer:
                 break;
@@ -220,19 +233,16 @@ public class HomeActivity extends BaseActivity {
             case R.id.purchaseContainer:
                 break;
             case R.id.settingsContainer:
-                setupToolbar(context.getString(R.string.label_nav_settings));
-                fragmentClass = SettingsFragment.class;
+                instanceViewFragment(SettingsFragment.class, context.getString(R.string.label_nav_settings), true, false);
                 break;
             case R.id.institutionalContainer:
-                setupToolbar(context.getString(R.string.label_nav_institutional));
-                fragmentClass = InstitutionalFragment.class;
+                instanceViewFragment(InstitutionalFragment.class, context.getString(R.string.label_nav_institutional), true, false);
                 break;
             case R.id.btnExit:
                 logout();
                 break;
             default:
-                setupToolbar(context.getString(R.string.label_nav_home));
-                fragmentClass = HomeFragment.class;
+                instanceViewFragment(HomeFragment.class, context.getString(R.string.label_nav_home), true, false);
                 break;
         }
 
@@ -248,10 +258,66 @@ public class HomeActivity extends BaseActivity {
         drawerLayout.closeDrawers();
     }
 
+    protected void instanceViewFragment(Class showFragment, String title, boolean showNotificate, boolean showMore) {
+        showMenu = showMore;
+        setupToolbar(title);
+        fragmentClass = showFragment;
+        if (showNotificate) {
+            imgNotification.setVisibility(View.VISIBLE);
+        } else {
+            imgNotification.setVisibility(View.GONE);
+        }
+    }
+
     protected void starLoginActivity() {
         Intent intent = new Intent(context, LoginActivity.class);
         intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.personal_data_menu, menu);
+
+        MenuItem item = menu.findItem(R.id.menu_edit);
+        item.getIcon().setColorFilter(context.getResources().getColor(R.color.colorDestakText), PorterDuff.Mode.SRC_IN);
+
+        if (showMenu) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_edit:
+                showToastMessage(context, "Menu editar");
+                return true;
+            case R.id.menu_address:
+                startMenuActivity(UserAddressActivity.class);
+                return true;
+            case R.id.menu_contact:
+                startMenuActivity(UserContactActivity.class);
+                return true;
+            case R.id.menu_academic:
+                startMenuActivity(UserAcademicDataActivity.class);
+                return true;
+            case R.id.menu_social_network:
+                startMenuActivity(UserSocialNetworkActivity.class);
+                return true;
+            case R.id.menu_security:
+                startMenuActivity(UserSecurityActivity.class);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    protected void startMenuActivity(Class activitStart) {
+        startActivity(new Intent(context, activitStart));
     }
 }
