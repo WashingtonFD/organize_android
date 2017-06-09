@@ -34,7 +34,7 @@ public class SettingsControler extends Controler {
                         listener.success(null);
                     } else {
                         JsonArray array = jsonObject.get("data").getAsJsonArray();
-                        List<Setting> settings = (List<Setting>) createGson().fromJson(array, new TypeToken<List<Setting>>() {
+                        List<Setting> settings = (List<Setting>) ApiClient.createGson().fromJson(array, new TypeToken<List<Setting>>() {
                         }.getType());
                         listener.success(settings);
                     }
@@ -62,7 +62,7 @@ public class SettingsControler extends Controler {
                         listener.success(null);
                     } else {
                         JsonArray array = jsonObject.get("data").getAsJsonArray();
-                        List<UserSetting> userSettings = (List<UserSetting>) createGson().fromJson(array, new TypeToken<List<UserSetting>>() {
+                        List<UserSetting> userSettings = (List<UserSetting>) ApiClient.createGson().fromJson(array, new TypeToken<List<UserSetting>>() {
                         }.getType());
                         listener.success(userSettings);
                     }
@@ -93,7 +93,7 @@ public class SettingsControler extends Controler {
                         listener.success(null);
                     } else {
                         JsonObject object = jsonObject.get("data").getAsJsonObject();
-                        UserSetting userSetting = createGson().fromJson(object, UserSetting.class);
+                        UserSetting userSetting = ApiClient.createGson().fromJson(object, UserSetting.class);
                         listener.success(userSetting);
                     }
                 } else {
@@ -120,7 +120,7 @@ public class SettingsControler extends Controler {
                         listener.success(null);
                     } else {
                         JsonObject object = jsonObject.get("data").getAsJsonObject();
-                        UserSetting userSetting = createGson().fromJson(object, UserSetting.class);
+                        UserSetting userSetting = ApiClient.createGson().fromJson(object, UserSetting.class);
                         listener.success(userSetting);
                     }
                 } else {

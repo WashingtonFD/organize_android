@@ -86,7 +86,6 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     private Validator validator;
     private CustomValidate customValidate;
     private User user;
-    private User newUser;
     private FirstAccess firstAccess;
     private Token token;
     private LoginType loginType;
@@ -189,7 +188,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             public void success(Object object) {
                 if (object != null) {
                     hideLoading();
-                    newUser = (User) object;
+                    user = (User) object;
                     saveToken();
                 }
             }

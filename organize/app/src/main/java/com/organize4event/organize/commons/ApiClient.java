@@ -22,12 +22,6 @@ public class ApiClient {
     private static Retrofit retrofit;
 
     public ApiClient() {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Boolean.class, new BooleanTypeAdapter());
-        gsonBuilder.registerTypeAdapter(boolean.class, new BooleanTypeAdapter());
-        gsonBuilder.setDateFormat(Constants.FULL_DATE_FORMAT);
-
-        Gson gson = gsonBuilder.create();
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
@@ -42,7 +36,7 @@ public class ApiClient {
                 })
                 .build();
 
-        retrofit = new Retrofit.Builder().baseUrl(Constants.BASE_URL).addConverterFactory(GsonConverterFactory.create(gson)).client(client).build();
+        retrofit = new Retrofit.Builder().baseUrl(Constants.BASE_URL).addConverterFactory(GsonConverterFactory.create(createGson())).client(client).build();
     }
 
     public static void newInstance() {
@@ -53,5 +47,15 @@ public class ApiClient {
 
     public static Retrofit getRetrofit() {
         return retrofit;
+    }
+
+    public static Gson createGson() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Boolean.class, new BooleanTypeAdapter());
+        gsonBuilder.registerTypeAdapter(boolean.class, new BooleanTypeAdapter());
+        gsonBuilder.setDateFormat(Constants.FULL_DATE_FORMAT);
+
+        Gson gson = gsonBuilder.create();
+        return gson;
     }
 }

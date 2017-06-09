@@ -6,7 +6,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.Settings;
 import android.util.Base64;
 import android.util.Log;
@@ -31,7 +30,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class SplashActivity extends BaseActivity {
-    Handler handler;
     @Bind(R.id.txtLoading)
     TextView txtLoading;
     private Context context;
@@ -56,13 +54,7 @@ public class SplashActivity extends BaseActivity {
         device_id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         locale = Locale.getDefault().toString();
 
-        handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                getFirstAccess();
-            }
-        }, 5000);
+        getFirstAccess();
     }
 
     protected void generateFacebookHashKey() {

@@ -41,7 +41,7 @@ public class FirstAccessControler extends Controler {
                         listener.success(null);
                     } else {
                         JsonObject object = jsonObject.get("data").getAsJsonObject();
-                        FirstAccess firstAccess = createGson().fromJson(object, FirstAccess.class);
+                        FirstAccess firstAccess = ApiClient.createGson().fromJson(object, FirstAccess.class);
                         PreferencesManager.saveFirstAccess(firstAccess);
                         AppApplication.setFirstAccess(firstAccess);
                         listener.success(firstAccess);
@@ -70,7 +70,7 @@ public class FirstAccessControler extends Controler {
                         listener.success(null);
                     } else {
                         JsonObject object = jsonObject.get("data").getAsJsonObject();
-                        FirstAccess firstAccess = createGson().fromJson(object, FirstAccess.class);
+                        FirstAccess firstAccess = ApiClient.createGson().fromJson(object, FirstAccess.class);
                         listener.success(firstAccess);
                     }
                 } else {
@@ -97,7 +97,7 @@ public class FirstAccessControler extends Controler {
                         listener.success(null);
                     } else {
                         JsonObject object = jsonObject.get("data").getAsJsonObject();
-                        AccessPlatform accessPlatform = createGson().fromJson(object, AccessPlatform.class);
+                        AccessPlatform accessPlatform = ApiClient.createGson().fromJson(object, AccessPlatform.class);
                         listener.success(accessPlatform);
                     }
 

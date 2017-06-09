@@ -36,7 +36,7 @@ public class NotificationControler extends Controler {
                         listener.success(null);
                     } else {
                         JsonArray array = jsonObject.get("data").getAsJsonArray();
-                        List<UserNotification> userNotifications = (List<UserNotification>) createGson().fromJson(array, new TypeToken<List<UserNotification>>() {
+                        List<UserNotification> userNotifications = (List<UserNotification>) ApiClient.createGson().fromJson(array, new TypeToken<List<UserNotification>>() {
                         }.getType());
                         listener.success(userNotifications);
                     }
@@ -68,7 +68,7 @@ public class NotificationControler extends Controler {
                         listener.success(null);
                     } else {
                         JsonObject object = jsonObject.get("data").getAsJsonObject();
-                        UserNotification userNotification = createGson().fromJson(object, UserNotification.class);
+                        UserNotification userNotification = ApiClient.createGson().fromJson(object, UserNotification.class);
                         listener.success(userNotification);
                     }
                 } else {
@@ -95,7 +95,7 @@ public class NotificationControler extends Controler {
                         listener.success(null);
                     } else {
                         JsonObject object = jsonObject.get("data").getAsJsonObject();
-                        UserNotification userNotification = createGson().fromJson(object, UserNotification.class);
+                        UserNotification userNotification = ApiClient.createGson().fromJson(object, UserNotification.class);
                         listener.success(userNotification);
                     }
                 } else {

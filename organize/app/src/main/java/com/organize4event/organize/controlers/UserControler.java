@@ -38,7 +38,7 @@ public class UserControler extends Controler {
                         listener.success(null);
                     } else {
                         JsonObject object = jsonObject.get("data").getAsJsonObject();
-                        UserType userType = createGson().fromJson(object, UserType.class);
+                        UserType userType = ApiClient.createGson().fromJson(object, UserType.class);
                         listener.success(userType);
                     }
                 } else {
@@ -65,7 +65,7 @@ public class UserControler extends Controler {
                         listener.success(null);
                     } else {
                         JsonObject object = jsonObject.get("data").getAsJsonObject();
-                        User user = createGson().fromJson(object, User.class);
+                        User user = ApiClient.createGson().fromJson(object, User.class);
                         listener.success(user);
                     }
                 } else {
@@ -102,7 +102,7 @@ public class UserControler extends Controler {
                         listener.success(null);
                     } else {
                         JsonObject object = jsonObject.get("data").getAsJsonObject();
-                        User user = createGson().fromJson(object, User.class);
+                        User user = ApiClient.createGson().fromJson(object, User.class);
                         listener.success(user);
                     }
                 } else {
@@ -129,7 +129,7 @@ public class UserControler extends Controler {
                         listener.success(null);
                     } else {
                         JsonObject object = jsonObject.get("data").getAsJsonObject();
-                        User user = createGson().fromJson(object, User.class);
+                        User user = ApiClient.createGson().fromJson(object, User.class);
                         listener.success(user);
                     }
                 } else {
@@ -183,7 +183,7 @@ public class UserControler extends Controler {
                         listener.success(null);
                     } else {
                         JsonObject object = jsonObject.get("data").getAsJsonObject();
-                        User user = createGson().fromJson(object, User.class);
+                        User user = ApiClient.createGson().fromJson(object, User.class);
                         listener.success(user);
                     }
                 } else {

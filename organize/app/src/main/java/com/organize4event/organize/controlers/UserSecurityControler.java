@@ -34,7 +34,7 @@ public class UserSecurityControler extends Controler {
                         listener.success(null);
                     } else {
                         JsonArray array = jsonObject.get("data").getAsJsonArray();
-                        List<SecurityQuestion> securityQuestions = (List<SecurityQuestion>) createGson().fromJson(array, new TypeToken<List<SecurityQuestion>>() {
+                        List<SecurityQuestion> securityQuestions = (List<SecurityQuestion>) ApiClient.createGson().fromJson(array, new TypeToken<List<SecurityQuestion>>() {
                         }.getType());
                         listener.success(securityQuestions);
                     }

@@ -33,7 +33,7 @@ public class TermUseControler extends Controler {
                         listener.success(null);
                     } else {
                         JsonObject object = jsonObject.get("data").getAsJsonObject();
-                        TermUse termUse = createGson().fromJson(object, TermUse.class);
+                        TermUse termUse = ApiClient.createGson().fromJson(object, TermUse.class);
                         listener.success(termUse);
                     }
                 } else {
@@ -64,7 +64,7 @@ public class TermUseControler extends Controler {
                         listener.success(null);
                     } else {
                         JsonObject object = jsonObject.get("data").getAsJsonObject();
-                        UserTerm userTerm = createGson().fromJson(object, UserTerm.class);
+                        UserTerm userTerm = ApiClient.createGson().fromJson(object, UserTerm.class);
                         listener.success(userTerm);
                     }
                 } else {

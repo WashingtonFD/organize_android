@@ -33,7 +33,7 @@ public class PlanControler extends Controler {
                         listener.success(null);
                     } else {
                         JsonArray array = jsonObject.get("data").getAsJsonArray();
-                        List<Plan> plans = (List<Plan>) createGson().fromJson(array, new TypeToken<List<Plan>>() {
+                        List<Plan> plans = (List<Plan>) ApiClient.createGson().fromJson(array, new TypeToken<List<Plan>>() {
                         }.getType());
                         listener.success(plans);
                     }
@@ -61,7 +61,7 @@ public class PlanControler extends Controler {
                         listener.success(null);
                     } else {
                         JsonObject object = jsonObject.get("data").getAsJsonObject();
-                        Plan plan = createGson().fromJson(object, Plan.class);
+                        Plan plan = ApiClient.createGson().fromJson(object, Plan.class);
                         listener.success(plan);
                     }
                 } else {

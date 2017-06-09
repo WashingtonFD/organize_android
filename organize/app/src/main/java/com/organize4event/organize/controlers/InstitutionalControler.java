@@ -35,7 +35,7 @@ public class InstitutionalControler extends Controler {
                         listener.success(null);
                     } else {
                         JsonObject object = jsonObject.get("data").getAsJsonObject();
-                        Institutional institutional = createGson().fromJson(object, Institutional.class);
+                        Institutional institutional = ApiClient.createGson().fromJson(object, Institutional.class);
                         listener.success(institutional);
                     }
                 } else {
@@ -62,7 +62,7 @@ public class InstitutionalControler extends Controler {
                         listener.success(null);
                     } else {
                         JsonArray array = jsonObject.get("data").getAsJsonArray();
-                        List<ContactType> contactTypes = (List<ContactType>) createGson().fromJson(array, new TypeToken<List<ContactType>>() {
+                        List<ContactType> contactTypes = (List<ContactType>) ApiClient.createGson().fromJson(array, new TypeToken<List<ContactType>>() {
                         }.getType());
                         listener.success(contactTypes);
                     }
@@ -90,7 +90,7 @@ public class InstitutionalControler extends Controler {
                         listener.success(null);
                     } else {
                         JsonArray array = jsonObject.get("data").getAsJsonArray();
-                        List<Contact> contacts = (List<Contact>) createGson().fromJson(array, new TypeToken<List<Contact>>() {
+                        List<Contact> contacts = (List<Contact>) ApiClient.createGson().fromJson(array, new TypeToken<List<Contact>>() {
                         }.getType());
                         listener.success(contacts);
                     }

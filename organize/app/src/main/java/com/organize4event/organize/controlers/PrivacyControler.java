@@ -33,7 +33,7 @@ public class PrivacyControler extends Controler {
                         listener.success(null);
                     } else {
                         JsonArray array = jsonObject.get("data").getAsJsonArray();
-                        List<Privacy> privacies = (List<Privacy>) createGson().fromJson(array, new TypeToken<List<Privacy>>() {
+                        List<Privacy> privacies = (List<Privacy>) ApiClient.createGson().fromJson(array, new TypeToken<List<Privacy>>() {
                         }.getType());
                         listener.success(privacies);
                     }
