@@ -18,7 +18,7 @@ public class Controler {
 
     protected Error parserError(JsonObject jsonObject) {
         Error error = null;
-        if (jsonObject.isJsonNull()) {
+        if (jsonObject == null) {
             error = new Error(context.getString(R.string.error_message_generic));
         } else if (jsonObject.get("has_error").getAsBoolean()) {
             error = new Error(jsonObject.get("message").getAsString());

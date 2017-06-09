@@ -92,7 +92,7 @@ public class TokenControler extends Controler {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-
+                listener.fail(new Error(t.getMessage()));
             }
         });
     }
