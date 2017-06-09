@@ -69,7 +69,7 @@
                 android:layout_height="40dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                android:src="@drawable/ic_keyboard_arrow_right"
                 android:tint="@color/colorSecondaryText" />
 
         </RelativeLayout>

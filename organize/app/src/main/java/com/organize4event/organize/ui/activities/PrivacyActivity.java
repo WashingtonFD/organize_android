@@ -62,7 +62,7 @@ public class PrivacyActivity extends BaseActivity {
         firstAccess = AppApplication.getFirstAccess();
         user = firstAccess.getUser();
 
-        configureToolbar(context, toolbar, context.getString(R.string.label_privacy), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
+        configureToolbar(context, toolbar, context.getString(R.string.label_privacy), context.getResources().getDrawable(R.drawable.ic_arrow_back), true, new ToolbarListener() {
             @Override
             public void onClick() {
                 finish();

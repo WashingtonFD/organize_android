@@ -54,7 +54,7 @@ public class VerifySecurityActivity extends BaseActivity {
         context = VerifySecurityActivity.this;
         user = Parcels.unwrap(getIntent().getExtras().getParcelable("user"));
 
-        configureToolbar(context, toolbar, context.getString(R.string.label_verify_security), context.getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp), true, new ToolbarListener() {
+        configureToolbar(context, toolbar, context.getString(R.string.label_verify_security), context.getResources().getDrawable(R.drawable.ic_arrow_back), true, new ToolbarListener() {
             @Override
             public void onClick() {
                 finish();

@@ -92,7 +92,7 @@ public class HomeActivity extends BaseActivity {
     }
 
     protected void setupToolbar(String title) {
-        configureToolbar(context, toolbar, title, context.getResources().getDrawable(R.drawable.ic_menu_black_24dp), true, new ToolbarListener() {
+        configureToolbar(context, toolbar, title, context.getResources().getDrawable(R.drawable.ic_menu), true, new ToolbarListener() {
             @Override
             public void onClick() {
                 drawerLayout.openDrawer(Gravity.LEFT);
@@ -152,10 +152,10 @@ public class HomeActivity extends BaseActivity {
         }
 
         if (count > 0) {
-            imgNotification.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_notifications_black_24dp_on));
+            imgNotification.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_notifications_on));
             imgNotification.setColorFilter(context.getResources().getColor(R.color.colorTransparent));
         } else {
-            imgNotification.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_notifications_black_24dp));
+            imgNotification.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_notifications));
             imgNotification.setColorFilter(context.getResources().getColor(R.color.colorDestakText));
         }
     }

@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_marginRight="22dp"
-                android:src="@drawable/ic_done_black_24dp"
+                android:src="@drawable/ic_done"
                 android:tint="@color/colorDestakText"
                 />
 
