@@ -24,7 +24,7 @@
         android:title="@string/label_menu_social_network"
         app:showAsAction="never" />
     <item
-        android:id="@+id/menu_security"
-        android:title="@string/label_menu_security"
+        android:id="@+id/menu_personal_data"
+        android:title="@string/label_menu_personal_data"
         app:showAsAction="never" />
 </menu>

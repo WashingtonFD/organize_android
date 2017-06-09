@@ -8,8 +8,8 @@
         android:icon="@drawable/ic_edit"
         app:showAsAction="never" />
     <item
-        android:id="@+id/menu_address"
-        android:title="@string/label_menu_address"
+        android:id="@+id/menu_personal_data"
+        android:title="@string/label_menu_personal_data"
         app:showAsAction="never" />
     <item
         android:id="@+id/menu_contact"

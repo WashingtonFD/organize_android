@@ -48,6 +48,12 @@
         <activity android:name=".ui.activities.PrivacyActivity" />
         <activity android:name=".ui.activities.VerifySecurityActivity"/>
         <activity android:name=".ui.activities.SelectorSecurityQuestionActivity"/>
+        <activity android:name=".ui.activities.UserAcademicDataActivity"/>
+        <activity android:name=".ui.activities.UserSocialNetworkActivity"/>
+        <activity android:name=".ui.activities.UserAddressActivity"/>
+        <activity android:name=".ui.activities.UserContactActivity"/>
+        <activity android:name=".ui.activities.UserSecurityActivity"/>
+
     </application>
 
 </manifest>

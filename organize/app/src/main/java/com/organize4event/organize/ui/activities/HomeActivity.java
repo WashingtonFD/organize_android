@@ -2,6 +2,7 @@ package com.organize4event.organize.ui.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
@@ -257,14 +258,13 @@ public class HomeActivity extends BaseActivity {
         drawerLayout.closeDrawers();
     }
 
-    protected void instanceViewFragment(Class showFragment, String title, boolean showNotificate, boolean showMore){
+    protected void instanceViewFragment(Class showFragment, String title, boolean showNotificate, boolean showMore) {
         showMenu = showMore;
         setupToolbar(title);
         fragmentClass = showFragment;
-        if (showNotificate){
+        if (showNotificate) {
             imgNotification.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             imgNotification.setVisibility(View.GONE);
         }
     }
@@ -280,10 +280,13 @@ public class HomeActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.personal_data_menu, menu);
-        if (showMenu){
+
+        MenuItem item = menu.findItem(R.id.menu_edit);
+        item.getIcon().setColorFilter(context.getResources().getColor(R.color.colorDestakText), PorterDuff.Mode.SRC_IN);
+
+        if (showMenu) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
@@ -295,10 +298,26 @@ public class HomeActivity extends BaseActivity {
                 showToastMessage(context, "Menu editar");
                 return true;
             case R.id.menu_address:
-                showToastMessage(context, "Menu endereço");
+                startMenuActivity(UserAddressActivity.class);
+                return true;
+            case R.id.menu_contact:
+                startMenuActivity(UserContactActivity.class);
+                return true;
+            case R.id.menu_academic:
+                startMenuActivity(UserAcademicDataActivity.class);
+                return true;
+            case R.id.menu_social_network:
+                startMenuActivity(UserSocialNetworkActivity.class);
+                return true;
+            case R.id.menu_security:
+                startMenuActivity(UserSecurityActivity.class);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    protected void startMenuActivity(Class activitStart) {
+        startActivity(new Intent(context, activitStart));
     }
 }

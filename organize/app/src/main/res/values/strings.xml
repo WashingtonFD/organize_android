@@ -95,6 +95,7 @@
     <string name="label_security_questions">Perguntas de Segurança</string>
     <string name="label_menu_edit">Editar</string>
     <string name="label_menu_address">Endereço</string>
+    <string name="label_menu_personal_data">Dados Pessoais</string>
     <string name="label_menu_contact">Contato</string>
     <string name="label_menu_academic">Dados Acadêmicos</string>
     <string name="label_menu_social_network">Redes Sociais</string>

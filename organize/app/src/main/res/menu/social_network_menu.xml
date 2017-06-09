@@ -20,8 +20,8 @@
         android:title="@string/label_menu_academic"
         app:showAsAction="never" />
     <item
-        android:id="@+id/menu_social_network"
-        android:title="@string/label_menu_social_network"
+        android:id="@+id/menu_personal_data"
+        android:title="@string/label_menu_personal_data"
         app:showAsAction="never" />
     <item
         android:id="@+id/menu_security"
