@@ -58,7 +58,7 @@
     <string name="label_nav_purchase">Compras</string>
     <string name="label_nav_settings">Configurações</string>
     <string name="label_nav_shedule">Agenda</string>
-    <string name="label_nav_user">Nome do Usuário</string>
+    <string name="label_nav_user">Dados Pessoais</string>
     <string name="label_negative_button">Cancelar</string>
     <string name="label_no_one">Ninguém</string>
     <string name="label_notifications">Notificações</string>
@@ -93,7 +93,12 @@
     <string name="label_answer">Resposta Segura</string>
     <string name="label_verify_security">Verificação de segurança</string>
     <string name="label_security_questions">Perguntas de Segurança</string>
-
+    <string name="label_menu_edit">Editar</string>
+    <string name="label_menu_address">Endereço</string>
+    <string name="label_menu_contact">Contato</string>
+    <string name="label_menu_academic">Dados Acadêmicos</string>
+    <string name="label_menu_social_network">Redes Sociais</string>
+    <string name="label_menu_security">Segurança do Perfil</string>
 
     <string name="message_call_phone">Deseja realizar uma ligação? Isto acarretará em gastos de consumo de acordo com seu plano em sua operadora.</string>
     <string name="message_confirmation_forgot_password">E-mail de recuperação de senha enviado com sucesso.</string>

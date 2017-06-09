@@ -10,6 +10,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,6 +32,7 @@ import com.organize4event.organize.models.Token;
 import com.organize4event.organize.models.UserNotification;
 import com.organize4event.organize.ui.fragments.HomeFragment;
 import com.organize4event.organize.ui.fragments.InstitutionalFragment;
+import com.organize4event.organize.ui.fragments.PersonalDataFragment;
 import com.organize4event.organize.ui.fragments.SettingsFragment;
 
 import org.parceler.Parcels;
@@ -57,6 +61,7 @@ public class HomeActivity extends BaseActivity {
     @Bind(R.id.imgUserAvatar)
     ImageView imgUserAvatar;
     private Context context;
+    private boolean showMenu = false;
     private String device_id;
     private FirstAccess firstAccess;
     private Token token;
@@ -211,10 +216,10 @@ public class HomeActivity extends BaseActivity {
     public void actionMenuSwitch(View view) {
         switch (view.getId()) {
             case R.id.userContainer:
+                instanceViewFragment(PersonalDataFragment.class, context.getString(R.string.label_nav_user), false, true);
                 break;
             case R.id.homeContainer:
-                setupToolbar(context.getString(R.string.label_nav_home));
-                fragmentClass = HomeFragment.class;
+                instanceViewFragment(HomeFragment.class, context.getString(R.string.label_nav_home), true, false);
                 break;
             case R.id.eventContainer:
                 break;
@@ -227,19 +232,16 @@ public class HomeActivity extends BaseActivity {
             case R.id.purchaseContainer:
                 break;
             case R.id.settingsContainer:
-                setupToolbar(context.getString(R.string.label_nav_settings));
-                fragmentClass = SettingsFragment.class;
+                instanceViewFragment(SettingsFragment.class, context.getString(R.string.label_nav_settings), true, false);
                 break;
             case R.id.institutionalContainer:
-                setupToolbar(context.getString(R.string.label_nav_institutional));
-                fragmentClass = InstitutionalFragment.class;
+                instanceViewFragment(InstitutionalFragment.class, context.getString(R.string.label_nav_institutional), true, false);
                 break;
             case R.id.btnExit:
                 logout();
                 break;
             default:
-                setupToolbar(context.getString(R.string.label_nav_home));
-                fragmentClass = HomeFragment.class;
+                instanceViewFragment(HomeFragment.class, context.getString(R.string.label_nav_home), true, false);
                 break;
         }
 
@@ -255,10 +257,48 @@ public class HomeActivity extends BaseActivity {
         drawerLayout.closeDrawers();
     }
 
+    protected void instanceViewFragment(Class showFragment, String title, boolean showNotificate, boolean showMore){
+        showMenu = showMore;
+        setupToolbar(title);
+        fragmentClass = showFragment;
+        if (showNotificate){
+            imgNotification.setVisibility(View.VISIBLE);
+        }
+        else {
+            imgNotification.setVisibility(View.GONE);
+        }
+    }
+
     protected void starLoginActivity() {
         Intent intent = new Intent(context, LoginActivity.class);
         intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.personal_data_menu, menu);
+        if (showMenu){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_edit:
+                showToastMessage(context, "Menu editar");
+                return true;
+            case R.id.menu_address:
+                showToastMessage(context, "Menu endereço");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
