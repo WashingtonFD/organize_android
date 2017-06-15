@@ -11,9 +11,9 @@ public interface InstitutionalService {
     @GET("institutional/{locale}")
     Call<JsonObject> getInstitutional(@Path("locale") String locale);
 
-    @GET("contact_type/{locale}")
+    @GET("contact_types/{locale}")
     Call<JsonObject> getContactType(@Path("locale") String locale);
 
-    @GET("contact/{locale}")
+    @GET("contacts/{locale}")
     Call<JsonObject> getContact(@Path("locale") String locale);
 }

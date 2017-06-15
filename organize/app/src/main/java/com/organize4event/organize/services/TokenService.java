@@ -12,7 +12,7 @@ import retrofit2.http.Path;
 
 public interface TokenService {
 
-    @GET("login_type/{locale}/{code_enum}")
+    @GET("login_types/{locale}/{code_enum}")
     Call<JsonObject> getLoginType(
             @Path("locale") String locale,
             @Path("code_enum") int code_enum);
