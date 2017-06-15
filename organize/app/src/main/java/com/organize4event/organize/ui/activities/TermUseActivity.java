@@ -62,6 +62,10 @@ public class TermUseActivity extends BaseActivity {
                 finish();
             }
         });
+    }
+
+    protected void onResume(){
+        super.onResume();
         getTermUse();
     }
 
