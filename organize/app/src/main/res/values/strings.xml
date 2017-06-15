@@ -13,7 +13,7 @@
     <string name="date_format">dd-mm-yyyy</string>
 
     <string name="error_message_conect">Erro de conexão. Verifique a internet</string>
-    <string name="error_message_generic">Erro ao conectar ao servidor</string>
+    <string name="error_message_generic">Erro ao conectar ao servidor.</string>
     <string name="error_photo_loading">Não foi possível usar esta imagem. Por favor tente novamente.</string>
     <string name="error_title">Erro</string>
 
