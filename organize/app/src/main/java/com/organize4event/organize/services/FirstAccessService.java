@@ -30,6 +30,11 @@ public interface FirstAccessService {
 
     @FormUrlEncoded
     @POST("first_access/{first_acess_id}/edit")
-    Call<JsonObject> editLocale(@Path("first_acess_id") int first_acess_id,
-                                @Field("locale") String locale);
+    Call<JsonObject> updateLocale(@Path("first_acess_id") int first_acess_id,
+                                  @Field("locale") String locale);
+
+    @FormUrlEncoded
+    @POST("first_access/{first_acess_id}")
+    Call<JsonObject> updateUserFirstAccess(@Path("first_acess_id") int first_acess_id,
+                                           @Field("user") int user_id);
 }

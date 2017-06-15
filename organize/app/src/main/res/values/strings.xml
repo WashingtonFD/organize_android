@@ -14,6 +14,7 @@
 
     <string name="error_message_conect">Erro de conexão. Verifique a internet</string>
     <string name="error_message_generic">Erro ao conectar ao servidor.</string>
+    <string name="error_message_data_violation">Erro ao salvar dados. Tentativa de salvar dados inválidos ou duplicados.Se não concorda com este erro, entre em contato com o suporte para maiores informações.</string>
     <string name="error_photo_loading">Não foi possível usar esta imagem. Por favor tente novamente.</string>
     <string name="error_title">Erro</string>
 
@@ -138,5 +139,6 @@
     <string name="validate_password_confirm">As senhas não são iguais.</string>
     <string name="validate_password">Senha inválida.</string>
     <string name="validate_required_field">O campo não pode ser vazio</string>
+    <string name="validate_cpf">CPF inválido.</string>
 
 </resources>

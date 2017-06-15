@@ -31,7 +31,10 @@ import com.mobsandgeeks.saripaar.annotation.Order;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.CircleTransform;
+import com.organize4event.organize.commons.Constants;
 import com.organize4event.organize.commons.Mask;
+import com.organize4event.organize.commons.validations.CpfCnpj;
+import com.organize4event.organize.commons.validations.IsDate;
 import com.organize4event.organize.controlers.FirstAccessControler;
 import com.organize4event.organize.controlers.PrivacyControler;
 import com.organize4event.organize.controlers.SettingsControler;
@@ -73,8 +76,9 @@ import pl.tajchert.nammu.Nammu;
 import pl.tajchert.nammu.PermissionCallback;
 
 public class UserRegisterActivity extends BaseActivity implements Validator.ValidationListener {
+
     Validator validator;
-    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat format = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT);
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.contentImage)
@@ -87,9 +91,9 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     @NotEmpty(trim = true, sequence = 1, messageResId = R.string.validate_required_field)
     @Bind(R.id.txtFullName)
     EditText txtFullName;
-    //TODO: CRIAR VALIDAÇÃO DE CPF
     @Order(2)
     @NotEmpty(trim = true, sequence = 1, messageResId = R.string.validate_required_field)
+    @CpfCnpj(sequence = 2, messageResId = R.string.validate_cpf)
     @Bind(R.id.txtCpf)
     EditText txtCpf;
     @Order(3)
@@ -97,9 +101,9 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     @Email(sequence = 2, messageResId = R.string.validate_mail)
     @Bind(R.id.txtMail)
     EditText txtMail;
-    // TODO: CRIAR VALIDAÇÃO DE DATA
     @Order(4)
     @NotEmpty(trim = true, sequence = 1, messageResId = R.string.validate_required_field)
+    @IsDate(sequence = 2, messageResId = R.string.validate_date)
     @Bind(R.id.txtBirthDate)
     EditText txtBirthDate;
     @Order(5)
@@ -153,8 +157,11 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
             }
         });
 
+        Validator.registerAnnotation(CpfCnpj.class);
+        Validator.registerAnnotation(IsDate.class);
         validator = new Validator(context);
         validator.setValidationListener(this);
+
 
         txtCpf.addTextChangedListener(Mask.insert(Mask.CPF_MASK, txtCpf));
         txtBirthDate.addTextChangedListener(Mask.insert(Mask.DATE_MASK, txtBirthDate));
@@ -247,7 +254,11 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
                     if (file != null) {
                         uploadPicture();
                     } else {
-                        saveFirstAccess();
+                        if (firstAccess.getId() == 0) {
+                            saveFirstAccess();
+                        } else {
+                            updateFirstAccess();
+                        }
                     }
                 }
             }
@@ -274,7 +285,23 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
                 returnErrorMessage(error, context);
             }
         });
+    }
 
+    protected void updateFirstAccess() {
+        firstAccess.setUser(user);
+        new FirstAccessControler(context).updateUserFirstAccess(firstAccess, new ControlResponseListener() {
+            @Override
+            public void success(Object object) {
+                if (object != null) {
+                    saveUserTerm();
+                }
+            }
+
+            @Override
+            public void fail(Error error) {
+                returnErrorMessage(error, context);
+            }
+        });
     }
 
     protected void saveUserTerm() {
@@ -296,7 +323,6 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
             @Override
             public void fail(Error error) {
                 returnErrorMessage(error, context);
-
             }
         });
     }
@@ -407,7 +433,11 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         new UserControler(context).uploadProfilePicture(user, photo, new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                saveFirstAccess();
+                if (firstAccess.getId() == 0) {
+                    saveFirstAccess();
+                } else {
+                    updateFirstAccess();
+                }
             }
 
             @Override

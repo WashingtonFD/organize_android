@@ -19,7 +19,11 @@ public class Controler {
         if (jsonObject == null) {
             error = new Error(context.getString(R.string.error_message_generic));
         } else if (jsonObject.get("has_error").getAsBoolean()) {
-            error = new Error(jsonObject.get("message").getAsString());
+            if (jsonObject.get("code").getAsInt() == 23000) {
+                error = new Error(context.getString(R.string.error_message_data_violation));
+            } else {
+                error = new Error(jsonObject.get("message").getAsString());
+            }
         }
         return error;
     }

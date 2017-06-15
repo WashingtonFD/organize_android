@@ -80,7 +80,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     protected void editLocale(){
-        new FirstAccessControler(context).editLocale(firstAccess, new ControlResponseListener() {
+        new FirstAccessControler(context).updateLocale(firstAccess, new ControlResponseListener() {
             @Override
             public void success(Object object) {
                 if (object != null){

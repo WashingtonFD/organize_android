@@ -113,9 +113,9 @@ public class FirstAccessControler extends Controler {
         });
     }
 
-    public void editLocale(FirstAccess firstAccess, final ControlResponseListener listener){
+    public void updateLocale(FirstAccess firstAccess, final ControlResponseListener listener) {
         FirstAccessService service = ApiClient.getRetrofit().create(FirstAccessService.class);
-        service.editLocale(firstAccess.getId(), firstAccess.getLocale()).enqueue(new Callback<JsonObject>() {
+        service.updateLocale(firstAccess.getId(), firstAccess.getLocale()).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonObject jsonObject = response.body();
@@ -131,6 +131,33 @@ public class FirstAccessControler extends Controler {
                     }
                 }
                 else{
+                    listener.fail(error);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                listener.fail(new Error(t.getMessage()));
+            }
+        });
+    }
+
+    public void updateUserFirstAccess(FirstAccess firstAccess, final ControlResponseListener listener) {
+        FirstAccessService service = ApiClient.getRetrofit().create(FirstAccessService.class);
+        service.updateUserFirstAccess(firstAccess.getId(), firstAccess.getUser().getId()).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonObject jsonObject = response.body();
+                Error error = parserError(jsonObject);
+                if (error == null) {
+                    if (jsonObject.get("data").isJsonNull()) {
+                        listener.success(null);
+                    } else {
+                        JsonObject object = jsonObject.get("data").getAsJsonObject();
+                        FirstAccess firstAccess = ApiClient.createGson().fromJson(object, FirstAccess.class);
+                        listener.success(firstAccess);
+                    }
+                } else {
                     listener.fail(error);
                 }
             }
