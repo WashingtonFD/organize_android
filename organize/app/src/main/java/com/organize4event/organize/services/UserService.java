@@ -17,7 +17,7 @@ import retrofit2.http.Query;
 
 public interface UserService {
 
-    @GET("user_types/{locale}/{code_enum}")
+    @GET("user_type/{locale}/{code_enum}")
     Call<JsonObject> getUserType(
             @Path("locale") String locale,
             @Path("code_enum") int code_enum);
