@@ -27,4 +27,9 @@ public interface FirstAccessService {
     Call<JsonObject> getAccessPlatform(
             @Path("locale") String locale,
             @Path("code_enum") int code_enum);
+
+    @FormUrlEncoded
+    @POST("first_access/{first_acess_id}/edit")
+    Call<JsonObject> editLocale(@Path("first_acess_id") int first_acess_id,
+                                @Field("locale") String locale);
 }
