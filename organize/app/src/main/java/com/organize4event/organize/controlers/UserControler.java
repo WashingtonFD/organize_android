@@ -171,6 +171,7 @@ public class UserControler extends Controler {
     public void updateUserProfilePicture(User user, final ControlResponseListener listener) {
         UserService service = ApiClient.getRetrofit().create(UserService.class);
         service.updateProfileFacebook(user.getId(),
+                user.getToken().getAccess_token(),
                 user.getFull_name(),
                 user.getMail(),
                 user.getProfile_picture()).enqueue(new Callback<JsonObject>() {

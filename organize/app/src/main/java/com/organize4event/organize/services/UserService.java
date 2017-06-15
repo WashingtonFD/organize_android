@@ -56,6 +56,7 @@ public interface UserService {
     @FormUrlEncoded
     @POST("user/{user_id}")
     Call<JsonObject> updateProfileFacebook(@Path("user_id") int user_id,
+                                           @Query("token") String token,
                                            @Field("full_name") String full_name,
                                            @Field("mail") String mail,
                                            @Field("profile_picture") String profile_picture);

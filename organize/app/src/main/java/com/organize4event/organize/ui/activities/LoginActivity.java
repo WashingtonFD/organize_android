@@ -119,7 +119,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             if (PreferencesManager.isHideWelcome()) {
                 startActivity(new Intent(context, HomeActivity.class));
             } else {
-                startActivity(new Intent(context, WelcomeActivity.class));
+                starWelcomeActivity();
             }
         }
 
@@ -226,11 +226,17 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                     firstAccess.setUser(user);
                     PreferencesManager.saveFirstAccess(firstAccess);
                     insertNotification(context, user.getId(), context.getString(R.string.notification_login_brief_description), context.getString(R.string.notification_login_description), new Date());
-                    if (PreferencesManager.isHideWelcome()) {
-                        startActivity(new Intent(context, HomeActivity.class));
-                        finish();
-                    } else {
-                        starWelcomeActivity();
+
+                    if (loginType.getId() == LoginTypeEnum.FACEBOOK.getValue()){
+                        getUserFacebook();
+                    }
+                    else{
+                        if (PreferencesManager.isHideWelcome()) {
+                            startActivity(new Intent(context, HomeActivity.class));
+                            finish();
+                        } else {
+                            starWelcomeActivity();
+                        }
                     }
                 }
             }
@@ -251,7 +257,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             @Override
             public void onSuccess(LoginResult loginResult) {
                 accessToken = loginResult.getAccessToken();
-                getUserFacebook();
+                saveToken();
             }
 
             @Override
@@ -277,26 +283,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                     user.setFull_name(object.getString("name"));
                     user.setMail(object.getString("email"));
                     user.setProfile_picture(picture_profile);
-                    new UserControler(context).updateUserProfilePicture(user, new ControlResponseListener() {
-                        @Override
-                        public void success(Object object) {
-                            if (object != null) {
-                                User newUser = (User) object;
-                                if (newUser.getId() > 0) {
-                                    firstAccess.setUser(user);
-                                    PreferencesManager.saveFirstAccess(firstAccess);
-                                    AppApplication.setFirstAccess(firstAccess);
-
-                                    saveToken();
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void fail(Error error) {
-                            returnErrorMessage(error, context);
-                        }
-                    });
+                    updateFacebookUser();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -308,6 +295,32 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         parameters.putString("fields", "id,name,email");
         request.setParameters(parameters);
         request.executeAsync();
+    }
+
+    protected void updateFacebookUser(){
+        new UserControler(context).updateUserProfilePicture(user, new ControlResponseListener() {
+            @Override
+            public void success(Object object) {
+                if (object != null) {
+                    user = (User) object;
+                    firstAccess.setUser(user);
+                    PreferencesManager.saveFirstAccess(firstAccess);
+                    AppApplication.setFirstAccess(firstAccess);
+
+                    if (PreferencesManager.isHideWelcome()) {
+                        startActivity(new Intent(context, HomeActivity.class));
+                        finish();
+                    } else {
+                        starWelcomeActivity();
+                    }
+                }
+            }
+
+            @Override
+            public void fail(Error error) {
+                returnErrorMessage(error, context);
+            }
+        });
     }
 
     protected void forgotPassword() {
