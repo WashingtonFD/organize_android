@@ -30,15 +30,18 @@ import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Order;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.organize4event.organize.R;
+import com.organize4event.organize.commons.AppApplication;
 import com.organize4event.organize.commons.CircleTransform;
 import com.organize4event.organize.commons.Constants;
 import com.organize4event.organize.commons.Mask;
+import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.commons.validations.CpfCnpj;
 import com.organize4event.organize.commons.validations.IsDate;
 import com.organize4event.organize.controlers.FirstAccessControler;
 import com.organize4event.organize.controlers.PrivacyControler;
 import com.organize4event.organize.controlers.SettingsControler;
 import com.organize4event.organize.controlers.TermUseControler;
+import com.organize4event.organize.controlers.TokenControler;
 import com.organize4event.organize.controlers.UserControler;
 import com.organize4event.organize.enuns.DialogTypeEnum;
 import com.organize4event.organize.enuns.PrivacyEnum;
@@ -46,9 +49,12 @@ import com.organize4event.organize.enuns.UserTypeEnum;
 import com.organize4event.organize.listeners.ControlResponseListener;
 import com.organize4event.organize.listeners.CustomDialogListener;
 import com.organize4event.organize.listeners.ToolbarListener;
+import com.organize4event.organize.models.AccessPlatform;
 import com.organize4event.organize.models.FirstAccess;
+import com.organize4event.organize.models.LoginType;
 import com.organize4event.organize.models.Privacy;
 import com.organize4event.organize.models.Setting;
+import com.organize4event.organize.models.Token;
 import com.organize4event.organize.models.User;
 import com.organize4event.organize.models.UserSetting;
 import com.organize4event.organize.models.UserTerm;
@@ -276,7 +282,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
             @Override
             public void success(Object object) {
                 if (object != null) {
-                    saveUserTerm();
+                    saveToken();
                 }
             }
 
@@ -293,6 +299,35 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
             @Override
             public void success(Object object) {
                 if (object != null) {
+                    saveToken();
+                }
+            }
+
+            @Override
+            public void fail(Error error) {
+                returnErrorMessage(error, context);
+            }
+        });
+    }
+
+    protected void saveToken() {
+        final Token token = new Token();
+        LoginType loginType = new LoginType();
+        loginType.setId(1);
+        AccessPlatform accessPlatform = new AccessPlatform();
+        accessPlatform.setId(1);
+        token.setLogin_type(loginType);
+        token.setAccess_platform(accessPlatform);
+        token.setAccess_date(new Date());
+        token.setKeep_logged(false);
+        new TokenControler(context).saveToken(token, user.getId(), 0, new ControlResponseListener() {
+            @Override
+            public void success(Object object) {
+                hideLoading();
+                if (object != null) {
+                    Token token = (Token) object;
+                    user.setToken(token);
+                    insertNotification(context, user.getId(), context.getString(R.string.notification_register_brief_description), context.getString(R.string.notification_register_description), new Date());
                     saveUserTerm();
                 }
             }
@@ -316,6 +351,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
             public void success(Object object) {
                 if (object != null) {
                     userTerm = (UserTerm) object;
+                    user.setUser_term(userTerm);
                     getSettings();
                 }
             }
@@ -377,6 +413,10 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     }
 
     protected void starLoginActivity() {
+        firstAccess.setUser(user);
+        PreferencesManager.saveFirstAccess(firstAccess);
+        AppApplication.setFirstAccess(firstAccess);
+
         Intent intent = new Intent(context, LoginActivity.class);
         intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
         startActivity(intent);

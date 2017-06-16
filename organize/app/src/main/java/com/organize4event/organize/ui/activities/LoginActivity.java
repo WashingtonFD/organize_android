@@ -189,7 +189,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                 if (object != null) {
                     hideLoading();
                     user = (User) object;
-                    saveToken();
+                    updateFirstAccess();
                 }
             }
 
@@ -220,23 +220,15 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         new TokenControler(context).saveToken(token, user.getId(), keep_logged_int, new ControlResponseListener() {
             @Override
             public void success(Object object) {
+                hideLoading();
                 if (object != null) {
-                    token = (Token) object;
-                    user.setToken(token);
-                    firstAccess.setUser(user);
-                    PreferencesManager.saveFirstAccess(firstAccess);
                     insertNotification(context, user.getId(), context.getString(R.string.notification_login_brief_description), context.getString(R.string.notification_login_description), new Date());
 
-                    if (loginType.getId() == LoginTypeEnum.FACEBOOK.getValue()){
-                        getUserFacebook();
-                    }
-                    else{
-                        if (PreferencesManager.isHideWelcome()) {
-                            startActivity(new Intent(context, HomeActivity.class));
-                            finish();
-                        } else {
-                            starWelcomeActivity();
-                        }
+                    if (PreferencesManager.isHideWelcome()) {
+                        startActivity(new Intent(context, HomeActivity.class));
+                        finish();
+                    } else {
+                        starWelcomeActivity();
                     }
                 }
             }
@@ -257,7 +249,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             @Override
             public void onSuccess(LoginResult loginResult) {
                 accessToken = loginResult.getAccessToken();
-                saveToken();
+                getUserFacebook();
             }
 
             @Override
@@ -273,6 +265,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     }
 
     protected void getUserFacebook() {
+        showLoading();
         GraphRequest request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
@@ -280,10 +273,12 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                     String id = object.getString("id");
                     String picture_profile = "https://graph.facebook.com/" + id + "/picture?height=220&width=220";
 
-                    user.setFull_name(object.getString("name"));
-                    user.setMail(object.getString("email"));
-                    user.setProfile_picture(picture_profile);
-                    updateFacebookUser();
+                    User userFacebook = new User();
+
+                    userFacebook.setFull_name(object.getString("name"));
+                    userFacebook.setMail(object.getString("email"));
+                    userFacebook.setProfile_picture(picture_profile);
+                    getUserMail(userFacebook);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -297,22 +292,59 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         request.executeAsync();
     }
 
-    protected void updateFacebookUser(){
-        new UserControler(context).updateUserProfilePicture(user, new ControlResponseListener() {
+    protected void getUserMail(final User userFacebook) {
+        new UserControler(context).getUserMail(userFacebook.getMail(), new ControlResponseListener() {
+            @Override
+            public void success(Object object) {
+                if (object != null) {
+                    User findUser = (User) object;
+                    findUser.setFull_name(userFacebook.getFull_name());
+                    findUser.setProfile_picture(userFacebook.getProfile_picture());
+
+                    updateFacebookUser(findUser);
+                }
+            }
+
+            @Override
+            public void fail(Error error) {
+
+                user.setFull_name(userFacebook.getFull_name());
+                user.setMail(userFacebook.getMail());
+                user.setProfile_picture(userFacebook.getProfile_picture());
+
+                updateFacebookUser(user);
+            }
+        });
+    }
+
+    protected void updateFacebookUser(User findUser) {
+        new UserControler(context).updateUserFacebook(findUser, new ControlResponseListener() {
             @Override
             public void success(Object object) {
                 if (object != null) {
                     user = (User) object;
-                    firstAccess.setUser(user);
+                    updateFirstAccess();
+                }
+            }
+
+            @Override
+            public void fail(Error error) {
+                returnErrorMessage(error, context);
+            }
+        });
+    }
+
+    protected void updateFirstAccess() {
+        firstAccess.setUser(user);
+        new FirstAccessControler(context).updateUserFirstAccess(firstAccess, new ControlResponseListener() {
+            @Override
+            public void success(Object object) {
+                if (object != null) {
+                    firstAccess = (FirstAccess) object;
                     PreferencesManager.saveFirstAccess(firstAccess);
                     AppApplication.setFirstAccess(firstAccess);
 
-                    if (PreferencesManager.isHideWelcome()) {
-                        startActivity(new Intent(context, HomeActivity.class));
-                        finish();
-                    } else {
-                        starWelcomeActivity();
-                    }
+                    saveToken();
                 }
             }
 

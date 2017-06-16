@@ -32,7 +32,7 @@ public class UserControler extends Controler {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonObject jsonObject = response.body();
-                Error error = parserError(jsonObject);
+                Error error = parserError("GET USERT TYPE", jsonObject);
                 if (error == null) {
                     if (jsonObject.get("data").isJsonNull()) {
                         listener.success(null);
@@ -59,7 +59,7 @@ public class UserControler extends Controler {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonObject jsonObject = response.body();
-                Error error = parserError(jsonObject);
+                Error error = parserError("GET USER MAIL", jsonObject);
                 if (error == null) {
                     if (jsonObject.get("data").isJsonNull()) {
                         listener.success(null);
@@ -96,7 +96,7 @@ public class UserControler extends Controler {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonObject jsonObject = response.body();
-                Error error = parserError(jsonObject);
+                Error error = parserError("SAVE USER", jsonObject);
                 if (error == null) {
                     if (jsonObject.get("data").isJsonNull()) {
                         listener.success(null);
@@ -123,7 +123,7 @@ public class UserControler extends Controler {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonObject jsonObject = response.body();
-                Error error = parserError(jsonObject);
+                Error error = parserError("UPDATE PRIVACY", jsonObject);
                 if (error == null) {
                     if (jsonObject.get("data").isJsonNull()) {
                         listener.success(null);
@@ -153,7 +153,7 @@ public class UserControler extends Controler {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonObject jsonObject = response.body();
-                Error error = parserError(jsonObject);
+                Error error = parserError("UPLOAD PICTURE", jsonObject);
                 if (error == null) {
                     listener.success(jsonObject);
                 } else {
@@ -168,7 +168,7 @@ public class UserControler extends Controler {
         });
     }
 
-    public void updateUserProfilePicture(User user, final ControlResponseListener listener) {
+    public void updateUserFacebook(User user, final ControlResponseListener listener) {
         UserService service = ApiClient.getRetrofit().create(UserService.class);
         service.updateProfileFacebook(user.getId(),
                 user.getToken().getAccess_token(),
@@ -178,7 +178,7 @@ public class UserControler extends Controler {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonObject jsonObject = response.body();
-                Error error = parserError(jsonObject);
+                Error error = parserError("UPDATE USER FACEBOOK", jsonObject);
                 if (error == null) {
                     if (jsonObject.get("data").isJsonNull()) {
                         listener.success(null);

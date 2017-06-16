@@ -124,6 +124,8 @@
 
     <string name="notification_login_brief_description">Acesso ao sistema</string>
     <string name="notification_login_description">Sistema acessado pela plataforma ANDROID em: </string>
+    <string name="notification_register_brief_description">Usuário registrado</string>
+    <string name="notification_register_description">Usuário registrado pela plataforma ANDROID em: </string>
 
     <string name="placeholder_cpf">Insira o seu CPF.</string>
     <string name="placeholder_date">Insira a data no formato dd/mm/aaaa.</string>

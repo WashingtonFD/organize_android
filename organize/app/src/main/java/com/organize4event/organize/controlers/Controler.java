@@ -14,7 +14,7 @@ public class Controler {
         this.context = context;
     }
 
-    protected Error parserError(JsonObject jsonObject) {
+    protected Error parserError(String tag, JsonObject jsonObject) {
         Error error = null;
         if (jsonObject == null) {
             error = new Error(context.getString(R.string.error_message_generic));
@@ -22,7 +22,8 @@ public class Controler {
             if (jsonObject.get("code").getAsInt() == 23000) {
                 error = new Error(context.getString(R.string.error_message_data_violation));
             } else {
-                error = new Error(jsonObject.get("message").getAsString());
+                String errorMessage = tag + ": " + jsonObject.get("message").getAsString();
+                error = new Error(errorMessage);
             }
         }
         return error;
