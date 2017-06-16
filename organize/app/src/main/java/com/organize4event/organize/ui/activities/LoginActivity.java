@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.facebook.AccessToken;
@@ -78,6 +80,14 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     EditText txtMailForgotPassword;
     @Bind(R.id.cbxKeepLogged)
     CheckBox cbxKeepLogged;
+
+    @Bind(R.id.txtForgotPassword)
+    TextView txtForgotPassword;
+    @Bind(R.id.btnLoginEmail)
+    Button btnLoginEmail;
+    @Bind(R.id.btnLoginFacebook)
+    Button btnLoginFacebook;
+
     private Context context;
     private int code_enum;
     private int code_enum_platform;
@@ -134,16 +144,26 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     public void actionOnClickLogin(View view) {
         switch (view.getId()) {
             case R.id.btnLoginEmail:
+                btnLoginFacebook.setEnabled(false);
+                txtForgotPassword.setEnabled(false);
                 code_enum = LoginTypeEnum.EMAIL.getValue();
                 getAccessPlatform();
                 break;
             case R.id.btnLoginFacebook:
+                btnLoginEmail.setEnabled(false);
+                txtForgotPassword.setEnabled(false);
                 code_enum = LoginTypeEnum.FACEBOOK.getValue();
                 getAccessPlatform();
                 break;
             case R.id.txtForgotPassword:
+                btnLoginFacebook.setEnabled(false);
+                btnLoginEmail.setEnabled(false);
                 containerForgotPassword.setVisibility(View.VISIBLE);
                 break;
+            default:
+                btnLoginFacebook.setEnabled(true);
+                btnLoginEmail.setEnabled(true);
+                txtForgotPassword.setEnabled(true);
         }
     }
 
@@ -163,12 +183,18 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                 break;
             case R.id.btnCancel:
                 containerLoginEmail.setVisibility(View.GONE);
+                btnLoginFacebook.setEnabled(true);
+                btnLoginEmail.setEnabled(true);
+                txtForgotPassword.setEnabled(true);
                 break;
             case R.id.btnForgotPasswordSend:
                 forgotPassword();
                 break;
             case R.id.btnForgotPasswordCancel:
                 containerForgotPassword.setVisibility(View.GONE);
+                btnLoginFacebook.setEnabled(true);
+                btnLoginEmail.setEnabled(true);
+                txtForgotPassword.setEnabled(true);
                 break;
             case R.id.txtIsNotRegistered:
                 starApresentationActivity();
@@ -323,7 +349,11 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             public void success(Object object) {
                 if (object != null) {
                     user = (User) object;
-                    updateFirstAccess();
+                    if (user.getId() == firstAccess.getUser().getId()) {
+                        saveToken();
+                    } else {
+                        updateFirstAccess();
+                    }
                 }
             }
 
