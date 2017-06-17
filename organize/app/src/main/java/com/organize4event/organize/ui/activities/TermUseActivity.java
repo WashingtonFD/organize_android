@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,6 +41,7 @@ public class TermUseActivity extends BaseActivity {
     private User user;
     private FirstAccess firstAccess;
     private UserTerm userTerm;
+    private boolean isReadOnly;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +56,14 @@ public class TermUseActivity extends BaseActivity {
 
         context = TermUseActivity.this;
         firstAccess = Parcels.unwrap(getIntent().getExtras().getParcelable("firstAccess"));
+        isReadOnly = getIntent().hasExtra("readOnly");
         user = firstAccess.getUser();
+
+        if (isReadOnly) {
+            imgAccept.setVisibility(View.GONE);
+        } else {
+            imgAccept.setVisibility(View.VISIBLE);
+        }
 
         configureToolbar(context, toolbar, context.getString(R.string.label_term_use), context.getResources().getDrawable(R.drawable.ic_arrow_back), true, new ToolbarListener() {
             @Override
@@ -62,6 +71,10 @@ public class TermUseActivity extends BaseActivity {
                 finish();
             }
         });
+    }
+
+    protected void onResume(){
+        super.onResume();
         getTermUse();
     }
 

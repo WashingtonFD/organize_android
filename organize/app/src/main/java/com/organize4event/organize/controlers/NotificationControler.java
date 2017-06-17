@@ -30,7 +30,7 @@ public class NotificationControler extends Controler {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonObject jsonObject = response.body();
-                Error error = parserError(jsonObject);
+                Error error = parserError("GET USER NOTIFICATION", jsonObject);
                 if (error == null) {
                     if (jsonObject.get("data").isJsonNull()) {
                         listener.success(null);
@@ -62,7 +62,7 @@ public class NotificationControler extends Controler {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonObject jsonObject = response.body();
-                Error error = parserError(jsonObject);
+                Error error = parserError("SAVE NOTIFICATION", jsonObject);
                 if (error == null) {
                     if (jsonObject.get("data").isJsonNull()) {
                         listener.success(null);
@@ -89,7 +89,7 @@ public class NotificationControler extends Controler {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonObject jsonObject = response.body();
-                Error error = parserError(jsonObject);
+                Error error = parserError("READ NOTIFICATION", jsonObject);
                 if (error == null) {
                     if (jsonObject.get("data").isJsonNull()) {
                         listener.success(null);

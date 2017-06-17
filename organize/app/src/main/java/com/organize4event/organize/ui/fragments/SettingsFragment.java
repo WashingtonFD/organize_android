@@ -229,6 +229,7 @@ public class SettingsFragment extends BaseFragment {
     public void startTermUse() {
         Intent intent = new Intent(context, TermUseActivity.class);
         intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
+        intent.putExtra("readOnly", true);
         startActivity(intent);
     }
 

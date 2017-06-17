@@ -225,7 +225,7 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public void returnErrorMessage(Error error, Context context) {
+    public void returnErrorMessage(Error error, final Context context) {
         hideLoading();
         if (isOline(context)) {
             showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.error_title), error.getMessage(), new CustomDialogListener() {
@@ -244,6 +244,12 @@ public class BaseActivity extends AppCompatActivity {
                 @Override
                 public void positiveOnClick(MaterialDialog dialog) {
                     dialog.dismiss();
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    onResume();
                 }
 
                 @Override

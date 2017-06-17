@@ -11,7 +11,7 @@ import retrofit2.http.Path;
 
 
 public interface SettingsService {
-    @GET("setting/{locale}")
+    @GET("settings/{locale}")
     Call<JsonObject> getSettings(@Path("locale") String locale);
 
     @GET("user_settings/user/{user_id}")

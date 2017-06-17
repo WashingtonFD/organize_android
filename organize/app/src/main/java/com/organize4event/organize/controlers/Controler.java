@@ -14,12 +14,17 @@ public class Controler {
         this.context = context;
     }
 
-    protected Error parserError(JsonObject jsonObject) {
+    protected Error parserError(String tag, JsonObject jsonObject) {
         Error error = null;
         if (jsonObject == null) {
             error = new Error(context.getString(R.string.error_message_generic));
         } else if (jsonObject.get("has_error").getAsBoolean()) {
-            error = new Error(jsonObject.get("message").getAsString());
+            if (jsonObject.get("code").getAsInt() == 23000) {
+                error = new Error(context.getString(R.string.error_message_data_violation));
+            } else {
+                String errorMessage = tag + ": " + jsonObject.get("message").getAsString();
+                error = new Error(errorMessage);
+            }
         }
         return error;
     }

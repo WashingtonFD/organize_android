@@ -2,13 +2,8 @@ package com.organize4event.organize.ui.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Base64;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -21,8 +16,6 @@ import com.organize4event.organize.models.User;
 
 import org.parceler.Parcels;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.Locale;
 
@@ -44,8 +37,6 @@ public class SplashActivity extends BaseActivity {
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
 
-        generateFacebookHashKey();
-
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "SPLASH");
         FirebaseAnalytics.getInstance(this).logEvent(FirebaseAnalytics.Event.VIEW_ITEM, bundle);
@@ -54,24 +45,13 @@ public class SplashActivity extends BaseActivity {
         device_id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         locale = Locale.getDefault().toString();
 
-        getFirstAccess();
+
     }
 
-    protected void generateFacebookHashKey() {
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    getPackageName(),
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-
-        } catch (NoSuchAlgorithmException e) {
-
-        }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        getFirstAccess();
     }
 
     protected void getFirstAccess() {
@@ -80,7 +60,12 @@ public class SplashActivity extends BaseActivity {
             public void success(Object object) {
                 if (object != null) {
                     firstAccess = (FirstAccess) object;
-                    verifyData();
+                    if (firstAccess.getLocale().equals(locale)){
+                        verifyData();
+                    }
+                    else{
+                        editLocale();
+                    }
                 } else {
                     firstAccess = new FirstAccess();
                     setFirstAccess();
@@ -94,7 +79,22 @@ public class SplashActivity extends BaseActivity {
         });
     }
 
-    //TODO: ATUALIZAR LOCALE
+    protected void editLocale(){
+        new FirstAccessControler(context).updateLocale(firstAccess, new ControlResponseListener() {
+            @Override
+            public void success(Object object) {
+                if (object != null){
+                    firstAccess = (FirstAccess) object;
+                    verifyData();
+                }
+            }
+
+            @Override
+            public void fail(Error error) {
+                returnErrorMessage(error, context);
+            }
+        });
+    }
 
     protected void setFirstAccess() {
         user = new User();

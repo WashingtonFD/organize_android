@@ -27,7 +27,7 @@ public class PrivacyControler extends Controler {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonObject jsonObject = response.body();
-                Error error = parserError(jsonObject);
+                Error error = parserError("GET PRIVACIES", jsonObject);
                 if (error == null) {
                     if (jsonObject.get("data").isJsonNull()) {
                         listener.success(null);

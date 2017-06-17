@@ -9,7 +9,7 @@ import retrofit2.http.Path;
 
 public interface PlanService {
 
-    @GET("plan/{locale}")
+    @GET("plans/{locale}")
     Call<JsonObject> getPlan(@Path("locale") String locale);
 
     @GET("plan/{locale}/{code_enum}")

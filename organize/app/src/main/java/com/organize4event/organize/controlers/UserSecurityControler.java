@@ -28,7 +28,7 @@ public class UserSecurityControler extends Controler {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonObject jsonObject = response.body();
-                Error error = parserError(jsonObject);
+                Error error = parserError("GET SECURITY QUESTIONS", jsonObject);
                 if (error == null) {
                     if (jsonObject.get("data").isJsonNull()) {
                         listener.success(null);
@@ -56,7 +56,7 @@ public class UserSecurityControler extends Controler {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonObject jsonObject = response.body();
-                Error error = parserError(jsonObject);
+                Error error = parserError("SEND MAIL", jsonObject);
                 if (error == null) {
                     listener.success(jsonObject);
                 } else {

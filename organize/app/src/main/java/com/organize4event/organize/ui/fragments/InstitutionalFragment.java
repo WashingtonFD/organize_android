@@ -1,5 +1,6 @@
 package com.organize4event.organize.ui.fragments;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -42,6 +43,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
+import pl.tajchert.nammu.Nammu;
+import pl.tajchert.nammu.PermissionCallback;
 
 public class InstitutionalFragment extends BaseFragment {
     @Bind(R.id.contentFilter)
@@ -74,11 +77,14 @@ public class InstitutionalFragment extends BaseFragment {
     private ArrayList<Contact> contacts;
     private Institutional institutional;
     private SectionedRecyclerViewAdapter adapter;
+    private MaterialDialog materialDialog;
+    private Contact mContact;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_institutional, container, false);
         ButterKnife.bind(this, view);
+
 
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "INSTITUTIONAL");
@@ -248,8 +254,9 @@ if (object != null){
         showDialogMessage(DialogTypeEnum.POSITIVE_AND_NEGATIVE, context.getString(R.string.label_call), context.getString(R.string.message_call_phone), new CustomDialogListener() {
             @Override
             public void positiveOnClick(MaterialDialog dialog) {
-                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + contact.getContact()));
-                startActivity(intent);
+                materialDialog = dialog;
+                mContact = contact;
+                onPhoneClicked();
                 dialog.dismiss();
             }
 
@@ -296,5 +303,55 @@ if (object != null){
                 startActivity(intent);
                 break;
         }
+    }
+
+    public void onPhoneClicked() {
+        final String permission = Manifest.permission.CALL_PHONE;
+        boolean permissionCallPhone = Nammu.checkPermission(Manifest.permission.CALL_PHONE);
+        if (permissionCallPhone) {
+            openCallPhone();
+        } else {
+            Nammu.askForPermission(InstitutionalFragment.this, permission, callback);
+        }
+    }
+
+    public void openCallPhone(){
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + mContact.getContact()));
+        startActivity(intent);
+        materialDialog.dismiss();
+    }
+
+    final PermissionCallback callback = new PermissionCallback() {
+        @Override
+        public void permissionGranted() {
+            openCallPhone();
+        }
+
+        @Override
+        public void permissionRefused() {
+            materialDialog.dismiss();
+            showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), context.getString(R.string.info_permission_phone), new CustomDialogListener() {
+                @Override
+                public void positiveOnClick(MaterialDialog dialog) {
+                    dialog.dismiss();
+                }
+
+                @Override
+                public void negativeOnClick(MaterialDialog dialog) {
+
+                }
+            });
+        }
+    };
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        Nammu.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        openCallPhone();
     }
 }

@@ -28,7 +28,7 @@ public class TokenControler extends Controler {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonObject jsonObject = response.body();
-                Error error = parserError(jsonObject);
+                Error error = parserError("GET LOGIN TYPE", jsonObject);
                 if (error == null) {
                     JsonObject object = jsonObject.get("data").getAsJsonObject();
                     LoginType loginType = ApiClient.createGson().fromJson(object, LoginType.class);
@@ -51,7 +51,7 @@ public class TokenControler extends Controler {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonObject jsonObject = response.body();
-                Error error = parserError(jsonObject);
+                Error error = parserError("LOGIN", jsonObject);
                 if (error == null) {
                     if (jsonObject.get("data").isJsonNull()) {
                         listener.success(null);
@@ -84,7 +84,7 @@ public class TokenControler extends Controler {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonObject jsonObject = response.body();
-                Error error = parserError(jsonObject);
+                Error error = parserError("SAVE TOKEN", jsonObject);
                 if (error == null) {
                     if (jsonObject.get("data").isJsonNull()) {
                         listener.success(null);

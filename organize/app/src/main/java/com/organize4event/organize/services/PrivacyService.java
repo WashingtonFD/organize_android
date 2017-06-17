@@ -8,6 +8,6 @@ import retrofit2.http.Path;
 
 
 public interface PrivacyService {
-    @GET("privacy/{locale}")
+    @GET("privacies/{locale}")
     Call<JsonObject> getPrivacy(@Path("locale") String locale);
 }

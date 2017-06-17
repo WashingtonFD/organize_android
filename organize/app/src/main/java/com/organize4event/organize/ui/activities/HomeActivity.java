@@ -94,7 +94,6 @@ public class HomeActivity extends BaseActivity {
         }
 
         getData();
-//        verifyData();
     }
 
     protected void setupToolbar(String title) {
@@ -104,6 +103,12 @@ public class HomeActivity extends BaseActivity {
                 drawerLayout.openDrawer(Gravity.LEFT);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        verifyData();
     }
 
     protected void getData() {
@@ -167,8 +172,8 @@ public class HomeActivity extends BaseActivity {
     }
 
     protected void verifyData() {
-        int delay = 5000;
-        int interval = 10000;
+        int delay = 3000;
+        int interval = 30000;
         Timer timer = new Timer();
 
         timer.scheduleAtFixedRate(new TimerTask() {

@@ -13,11 +13,11 @@ import retrofit2.http.Path;
 
 public interface NotificationService {
 
-    @GET("notification/user/{user_id}")
+    @GET("user_notifications/user/{user_id}")
     Call<JsonObject> getUserNotifications(@Path("user_id") int user_id);
 
     @FormUrlEncoded
-    @POST("notification/save")
+    @POST("user_notification/save")
     Call<JsonObject> saveUserNotification(
             @Field("user") int user_id,
             @Field("brief_description") String brief_description,
@@ -26,7 +26,7 @@ public interface NotificationService {
     );
 
     @FormUrlEncoded
-    @POST("notification/{notification_id}/read")
+    @POST("user_notification/{notification_id}/read")
     Call<JsonObject> readUserNotification(
             @Path("notification_id") int notification_id,
             @Field("is_read") int is_read

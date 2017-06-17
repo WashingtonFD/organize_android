@@ -74,8 +74,12 @@ public class PlanIdentifierActivity extends BaseActivity {
             }
         });
 
-        getPlan();
         selectPlan();
+    }
+
+    protected void onResume() {
+        super.onResume();
+        getPlan();
     }
 
     protected void selectPlan() {
@@ -153,6 +157,9 @@ public class PlanIdentifierActivity extends BaseActivity {
             PreferencesManager.saveFirstAccess(firstAccess);
 
             startUserRegisterActivity();
+        } else {
+            Error error = new Error(context.getString(R.string.error_message_conect));
+            returnErrorMessage(error, context);
         }
     }
 

@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.facebook.AccessToken;
@@ -78,6 +80,14 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     EditText txtMailForgotPassword;
     @Bind(R.id.cbxKeepLogged)
     CheckBox cbxKeepLogged;
+
+    @Bind(R.id.txtForgotPassword)
+    TextView txtForgotPassword;
+    @Bind(R.id.btnLoginEmail)
+    Button btnLoginEmail;
+    @Bind(R.id.btnLoginFacebook)
+    Button btnLoginFacebook;
+
     private Context context;
     private int code_enum;
     private int code_enum_platform;
@@ -119,7 +129,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             if (PreferencesManager.isHideWelcome()) {
                 startActivity(new Intent(context, HomeActivity.class));
             } else {
-                startActivity(new Intent(context, WelcomeActivity.class));
+                starWelcomeActivity();
             }
         }
 
@@ -134,16 +144,26 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     public void actionOnClickLogin(View view) {
         switch (view.getId()) {
             case R.id.btnLoginEmail:
+                btnLoginFacebook.setEnabled(false);
+                txtForgotPassword.setEnabled(false);
                 code_enum = LoginTypeEnum.EMAIL.getValue();
                 getAccessPlatform();
                 break;
             case R.id.btnLoginFacebook:
+                btnLoginEmail.setEnabled(false);
+                txtForgotPassword.setEnabled(false);
                 code_enum = LoginTypeEnum.FACEBOOK.getValue();
                 getAccessPlatform();
                 break;
             case R.id.txtForgotPassword:
+                btnLoginFacebook.setEnabled(false);
+                btnLoginEmail.setEnabled(false);
                 containerForgotPassword.setVisibility(View.VISIBLE);
                 break;
+            default:
+                btnLoginFacebook.setEnabled(true);
+                btnLoginEmail.setEnabled(true);
+                txtForgotPassword.setEnabled(true);
         }
     }
 
@@ -163,12 +183,18 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                 break;
             case R.id.btnCancel:
                 containerLoginEmail.setVisibility(View.GONE);
+                btnLoginFacebook.setEnabled(true);
+                btnLoginEmail.setEnabled(true);
+                txtForgotPassword.setEnabled(true);
                 break;
             case R.id.btnForgotPasswordSend:
                 forgotPassword();
                 break;
             case R.id.btnForgotPasswordCancel:
                 containerForgotPassword.setVisibility(View.GONE);
+                btnLoginFacebook.setEnabled(true);
+                btnLoginEmail.setEnabled(true);
+                txtForgotPassword.setEnabled(true);
                 break;
             case R.id.txtIsNotRegistered:
                 starApresentationActivity();
@@ -189,7 +215,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                 if (object != null) {
                     hideLoading();
                     user = (User) object;
-                    saveToken();
+                    updateFirstAccess();
                 }
             }
 
@@ -220,12 +246,10 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         new TokenControler(context).saveToken(token, user.getId(), keep_logged_int, new ControlResponseListener() {
             @Override
             public void success(Object object) {
+                hideLoading();
                 if (object != null) {
-                    token = (Token) object;
-                    user.setToken(token);
-                    firstAccess.setUser(user);
-                    PreferencesManager.saveFirstAccess(firstAccess);
                     insertNotification(context, user.getId(), context.getString(R.string.notification_login_brief_description), context.getString(R.string.notification_login_description), new Date());
+
                     if (PreferencesManager.isHideWelcome()) {
                         startActivity(new Intent(context, HomeActivity.class));
                         finish();
@@ -267,6 +291,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     }
 
     protected void getUserFacebook() {
+        showLoading();
         GraphRequest request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
@@ -274,29 +299,12 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                     String id = object.getString("id");
                     String picture_profile = "https://graph.facebook.com/" + id + "/picture?height=220&width=220";
 
-                    user.setFull_name(object.getString("name"));
-                    user.setMail(object.getString("email"));
-                    user.setProfile_picture(picture_profile);
-                    new UserControler(context).updateUserProfilePicture(user, new ControlResponseListener() {
-                        @Override
-                        public void success(Object object) {
-                            if (object != null) {
-                                User newUser = (User) object;
-                                if (newUser.getId() > 0) {
-                                    firstAccess.setUser(user);
-                                    PreferencesManager.saveFirstAccess(firstAccess);
-                                    AppApplication.setFirstAccess(firstAccess);
+                    User userFacebook = new User();
 
-                                    saveToken();
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void fail(Error error) {
-                            returnErrorMessage(error, context);
-                        }
-                    });
+                    userFacebook.setFull_name(object.getString("name"));
+                    userFacebook.setMail(object.getString("email"));
+                    userFacebook.setProfile_picture(picture_profile);
+                    getUserMail(userFacebook);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -308,6 +316,73 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         parameters.putString("fields", "id,name,email");
         request.setParameters(parameters);
         request.executeAsync();
+    }
+
+    protected void getUserMail(final User userFacebook) {
+        new UserControler(context).getUserMail(userFacebook.getMail(), new ControlResponseListener() {
+            @Override
+            public void success(Object object) {
+                if (object != null) {
+                    User findUser = (User) object;
+                    findUser.setFull_name(userFacebook.getFull_name());
+                    findUser.setProfile_picture(userFacebook.getProfile_picture());
+
+                    updateFacebookUser(findUser);
+                }
+            }
+
+            @Override
+            public void fail(Error error) {
+
+                user.setFull_name(userFacebook.getFull_name());
+                user.setMail(userFacebook.getMail());
+                user.setProfile_picture(userFacebook.getProfile_picture());
+
+                updateFacebookUser(user);
+            }
+        });
+    }
+
+    protected void updateFacebookUser(User findUser) {
+        new UserControler(context).updateUserFacebook(findUser, new ControlResponseListener() {
+            @Override
+            public void success(Object object) {
+                if (object != null) {
+                    user = (User) object;
+                    if (user.getId() == firstAccess.getUser().getId()) {
+                        saveToken();
+                    } else {
+                        updateFirstAccess();
+                    }
+                }
+            }
+
+            @Override
+            public void fail(Error error) {
+                returnErrorMessage(error, context);
+            }
+        });
+    }
+
+    protected void updateFirstAccess() {
+        firstAccess.setUser(user);
+        new FirstAccessControler(context).updateUserFirstAccess(firstAccess, new ControlResponseListener() {
+            @Override
+            public void success(Object object) {
+                if (object != null) {
+                    firstAccess = (FirstAccess) object;
+                    PreferencesManager.saveFirstAccess(firstAccess);
+                    AppApplication.setFirstAccess(firstAccess);
+
+                    saveToken();
+                }
+            }
+
+            @Override
+            public void fail(Error error) {
+                returnErrorMessage(error, context);
+            }
+        });
     }
 
     protected void forgotPassword() {
