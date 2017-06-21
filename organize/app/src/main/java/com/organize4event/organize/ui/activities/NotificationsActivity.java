@@ -11,10 +11,12 @@ import android.widget.RelativeLayout;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.organize4event.organize.R;
+import com.organize4event.organize.commons.AppApplication;
 import com.organize4event.organize.controlers.NotificationControler;
 import com.organize4event.organize.listeners.ControlResponseListener;
 import com.organize4event.organize.listeners.RecyclerViewListener;
 import com.organize4event.organize.listeners.ToolbarListener;
+import com.organize4event.organize.models.User;
 import com.organize4event.organize.models.UserNotification;
 import com.organize4event.organize.ui.adapters.NotificationAdapter;
 
@@ -38,6 +40,7 @@ public class NotificationsActivity extends BaseActivity {
     private ArrayList<UserNotification> userNotifications;
     private NotificationAdapter adapter;
     private int is_read = 0;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,7 @@ public class NotificationsActivity extends BaseActivity {
 
         context = NotificationsActivity.this;
         userNotifications = getIntent().getParcelableArrayListExtra("userNotifications");
+        user = AppApplication.getFirstAccess().getUser();
 
         configureToolbar(context, toolbar, context.getString(R.string.label_notifications), context.getResources().getDrawable(R.drawable.ic_arrow_back), true, new ToolbarListener() {
             @Override
@@ -79,19 +83,32 @@ public class NotificationsActivity extends BaseActivity {
             public void onClick(int position) {
                 UserNotification userNotification = userNotifications.get(position);
                 is_read = 1;
-                readUserNotification(userNotification, is_read, false);
+                readUserNotification(userNotification, is_read);
             }
         });
         listNotification.setAdapter(adapter);
     }
 
-    public void readUserNotification(final UserNotification userNotification, int is_read, final boolean clearAll) {
+    public void readUserNotification(final UserNotification userNotification, int is_read) {
         new NotificationControler(context).readUserNotification(userNotification, is_read, new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                if (clearAll) {
-                    adapter.refreshAllLayout();
-                }
+                return;
+            }
+
+            @Override
+            public void fail(Error error) {
+                returnErrorMessage(error, context);
+            }
+        });
+    }
+
+
+    public void readAllNotification() {
+        new NotificationControler(context).readAllNotification(user.getId(), new ControlResponseListener() {
+            @Override
+            public void success(Object object) {
+                adapter.refreshAllLayout();
             }
 
             @Override
@@ -103,9 +120,6 @@ public class NotificationsActivity extends BaseActivity {
 
     @OnClick(R.id.imgClear)
     public void actionClearNotifications() {
-        for (UserNotification userNotification : userNotifications) {
-            is_read = 1;
-            readUserNotification(userNotification, is_read, true);
-        }
+        readAllNotification();
     }
 }

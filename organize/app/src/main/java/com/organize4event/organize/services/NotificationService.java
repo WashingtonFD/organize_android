@@ -31,4 +31,10 @@ public interface NotificationService {
             @Path("notification_id") int notification_id,
             @Field("is_read") int is_read
     );
+
+    @FormUrlEncoded
+    @POST("user_notification/allread")
+    Call<JsonObject> readAllNotification(
+            @Field("user_id") int user_id
+    );
 }
