@@ -227,6 +227,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                     public void positiveOnClick(MaterialDialog dialog) {
                         dialog.dismiss();
                         containerLoginEmail.setVisibility(View.VISIBLE);
+                        hideLoading();
                     }
 
                     @Override
@@ -268,26 +269,42 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     }
 
     protected void loginFacebook() {
-        hideLoading();
-        loginManager = LoginManager.getInstance();
-        loginManager.logInWithReadPermissions(this, Arrays.asList("email", "public_profile"));
-        loginManager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                accessToken = loginResult.getAccessToken();
-                getUserFacebook();
-            }
+        if (user.getId() > 0) {
+            hideLoading();
+            loginManager = LoginManager.getInstance();
+            loginManager.logInWithReadPermissions(this, Arrays.asList("email", "public_profile"));
+            loginManager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
+                    accessToken = loginResult.getAccessToken();
+                    getUserFacebook();
+                }
 
-            @Override
-            public void onCancel() {
+                @Override
+                public void onCancel() {
 
-            }
+                }
 
-            @Override
-            public void onError(FacebookException error) {
-                returnErrorMessage(new Error(error.getMessage()), context);
-            }
-        });
+                @Override
+                public void onError(FacebookException error) {
+                    returnErrorMessage(new Error(error.getMessage()), context);
+                }
+            });
+        } else {
+            hideLoading();
+            showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), context.getString(R.string.message_not_facebook_login), new CustomDialogListener() {
+                @Override
+                public void positiveOnClick(MaterialDialog dialog) {
+                    btnLoginEmail.setEnabled(true);
+                    dialog.dismiss();
+                }
+
+                @Override
+                public void negativeOnClick(MaterialDialog dialog) {
+
+                }
+            });
+        }
     }
 
     protected void getUserFacebook() {

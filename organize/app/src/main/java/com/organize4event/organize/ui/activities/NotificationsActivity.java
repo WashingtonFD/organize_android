@@ -38,6 +38,7 @@ public class NotificationsActivity extends BaseActivity {
     RecyclerView listNotification;
     private Context context;
     private ArrayList<UserNotification> userNotifications;
+    private ArrayList<UserNotification> activeNotificatios;
     private NotificationAdapter adapter;
     private int is_read = 0;
     private User user;
@@ -69,6 +70,11 @@ public class NotificationsActivity extends BaseActivity {
         if (userNotifications.size() > 0) {
             containerContent.setVisibility(View.VISIBLE);
             contentNoData.setVisibility(View.GONE);
+            for (UserNotification userNotification : userNotifications) {
+                if (userNotification.is_active()) {
+                    activeNotificatios.add(userNotification);
+                }
+            }
             loadAdapter();
         } else {
             containerContent.setVisibility(View.GONE);
@@ -78,10 +84,10 @@ public class NotificationsActivity extends BaseActivity {
 
     protected void loadAdapter() {
         Collections.sort(userNotifications);
-        adapter = new NotificationAdapter(context, userNotifications, listNotification, new RecyclerViewListener() {
+        adapter = new NotificationAdapter(context, activeNotificatios, listNotification, new RecyclerViewListener() {
             @Override
             public void onClick(int position) {
-                UserNotification userNotification = userNotifications.get(position);
+                UserNotification userNotification = activeNotificatios.get(position);
                 is_read = 1;
                 readUserNotification(userNotification, is_read);
             }
@@ -105,10 +111,13 @@ public class NotificationsActivity extends BaseActivity {
 
 
     public void readAllNotification() {
+        showLoading();
         new NotificationControler(context).readAllNotification(user.getId(), new ControlResponseListener() {
             @Override
             public void success(Object object) {
+                userNotifications.clear();
                 adapter.refreshAllLayout();
+                listNotification.clearAnimation();
             }
 
             @Override

@@ -10,7 +10,7 @@ import java.util.Date;
 
 public class UserNotification implements Comparable<UserNotification>, Parcelable {
 
-    public static final Parcelable.Creator<UserNotification> CREATOR = new Parcelable.Creator<UserNotification>() {
+    public static final Creator<UserNotification> CREATOR = new Creator<UserNotification>() {
         @Override
         public UserNotification createFromParcel(Parcel source) {
             return new UserNotification(source);
@@ -33,6 +33,8 @@ public class UserNotification implements Comparable<UserNotification>, Parcelabl
     private Date notification_date;
     @SerializedName("is_read")
     private boolean is_read;
+    @SerializedName("is_active")
+    private boolean is_active;
 
     public UserNotification() {
     }
@@ -45,6 +47,11 @@ public class UserNotification implements Comparable<UserNotification>, Parcelabl
         long tmpNotification_date = in.readLong();
         this.notification_date = tmpNotification_date == -1 ? null : new Date(tmpNotification_date);
         this.is_read = in.readByte() != 0;
+        this.is_active = in.readByte() != 0;
+    }
+
+    public static Creator<UserNotification> getCREATOR() {
+        return CREATOR;
     }
 
     public int getId() {
@@ -95,6 +102,14 @@ public class UserNotification implements Comparable<UserNotification>, Parcelabl
         this.is_read = is_read;
     }
 
+    public boolean is_active() {
+        return is_active;
+    }
+
+    public void setIs_active(boolean is_active) {
+        this.is_active = is_active;
+    }
+
     @Override
     public int compareTo(@NonNull UserNotification o) {
         if (this.getNotification_date().getTime() < o.getNotification_date().getTime()) {
@@ -119,5 +134,6 @@ public class UserNotification implements Comparable<UserNotification>, Parcelabl
         dest.writeString(this.description);
         dest.writeLong(this.notification_date != null ? this.notification_date.getTime() : -1);
         dest.writeByte(this.is_read ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.is_active ? (byte) 1 : (byte) 0);
     }
 }
