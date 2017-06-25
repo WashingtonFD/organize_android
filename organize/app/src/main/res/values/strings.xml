@@ -20,7 +20,7 @@
 
     <string name="info_all_required_fields">Todos os campos são obrigatórios</string>
     <string name="info_loading">Carregando...</string>
-    <string name="info_no_data">Não há dados a serem exibidos</string>
+    <string name="info_no_data">Nada de novo por aqui =).</string>
     <string name="info_permission_camara">Você precisa permitir o aplicativo usar a câmara para usar esta opção.</string>
     <string name="info_required_fields">* Campos obrigatórios</string>
     <string name="info_permission_phone">Você precisa permitir o aplicativo usar a discagem telefônica para usar esta opção.</string>

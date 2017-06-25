@@ -83,9 +83,9 @@ public class NotificationControler extends Controler {
         });
     }
 
-    public void readUserNotification(UserNotification userNotification, int is_read, final ControlResponseListener listener) {
+    public void readUserNotification(UserNotification userNotification, final ControlResponseListener listener) {
         NotificationService service = ApiClient.getRetrofit().create(NotificationService.class);
-        service.readUserNotification(userNotification.getId(), is_read).enqueue(new Callback<JsonObject>() {
+        service.readUserNotification(userNotification.getId()).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonObject jsonObject = response.body();

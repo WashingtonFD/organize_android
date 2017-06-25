@@ -40,8 +40,6 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -92,8 +90,6 @@ public class HomeActivity extends BaseActivity {
             Log.v("instance HOME ERROR", "Home fragment instance error");
             e.printStackTrace();
         }
-
-        getData();
     }
 
     protected void setupToolbar(String title) {
@@ -108,7 +104,7 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        verifyData();
+        getData();
     }
 
     protected void getData() {
@@ -121,7 +117,6 @@ public class HomeActivity extends BaseActivity {
                     txtUserName.setText(firstAccess.getUser().getFull_name());
                     Glide.with(context).load(firstAccess.getUser().getProfile_picture()).centerCrop().transform(new CircleTransform(context)).crossFade().into(imgUserAvatar);
                     getNotifications();
-
                 }
             }
 
@@ -153,16 +148,7 @@ public class HomeActivity extends BaseActivity {
     }
 
     public void assetIconNotification() {
-        int count = 0;
         if (userNotifications.size() > 0) {
-            for (UserNotification userNotification : userNotifications) {
-                if (!userNotification.is_read()) {
-                    count++;
-                }
-            }
-        }
-
-        if (count > 0) {
             imgNotification.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_notifications_on));
             imgNotification.setColorFilter(context.getResources().getColor(R.color.colorTransparent));
         } else {
@@ -171,17 +157,17 @@ public class HomeActivity extends BaseActivity {
         }
     }
 
-    protected void verifyData() {
-        int delay = 3000;
-        int interval = 30000;
-        Timer timer = new Timer();
-
-        timer.scheduleAtFixedRate(new TimerTask() {
-            public void run() {
-                getNotifications();
-            }
-        }, delay, interval);
-    }
+//    protected void verifyData() {
+//        int delay = 3000;
+//        int interval = 30000;
+//        Timer timer = new Timer();
+//
+//        timer.scheduleAtFixedRate(new TimerTask() {
+//            public void run() {
+//                getNotifications();
+//            }
+//        }, delay, interval);
+//    }
 
     public void logout() {
         saveToken();
