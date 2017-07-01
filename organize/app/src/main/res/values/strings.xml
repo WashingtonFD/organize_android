@@ -57,6 +57,7 @@
     <string name="label_nav_events">Eventos</string>
     <string name="label_nav_home">Home</string>
     <string name="label_nav_institutional">Institucional</string>
+    <string name="label_nav_loggout">Sair</string>
     <string name="label_nav_partners">Parceiros</string>
     <string name="label_nav_payment">Pagamento</string>
     <string name="label_nav_purchase">Compras</string>

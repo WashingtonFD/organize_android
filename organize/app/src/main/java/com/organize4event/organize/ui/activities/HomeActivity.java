@@ -64,6 +64,8 @@ public class HomeActivity extends BaseActivity {
     ImageView imgNotification;
     @Bind(R.id.txtUserName)
     TextView txtUserName;
+    @Bind(R.id.txtUserMail)
+    TextView txtUserMail;
     @Bind(R.id.imgUserAvatar)
     ImageView imgUserAvatar;
     private Context context;
@@ -127,6 +129,7 @@ public class HomeActivity extends BaseActivity {
                     token = firstAccess.getUser().getToken();
                     userValidate = firstAccess.getUser().getUser_validate();
                     txtUserName.setText(firstAccess.getUser().getFull_name());
+                    txtUserMail.setText(firstAccess.getUser().getMail());
                     Glide.with(context).load(firstAccess.getUser().getProfile_picture()).centerCrop().transform(new CircleTransform(context)).crossFade().into(imgUserAvatar);
                     userSettings = firstAccess.getUser().getUser_settings();
                     for (UserSetting userSetting : userSettings) {
@@ -228,7 +231,7 @@ public class HomeActivity extends BaseActivity {
         startActivity(intent);
     }
 
-    @OnClick({R.id.userContainer, R.id.homeContainer, R.id.eventContainer, R.id.sheduleContainer, R.id.partnerContainer, R.id.paymentContainer, R.id.purchaseContainer, R.id.settingsContainer, R.id.institutionalContainer, R.id.btnExit})
+    @OnClick({R.id.userContainer, R.id.homeContainer, R.id.eventContainer, R.id.sheduleContainer, R.id.partnerContainer, R.id.paymentContainer, R.id.purchaseContainer, R.id.settingsContainer, R.id.institutionalContainer, R.id.loggoutContainer})
     public void actionMenuSwitch(View view) {
         switch (view.getId()) {
             case R.id.userContainer:
@@ -253,7 +256,7 @@ public class HomeActivity extends BaseActivity {
             case R.id.institutionalContainer:
                 instanceViewFragment(InstitutionalFragment.class, context.getString(R.string.label_nav_institutional), true, false);
                 break;
-            case R.id.btnExit:
+            case R.id.loggoutContainer:
                 logout();
                 break;
             default:
