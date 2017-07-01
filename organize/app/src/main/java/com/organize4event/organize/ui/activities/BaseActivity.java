@@ -27,6 +27,7 @@ import com.organize4event.organize.R;
 import com.organize4event.organize.commons.Constants;
 import com.organize4event.organize.commons.WaitDialog;
 import com.organize4event.organize.controlers.NotificationControler;
+import com.organize4event.organize.controlers.UserControler;
 import com.organize4event.organize.enuns.DialogTypeEnum;
 import com.organize4event.organize.listeners.ControlResponseListener;
 import com.organize4event.organize.listeners.CustomDialogListener;
@@ -137,6 +138,12 @@ public class BaseActivity extends AppCompatActivity {
             dialog_positive.setText(getString(R.string.label_galery));
             dialog_negative.setText(getString(R.string.label_camara));
             dialog_negative.setAlpha(1);
+            dialog_negative.setVisibility(View.VISIBLE);
+            divider.setVisibility(View.VISIBLE);
+        } else if (type == DialogTypeEnum.VALIDATE_EMAIL) {
+            dialog_positive.setText("Ok");
+            dialog_negative.setAlpha(1);
+            dialog_negative.setText(getString(R.string.label_send_mail_validate));
             dialog_negative.setVisibility(View.VISIBLE);
             divider.setVisibility(View.VISIBLE);
         } else {
@@ -325,6 +332,30 @@ public class BaseActivity extends AppCompatActivity {
             @Override
             public void fail(Error error) {
                 returnErrorMessage(error, context);
+            }
+        });
+    }
+
+    public void sendValidateMail(final Context context, String mail) {
+        new UserControler(context).validateUser(mail, new ControlResponseListener() {
+            @Override
+            public void success(Object object) {
+                return;
+            }
+
+            @Override
+            public void fail(Error error) {
+                showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.error_title), context.getString(R.string.error_send_mail_validate), new CustomDialogListener() {
+                    @Override
+                    public void positiveOnClick(MaterialDialog dialog) {
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void negativeOnClick(MaterialDialog dialog) {
+
+                    }
+                });
             }
         });
     }

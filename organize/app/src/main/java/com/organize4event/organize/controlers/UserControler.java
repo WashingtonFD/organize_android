@@ -198,4 +198,25 @@ public class UserControler extends Controler {
             }
         });
     }
+
+    public void validateUser(String email, final ControlResponseListener listener) {
+        UserService service = ApiClient.getRetrofit().create(UserService.class);
+        service.validateUser(email).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonObject jsonObject = response.body();
+                Error error = parserError("VALIDATE EMAIL", jsonObject);
+                if (error == null) {
+                    listener.success(true);
+                } else {
+                    listener.fail(error);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                listener.fail(new Error(t.getMessage()));
+            }
+        });
+    }
 }

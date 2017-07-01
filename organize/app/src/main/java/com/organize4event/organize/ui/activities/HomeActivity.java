@@ -1,5 +1,6 @@
 package com.organize4event.organize.ui.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.AppApplication;
@@ -26,11 +28,16 @@ import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.controlers.FirstAccessControler;
 import com.organize4event.organize.controlers.NotificationControler;
 import com.organize4event.organize.controlers.TokenControler;
+import com.organize4event.organize.enuns.DialogTypeEnum;
+import com.organize4event.organize.enuns.SettingsEnum;
 import com.organize4event.organize.listeners.ControlResponseListener;
+import com.organize4event.organize.listeners.CustomDialogListener;
 import com.organize4event.organize.listeners.ToolbarListener;
 import com.organize4event.organize.models.FirstAccess;
 import com.organize4event.organize.models.Token;
 import com.organize4event.organize.models.UserNotification;
+import com.organize4event.organize.models.UserSetting;
+import com.organize4event.organize.models.UserValidate;
 import com.organize4event.organize.ui.fragments.HomeFragment;
 import com.organize4event.organize.ui.fragments.InstitutionalFragment;
 import com.organize4event.organize.ui.fragments.PersonalDataFragment;
@@ -65,7 +72,11 @@ public class HomeActivity extends BaseActivity {
     private FirstAccess firstAccess;
     private Token token;
     private ArrayList<UserNotification> userNotifications = new ArrayList<>();
+    private ArrayList<UserSetting> userSettings = new ArrayList<>();
+    UserSetting userSettingNotification;
+    UserValidate userValidate;
 
+    @SuppressLint("HardwareIds")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,9 +125,34 @@ public class HomeActivity extends BaseActivity {
                 if (object != null) {
                     firstAccess = (FirstAccess) object;
                     token = firstAccess.getUser().getToken();
+                    userValidate = firstAccess.getUser().getUser_validate();
                     txtUserName.setText(firstAccess.getUser().getFull_name());
                     Glide.with(context).load(firstAccess.getUser().getProfile_picture()).centerCrop().transform(new CircleTransform(context)).crossFade().into(imgUserAvatar);
-                    getNotifications();
+                    userSettings = firstAccess.getUser().getUser_settings();
+                    for (UserSetting userSetting : userSettings) {
+                        if (userSetting.getSetting().getCode_enum() == SettingsEnum.NOTIFICATIONS.getValue()) {
+                            userSettingNotification = userSetting;
+                        }
+                    }
+
+                    if (!userValidate.is_valid()) {
+                        showDialogMessage(DialogTypeEnum.VALIDATE_EMAIL, context.getString(R.string.app_name), context.getString(R.string.message_not_validate_email), new CustomDialogListener() {
+                            @Override
+                            public void positiveOnClick(MaterialDialog dialog) {
+                                dialog.dismiss();
+                            }
+
+                            @Override
+                            public void negativeOnClick(MaterialDialog dialog) {
+                                sendValidateMail(context, firstAccess.getUser().getMail());
+                                dialog.dismiss();
+                            }
+                        });
+                    }
+
+                    if (userSettingNotification != null && userSettingNotification.isChecking()) {
+                        getNotifications();
+                    }
                 }
             }
 
@@ -156,18 +192,6 @@ public class HomeActivity extends BaseActivity {
             imgNotification.setColorFilter(context.getResources().getColor(R.color.colorDestakText));
         }
     }
-
-//    protected void verifyData() {
-//        int delay = 3000;
-//        int interval = 30000;
-//        Timer timer = new Timer();
-//
-//        timer.scheduleAtFixedRate(new TimerTask() {
-//            public void run() {
-//                getNotifications();
-//            }
-//        }, delay, interval);
-//    }
 
     public void logout() {
         saveToken();

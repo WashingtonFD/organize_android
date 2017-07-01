@@ -3,7 +3,8 @@ package com.organize4event.organize.enuns;
 public enum DialogTypeEnum {
     JUSTPOSITIVE(1),
     POSITIVE_AND_NEGATIVE(2),
-    CAMARA_AND_GALERY(3);
+    CAMARA_AND_GALERY(3),
+    VALIDATE_EMAIL(4);
 
     private int value;
 

@@ -323,7 +323,6 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         new TokenControler(context).saveToken(token, user.getId(), 0, new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                hideLoading();
                 if (object != null) {
                     Token token = (Token) object;
                     user.setToken(token);
@@ -399,7 +398,6 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
                     userSettings.add(userSetting);
 
                     if (userSettings.size() == settings.size()) {
-                        hideLoading();
                         starLoginActivity();
                     }
                 }
@@ -413,14 +411,25 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
     }
 
     protected void starLoginActivity() {
-        firstAccess.setUser(user);
-        PreferencesManager.saveFirstAccess(firstAccess);
-        AppApplication.setFirstAccess(firstAccess);
+        sendValidateMail(context, user.getMail());
+        showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), context.getString(R.string.message_send_validate_mail), new CustomDialogListener() {
+            @Override
+            public void positiveOnClick(MaterialDialog dialog) {
+                firstAccess.setUser(user);
+                PreferencesManager.saveFirstAccess(firstAccess);
+                AppApplication.setFirstAccess(firstAccess);
 
-        Intent intent = new Intent(context, LoginActivity.class);
-        intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
-        startActivity(intent);
-        finish();
+                Intent intent = new Intent(context, LoginActivity.class);
+                intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void negativeOnClick(MaterialDialog dialog) {
+
+            }
+        });
     }
 
     @OnFocusChange({R.id.txtCpf, R.id.txtBirthDate, R.id.txtPassword, R.id.txtPasswordConfirm})

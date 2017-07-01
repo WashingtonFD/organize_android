@@ -390,6 +390,9 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                     firstAccess = (FirstAccess) object;
                     PreferencesManager.saveFirstAccess(firstAccess);
                     AppApplication.setFirstAccess(firstAccess);
+                    keep_logged = true;
+                    keep_logged_int = 1;
+                    PreferencesManager.isLogged();
 
                     saveToken();
                 }

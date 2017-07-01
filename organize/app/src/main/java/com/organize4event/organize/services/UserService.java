@@ -61,4 +61,8 @@ public interface UserService {
                                            @Field("mail") String mail,
                                            @Field("profile_picture") String profile_picture);
 
+    @FormUrlEncoded
+    @POST("user_validate")
+    Call<JsonObject> validateUser(@Field("user_mail") String user_mail);
+
 }
