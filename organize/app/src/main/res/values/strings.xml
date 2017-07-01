@@ -113,6 +113,13 @@
     <string name="label_new_class">Nova Turma</string>
     <string name="label_new_security_question">Nova Pergunta</string>
     <string name="label_send_mail_validate">Reenviar e-mail</string>
+    <string name="label_rg_number">Número do RG</string>
+    <string name="label_rg_uf">Estado de emissão do RG</string>
+    <string name="label_rg_orgao">Órgão emissor do RG</string>
+    <string name="label_rg_date">Data de emissão do RG</string>
+    <string name="label_responsible_name">Nome do responsável legal (+21)</string>
+    <string name="label_responsible_cpf">CPF do responsável legal</string>
+    <string name="label_save">Salvar</string>
 
     <string name="message_call_phone">Deseja realizar uma ligação? Isto acarretará em gastos de consumo de acordo com seu plano em sua operadora.</string>
     <string name="message_confirmation_forgot_password">E-mail de recuperação de senha enviado com sucesso.</string>
@@ -129,6 +136,8 @@
     <string name="message_not_facebook_login">O login com Facebook não foi autorizado. Entre com seu e-mail e senha ou acesse <b>Não possuo cadastro</b> para se registrar.</string>
     <string name="message_send_validate_mail">Enviamos um e-mail de validação para você. Verifique seu e-mail e valide sua conta.</string>
     <string name="message_not_validate_email">Não identificamos a validação do seu e-mail. Por favor, acesse seu e-mail e confirme sua conta.</string>
+    <string name="message_info_rg_data">insira essa poha logo e para de morrinha.</string>
+    <string name="message_info_responsible">você é menor de idade, alguém tem que pagar suas dívidas.</string>
 
     <string name="notification_login_brief_description">Acesso ao sistema</string>
     <string name="notification_login_description">Sistema acessado pela plataforma ANDROID em: </string>
@@ -143,6 +152,12 @@
     <string name="placeholder_password">Insira a sua senha.</string>
     <string name="placeholder_validate_code">Insira o código de validação.</string>
     <string name="placeholder_answer">Insira sua resposta segura.</string>
+    <string name="placeholder_rg_number">Insira o número do seu RG.</string>
+    <string name="placeholder_rg_uf">Insira a sigla do estado de emissão do RG.</string>
+    <string name="placeholder_rg_orgao">Insira o órgão emissor do RG.</string>
+    <string name="placeholder_rg_date">Insira a data de emissão do RG.</string>
+    <string name="placeholder_responsible_name">Insira o nome de um responsável (+21).</string>
+    <string name="placeholder_responsible_cpf">Insira o CPF do responsável.</string>
 
     <string name="validate_date">Data inválida.</string>
     <string name="validate_mail">E-mail inválido.</string>
@@ -150,5 +165,6 @@
     <string name="validate_password">Senha inválida.</string>
     <string name="validate_required_field">O campo não pode ser vazio</string>
     <string name="validate_cpf">CPF inválido.</string>
+
 
 </resources>

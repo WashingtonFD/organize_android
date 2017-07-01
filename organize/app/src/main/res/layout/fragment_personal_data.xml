@@ -1,13 +1,418 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="02 - DADOS PESSOAIS - MARCELA"
-        />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/containerContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_default">
+
+                <RelativeLayout
+                    android:id="@+id/contentImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true">
+
+                    <com.github.siyamed.shapeimageview.CircularImageView
+                        android:layout_width="110dp"
+                        android:layout_height="110dp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/img_transparent"
+                        app:siBorderColor="@color/colorPrimary" />
+
+                    <ImageView
+                        android:id="@+id/imgProfile"
+                        android:layout_width="94dp"
+                        android:layout_height="94dp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_photo_camera"
+                        android:tint="@color/colorPrimary"
+                        android:alpha="0.5" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/txtInfoRequiredFields"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/info_required_fields"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_size_small"
+                    android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Medium.Italic" />
+
+                <LinearLayout
+                    android:id="@+id/contentName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:layout_toLeftOf="@+id/contentImage"
+                    android:layout_marginRight="@dimen/padding_default"
+                    android:layout_below="@+id/txtInfoRequiredFields"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_name"
+                        android:textColor="@color/colorTextDefault"
+                        android:textSize="@dimen/text_size_small"
+                        android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light" />
+
+                    <EditText
+                        android:id="@+id/txtFullName"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/heigth_default"
+                        android:inputType="textAutoComplete|textCapWords"
+                        android:maxLength="254"
+                        android:hint="@string/placeholder_name"
+                        android:textColorHint="@color/colorHintDefault"
+                        android:textColor="@color/colorTextDefault"
+                        android:textSize="@dimen/text_size_default"
+                        android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                        android:enabled="false" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/contentCpf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:layout_below="@+id/contentName"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_cpf"
+                        android:textColor="@color/colorTextDefault"
+                        android:textSize="@dimen/text_size_small"
+                        android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light" />
+
+                    <EditText
+                        android:id="@+id/txtCpf"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/heigth_default"
+                        android:inputType="number"
+                        android:hint="@string/placeholder_cpf"
+                        android:textColorHint="@color/colorHintDefault"
+                        android:textColor="@color/colorTextDefault"
+                        android:textSize="@dimen/text_size_default"
+                        android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                        android:enabled="false" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/contentBirthDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:layout_below="@+id/contentCpf"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_birth_date"
+                        android:textColor="@color/colorTextDefault"
+                        android:textSize="@dimen/text_size_small"
+                        android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light" />
+
+                    <EditText
+                        android:id="@+id/txtBirthDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/heigth_default"
+                        android:inputType="date"
+                        android:hint="@string/placeholder_date"
+                        android:textColorHint="@color/colorHintDefault"
+                        android:textColor="@color/colorTextDefault"
+                        android:textSize="@dimen/text_size_default"
+                        android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                        android:enabled="false" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/contentGender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:layout_below="@+id/contentBirthDate"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_gender"
+                        android:textColor="@color/colorTextDefault"
+                        android:textSize="@dimen/text_size_small"
+                        android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light" />
+
+                    <RadioGroup
+                        android:id="@+id/rgpListGender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/btnGenderFem"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:button="@drawable/selector_radio_button"
+                            android:buttonTint="@color/colorPrimary"
+                            android:padding="@dimen/padding_default"
+                            android:text="@string/label_gender_fem"
+                            android:textColor="@color/colorTextDefault"
+                            android:textSize="@dimen/text_size_default"
+                            android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                            android:checked="false"
+                            android:enabled="false" />
+
+                        <RadioButton
+                            android:id="@+id/btnGenderMasc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:button="@drawable/selector_radio_button"
+                            android:buttonTint="@color/colorPrimary"
+                            android:padding="@dimen/padding_default"
+                            android:text="@string/label_gender_masc"
+                            android:textColor="@color/colorTextDefault"
+                            android:textSize="@dimen/text_size_default"
+                            android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                            android:checked="false"
+                            android:enabled="false" />
+
+                    </RadioGroup>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/contentRgNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:layout_below="@+id/contentGender"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_rg_number"
+                        android:textColor="@color/colorTextDefault"
+                        android:textSize="@dimen/text_size_small"
+                        android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light" />
+
+                    <EditText
+                        android:id="@+id/txtRgNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/heigth_default"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:hint="@string/placeholder_rg_number"
+                        android:textColorHint="@color/colorHintDefault"
+                        android:textColor="@color/colorTextDefault"
+                        android:textSize="@dimen/text_size_default"
+                        android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                        android:enabled="false" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/contentRgUf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:layout_below="@+id/contentRgNumber"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_rg_uf"
+                        android:textColor="@color/colorTextDefault"
+                        android:textSize="@dimen/text_size_small"
+                        android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light" />
+
+                    <EditText
+                        android:id="@+id/txtRgUf"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/heigth_default"
+                        android:inputType="textCapCharacters"
+                        android:maxLength="2"
+                        android:hint="@string/placeholder_rg_uf"
+                        android:textColorHint="@color/colorHintDefault"
+                        android:textColor="@color/colorTextDefault"
+                        android:textSize="@dimen/text_size_default"
+                        android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                        android:enabled="false" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/contentRgOrgao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:layout_below="@+id/contentRgUf"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_rg_orgao"
+                        android:textColor="@color/colorTextDefault"
+                        android:textSize="@dimen/text_size_small"
+                        android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light" />
+
+                    <EditText
+                        android:id="@+id/txtRgOrgao"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/heigth_default"
+                        android:inputType="textCapCharacters"
+                        android:maxLength="6"
+                        android:hint="@string/placeholder_rg_orgao"
+                        android:textColorHint="@color/colorHintDefault"
+                        android:textColor="@color/colorTextDefault"
+                        android:textSize="@dimen/text_size_default"
+                        android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                        android:enabled="false" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/contentRgDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:layout_below="@+id/contentRgOrgao"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_rg_date"
+                        android:textColor="@color/colorTextDefault"
+                        android:textSize="@dimen/text_size_small"
+                        android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light" />
+
+                    <EditText
+                        android:id="@+id/txtRgDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/heigth_default"
+                        android:inputType="date"
+                        android:maxLength="10"
+                        android:hint="@string/placeholder_rg_date"
+                        android:textColorHint="@color/colorHintDefault"
+                        android:textColor="@color/colorTextDefault"
+                        android:textSize="@dimen/text_size_default"
+                        android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                        android:enabled="false" />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/contentResponsibleData"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/contentRgDate"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:id="@+id/contentResponibleName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_default"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/label_responsible_name"
+                            android:textColor="@color/colorTextDefault"
+                            android:textSize="@dimen/text_size_small"
+                            android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light" />
+
+                        <EditText
+                            android:id="@+id/txtResponsibleName"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/heigth_default"
+                            android:inputType="date"
+                            android:maxLength="10"
+                            android:hint="@string/placeholder_responsible_name"
+                            android:textColorHint="@color/colorHintDefault"
+                            android:textColor="@color/colorTextDefault"
+                            android:textSize="@dimen/text_size_default"
+                            android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                            android:enabled="false" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/contentResponibleCpf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/contentResponibleName"
+                        android:layout_marginTop="@dimen/margin_default"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/label_responsible_cpf"
+                            android:textColor="@color/colorTextDefault"
+                            android:textSize="@dimen/text_size_small"
+                            android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light" />
+
+                        <EditText
+                            android:id="@+id/txtResponsibleCpf"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/heigth_default"
+                            android:inputType="date"
+                            android:maxLength="10"
+                            android:hint="@string/placeholder_responsible_cpf"
+                            android:textColorHint="@color/colorHintDefault"
+                            android:textColor="@color/colorTextDefault"
+                            android:textSize="@dimen/text_size_default"
+                            android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Light"
+                            android:enabled="false" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btnUserDataSave"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/heigth_button"
+                android:background="@drawable/selector_button"
+                android:enabled="false"
+                android:padding="@dimen/padding_buttons"
+                android:text="@string/label_save"
+                android:textColor="@color/colorTextDefault"
+                android:textSize="@dimen/text_button_default"
+                android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
+                android:textAllCaps="false"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </RelativeLayout>
