@@ -6,5 +6,6 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:actionOverflowButtonStyle">@style/ActionButton.Overflow.Icon</item>
         <item name="actionOverflowMenuStyle">@style/AppTheme.OverflowPopupMenu</item>
+        <item name="actionButtonStyle">@style/ActionButton.Edit</item>
     </style>
 </resources>
