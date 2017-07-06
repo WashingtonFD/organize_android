@@ -56,6 +56,7 @@ import static com.organize4event.organize.R.id.containerContent;
 
 public class HomeActivity extends BaseActivity {
     Class fragmentClass;
+    String TAG_FRAGMENT = "HOME";
     @Bind(R.id.drawerLayout)
     DrawerLayout drawerLayout;
     @Bind(R.id.toolbar)
@@ -75,8 +76,10 @@ public class HomeActivity extends BaseActivity {
     private Token token;
     private ArrayList<UserNotification> userNotifications = new ArrayList<>();
     private ArrayList<UserSetting> userSettings = new ArrayList<>();
-    UserSetting userSettingNotification;
-    UserValidate userValidate;
+    private UserSetting userSettingNotification;
+    private UserValidate userValidate;
+
+    public boolean editMode = false;
 
     @SuppressLint("HardwareIds")
     @Override
@@ -98,7 +101,7 @@ public class HomeActivity extends BaseActivity {
             Log.v("instance HOME", "Home fragment instance");
             Fragment fragment = (Fragment) fragmentClass.newInstance();
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(containerContent, fragment).commit();
+            fragmentManager.beginTransaction().replace(containerContent, fragment, TAG_FRAGMENT).commit();
         } catch (Exception e) {
             Log.v("instance HOME ERROR", "Home fragment instance error");
             e.printStackTrace();
@@ -196,7 +199,7 @@ public class HomeActivity extends BaseActivity {
         }
     }
 
-    public void logout() {
+    protected void logout() {
         saveToken();
     }
 
@@ -236,9 +239,11 @@ public class HomeActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.userContainer:
                 instanceViewFragment(PersonalDataFragment.class, context.getString(R.string.label_nav_user), false, true);
+                TAG_FRAGMENT = "PERSONAL_DATA";
                 break;
             case R.id.homeContainer:
                 instanceViewFragment(HomeFragment.class, context.getString(R.string.label_nav_home), true, false);
+                TAG_FRAGMENT = "HOME";
                 break;
             case R.id.eventContainer:
                 break;
@@ -252,9 +257,11 @@ public class HomeActivity extends BaseActivity {
                 break;
             case R.id.settingsContainer:
                 instanceViewFragment(SettingsFragment.class, context.getString(R.string.label_nav_settings), true, false);
+                TAG_FRAGMENT = "SETTINGS";
                 break;
             case R.id.institutionalContainer:
                 instanceViewFragment(InstitutionalFragment.class, context.getString(R.string.label_nav_institutional), true, false);
+                TAG_FRAGMENT = "INSTITUTIONAL";
                 break;
             case R.id.loggoutContainer:
                 logout();
@@ -267,7 +274,7 @@ public class HomeActivity extends BaseActivity {
         try {
             Fragment fragment = (Fragment) fragmentClass.newInstance();
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(containerContent, fragment).commit();
+            fragmentManager.beginTransaction().replace(containerContent, fragment, TAG_FRAGMENT).commit();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -302,18 +309,15 @@ public class HomeActivity extends BaseActivity {
         MenuItem item = menu.findItem(R.id.menu_edit);
         item.getIcon().setColorFilter(context.getResources().getColor(R.color.colorDestakText), PorterDuff.Mode.SRC_IN);
 
-        if (showMenu) {
-            return true;
-        } else {
-            return false;
-        }
+        return showMenu;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_edit:
-                showToastMessage(context, "Menu editar");
+                editMode = true;
+                verifyEditPersonalData();
                 return true;
             case R.id.menu_address:
                 startMenuActivity(UserAddressActivity.class);
@@ -333,6 +337,19 @@ public class HomeActivity extends BaseActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public boolean isEditMode() {
+        return editMode;
+    }
+
+    public void setEditMode(boolean editMode) {
+        this.editMode = editMode;
+    }
+
+    public void verifyEditPersonalData() {
+        PersonalDataFragment personalDataFragment = (PersonalDataFragment) getSupportFragmentManager().findFragmentByTag("PERSONAL_DATA");
+        personalDataFragment.verifyModeEdit();
     }
 
     protected void startMenuActivity(Class activitStart) {
