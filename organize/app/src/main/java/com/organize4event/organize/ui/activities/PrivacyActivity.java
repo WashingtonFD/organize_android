@@ -23,6 +23,7 @@ import com.organize4event.organize.listeners.ToolbarListener;
 import com.organize4event.organize.models.FirstAccess;
 import com.organize4event.organize.models.Privacy;
 import com.organize4event.organize.models.User;
+import com.organize4event.organize.utils.MessageUtils;
 
 import java.util.ArrayList;
 
@@ -102,7 +103,7 @@ public class PrivacyActivity extends BaseActivity {
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
@@ -152,7 +153,7 @@ public class PrivacyActivity extends BaseActivity {
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
@@ -161,7 +162,7 @@ public class PrivacyActivity extends BaseActivity {
     public void actionInfoPrivacy(View view) {
         switch (view.getId()) {
             case R.id.btnInfoAll:
-                showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), infoAll, new CustomDialogListener() {
+                MessageUtils.showDialogMessage(context, DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), infoAll, new CustomDialogListener() {
                     @Override
                     public void positiveOnClick(MaterialDialog dialog) {
                         dialog.dismiss();
@@ -174,7 +175,7 @@ public class PrivacyActivity extends BaseActivity {
                 });
                 break;
             case R.id.btnInfoJustFriends:
-                showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), infoFriends, new CustomDialogListener() {
+                MessageUtils.showDialogMessage(context, DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), infoFriends, new CustomDialogListener() {
                     @Override
                     public void positiveOnClick(MaterialDialog dialog) {
                         dialog.dismiss();
@@ -187,7 +188,7 @@ public class PrivacyActivity extends BaseActivity {
                 });
                 break;
             case R.id.btnInfoNoOne:
-                showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), infoNone, new CustomDialogListener() {
+                MessageUtils.showDialogMessage(context, DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), infoNone, new CustomDialogListener() {
                     @Override
                     public void positiveOnClick(MaterialDialog dialog) {
                         dialog.dismiss();

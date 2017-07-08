@@ -84,7 +84,7 @@
             android:layout_height="@dimen/heigth_button"
             android:layout_below="@+id/txtPlanDescription"
             android:layout_marginTop="@dimen/heigth_default"
-            android:background="@drawable/selector_button"
+            android:background="@drawable/selector_button_round"
             android:enabled="true"
             android:padding="@dimen/padding_buttons"
             android:text="@string/label_know_system"

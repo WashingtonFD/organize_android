@@ -32,6 +32,7 @@ import com.organize4event.organize.ui.activities.PrivacyActivity;
 import com.organize4event.organize.ui.activities.TermUseActivity;
 import com.organize4event.organize.ui.adapters.PlanAdapter;
 import com.organize4event.organize.ui.adapters.SettingsAdapter;
+import com.organize4event.organize.utils.MessageUtils;
 
 import org.parceler.Parcels;
 
@@ -93,7 +94,7 @@ public class SettingsFragment extends BaseFragment {
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
@@ -160,7 +161,7 @@ public class SettingsFragment extends BaseFragment {
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
 
@@ -175,7 +176,7 @@ public class SettingsFragment extends BaseFragment {
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
@@ -185,7 +186,7 @@ public class SettingsFragment extends BaseFragment {
     }
 
     public void startDayPayment() {
-        showToastMessage(context, "ABRIR ACTIVITY MELHOR DIA PAGAMENTO");
+        MessageUtils.showToastMessage(context, "ABRIR ACTIVITY MELHOR DIA PAGAMENTO");
         //TODO: IMPLEMENTAR MELHOR DIA PAGAMENTO.
     }
 
@@ -234,7 +235,7 @@ public class SettingsFragment extends BaseFragment {
     }
 
     public void startTutorial() {
-        showToastMessage(context, "ABRIR TUTORIAL");
+        MessageUtils.showToastMessage(context, "ABRIR TUTORIAL");
     }
 
     public void startAbout() {

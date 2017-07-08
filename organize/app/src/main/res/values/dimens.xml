@@ -15,4 +15,5 @@
     <dimen name="text_size_large">21sp</dimen>
     <dimen name="text_size_maxlarge">31sp</dimen>
     <dimen name="text_size_small">12sp</dimen>
+    <dimen name="top_container">180dp</dimen>
 </resources>

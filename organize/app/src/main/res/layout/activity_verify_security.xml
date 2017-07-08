@@ -110,7 +110,7 @@
             android:layout_height="@dimen/heigth_button"
             android:layout_below="@+id/contentAnswer"
             android:layout_marginTop="@dimen/margin_large"
-            android:background="@drawable/selector_button"
+            android:background="@drawable/selector_button_round"
             android:enabled="false"
             android:padding="@dimen/padding_buttons"
             android:text="@string/label_send"

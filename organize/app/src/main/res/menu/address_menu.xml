@@ -6,7 +6,7 @@
         android:id="@+id/menu_edit"
         android:title="@string/label_menu_edit"
         android:icon="@drawable/ic_edit"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menu_personal_data"
         android:title="@string/label_menu_personal_data"

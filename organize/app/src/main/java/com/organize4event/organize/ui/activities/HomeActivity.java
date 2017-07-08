@@ -1,5 +1,6 @@
 package com.organize4event.organize.ui.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.organize4event.organize.R;
 import com.organize4event.organize.commons.AppApplication;
@@ -26,22 +28,27 @@ import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.controlers.FirstAccessControler;
 import com.organize4event.organize.controlers.NotificationControler;
 import com.organize4event.organize.controlers.TokenControler;
+import com.organize4event.organize.enuns.DialogTypeEnum;
+import com.organize4event.organize.enuns.SettingsEnum;
 import com.organize4event.organize.listeners.ControlResponseListener;
+import com.organize4event.organize.listeners.CustomDialogListener;
 import com.organize4event.organize.listeners.ToolbarListener;
 import com.organize4event.organize.models.FirstAccess;
 import com.organize4event.organize.models.Token;
 import com.organize4event.organize.models.UserNotification;
+import com.organize4event.organize.models.UserSetting;
+import com.organize4event.organize.models.UserValidate;
 import com.organize4event.organize.ui.fragments.HomeFragment;
 import com.organize4event.organize.ui.fragments.InstitutionalFragment;
 import com.organize4event.organize.ui.fragments.PersonalDataFragment;
 import com.organize4event.organize.ui.fragments.SettingsFragment;
+import com.organize4event.organize.utils.MessageUtils;
+import com.organize4event.organize.utils.ValidateUtils;
 
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -50,7 +57,9 @@ import butterknife.OnClick;
 import static com.organize4event.organize.R.id.containerContent;
 
 public class HomeActivity extends BaseActivity {
+    public boolean editMode = false;
     Class fragmentClass;
+    String TAG_FRAGMENT = "HOME";
     @Bind(R.id.drawerLayout)
     DrawerLayout drawerLayout;
     @Bind(R.id.toolbar)
@@ -59,6 +68,8 @@ public class HomeActivity extends BaseActivity {
     ImageView imgNotification;
     @Bind(R.id.txtUserName)
     TextView txtUserName;
+    @Bind(R.id.txtUserMail)
+    TextView txtUserMail;
     @Bind(R.id.imgUserAvatar)
     ImageView imgUserAvatar;
     private Context context;
@@ -67,7 +78,11 @@ public class HomeActivity extends BaseActivity {
     private FirstAccess firstAccess;
     private Token token;
     private ArrayList<UserNotification> userNotifications = new ArrayList<>();
+    private ArrayList<UserSetting> userSettings = new ArrayList<>();
+    private UserSetting userSettingNotification;
+    private UserValidate userValidate;
 
+    @SuppressLint("HardwareIds")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,13 +102,11 @@ public class HomeActivity extends BaseActivity {
             Log.v("instance HOME", "Home fragment instance");
             Fragment fragment = (Fragment) fragmentClass.newInstance();
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(containerContent, fragment).commit();
+            fragmentManager.beginTransaction().replace(containerContent, fragment, TAG_FRAGMENT).commit();
         } catch (Exception e) {
             Log.v("instance HOME ERROR", "Home fragment instance error");
             e.printStackTrace();
         }
-
-        getData();
     }
 
     protected void setupToolbar(String title) {
@@ -108,7 +121,7 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        verifyData();
+        getData();
     }
 
     protected void getData() {
@@ -118,16 +131,41 @@ public class HomeActivity extends BaseActivity {
                 if (object != null) {
                     firstAccess = (FirstAccess) object;
                     token = firstAccess.getUser().getToken();
+                    userValidate = firstAccess.getUser().getUser_validate();
                     txtUserName.setText(firstAccess.getUser().getFull_name());
+                    txtUserMail.setText(firstAccess.getUser().getMail());
                     Glide.with(context).load(firstAccess.getUser().getProfile_picture()).centerCrop().transform(new CircleTransform(context)).crossFade().into(imgUserAvatar);
-                    getNotifications();
+                    userSettings = firstAccess.getUser().getUser_settings();
+                    for (UserSetting userSetting : userSettings) {
+                        if (userSetting.getSetting().getCode_enum() == SettingsEnum.NOTIFICATIONS.getValue()) {
+                            userSettingNotification = userSetting;
+                        }
+                    }
 
+                    if (!userValidate.is_valid()) {
+                        MessageUtils.showDialogMessage(context, DialogTypeEnum.VALIDATE_EMAIL, context.getString(R.string.app_name), context.getString(R.string.message_not_validate_email), new CustomDialogListener() {
+                            @Override
+                            public void positiveOnClick(MaterialDialog dialog) {
+                                dialog.dismiss();
+                            }
+
+                            @Override
+                            public void negativeOnClick(MaterialDialog dialog) {
+                                ValidateUtils.sendValidateMail(context, firstAccess.getUser().getMail());
+                                dialog.dismiss();
+                            }
+                        });
+                    }
+
+                    if (userSettingNotification != null && userSettingNotification.isChecking()) {
+                        getNotifications();
+                    }
                 }
             }
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
@@ -147,22 +185,13 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
 
     public void assetIconNotification() {
-        int count = 0;
         if (userNotifications.size() > 0) {
-            for (UserNotification userNotification : userNotifications) {
-                if (!userNotification.is_read()) {
-                    count++;
-                }
-            }
-        }
-
-        if (count > 0) {
             imgNotification.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_notifications_on));
             imgNotification.setColorFilter(context.getResources().getColor(R.color.colorTransparent));
         } else {
@@ -171,19 +200,7 @@ public class HomeActivity extends BaseActivity {
         }
     }
 
-    protected void verifyData() {
-        int delay = 3000;
-        int interval = 30000;
-        Timer timer = new Timer();
-
-        timer.scheduleAtFixedRate(new TimerTask() {
-            public void run() {
-                getNotifications();
-            }
-        }, delay, interval);
-    }
-
-    public void logout() {
+    protected void logout() {
         saveToken();
     }
 
@@ -206,7 +223,7 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
@@ -218,14 +235,16 @@ public class HomeActivity extends BaseActivity {
         startActivity(intent);
     }
 
-    @OnClick({R.id.userContainer, R.id.homeContainer, R.id.eventContainer, R.id.sheduleContainer, R.id.partnerContainer, R.id.paymentContainer, R.id.purchaseContainer, R.id.settingsContainer, R.id.institutionalContainer, R.id.btnExit})
+    @OnClick({R.id.userContainer, R.id.homeContainer, R.id.eventContainer, R.id.sheduleContainer, R.id.partnerContainer, R.id.paymentContainer, R.id.purchaseContainer, R.id.settingsContainer, R.id.institutionalContainer, R.id.loggoutContainer})
     public void actionMenuSwitch(View view) {
         switch (view.getId()) {
             case R.id.userContainer:
                 instanceViewFragment(PersonalDataFragment.class, context.getString(R.string.label_nav_user), false, true);
+                TAG_FRAGMENT = "PERSONAL_DATA";
                 break;
             case R.id.homeContainer:
                 instanceViewFragment(HomeFragment.class, context.getString(R.string.label_nav_home), true, false);
+                TAG_FRAGMENT = "HOME";
                 break;
             case R.id.eventContainer:
                 break;
@@ -239,11 +258,13 @@ public class HomeActivity extends BaseActivity {
                 break;
             case R.id.settingsContainer:
                 instanceViewFragment(SettingsFragment.class, context.getString(R.string.label_nav_settings), true, false);
+                TAG_FRAGMENT = "SETTINGS";
                 break;
             case R.id.institutionalContainer:
                 instanceViewFragment(InstitutionalFragment.class, context.getString(R.string.label_nav_institutional), true, false);
+                TAG_FRAGMENT = "INSTITUTIONAL";
                 break;
-            case R.id.btnExit:
+            case R.id.loggoutContainer:
                 logout();
                 break;
             default:
@@ -254,7 +275,7 @@ public class HomeActivity extends BaseActivity {
         try {
             Fragment fragment = (Fragment) fragmentClass.newInstance();
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(containerContent, fragment).commit();
+            fragmentManager.beginTransaction().replace(containerContent, fragment, TAG_FRAGMENT).commit();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -289,18 +310,15 @@ public class HomeActivity extends BaseActivity {
         MenuItem item = menu.findItem(R.id.menu_edit);
         item.getIcon().setColorFilter(context.getResources().getColor(R.color.colorDestakText), PorterDuff.Mode.SRC_IN);
 
-        if (showMenu) {
-            return true;
-        } else {
-            return false;
-        }
+        return showMenu;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_edit:
-                showToastMessage(context, "Menu editar");
+                editMode = true;
+                verifyEditPersonalData();
                 return true;
             case R.id.menu_address:
                 startMenuActivity(UserAddressActivity.class);
@@ -320,6 +338,19 @@ public class HomeActivity extends BaseActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public boolean isEditMode() {
+        return editMode;
+    }
+
+    public void setEditMode(boolean editMode) {
+        this.editMode = editMode;
+    }
+
+    public void verifyEditPersonalData() {
+        PersonalDataFragment personalDataFragment = (PersonalDataFragment) getSupportFragmentManager().findFragmentByTag("PERSONAL_DATA");
+        personalDataFragment.verifyModeEdit();
     }
 
     protected void startMenuActivity(Class activitStart) {

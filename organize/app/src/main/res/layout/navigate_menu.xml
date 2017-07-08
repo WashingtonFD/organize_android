@@ -3,92 +3,99 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorDestakText"
     android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/userContainer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_container"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/imgContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_small">
+
+            <com.github.siyamed.shapeimageview.CircularImageView
+                android:id="@+id/imgBorder"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerInParent="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_transparent"
+                app:siBorderAlpha="0.6"
+                app:siBorderColor="@color/colorDestakText"
+                app:siBorderWidth="1dp" />
+
+            <com.github.siyamed.shapeimageview.CircularImageView
+                android:id="@+id/imgUserAvatar"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_centerInParent="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/_logo"
+                app:siBorderColor="@color/colorTransparent" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/contentUserData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imgContainer"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_small"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_gravity="center_horizontal"
+                android:lines="1"
+                android:text="@string/label_nav_user"
+                android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
+                android:textColor="@color/colorDestakText"
+                android:textSize="@dimen/text_size_default"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/txtUserMail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_gravity="center_horizontal"
+                android:lines="1"
+                android:text="@string/label_nav_user"
+                android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
+                android:textColor="@color/colorDestakText"
+                android:textSize="@dimen/text_size_default"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
     <ScrollView
         android:id="@+id/scrollNav"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/geralContainer"
-            android:layout_width="fill_parent"
+            android:id="@+id/generalContainer"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_navigate"
             android:orientation="vertical">
-
-            <RelativeLayout
-                android:id="@+id/userContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingLeft="@dimen/padding_default"
-                    android:paddingTop="@dimen/padding_default">
-
-                    <RelativeLayout
-                        android:id="@+id/imgContainer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <com.github.siyamed.shapeimageview.CircularImageView
-                            android:id="@+id/imgBorder"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:layout_centerInParent="true"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/img_transparent"
-                            app:siBorderAlpha="0.6"
-                            app:siBorderColor="@color/colorWhite"
-                            app:siBorderWidth="1dp" />
-
-                        <com.github.siyamed.shapeimageview.CircularImageView
-                            android:id="@+id/imgUserAvatar"
-                            android:layout_width="90dp"
-                            android:layout_height="90dp"
-                            android:layout_centerInParent="true"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/_logo"
-                            app:siBorderColor="@color/colorTransparent" />
-
-                    </RelativeLayout>
-
-                    <TextView
-                        android:id="@+id/txtUserName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_small"
-                        android:lines="1"
-                        android:text="@string/label_nav_user"
-                        android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/text_size_default" />
-
-                </LinearLayout>
-
-
-                <ImageView
-                    android:id="@+id/btnExit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/padding_default"
-                    android:src="@drawable/ic_exit_to_app"
-                    android:tint="@color/colorWhite" />
-
-            </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/homeContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="22dp"
-                android:background="#10000000"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -116,7 +123,6 @@
                 android:id="@+id/eventContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#20000000"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -141,8 +147,8 @@
                 android:id="@+id/sheduleContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#30000000"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -166,8 +172,8 @@
                 android:id="@+id/partnerContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#40000000"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -191,8 +197,8 @@
                 android:id="@+id/paymentContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#50000000"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -216,8 +222,8 @@
                 android:id="@+id/purchaseContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#60000000"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -241,7 +247,6 @@
                 android:id="@+id/settingsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#70000000"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -266,7 +271,6 @@
                 android:id="@+id/institutionalContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#80000000"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -287,6 +291,32 @@
                     android:textSize="@dimen/text_size_default" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/loggoutContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="22dp"
+                    android:src="@drawable/ic_exit_to_app"
+                    android:tint="@color/colorWhite" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:lines="1"
+                    android:text="@string/label_nav_loggout"
+                    android:textAppearance="@style/Theme.Organize.TextAppearance.GothamRounded.Book"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_size_default" />
+            </LinearLayout>
+
         </LinearLayout>
+
     </ScrollView>
+
 </LinearLayout>

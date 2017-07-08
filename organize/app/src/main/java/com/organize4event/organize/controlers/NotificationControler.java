@@ -83,9 +83,9 @@ public class NotificationControler extends Controler {
         });
     }
 
-    public void readUserNotification(UserNotification userNotification, int is_read, final ControlResponseListener listener) {
+    public void readUserNotification(UserNotification userNotification, final ControlResponseListener listener) {
         NotificationService service = ApiClient.getRetrofit().create(NotificationService.class);
-        service.readUserNotification(userNotification.getId(), is_read).enqueue(new Callback<JsonObject>() {
+        service.readUserNotification(userNotification.getId()).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonObject jsonObject = response.body();
@@ -98,6 +98,27 @@ public class NotificationControler extends Controler {
                         UserNotification userNotification = ApiClient.createGson().fromJson(object, UserNotification.class);
                         listener.success(userNotification);
                     }
+                } else {
+                    listener.fail(error);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                listener.fail(new Error(t.getMessage()));
+            }
+        });
+    }
+
+    public void readAllNotification(int userId, final ControlResponseListener listener) {
+        NotificationService service = ApiClient.getRetrofit().create(NotificationService.class);
+        service.readAllNotification(userId).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonObject jsonObject = response.body();
+                Error error = parserError("READ ALL NOTIFICATION", jsonObject);
+                if (error == null) {
+                    listener.success(true);
                 } else {
                     listener.fail(error);
                 }

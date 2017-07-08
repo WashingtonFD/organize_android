@@ -83,7 +83,7 @@ public class SelectorSecurityQuestionActivity extends BaseActivity {
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }

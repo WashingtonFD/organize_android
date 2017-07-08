@@ -47,6 +47,9 @@ import com.organize4event.organize.models.LoginType;
 import com.organize4event.organize.models.Token;
 import com.organize4event.organize.models.User;
 import com.organize4event.organize.models.UserSecurity;
+import com.organize4event.organize.utils.DataUtils;
+import com.organize4event.organize.utils.MessageUtils;
+import com.organize4event.organize.utils.ValidateUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -222,11 +225,12 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             @Override
             public void fail(Error error) {
                 containerLoginEmail.setVisibility(View.GONE);
-                showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), error.getMessage(), new CustomDialogListener() {
+                MessageUtils.showDialogMessage(context, DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), error.getMessage(), new CustomDialogListener() {
                     @Override
                     public void positiveOnClick(MaterialDialog dialog) {
                         dialog.dismiss();
                         containerLoginEmail.setVisibility(View.VISIBLE);
+                        hideLoading();
                     }
 
                     @Override
@@ -248,7 +252,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             public void success(Object object) {
                 hideLoading();
                 if (object != null) {
-                    insertNotification(context, user.getId(), context.getString(R.string.notification_login_brief_description), context.getString(R.string.notification_login_description), new Date());
+                    DataUtils.insertNotification(context, user.getId(), context.getString(R.string.notification_login_brief_description), context.getString(R.string.notification_login_description), new Date());
 
                     if (PreferencesManager.isHideWelcome()) {
                         startActivity(new Intent(context, HomeActivity.class));
@@ -262,32 +266,48 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             @Override
             public void fail(Error error) {
                 containerLoginEmail.setVisibility(View.GONE);
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
 
     protected void loginFacebook() {
-        hideLoading();
-        loginManager = LoginManager.getInstance();
-        loginManager.logInWithReadPermissions(this, Arrays.asList("email", "public_profile"));
-        loginManager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                accessToken = loginResult.getAccessToken();
-                getUserFacebook();
-            }
+        if (user.getId() > 0) {
+            hideLoading();
+            loginManager = LoginManager.getInstance();
+            loginManager.logInWithReadPermissions(this, Arrays.asList("email", "public_profile"));
+            loginManager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
+                    accessToken = loginResult.getAccessToken();
+                    getUserFacebook();
+                }
 
-            @Override
-            public void onCancel() {
+                @Override
+                public void onCancel() {
 
-            }
+                }
 
-            @Override
-            public void onError(FacebookException error) {
-                returnErrorMessage(new Error(error.getMessage()), context);
-            }
-        });
+                @Override
+                public void onError(FacebookException error) {
+                    showErrorMessage(context, new Error(error.getMessage()));
+                }
+            });
+        } else {
+            hideLoading();
+            MessageUtils.showDialogMessage(context, DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), context.getString(R.string.message_not_facebook_login), new CustomDialogListener() {
+                @Override
+                public void positiveOnClick(MaterialDialog dialog) {
+                    btnLoginEmail.setEnabled(true);
+                    dialog.dismiss();
+                }
+
+                @Override
+                public void negativeOnClick(MaterialDialog dialog) {
+
+                }
+            });
+        }
     }
 
     protected void getUserFacebook() {
@@ -359,7 +379,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
@@ -373,6 +393,9 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                     firstAccess = (FirstAccess) object;
                     PreferencesManager.saveFirstAccess(firstAccess);
                     AppApplication.setFirstAccess(firstAccess);
+                    keep_logged = true;
+                    keep_logged_int = 1;
+                    PreferencesManager.isLogged();
 
                     saveToken();
                 }
@@ -380,7 +403,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
@@ -399,7 +422,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                         User findUser = (User) object;
                         UserSecurity security = findUser.getUser_security();
                         if (security == null) {
-                            showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), context.getString(R.string.message_error_recovery_password), new CustomDialogListener() {
+                            MessageUtils.showDialogMessage(context, DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), context.getString(R.string.message_error_recovery_password), new CustomDialogListener() {
                                 @Override
                                 public void positiveOnClick(MaterialDialog dialog) {
                                     dialog.dismiss();
@@ -419,7 +442,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
                 @Override
                 public void fail(Error error) {
-                    returnErrorMessage(error, context);
+                    showErrorMessage(context, error);
                 }
             });
         }
@@ -438,7 +461,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
@@ -459,7 +482,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
@@ -471,7 +494,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
     @Override
     public void onValidationFailed(List<ValidationError> errors) {
-        validateError(errors);
+        ValidateUtils.validateError(context, errors);
     }
 
     protected void starWelcomeActivity() {

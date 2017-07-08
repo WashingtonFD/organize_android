@@ -25,10 +25,13 @@ public interface NotificationService {
             @Field("notification_date") String notification_date
     );
 
-    @FormUrlEncoded
-    @POST("user_notification/{notification_id}/read")
+    @GET("user_notification/{notification_id}/read")
     Call<JsonObject> readUserNotification(
-            @Path("notification_id") int notification_id,
-            @Field("is_read") int is_read
+            @Path("notification_id") int notification_id
+    );
+
+    @GET("user_notification/{user_id}/allread")
+    Call<JsonObject> readAllNotification(
+            @Path("user_id") int user_id
     );
 }

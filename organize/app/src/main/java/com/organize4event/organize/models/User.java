@@ -10,17 +10,6 @@ import java.util.Date;
 
 public class User implements Parcelable {
 
-    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel source) {
-            return new User(source);
-        }
-
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
     @SerializedName("id")
     private int id;
     @SerializedName("user_type")
@@ -59,44 +48,14 @@ public class User implements Parcelable {
     private String responsible_cpf;
     @SerializedName("user_term")
     private UserTerm user_term;
+    @SerializedName("user_validate")
+    private UserValidate user_validate;
     @SerializedName("user_security")
     private UserSecurity user_security;
     @SerializedName("user_settings")
-
     private ArrayList<UserSetting> user_settings;
     @SerializedName("user_notifications")
     private ArrayList<UserNotification> user_notifications;
-
-    public User() {
-    }
-
-    protected User(Parcel in) {
-        this.id = in.readInt();
-        this.user_type = in.readParcelable(UserType.class.getClassLoader());
-        this.token = in.readParcelable(Token.class.getClassLoader());
-        this.plan = in.readParcelable(Plan.class.getClassLoader());
-        this.privacy = in.readParcelable(Privacy.class.getClassLoader());
-        this.full_name = in.readString();
-        this.mail = in.readString();
-        this.password = in.readString();
-        this.profile_picture = in.readString();
-        this.cpf = in.readString();
-        this.rg_number = in.readString();
-        this.rg_emitter_uf = in.readString();
-        this.rg_emitter_organ = in.readString();
-        this.rg_emitter_date = in.readString();
-        long tmpBirth_date = in.readLong();
-        this.birth_date = tmpBirth_date == -1 ? null : new Date(tmpBirth_date);
-        this.gender = in.readString();
-        this.responsible_name = in.readString();
-        this.responsible_cpf = in.readString();
-        this.user_term = in.readParcelable(UserTerm.class.getClassLoader());
-        this.user_security = in.readParcelable(UserSecurity.class.getClassLoader());
-        this.user_settings = new ArrayList<UserSetting>();
-        in.readList(this.user_settings, UserSetting.class.getClassLoader());
-        this.user_notifications = new ArrayList<UserNotification>();
-        in.readList(this.user_notifications, UserNotification.class.getClassLoader());
-    }
 
     public int getId() {
         return id;
@@ -250,6 +209,14 @@ public class User implements Parcelable {
         this.user_term = user_term;
     }
 
+    public UserValidate getUser_validate() {
+        return user_validate;
+    }
+
+    public void setUser_validate(UserValidate user_validate) {
+        this.user_validate = user_validate;
+    }
+
     public UserSecurity getUser_security() {
         return user_security;
     }
@@ -273,6 +240,7 @@ public class User implements Parcelable {
     public void setUser_notifications(ArrayList<UserNotification> user_notifications) {
         this.user_notifications = user_notifications;
     }
+
 
     @Override
     public int describeContents() {
@@ -300,8 +268,51 @@ public class User implements Parcelable {
         dest.writeString(this.responsible_name);
         dest.writeString(this.responsible_cpf);
         dest.writeParcelable(this.user_term, flags);
+        dest.writeParcelable(this.user_validate, flags);
         dest.writeParcelable(this.user_security, flags);
-        dest.writeList(this.user_settings);
-        dest.writeList(this.user_notifications);
+        dest.writeTypedList(this.user_settings);
+        dest.writeTypedList(this.user_notifications);
     }
+
+    public User() {
+    }
+
+    protected User(Parcel in) {
+        this.id = in.readInt();
+        this.user_type = in.readParcelable(UserType.class.getClassLoader());
+        this.token = in.readParcelable(Token.class.getClassLoader());
+        this.plan = in.readParcelable(Plan.class.getClassLoader());
+        this.privacy = in.readParcelable(Privacy.class.getClassLoader());
+        this.full_name = in.readString();
+        this.mail = in.readString();
+        this.password = in.readString();
+        this.profile_picture = in.readString();
+        this.cpf = in.readString();
+        this.rg_number = in.readString();
+        this.rg_emitter_uf = in.readString();
+        this.rg_emitter_organ = in.readString();
+        this.rg_emitter_date = in.readString();
+        long tmpBirth_date = in.readLong();
+        this.birth_date = tmpBirth_date == -1 ? null : new Date(tmpBirth_date);
+        this.gender = in.readString();
+        this.responsible_name = in.readString();
+        this.responsible_cpf = in.readString();
+        this.user_term = in.readParcelable(UserTerm.class.getClassLoader());
+        this.user_validate = in.readParcelable(UserValidate.class.getClassLoader());
+        this.user_security = in.readParcelable(UserSecurity.class.getClassLoader());
+        this.user_settings = in.createTypedArrayList(UserSetting.CREATOR);
+        this.user_notifications = in.createTypedArrayList(UserNotification.CREATOR);
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel source) {
+            return new User(source);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }

@@ -20,6 +20,7 @@ import com.organize4event.organize.listeners.CustomDialogListener;
 import com.organize4event.organize.listeners.ToolbarListener;
 import com.organize4event.organize.models.SecurityQuestion;
 import com.organize4event.organize.models.User;
+import com.organize4event.organize.utils.MessageUtils;
 
 import org.parceler.Parcels;
 
@@ -103,7 +104,7 @@ public class VerifySecurityActivity extends BaseActivity {
             public void success(Object object) {
                 JsonObject response = (JsonObject) object;
                 if (!response.get("has_error").getAsBoolean()) {
-                    showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), context.getString(R.string.message_success_recovery_password), new CustomDialogListener() {
+                    MessageUtils.showDialogMessage(context, DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), context.getString(R.string.message_success_recovery_password), new CustomDialogListener() {
                         @Override
                         public void positiveOnClick(MaterialDialog dialog) {
                             dialog.dismiss();
@@ -116,7 +117,7 @@ public class VerifySecurityActivity extends BaseActivity {
                         }
                     });
                 } else {
-                    showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), response.get("exception").getAsString(), new CustomDialogListener() {
+                    MessageUtils.showDialogMessage(context, DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), response.get("exception").getAsString(), new CustomDialogListener() {
                         @Override
                         public void positiveOnClick(MaterialDialog dialog) {
                             dialog.dismiss();
@@ -133,14 +134,14 @@ public class VerifySecurityActivity extends BaseActivity {
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
 
     @OnClick(R.id.txtIsNotSecurityData)
     public void actionIsNotSecurityData() {
-        showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), context.getString(R.string.message_not_security_data), new CustomDialogListener() {
+        MessageUtils.showDialogMessage(context, DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), context.getString(R.string.message_not_security_data), new CustomDialogListener() {
             @Override
             public void positiveOnClick(MaterialDialog dialog) {
                 dialog.dismiss();

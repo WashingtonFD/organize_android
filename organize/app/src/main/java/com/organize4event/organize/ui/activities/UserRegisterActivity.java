@@ -1,6 +1,7 @@
 package com.organize4event.organize.ui.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -59,6 +60,10 @@ import com.organize4event.organize.models.User;
 import com.organize4event.organize.models.UserSetting;
 import com.organize4event.organize.models.UserTerm;
 import com.organize4event.organize.models.UserType;
+import com.organize4event.organize.utils.DataUtils;
+import com.organize4event.organize.utils.MessageUtils;
+import com.organize4event.organize.utils.ValidateUtils;
+import com.organize4event.organize.utils.ViewUtils;
 
 import org.parceler.Parcels;
 
@@ -84,6 +89,7 @@ import pl.tajchert.nammu.PermissionCallback;
 public class UserRegisterActivity extends BaseActivity implements Validator.ValidationListener {
 
     Validator validator;
+    @SuppressLint("SimpleDateFormat")
     SimpleDateFormat format = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT);
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -205,7 +211,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
@@ -229,7 +235,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
@@ -271,7 +277,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
@@ -288,7 +294,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
@@ -305,7 +311,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
@@ -323,18 +329,17 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         new TokenControler(context).saveToken(token, user.getId(), 0, new ControlResponseListener() {
             @Override
             public void success(Object object) {
-                hideLoading();
                 if (object != null) {
                     Token token = (Token) object;
                     user.setToken(token);
-                    insertNotification(context, user.getId(), context.getString(R.string.notification_register_brief_description), context.getString(R.string.notification_register_description), new Date());
+                    DataUtils.insertNotification(context, user.getId(), context.getString(R.string.notification_register_brief_description), context.getString(R.string.notification_register_description), new Date());
                     saveUserTerm();
                 }
             }
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
@@ -358,7 +363,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
@@ -379,7 +384,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
@@ -399,7 +404,6 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
                     userSettings.add(userSetting);
 
                     if (userSettings.size() == settings.size()) {
-                        hideLoading();
                         starLoginActivity();
                     }
                 }
@@ -407,20 +411,31 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
 
     protected void starLoginActivity() {
-        firstAccess.setUser(user);
-        PreferencesManager.saveFirstAccess(firstAccess);
-        AppApplication.setFirstAccess(firstAccess);
+        ValidateUtils.sendValidateMail(context, user.getMail());
+        MessageUtils.showDialogMessage(context, DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), context.getString(R.string.message_send_validate_mail), new CustomDialogListener() {
+            @Override
+            public void positiveOnClick(MaterialDialog dialog) {
+                firstAccess.setUser(user);
+                PreferencesManager.saveFirstAccess(firstAccess);
+                AppApplication.setFirstAccess(firstAccess);
 
-        Intent intent = new Intent(context, LoginActivity.class);
-        intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
-        startActivity(intent);
-        finish();
+                Intent intent = new Intent(context, LoginActivity.class);
+                intent.putExtra("firstAccess", Parcels.wrap(FirstAccess.class, firstAccess));
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void negativeOnClick(MaterialDialog dialog) {
+
+            }
+        });
     }
 
     @OnFocusChange({R.id.txtCpf, R.id.txtBirthDate, R.id.txtPassword, R.id.txtPasswordConfirm})
@@ -429,19 +444,19 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         switch (view.getId()) {
             case R.id.txtCpf:
                 message = context.getString(R.string.message_info_cpf);
-                hideOrShowInfoIcon(title, message, txtCpf);
+                ViewUtils.hideOrShowInfoIcon(context, title, message, txtCpf);
                 break;
             case R.id.txtBirthDate:
                 message = context.getString(R.string.message_info_birth_date);
-                hideOrShowInfoIcon(title, message, txtBirthDate);
+                ViewUtils.hideOrShowInfoIcon(context, title, message, txtBirthDate);
                 break;
             case R.id.txtPassword:
                 message = context.getString(R.string.message_info_password);
-                hideOrShowInfoIcon(title, message, txtPassword);
+                ViewUtils.hideOrShowInfoIcon(context, title, message, txtPassword);
                 break;
             case R.id.txtPasswordConfirm:
                 message = context.getString(R.string.message_info_password);
-                hideOrShowInfoIcon(title, message, txtPasswordConfirm);
+                ViewUtils.hideOrShowInfoIcon(context, title, message, txtPasswordConfirm);
                 break;
         }
     }
@@ -453,7 +468,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
     @OnClick(R.id.contentImage)
     public void actionUploadImage() {
-        showDialogMessage(DialogTypeEnum.CAMARA_AND_GALERY, context.getString(R.string.label_upload_picture_title), context.getString(R.string.label_upload_picture), new CustomDialogListener() {
+        MessageUtils.showDialogMessage(context, DialogTypeEnum.CAMARA_AND_GALERY, context.getString(R.string.label_upload_picture_title), context.getString(R.string.label_upload_picture), new CustomDialogListener() {
             @Override
             public void positiveOnClick(MaterialDialog dialog) {
                 dialog.dismiss();
@@ -482,7 +497,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
@@ -537,7 +552,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
                 @Override
                 public void permissionRefused() {
-                    showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), context.getString(R.string.info_permission_camara), new CustomDialogListener() {
+                    MessageUtils.showDialogMessage(context, DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), context.getString(R.string.info_permission_camara), new CustomDialogListener() {
                         @Override
                         public void positiveOnClick(MaterialDialog dialog) {
                             dialog.dismiss();
@@ -575,7 +590,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
 
     @Override
     public void onValidationFailed(List<ValidationError> errors) {
-        validateError(errors);
+        ValidateUtils.validateError(context, errors);
     }
 
     @Override
@@ -584,7 +599,7 @@ public class UserRegisterActivity extends BaseActivity implements Validator.Vali
         EasyImage.handleActivityResult(requestCode, resultCode, data, (Activity) context, new DefaultCallback() {
             @Override
             public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
-                showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), context.getString(R.string.error_photo_loading), new CustomDialogListener() {
+                MessageUtils.showDialogMessage(context, DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), context.getString(R.string.error_photo_loading), new CustomDialogListener() {
                     @Override
                     public void positiveOnClick(MaterialDialog dialog) {
                         dialog.dismiss();

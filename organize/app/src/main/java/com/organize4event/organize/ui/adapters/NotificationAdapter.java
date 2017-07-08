@@ -88,9 +88,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         notifyItemChanged(position);
     }
 
-    public void refreshAllLayout() {
-        notifyDataSetChanged();
-    }
 
     public class NotificationViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.rowContent)

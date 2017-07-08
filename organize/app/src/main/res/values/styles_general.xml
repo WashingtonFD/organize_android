@@ -8,4 +8,12 @@
         <item name="android:src">@drawable/ic_more_vert</item>
         <item name="android:tint">@color/colorDestakText</item>
     </style>
+
+    <style name="ActionButton.Edit" parent="android:style/Widget.Holo.Light.ActionButton">
+        <item name="android:minWidth">0dip</item>
+        <item name="android:maxWidth">20dip</item>
+        <item name="android:paddingLeft">0dip</item>
+        <item name="android:paddingRight">0dip</item>
+    </style>
+
 </resources>

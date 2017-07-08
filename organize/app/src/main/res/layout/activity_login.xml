@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.organize4event.organize.ui.activities.LoginActivity"
-    android:background="@drawable/bg_login"
-    >
+    android:background="@drawable/bg_login">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -30,7 +28,7 @@
                 android:id="@+id/btnLoginEmail"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/heigth_button"
-                android:background="@drawable/selector_button"
+                android:background="@drawable/selector_button_round"
                 android:enabled="true"
                 android:padding="@dimen/padding_buttons"
                 android:text="@string/label_login_email"

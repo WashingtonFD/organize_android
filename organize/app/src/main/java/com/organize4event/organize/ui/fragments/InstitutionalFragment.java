@@ -32,6 +32,7 @@ import com.organize4event.organize.models.Institutional;
 import com.organize4event.organize.models.Plan;
 import com.organize4event.organize.ui.activities.PlanDetailActivity;
 import com.organize4event.organize.ui.sections.ContactSection;
+import com.organize4event.organize.utils.MessageUtils;
 
 import org.parceler.Parcels;
 
@@ -79,6 +80,28 @@ public class InstitutionalFragment extends BaseFragment {
     private SectionedRecyclerViewAdapter adapter;
     private MaterialDialog materialDialog;
     private Contact mContact;
+    final PermissionCallback callback = new PermissionCallback() {
+        @Override
+        public void permissionGranted() {
+            openCallPhone();
+        }
+
+        @Override
+        public void permissionRefused() {
+            materialDialog.dismiss();
+            MessageUtils.showDialogMessage(context, DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), context.getString(R.string.info_permission_phone), new CustomDialogListener() {
+                @Override
+                public void positiveOnClick(MaterialDialog dialog) {
+                    dialog.dismiss();
+                }
+
+                @Override
+                public void negativeOnClick(MaterialDialog dialog) {
+
+                }
+            });
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -116,7 +139,7 @@ if (object != null){
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
@@ -146,7 +169,7 @@ if (object != null){
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
@@ -193,7 +216,7 @@ if (object != null){
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
@@ -214,7 +237,7 @@ if (object != null){
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
@@ -251,7 +274,7 @@ if (object != null){
     }
 
     public void callPhone(final Contact contact) {
-        showDialogMessage(DialogTypeEnum.POSITIVE_AND_NEGATIVE, context.getString(R.string.label_call), context.getString(R.string.message_call_phone), new CustomDialogListener() {
+        MessageUtils.showDialogMessage(context, DialogTypeEnum.POSITIVE_AND_NEGATIVE, context.getString(R.string.label_call), context.getString(R.string.message_call_phone), new CustomDialogListener() {
             @Override
             public void positiveOnClick(MaterialDialog dialog) {
                 materialDialog = dialog;
@@ -320,29 +343,6 @@ if (object != null){
         startActivity(intent);
         materialDialog.dismiss();
     }
-
-    final PermissionCallback callback = new PermissionCallback() {
-        @Override
-        public void permissionGranted() {
-            openCallPhone();
-        }
-
-        @Override
-        public void permissionRefused() {
-            materialDialog.dismiss();
-            showDialogMessage(DialogTypeEnum.JUSTPOSITIVE, context.getString(R.string.app_name), context.getString(R.string.info_permission_phone), new CustomDialogListener() {
-                @Override
-                public void positiveOnClick(MaterialDialog dialog) {
-                    dialog.dismiss();
-                }
-
-                @Override
-                public void negativeOnClick(MaterialDialog dialog) {
-
-                }
-            });
-        }
-    };
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
