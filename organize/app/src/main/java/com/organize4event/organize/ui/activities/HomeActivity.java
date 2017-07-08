@@ -42,6 +42,8 @@ import com.organize4event.organize.ui.fragments.HomeFragment;
 import com.organize4event.organize.ui.fragments.InstitutionalFragment;
 import com.organize4event.organize.ui.fragments.PersonalDataFragment;
 import com.organize4event.organize.ui.fragments.SettingsFragment;
+import com.organize4event.organize.utils.MessageUtils;
+import com.organize4event.organize.utils.ValidateUtils;
 
 import org.parceler.Parcels;
 
@@ -55,6 +57,7 @@ import butterknife.OnClick;
 import static com.organize4event.organize.R.id.containerContent;
 
 public class HomeActivity extends BaseActivity {
+    public boolean editMode = false;
     Class fragmentClass;
     String TAG_FRAGMENT = "HOME";
     @Bind(R.id.drawerLayout)
@@ -78,8 +81,6 @@ public class HomeActivity extends BaseActivity {
     private ArrayList<UserSetting> userSettings = new ArrayList<>();
     private UserSetting userSettingNotification;
     private UserValidate userValidate;
-
-    public boolean editMode = false;
 
     @SuppressLint("HardwareIds")
     @Override
@@ -142,7 +143,7 @@ public class HomeActivity extends BaseActivity {
                     }
 
                     if (!userValidate.is_valid()) {
-                        showDialogMessage(DialogTypeEnum.VALIDATE_EMAIL, context.getString(R.string.app_name), context.getString(R.string.message_not_validate_email), new CustomDialogListener() {
+                        MessageUtils.showDialogMessage(context, DialogTypeEnum.VALIDATE_EMAIL, context.getString(R.string.app_name), context.getString(R.string.message_not_validate_email), new CustomDialogListener() {
                             @Override
                             public void positiveOnClick(MaterialDialog dialog) {
                                 dialog.dismiss();
@@ -150,7 +151,7 @@ public class HomeActivity extends BaseActivity {
 
                             @Override
                             public void negativeOnClick(MaterialDialog dialog) {
-                                sendValidateMail(context, firstAccess.getUser().getMail());
+                                ValidateUtils.sendValidateMail(context, firstAccess.getUser().getMail());
                                 dialog.dismiss();
                             }
                         });
@@ -164,7 +165,7 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
@@ -184,7 +185,7 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
@@ -222,7 +223,7 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }

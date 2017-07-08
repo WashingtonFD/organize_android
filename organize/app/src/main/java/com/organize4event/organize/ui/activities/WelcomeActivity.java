@@ -12,6 +12,7 @@ import com.organize4event.organize.commons.PreferencesManager;
 import com.organize4event.organize.enuns.PlanEnum;
 import com.organize4event.organize.models.FirstAccess;
 import com.organize4event.organize.models.User;
+import com.organize4event.organize.utils.MessageUtils;
 
 import org.parceler.Parcels;
 
@@ -76,7 +77,7 @@ public class WelcomeActivity extends BaseActivity {
     public void actionOnClick(View view) {
         switch (view.getId()) {
             case R.id.btnTutorial:
-                showToastMessage(context, "Tutorial - Sprint 06");
+                MessageUtils.showToastMessage(context, "Tutorial - Sprint 06");
                 break;
             case R.id.txtSkipTutorial:
                 PreferencesManager.hideWelcome();

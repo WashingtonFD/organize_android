@@ -1,5 +1,6 @@
 package com.organize4event.organize.ui.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -28,6 +29,7 @@ import com.organize4event.organize.commons.validations.CpfCnpj;
 import com.organize4event.organize.commons.validations.IsDate;
 import com.organize4event.organize.models.User;
 import com.organize4event.organize.ui.activities.HomeActivity;
+import com.organize4event.organize.utils.MessageUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,12 +40,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class PersonalDataFragment extends BaseFragment implements Validator.ValidationListener {
-    private Context context;
-    private User user;
-
     Validator validator;
+    @SuppressLint("SimpleDateFormat")
     SimpleDateFormat format = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT);
-
     @Bind(R.id.contentImage)
     RelativeLayout contentImage;
     @Bind(R.id.imgProfile)
@@ -91,7 +90,8 @@ public class PersonalDataFragment extends BaseFragment implements Validator.Vali
     EditText txtResponsibleCpf;
     @Bind(R.id.btnUserDataSave)
     Button btnUserDataSave;
-
+    private Context context;
+    private User user;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -196,7 +196,7 @@ public class PersonalDataFragment extends BaseFragment implements Validator.Vali
     public void verifyModeEdit() {
         if (((HomeActivity) getActivity()).isEditMode()) {
             enableFields();
-            showToastMessage(context, "Modo edição habilitdo");
+            MessageUtils.showToastMessage(context, "Modo edição habilitado");
         } else {
             disableFields();
         }
@@ -236,7 +236,7 @@ public class PersonalDataFragment extends BaseFragment implements Validator.Vali
 
     @OnClick(R.id.contentImage)
     public void actionUploadImage() {
-        showToastMessage(context, "Upload Image");
+        MessageUtils.showToastMessage(context, "Upload Image");
     }
 
     @Override

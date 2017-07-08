@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import com.organize4event.organize.R;
 import com.organize4event.organize.listeners.ToolbarListener;
+import com.organize4event.organize.utils.MessageUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -52,7 +53,7 @@ public class UserSocialNetworkActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_edit:
-                showToastMessage(context, "Menu editar");
+                MessageUtils.showToastMessage(context, "Menu editar");
                 return true;
             case R.id.menu_address:
                 startMenuActivity(UserAddressActivity.class);

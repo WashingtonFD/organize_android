@@ -96,7 +96,7 @@ public class NotificationsActivity extends BaseActivity {
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
@@ -113,7 +113,7 @@ public class NotificationsActivity extends BaseActivity {
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }

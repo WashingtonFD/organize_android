@@ -21,6 +21,7 @@ import com.organize4event.organize.listeners.ToolbarListener;
 import com.organize4event.organize.models.FirstAccess;
 import com.organize4event.organize.models.Plan;
 import com.organize4event.organize.models.User;
+import com.organize4event.organize.utils.ViewUtils;
 
 import org.parceler.Parcels;
 
@@ -119,7 +120,7 @@ public class PlanIdentifierActivity extends BaseActivity {
 
             @Override
             public void fail(Error error) {
-                returnErrorMessage(error, context);
+                showErrorMessage(context, error);
             }
         });
     }
@@ -139,7 +140,7 @@ public class PlanIdentifierActivity extends BaseActivity {
     public void actionOnFocus() {
         title = context.getString(R.string.app_name);
         message = context.getString(R.string.message_info_code_plan);
-        hideOrShowInfoIcon(title, message, txtValidateCode);
+        ViewUtils.hideOrShowInfoIcon(context, title, message, txtValidateCode);
     }
 
 
@@ -159,7 +160,7 @@ public class PlanIdentifierActivity extends BaseActivity {
             startUserRegisterActivity();
         } else {
             Error error = new Error(context.getString(R.string.error_message_conect));
-            returnErrorMessage(error, context);
+            showErrorMessage(context, error);
         }
     }
 
