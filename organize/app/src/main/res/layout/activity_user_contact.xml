@@ -28,9 +28,9 @@
         android:id="@+id/conteinerContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/appBarLayout"
         android:padding="@dimen/padding_default"
-        >
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
 
         <TextView
             android:layout_width="wrap_content"
@@ -41,5 +41,25 @@
 
 
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="21dp"
+        android:text="Novo E-mail"
+        android:layout_below="@+id/editText"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="16dp" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView"
+        android:ems="16"
+        android:inputType="textPersonName"
+        android:text="Insira o E-mail" />
 
 </RelativeLayout>
